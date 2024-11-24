@@ -1,0 +1,15 @@
+# Ignore everything
+/**
+
+# Except the following files
+!/.gitignore
+!.gitconfig
+!.tmux.conf
+!.zshrc
+
+!/.config/
+!/.config/alacritty/
+!/.config/nvim/
+
+!**/.config/nvim/**
+!**/.config/alacritty/*.*ml

@@ -1,0 +1,54 @@
+
+[cursor]
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "On"
+# shape = "Block"
+shape = "Underline"
+
+[env]
+TERM = "alacritty"
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[window]
+decorations = "full"
+dynamic_title = true
+# history = 10000
+# multiplier = 3
+# opacity = 1.0
+opacity = 0.95
+startup_mode = "Windowed"
+title = "Alacritty"
+
+[window.dimensions]
+# columns = 82
+columns = 140
+# lines = 24
+lines = 70
+
+[window.padding]
+x = 12
+y = 12
+
+[font]
+size = 12.5
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "T"
+mods = "Control|Shift"
+
+[scrolling]
+history = 50000
+
+[general]
+live_config_reload = true
+import = ["/home/jacky/.config/alacritty/colors.toml", "/home/jacky/.config/alacritty/fonts.toml"]
+
+[terminal.shell]
+program = "tmux"
