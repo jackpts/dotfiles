@@ -70,6 +70,7 @@ alias ssid_level='iwconfig wlan0 | gnmcli dev wifi'
 alias change_shell_to_bash='chsh -s /bin/bash'
 alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
+# alias cat bat
 
 ### VPN
 alias proton_vpn_nl='sudo find ~/soft/proton/ -name "nl-*" -exec openvpn --config {} \;'
@@ -207,7 +208,7 @@ function fish_prompt__ --description 'Informative prompt'
     end
 end
 
-# alias cat bat
+# K8Ns
 alias k='kubectl'
 alias m='minikube'
 
@@ -235,6 +236,7 @@ alias eff_sonar_scan='cd /home/jacky/git/EFF/efficiently/packages/client/design-
           -Dsonar.token=sqp_7cbxxx'
 alias eff_sonar_report='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && export SONAR_TOKEN=squ_daexxx && sonar-findings-export -k pr-1 -f /home/jacky/Downloads/pr-1-issues.csv'
 
+# NVIM
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
 alias vim_log='nvim ~/.local/state/nvim/lsp.log'
 alias vim_startify='nvim +:Startify'
