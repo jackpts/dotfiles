@@ -9,10 +9,6 @@ set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
 #   buildin source $file 2>/dev/null
 # end
 
-# function fish_user_key_bindings
-#  bind \cr peco_select_history
-# end
-
 if not functions -q fisher
     echo "Installing fisher for the first time..." >&2
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -20,7 +16,7 @@ if not functions -q fisher
     fisher
 end
 
-# theme設定
+# theme
 set -g theme_display_git yes
 set -g theme_display_git_untracked yes
 set -g theme_display_git_master_branch yes
@@ -29,9 +25,6 @@ set -g fish_prompt_pwd_dir_length 0
 set -g theme_project_dir_length 0
 set -g theme_newline_cursor yes
 
-
-### BASE COMMANDS
-# bash /usr/share/nvm/init-nvm.sh
 
 ### BASE ALIASES 
 alias cp="cp -i"
@@ -102,40 +95,28 @@ function ex
         switch $1
             case *.tar.bz2
                 tar xjf $1
-
             case *.tar.gz
                 tar xzf $1
-
             case *.bz2
                 bunzip2 $1
-
             case *.rar
                 unrar x $1
-
             case *.gz
                 gunzip $1
-
             case *.tar
                 tar xf $1
-
             case *.tbz2
                 tar xjf $1
-
             case *.tgz
                 tar xzf $1
-
             case *.zip
                 unzip $1
-
             case *.Z
                 uncompress $1
-
             case *.7z
                 7z x $1
-
             case '*'
                 echo "'$1' cannot be extracted via ex()"
-
         end
     else
         echo "'$1' is not a valid file"
@@ -149,8 +130,6 @@ function backup
     if [ ! -d "$outputDir" ]
         then
         echo -e "Directory $outputDir doesn't exist!"
-        # echo "Trying to fix this..."
-        # fix_backup_mount
         exit 1
     end
 
@@ -166,7 +145,7 @@ function backup
         set backupArr (string split ' ' '/home/jacky/Nextcloud/ /etc/hosts /etc/resolv.conf /etc/profile /etc/nsswitch.conf /etc/fstab /etc/locale.conf /etc/vconsole.conf /etc/systemd/logind.conf /etc/pacman.conf /boot/refind_linux.conf /boot/EFI/refind/refind.conf /home/jacky/.config/neofetch/config.conf /home/jacky/.config/fish/config.fish /home/jacky/.config/fish/functions /home/jacky/.local/share/remmina /home/jacky/Documents/pgp /home/jacky/Documents/CV /home/jacky/.gnupg /home/jacky/.ssh /home/jacky/.gitconfig /etc/gdm/Init/Default /home/jacky/soft/gnome_ext_list.txt /home/jacky/soft/pkglist_pacman.txt /home/jacky/soft/pkglist_aur.txt /home/jacky/.config/nvim /home/jacky/.git* /home/jacky/.vimrc /home/jacky/.vim_runtime/vimrcs /home/jacky/.config/alacritty/*.*ml /home/jacky/.tmux.conf /home/jacky/.zshrc /home/jacky/.bashrc')
 
         for b in $backupArr
-            7z u -bt $outputDir/all-$cur_Date.7z -spf2 -p1 $b -xr!ppl-CV-s
+            7z u -bt $outputDir/all-$cur_Date.7z -spf2 -p1 $b
         end
 
     end
@@ -253,8 +232,8 @@ alias eff_sonar_scan='cd /home/jacky/git/EFF/efficiently/packages/client/design-
           -Dsonar.projectKey=pr-1 \
           -Dsonar.sources=. \
           -Dsonar.host.url=http://127.0.0.1:9000 \
-          -Dsonar.token=sqp_7cb942818f8ebb44fd1e7d784ffce3e65a2762ce'
-alias eff_sonar_report='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && export SONAR_TOKEN=squ_dae9c34ad3479eabe05355b5300436d184788737 && sonar-findings-export -k pr-1 -f /home/jacky/Downloads/pr-1-issues.csv'
+          -Dsonar.token=sqp_7cbxxx'
+alias eff_sonar_report='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && export SONAR_TOKEN=squ_daexxx && sonar-findings-export -k pr-1 -f /home/jacky/Downloads/pr-1-issues.csv'
 
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
 alias vim_log='nvim ~/.local/state/nvim/lsp.log'
@@ -262,13 +241,6 @@ alias vim_startify='nvim +:Startify'
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
 alias ala-edit='nvim ~/.config/alacritty'
-
-### FINAL RUN
-# neofetch --colors 3 4 5 6 2 9 &&
-# duf --hide special &&
-# cowfortune
-# fastfetch
-catnap
 
 ### FZF
 fzf --fish | source
@@ -290,13 +262,10 @@ function _fzf_comprun
     switch $command
         case cd
             fzf --preview 'eza --tree --color=always {} | head -200' $argv
-
         case ssh
             fzf --preview "eval 'echo \$' {}" $argv
-
         case '*'
             fzf --preview "--preview 'bat -n --color=always --line-range :500 {}'" $argv
-
     end
 end
 
@@ -309,3 +278,12 @@ function cd
     # lll
     ls
 end
+
+### FINAL RUN
+
+# neofetch --colors 3 4 5 6 2 9 &&
+# duf --hide special &&
+# cowfortune
+# fastfetch
+
+catnap
