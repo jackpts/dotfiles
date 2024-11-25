@@ -10,6 +10,8 @@
 !/.config/
 !/.config/alacritty/
 !/.config/nvim/
+!/.config/fish/
 
 !**/.config/nvim/**
 !**/.config/alacritty/*.*ml
+!**/.config/fish/config.fish
