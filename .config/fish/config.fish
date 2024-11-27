@@ -35,7 +35,7 @@ alias cls='clear'
 alias la='ls -A'
 alias l='ls -CF'
 alias cd..='cd ..'
-alias gcl='git clone $1'
+# alias gcl='git clone $1'
 alias logmeout='sudo pkill -u jacky'
 alias pacman_clean='pacman -Rsn $(pacman -Qdtq)'
 alias pacman_clear_cache='sudo paccache -r'
@@ -246,6 +246,12 @@ alias ala-edit='nvim ~/.config/alacritty'
 
 function :q
     exit
+end
+
+### git
+function gcl
+    set directory (echo $argv | grep -oE '[^/]+$' | sed 's/.git//')
+    git clone $argv && z $directory
 end
 
 ### FZF
