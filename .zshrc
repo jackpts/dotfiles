@@ -128,6 +128,7 @@ alias la='ls -A'
 alias lm='ls -m'
 alias lr='ls -R'
 alias lg='ls -l --group-directories-first'
+alias cd..='cd ..'
 
 # git
 alias gcl='git clone --depth 1'
@@ -136,8 +137,13 @@ alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push origin master'
 
+gclcd() {
+   git clone "$1" && cd "$(basename "$1" .git)"
+}
+
 # my
 alias zshedit='nvim ~/.zshrc'
+alias fishedit='nvim ~/.config/fish/config.fish'
 
 # FZF
 eval "$(fzf --zsh)"
