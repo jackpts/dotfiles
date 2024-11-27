@@ -38,7 +38,7 @@ return {
   -- let g:user_emmet_leader_key='<C-X>'  // in vimrc
   { "mattn/emmet-vim" },
 
-  -- Highlight colors for neovim
+  -- Highlight colors for neovim; alternative: norcalli/nvim-colorizer.lua
   {
     "brenoprata10/nvim-highlight-colors",
     config = function()
