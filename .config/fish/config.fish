@@ -244,6 +244,10 @@ alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
 alias ala-edit='nvim ~/.config/alacritty'
 
+function :q
+    exit
+end
+
 ### FZF
 fzf --fish | source
 
