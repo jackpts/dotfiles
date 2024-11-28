@@ -237,6 +237,7 @@ alias eff_sonar_scan='cd /home/jacky/git/EFF/efficiently/packages/client/design-
 alias eff_sonar_report='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && export SONAR_TOKEN=squ_daexxx && sonar-findings-export -k pr-1 -f /home/jacky/Downloads/pr-1-issues.csv'
 
 # NVIM
+alias v "nvim ."
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
 alias vim_log='nvim ~/.local/state/nvim/lsp.log'
 alias vim_startify='nvim +:Startify'
