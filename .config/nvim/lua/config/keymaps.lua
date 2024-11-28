@@ -23,10 +23,13 @@ map("n", "<C-j>", function()
   vim.diagnostic.goto_next()
 end, opts)
 
--- My Buffer switch
+-- Buffer switch
 -- map("n", "<C-E>", "<c-^>")
 map("n", "<A-.>", ":bnext<cr>")
 map("n", "<A-,>", ":bprevious<cr>")
 map("n", "<A-c>", ":bdelete<cr>")
 map("n", "<A-<>", "<cmd>BufferMovePrevious<cr>")
 map("n", "<A->>", "<cmd>BufferMoveNext<cr>")
+
+-- Remap Enter to Paste new Line & get back to Normal mode
+map("n", "<Return>", "o<ESC>")
