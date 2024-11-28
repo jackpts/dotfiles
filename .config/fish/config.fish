@@ -48,6 +48,7 @@ export VISUAL='nvim'
 set HISTFILESIZE 2000
 # export NVM_DIR="$(printf %s "$HOME/.nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+set -U -x TERMINAL alacritty
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
 
