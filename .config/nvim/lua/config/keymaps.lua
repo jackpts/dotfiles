@@ -32,4 +32,5 @@ map("n", "<A-<>", "<cmd>BufferMovePrevious<cr>")
 map("n", "<A->>", "<cmd>BufferMoveNext<cr>")
 
 -- Remap Enter to Paste new Line & get back to Normal mode
-map("n", "<Return>", "o<ESC>")
+-- map("n", "<Return>", "o<ESC>")
+-- temporary disabled 'cause it affects QuickFix list behavior
