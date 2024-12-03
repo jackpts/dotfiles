@@ -138,6 +138,13 @@ return {
     end,
   },
 
+  {
+    "eldritch-theme/eldritch.nvim",
+    lazy = true,
+    name = "eldritch",
+  },
+
+  ----------------------------------
   -- Configure LazyVim to load theme
   {
     "LazyVim/LazyVim",
