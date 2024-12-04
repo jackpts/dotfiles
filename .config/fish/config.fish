@@ -253,7 +253,7 @@ end
 ### git
 function gcl
     set directory (echo $argv | grep -oE '[^/]+$' | sed 's/.git//')
-    git clone $argv && z $directory && ls
+    git clone $argv && cd $directory
 end
 
 ### FZF
@@ -287,9 +287,8 @@ alias ls="eza --color=always --long --git --icons=always"
 # alias lll='eza -la --git'
 
 function cd
-    builtin cd $argv
-    # ls -a
-    # lll
+    # builtin cd $argv
+    z $argv
     ls
 end
 
