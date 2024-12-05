@@ -292,6 +292,9 @@ function cd
     ls
 end
 
+# SQL
+abbr mysql mariadb
+
 ### FINAL RUN
 
 # neofetch --colors 3 4 5 6 2 9 &&
