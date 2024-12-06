@@ -44,7 +44,7 @@ return {
       local bg_color = decide_color()
 
       -- Insert hostname component into lualine_x
-      table.insert(opts.sections.lualine_x, 1, {
+      --[[     table.insert(opts.sections.lualine_x, 1, {
         "hostname",
         color = { fg = fg_color, bg = bg_color, gui = "bold" },
         -- separator = { left = "", right = "" },
@@ -53,7 +53,7 @@ return {
         separator = { left = "", right = "" },
         -- separator = { left = "", right = "" },
         padding = 1,
-      })
+      }) ]]
 
       -- File permissions component with dynamic background color
       -- Insert file permissions component into lualine_x
