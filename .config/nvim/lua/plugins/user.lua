@@ -155,17 +155,6 @@ return {
     },
   },
 
-  -- statusline
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = {
-      options = {
-        theme = "solarized_dark",
-      },
-    },
-  },
-
   -- Incremental rename
   {
     "smjonas/inc-rename.nvim",
