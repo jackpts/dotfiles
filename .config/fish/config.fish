@@ -59,6 +59,7 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 alias bashedit='nvim ~/.bashrc --allow-root'
 alias fishedit='nvim ~/.config/fish/config.fish'
 alias catnap_edit='nvim ~/.config/catnap/config.toml'
+alias alacr-edit='nvim ~/.config/alacritty'
 abbr u1 'sudo pacman -Suyy'
 abbr u2 'yay -Suyy --noconfirm'
 alias mirrors_list='cat /etc/pacman.d/mirrorlist'
@@ -246,7 +247,6 @@ alias vim_log='nvim ~/.local/state/nvim/lsp.log'
 alias vim_startify='nvim +:Startify'
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
-alias ala-edit='nvim ~/.config/alacritty'
 
 function :q
     exit
