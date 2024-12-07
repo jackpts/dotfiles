@@ -12,9 +12,10 @@
 !/.config/nvim/
 !/.config/fish/
 !/.config/fish/functions/
+!/.config/catnap/
 
 !**/.config/nvim/**
 !**/.config/alacritty/*.*ml
 !**/.config/fish/config.fish
 !**/.config/fish/functions/[^!(_|fish)]*.fish
-
+!**/.config/catnap/config.toml
