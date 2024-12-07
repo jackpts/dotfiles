@@ -26,7 +26,12 @@ set -g theme_project_dir_length 0
 set -g theme_newline_cursor yes
 
 
-### BASE ALIASES 
+### NVM
+# bash /usr/share/nvm/init-nvm.sh
+# export NVM_DIR="$(printf %s "$HOME/.nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+### BASE ALIASES
 alias cp="cp -i"
 alias df='df -h'
 alias free='free -m'
@@ -46,8 +51,6 @@ alias rel_info='cat /etc/*rel*'
 export EDITOR='nvim'
 export VISUAL='nvim'
 set HISTFILESIZE 2000
-# export NVM_DIR="$(printf %s "$HOME/.nvm")"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 set -U -x TERMINAL alacritty
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
@@ -55,6 +58,7 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
 alias fishedit='nvim ~/.config/fish/config.fish'
+alias catnap_edit='nvim ~/.config/catnap/config.toml'
 abbr u1 'sudo pacman -Suyy'
 abbr u2 'yay -Suyy --noconfirm'
 alias mirrors_list='cat /etc/pacman.d/mirrorlist'
