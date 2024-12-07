@@ -74,10 +74,9 @@ alias docker_mem_usage='docker stats --no-stream'
 # alias cat bat
 
 ### VPN
-alias proton_vpn_nl='sudo find ~/soft/proton/ -name "nl-*" -exec openvpn --config {} \;'
-alias proton_vpn_jp='sudo find ~/soft/proton/ -name "jp-*" -exec openvpn --config {} \;'
-alias proton_vpn_us='sudo find ~/soft/proton/ -name "us-*" -exec openvpn --config {} \;'
-
+alias proton_vpn_nl='z ~/vpn/proton && sudo find -name "nl-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
+alias proton_vpn_jp='z ~/vpn/proton && sudo find -name "jp-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
+alias proton_vpn_us='z ~/vpn/proton && sudo find -name "us-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
 
 ### Tools
 alias yt-mp3='cd ~/Downloads && yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
