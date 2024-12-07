@@ -60,7 +60,7 @@ return {
       local bg_color = decide_color()
 
       -- Insert hostname component into lualine_x
-      table.insert(opts.sections.lualine_x, 1, {
+      --[[       table.insert(opts.sections.lualine_x, 1, {
         -- "hostname",
         function()
           return get_file_owner()
@@ -72,7 +72,7 @@ return {
         separator = { left = "", right = "" },
         -- separator = { left = "", right = "" },
         padding = 1,
-      })
+      }) ]]
 
       -- File permissions component with dynamic background color
       -- Insert file permissions component into lualine_x

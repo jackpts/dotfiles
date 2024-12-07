@@ -143,7 +143,6 @@ function backup
         pacman -Qqen >/home/jacky/soft/pkglist_pacman.txt
         pacman -Qqem >/home/jacky/soft/pkglist_aur.txt
 
-        set backupArr (string split ' ' '/home/jacky/Nextcloud/ /etc/hosts /etc/resolv.conf /etc/profile /etc/nsswitch.conf /etc/fstab /etc/locale.conf /etc/vconsole.conf /etc/systemd/logind.conf /etc/pacman.conf /boot/refind_linux.conf /boot/EFI/refind/refind.conf /home/jacky/.config/neofetch/config.conf /home/jacky/.config/fish/config.fish /home/jacky/.config/fish/functions /home/jacky/.local/share/remmina /home/jacky/Documents/pgp /home/jacky/Documents/CV /home/jacky/.gnupg /home/jacky/.ssh /home/jacky/.gitconfig /etc/gdm/Init/Default /home/jacky/soft/gnome_ext_list.txt /home/jacky/soft/pkglist_pacman.txt /home/jacky/soft/pkglist_aur.txt /home/jacky/.config/nvim /home/jacky/.git* /home/jacky/.vimrc /home/jacky/.vim_runtime/vimrcs /home/jacky/.config/alacritty/*.*ml /home/jacky/.tmux.conf /home/jacky/.zshrc /home/jacky/.bashrc')
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 -p1 $b
