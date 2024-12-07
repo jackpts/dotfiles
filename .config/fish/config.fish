@@ -77,7 +77,6 @@ alias ssid_level='iwconfig wlan0 | gnmcli dev wifi'
 alias change_shell_to_bash='chsh -s /bin/bash'
 alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
-# alias cat bat
 alias established='netstat -anp | grep ESTABLISHED'
 alias cat bat
 
@@ -222,12 +221,6 @@ alias m='minikube'
 alias mining_start='cd ~/soft/NBMiner_Linux && ./start_eth.sh'
 alias edit_miner='nvim ~/soft/NBMiner_Linux/start_eth.sh'
 
-# EFF
-function beep
-    # paplay /home/jacky/Music/ringtones/keep-moving_ring.mp3
-    play -n synth 0.1 sine 880 vol 0.2
-end
-
 # NVIM
 alias v "nvim ."
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
@@ -238,6 +231,11 @@ alias vim-lazy="NVIM_APPNAME=LazyVim nvim"
 
 function :q
     exit
+end
+
+function beep
+    # paplay /home/jacky/Music/ringtones/keep-moving_ring.mp3
+    play -n synth 0.1 sine 880 vol 0.2
 end
 
 ### git
@@ -285,7 +283,11 @@ end
 # SQL
 abbr mysql mariadb
 
-### FINAL RUN
+
+
+##################
+### FINAL RUN ###
+#################
 
 # neofetch --colors 3 4 5 6 2 9 &&
 # duf --hide special &&
