@@ -58,6 +58,7 @@ export PATH="$PATH:/opt/nvim-linux64/bin"
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
 alias fishedit='nvim ~/.config/fish/config.fish'
+alias neofetch_edit='sudo nano ~/.config/neofetch/config.conf'
 alias catnap_edit='nvim ~/.config/catnap/config.toml'
 alias alacr-edit='nvim ~/.config/alacritty'
 abbr u1 'sudo pacman -Suyy'
@@ -77,6 +78,8 @@ alias change_shell_to_bash='chsh -s /bin/bash'
 alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
 # alias cat bat
+alias established='netstat -anp | grep ESTABLISHED'
+alias cat bat
 
 ### VPN
 alias proton_vpn_nl='z ~/vpn/proton && sudo find -name "nl-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
@@ -163,6 +166,13 @@ function backup_git
     sudo 7z u -bt $outputDir/git-$cur_Date.7z -spf2 -mx7 /home/jacky/git -xr!node_modules -xr!_others -xr!wpa2-wordlists '-xr!*.7z' '-xr!*.dump' '-xr!*.pack'
 end
 
+function backup_job
+    set cur_Date (date +"%d%b-%H")
+    set outputDir /run/media/jacky/back1up/regular
+
+    sudo 7z u -bt $outputDir/jobs-$cur_Date.7z -spf2 -mx7 /home/jacky/Documents/CV /home/jacky/Documents/jobs/ /home/jacky/Documents/MyCerts
+end
+
 function backup_nvim
     set cur_Date (date +"%d%b-%H")
     set outputDir /run/media/jacky/back1up/regular
@@ -175,17 +185,9 @@ function write_iso
     sudo dd if=$1 of=/dev/sda1 bs=100M conv=fsync
 end
 
-alias established='netstat -anp | grep ESTABLISHED'
-
-function generate_pdf
-    cd /home/jacky/git/emma-frontend/templates
-    wkhtmltopdf --dpi 72 --lowquality --margin-bottom 5mm --margin-left 5mm --margin-right 5mm --margin-top 5mm --page-height 297mm --page-width 210mm --disable-smart-shrinking 'letter.html' 'letter.pdf'
-end
-
 function _tide_item_git
     fish_git_prompt
 end
-
 
 function fish_prompt__ --description 'Informative prompt'
     #Save the return status of the previous command
@@ -222,31 +224,17 @@ alias edit_miner='nvim ~/soft/NBMiner_Linux/start_eth.sh'
 
 # EFF
 function beep
+    # paplay /home/jacky/Music/ringtones/keep-moving_ring.mp3
     play -n synth 0.1 sine 880 vol 0.2
 end
-
-alias eff_vpn='cd ~/vpn/eff/ && sudo openvpn --config yauheni.pauliukanets.ovpn --auth-user-pass pass.txt'
-alias docker_remove_all='docker rm -v -f $(docker ps -qa)'
-alias docker_prune='docker system prune -a && docker system prune --volumes && docker volume rm $(docker volume ls -qf dangling=true)'
-alias docker_stop='sudo systemctl stop docker && sudo systemctl stop docker.socket'
-alias docker_reload='sudo systemctl stop docker && systemctl daemon-reload && systemctl start docker'
-alias docker_recreate='cd /home/jacky/git/EFF/efficiently/packages/server/efficiently-api && docker-compose up -d --force-recreate && beep'
-alias eff_sonar_up='cd /home/jacky/git/EFF/efficiently/sonar && docker-compose up'
-alias eff_sonar_setup='cd /home/jacky/git/EFF/efficiently/sonar && sh setup.sh'
-alias eff_sonar_scan='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && sonar-scanner \
-          -Dsonar.projectKey=pr-1 \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=http://127.0.0.1:9000 \
-          -Dsonar.token=sqp_7cbxxx'
-alias eff_sonar_report='cd /home/jacky/git/EFF/efficiently/packages/client/design-schedule && export SONAR_TOKEN=squ_daexxx && sonar-findings-export -k pr-1 -f /home/jacky/Downloads/pr-1-issues.csv'
 
 # NVIM
 alias v "nvim ."
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
 alias vim_log='nvim ~/.local/state/nvim/lsp.log'
 alias vim_startify='nvim +:Startify'
-alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
-alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias vim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias vim-lazy="NVIM_APPNAME=LazyVim nvim"
 
 function :q
     exit

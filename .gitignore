@@ -17,5 +17,5 @@
 !**/.config/nvim/**
 !**/.config/alacritty/*.*ml
 !**/.config/fish/config.fish
-!**/.config/fish/functions/[^!(_|fish)]*.fish
+!**/.config/fish/functions/[^!(_|fish|eff|soft|idea)]*.fish
 !**/.config/catnap/config.toml
