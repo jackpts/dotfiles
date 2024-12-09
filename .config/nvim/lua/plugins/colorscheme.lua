@@ -73,10 +73,6 @@ return {
     opts = {
       -- custom options here
     },
-    config = function(_, opts)
-      require("tokyodark").setup(opts) -- calling setup is optional
-      vim.cmd([[colorscheme tokyodark]])
-    end,
   },
 
   { "danwlker/primeppuccin", priority = 1000 },
@@ -110,9 +106,6 @@ return {
     "xero/miasma.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      -- vim.cmd("colorscheme miasma")
-    end,
   },
 
   {
@@ -144,12 +137,50 @@ return {
     name = "eldritch",
   },
 
+  { "rose-pine/neovim", name = "rose-pine" },
+
+  {
+    "gremble0/yellowbeans.nvim",
+    priority = 1000,
+  },
+
+  "Shatur/neovim-ayu",
+  "RRethy/base16-nvim",
+  "cocopon/iceberg.vim",
+  "ntk148v/komau.vim",
+  {
+    "uloco/bluloco.nvim",
+    dependencies = { "rktjmp/lush.nvim" },
+  },
+  "ricardoraposo/gruvbox-minor.nvim",
+  {
+    "maxmx03/fluoromachine.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local fm = require("fluoromachine")
+
+      fm.setup({
+        glow = true,
+        -- theme = "fluoromachine",
+        theme = "retrowave",
+        transparent = true,
+      })
+    end,
+  },
+
   ----------------------------------
   -- Configure LazyVim to load theme
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "solarized-osaka", --"everforest",
+      -- colorscheme = "everforest",
+      colorscheme = "solarized-osaka",
+      -- colorscheme = "base16-icy",
+      -- colorscheme = "base16-darkmoss",
+      -- colorscheme = "base16-black-metal-immortal",
+      -- colorscheme = "base16-equilibrium-dark",
+      -- colorscheme = "fluoromachine"",
     },
   },
 }
