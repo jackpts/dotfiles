@@ -34,3 +34,10 @@ map("n", "<A->>", "<cmd>BufferMoveNext<cr>")
 -- Remap Enter to Paste new Line & get back to Normal mode
 -- map("n", "<Return>", "o<ESC>")
 -- temporary disabled 'cause it affects QuickFix list behavior
+
+-- Duplicate a line and comment out the first line
+map("n", "yc", "yy<cmd>normal gcc<CR>p")
+
+-- From the Vim wiki: https://bit.ly/4eLAARp
+-- Search and replace word under the cursor
+map("n", "<Leader>r", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
