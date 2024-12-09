@@ -8,7 +8,8 @@
 [core]
 	editor = nvim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	pager = delta
+	; pager = delta
+	pager = less
 [web]
 	browser = google-chrome
 [color]
