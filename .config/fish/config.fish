@@ -150,7 +150,34 @@ function backup
         pacman -Qqen >/home/jacky/soft/pkglist_pacman.txt
         pacman -Qqem >/home/jacky/soft/pkglist_aur.txt
 
-        set backupArr (string split ' ' '/home/jacky/Nextcloud/ /etc/hosts /etc/profile /etc/fstab /etc/locale.conf /etc/pacman.conf /boot/refind_linux.conf /boot/EFI/refind/refind.conf /home/jacky/.config/fish/ /home/jacky/Documents/pgp /home/jacky/.gnupg/ /home/jacky/.ssh/ /home/jacky/vpn/ /home/jacky/soft/gnome_ext_list.txt /home/jacky/soft/pkglist_pacman.txt /home/jacky/soft/pkglist_aur.txt /home/jacky/.config/nvim /home/jacky/.git* /home/jacky/.vimrc /home/jacky/.config/alacritty/*.toml /home/jacky/.tmux.conf /home/jacky/.zshrc /home/jacky/.bashrc /home/jacky/.config/catnap/*.toml')
+        set backupArr "$HOME/Nextcloud" \
+            /etc/hosts \
+            '/etc/resolv.conf' \
+            /etc/profile \
+            '/etc/nsswitch.conf' \
+            /etc/fstab \
+            '/etc/locale.conf' \
+            '/etc/vconsole.conf' \
+            '/etc/pacman.conf' \
+            '/boot/refind_linux.conf' \
+            '/boot/EFI/refind/refind.conf' \
+            "$HOME/.config/fish" \
+            "$HOME/.local/share/remmina" \
+            "$HOME/Documents/pgp" \
+            "$HOME/.gnupg" \
+            "$HOME/.ssh" \
+            "$HOME/vpn" \
+            "$HOME/soft/gnome_ext_list.txt" \
+            "$HOME/soft/pkglist_pacman.txt" \
+            "$HOME/soft/pkglist_aur.txt" \
+            "$HOME/.git*" \
+            "$HOME/.config/nvim" \
+            "$HOME/.vimrc" \
+            "$HOME/.config/alacritty/*.toml" \
+            "$HOME/.tmux.conf" \
+            "$HOME/.zshrc" \
+            "$HOME/.bashrc" \
+            "$HOME/.config/catnap/*.toml"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
