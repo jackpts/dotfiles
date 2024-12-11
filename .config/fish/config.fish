@@ -267,6 +267,10 @@ function beep
 end
 
 ### git
+abbr gl 'git log --oneline --graph'
+abbr gs 'git log --graph --stat'
+abbr gss 'git log --stat --color -p'
+
 function gcl
     set directory (echo $argv | grep -oE '[^/]+$' | sed 's/.git//')
     git clone $argv && cd $directory
