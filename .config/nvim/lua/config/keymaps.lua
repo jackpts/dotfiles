@@ -55,7 +55,7 @@ map("n", "<Leader>r", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
 
 wk.add({
   { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
-  { "<leader>g:", "<cmd>lua require('neogit').action('log', 'log_current')()<cr>", desc = "Neogit logs" },
+  { "<leader>g;", "<cmd>lua require('neogit').action('log', 'log_current')()<cr>", desc = "Neogit logs" },
   { "<leader>gd", group = "Diffview" },
   { "<leader>gdc", "<cmd>DiffviewClose<cr>", mode = { "n", "i", "v" }, desc = "Close Diffview" },
   { "<leader>gdd", "<cmd>DiffviewOpen<cr>", mode = { "n", "i", "v" }, desc = "Open Diffview" },
