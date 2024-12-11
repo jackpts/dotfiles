@@ -9,6 +9,8 @@
 -- This part taken from: https://github.com/craftzdog/dotfiles-public/blob/master/.config/nvim/lua/config/keymaps.lua
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
+local util = require("lazyvim.util")
+local wk = require("which-key")
 
 -- Select all
 map("n", "<C-a>", "gg<S-v>G")
@@ -31,6 +33,15 @@ map("n", "<A-c>", ":bdelete<cr>")
 map("n", "<A-<>", "<cmd>BufferMovePrevious<cr>")
 map("n", "<A->>", "<cmd>BufferMoveNext<cr>")
 
+-- Tab to move to between buffers
+if util.has("bufferline.nvim") then
+  map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+  map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+else
+  map("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+  map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+end
+
 -- Remap Enter to Paste new Line & get back to Normal mode
 -- map("n", "<Return>", "o<ESC>")
 -- temporary disabled 'cause it affects QuickFix list behavior
@@ -41,3 +52,13 @@ map("n", "yc", "yy<cmd>normal gcc<CR>p")
 -- From the Vim wiki: https://bit.ly/4eLAARp
 -- Search and replace word under the cursor
 map("n", "<Leader>r", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
+
+wk.add({
+  { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
+  { "<leader>g:", "<cmd>lua require('neogit').action('log', 'log_current')()<cr>", desc = "Neogit logs" },
+  { "<leader>gd", group = "Diffview" },
+  { "<leader>gdc", "<cmd>DiffviewClose<cr>", mode = { "n", "i", "v" }, desc = "Close Diffview" },
+  { "<leader>gdd", "<cmd>DiffviewOpen<cr>", mode = { "n", "i", "v" }, desc = "Open Diffview" },
+  { "<leader>gdf", "<cmd>DiffviewToggleFiles<cr>", mode = { "n", "i", "v" }, desc = "Toggle Diffview file view" },
+  { "<leader>gdr", "<cmd>DiffviewRefresh<cr>", mode = { "n", "i", "v" }, desc = "Refresh Diffview" },
+})
