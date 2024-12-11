@@ -268,13 +268,14 @@ end
 
 ### git
 abbr gl 'git log --oneline --graph'
-abbr gs 'git log --graph --stat'
-abbr gss 'git log --stat --color -p'
+abbr gs 'clear && git log --graph --stat'
+abbr gss 'clear && git log --stat --color -p'
 
 function gcl
     set directory (echo $argv | grep -oE '[^/]+$' | sed 's/.git//')
     git clone $argv && cd $directory
 end
+
 
 ### FZF
 fzf --fish | source
