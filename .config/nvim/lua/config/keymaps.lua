@@ -15,6 +15,9 @@ local wk = require("which-key")
 -- Select all
 map("n", "<C-a>", "gg<S-v>G")
 
+-- Quit
+map("n", "<C-q>", "<cmd>:q<CR>")
+
 -- New tab
 map("n", "te", ":tabedit")
 map("n", "<tab>", ":tabnext<Return>", opts)
