@@ -19,5 +19,4 @@
 !**/.config/fish/config.fish
 !**/.config/fish/functions/[^!(_|fish|eff|soft|idea)]*.fish
 !**/.config/catnap/config.toml
-
-*-lock.json
+/.config/nvim/lazy-lock.json
