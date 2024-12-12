@@ -46,6 +46,7 @@ alias pacman_clean='pacman -Rsn $(pacman -Qdtq)'
 alias pacman_clear_cache='sudo paccache -r'
 alias gnome_startup='gnome-session-properties'
 alias rel_info='cat /etc/*rel*'
+abbr syslog 'sudo dmesg --level=emerg,alert,crit'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -250,6 +251,7 @@ alias mining_start='cd ~/soft/NBMiner_Linux && ./start_eth.sh'
 alias edit_miner='nvim ~/soft/NBMiner_Linux/start_eth.sh'
 
 # NVIM
+abbr n nvim
 alias v "nvim ."
 alias vim_plugins='nvim ~/.config/nvim/lua/plugins/user.lua'
 alias vim_log='nvim ~/.local/state/nvim/lsp.log'
