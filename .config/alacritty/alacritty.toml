@@ -44,7 +44,11 @@ history = 50000
 
 [general]
 live_config_reload = true
-import = ["/home/jacky/.config/alacritty/colors.toml", "/home/jacky/.config/alacritty/fonts.toml"]
+import = [
+  "/home/jacky/.config/alacritty/colors.toml",
+  "/home/jacky/.config/alacritty/fonts.toml",
+  "/home/jacky/.config/alacritty/colorschemes/Tokyo_night.toml"
+]
 
 [terminal.shell]
 program = "tmux"
