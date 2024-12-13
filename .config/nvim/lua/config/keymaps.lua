@@ -81,5 +81,6 @@ wk.add({
 })
 
 -- map H & L instead of ^ and $ to jump to the start/end of the line
-map("n", "H", "^")
-map("n", "L", "$")
+-- with "o" mode also able to delete until end/start of line
+map({ "n", "o" }, "H", "^")
+map({ "n", "o" }, "L", "$")
