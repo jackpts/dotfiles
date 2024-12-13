@@ -82,9 +82,20 @@ alias established='netstat -anp | grep ESTABLISHED'
 alias cat bat
 
 ### VPN
-alias proton_vpn_nl='z ~/vpn/proton && sudo find -name "nl-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
-alias proton_vpn_jp='z ~/vpn/proton && sudo find -name "jp-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
-alias proton_vpn_us='z ~/vpn/proton && sudo find -name "us-*" -exec openvpn --config {} --auth-user-pass pass.txt \;'
+function proton_vpn
+    z ~/vpn/proton/
+
+    # regular options: nl | jp | us
+    if test (count $argv) -gt 0
+        set file_prefix "$argv[1]"
+    else
+        set file_prefix ''
+    end
+
+    set cur_vpn_file (find -name "$file_prefix*.ovpn" -type f -exec ls -lt {} + | sort -k6,7 | head -n1 | awk '{print $NF}')
+    echo "VPN file used: $cur_vpn_file"
+    sudo openvpn --config $cur_vpn_file --auth-user-pass pass.txt
+end
 
 ### Tools
 alias yt-mp3='cd ~/Downloads && yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
