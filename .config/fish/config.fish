@@ -189,7 +189,9 @@ function backup
             "$HOME/.tmux.conf" \
             "$HOME/.zshrc" \
             "$HOME/.bashrc" \
-            "$HOME/.config/catnap/*.toml"
+            "$HOME/.config/catnap/*.toml" \
+            "$HOME/.config/mpd/mpd.conf" \
+            "$HOME/.ncmpcpp/config"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
