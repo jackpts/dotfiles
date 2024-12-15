@@ -2,10 +2,11 @@
 /**
 
 # Except the following files
-!/.gitignore
+!.gitignore
 !.gitconfig
 !.tmux.conf
 !.zshrc
+!/.config/mpd/mpd.conf
 
 !/.config/
 !/.config/alacritty/
@@ -14,6 +15,7 @@
 !/.config/fish/
 !/.config/fish/functions/
 !/.config/catnap/
+!/.config/mpd/
 
 !**/.config/nvim/**
 !**/.config/alacritty/*.toml
