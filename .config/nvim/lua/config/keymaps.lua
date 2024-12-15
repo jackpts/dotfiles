@@ -84,3 +84,12 @@ wk.add({
 -- with "o" mode also able to delete until end/start of line
 map({ "n", "o" }, "H", "^")
 map({ "n", "o" }, "L", "$")
+
+-- map playback keys for ncmpcpp
+map("n", ",n", ":!ncmpcpp<cr>", { noremap = true, silent = true })
+map("n", ",<space>", ":!mpc pause<cr>", { noremap = true, silent = true }) -- KP7 = 55 code, to check - :echo getchar()
+map("n", ",p", ":!mpc play<cr>", { noremap = true, silent = true }) -- KP9 = 57 code
+map("n", ",<Right>", ":!mpc next<cr>", { noremap = true, silent = true })
+map("n", ",<Left>", ":!mpc prev<cr>", { noremap = true, silent = true })
+map("n", ",<Up>", ":!mpc volume +5<cr>", { noremap = true, silent = true })
+map("n", ",<Down>", ":!mpc volume -5<cr>", { noremap = true, silent = true })
