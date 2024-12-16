@@ -4,8 +4,7 @@ unfocused_hollow = false
 
 [cursor.style]
 blinking = "On"
-# shape = "Block"
-shape = "Underline"
+shape = "Beam"  # Underline | Block
 
 [env]
 TERM = "alacritty"
@@ -38,6 +37,9 @@ key = "F11"
 action = "SpawnNewInstance"
 key = "T"
 mods = "Control|Shift"
+
+[mouse]
+hide_when_typing = true
 
 [scrolling]
 history = 50000
