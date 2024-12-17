@@ -46,7 +46,10 @@ alias pacman_clean='pacman -Rsn $(pacman -Qdtq)'
 alias pacman_clear_cache='sudo paccache -r'
 alias gnome_startup='gnome-session-properties'
 alias rel_info='cat /etc/*rel*'
+
+### Errors
 abbr syslog 'sudo dmesg --level=emerg,alert,crit'
+abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -191,7 +194,11 @@ function backup
             "$HOME/.bashrc" \
             "$HOME/.config/catnap/*.toml" \
             "$HOME/.config/mpd/mpd.conf" \
-            "$HOME/.ncmpcpp/config"
+            "$HOME/.ncmpcpp/config" \
+            "$HOME/.config/openbox" \
+            "$HOME/.config/picom.conf" \
+            "$HOME/.config/polybar" \
+            "$HOME/scripts/"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
