@@ -49,7 +49,20 @@ alias rel_info='cat /etc/*rel*'
 
 ### Errors
 abbr syslog 'sudo dmesg --level=emerg,alert,crit'
+
+### Gnome shell
 abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f'
+abbr gnome_ver 'gnome-shell --version'
+abbr ext_create 'gnome-extensions create --interactive'
+abbr ext_list 'gnome-extensions list | grep jack'
+abbr ext_edit 'nvim ~/github/gnome.ext.song.title/extension.js'
+abbr ext_install 'gnome-extensions install ./gnome.ext.song.title.zip --force'
+abbr ext_remove 'gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com'
+abbr ext_pack 'z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"'
+abbr ext_enable 'gnome-extensions enable gnome.ext.song.title@jackpts.github.com'
+abbr ext_disable 'gnome-extensions disable gnome.ext.song.title@jackpts.github.com'
+abbr ext_reload 'ext_disable && ext_remove && ext_pack && ext_install'
+abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -195,9 +208,6 @@ function backup
             "$HOME/.config/catnap/*.toml" \
             "$HOME/.config/mpd/mpd.conf" \
             "$HOME/.ncmpcpp/config" \
-            "$HOME/.config/openbox" \
-            "$HOME/.config/picom.conf" \
-            "$HOME/.config/polybar" \
             "$HOME/scripts/"
 
         for b in $backupArr
