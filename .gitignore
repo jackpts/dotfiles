@@ -18,6 +18,7 @@
 !/.config/fish/functions/
 !/.config/catnap/
 !/.config/mpd/
+!/.config/hypr/
 !/.ncmpcpp
 
 !**/.config/nvim/**
@@ -26,5 +27,6 @@
 !**/.config/fish/config.fish
 !**/.config/fish/functions/[^!(_|fish|eff|soft|idea)]*.fish
 !**/.config/catnap/config.toml
+!**/.config/hypr/**
 
 /.config/nvim/lazy-lock.json
