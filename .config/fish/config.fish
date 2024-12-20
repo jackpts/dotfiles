@@ -48,10 +48,12 @@ alias gnome_startup='gnome-session-properties'
 alias rel_info='cat /etc/*rel*'
 
 ### Errors
+abbr logs 'journalctl -xe'
 abbr syslog 'sudo dmesg --level=emerg,alert,crit'
+abbr sys_acpi 'sudo dmesg | grep ACPI'
 
 ### Gnome shell
-abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f'
+abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f -o cat'
 abbr gnome_ver 'gnome-shell --version'
 abbr ext_create 'gnome-extensions create --interactive'
 abbr ext_list 'gnome-extensions list | grep jack'
@@ -60,9 +62,13 @@ abbr ext_install 'gnome-extensions install ./gnome.ext.song.title.zip --force'
 abbr ext_remove 'gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com'
 abbr ext_pack 'z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"'
 abbr ext_enable 'gnome-extensions enable gnome.ext.song.title@jackpts.github.com'
-abbr ext_disable 'gnome-extensions disable gnome.ext.song.title@jackpts.github.com'
-abbr ext_reload 'ext_disable && ext_remove && ext_pack && ext_install'
+abbr ext_disable 'gnome-extensions disable gnome.extsong.title@jackpts.github.com'
 abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
+abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com && \
+    gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com && \
+    z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*" && \
+    gnome-extensions install ./gnome.ext.song.title.zip --force
+'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -81,8 +87,8 @@ alias alac_edit='nvim ~/.config/alacritty/alacritty.toml'
 abbr u1 'sudo pacman -Suyy'
 abbr u2 'yay -Suyy --noconfirm'
 alias mirrors_list='cat /etc/pacman.d/mirrorlist'
-alias mirrors_find='reflector --latest 20 --sort rate'
-alias mirrors_update='sudo reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist'
+alias mirrors_find='reflector --latest 20 --sort rate --protocol https'
+alias mirrors_update='sudo reflector --latest 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist'
 alias list_gnome_extensions='ls -1 ~/.local/share/gnome-shell/extensions/'
 alias show_opened_ports='lsof -i -P -n | grep LISTEN'
 alias pogoda_minsk='curl -4 https://wttr.in/Minsk'
@@ -96,6 +102,8 @@ alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
 alias established='netstat -anp | grep ESTABLISHED'
 alias cat bat
+abbr list_x_sessions 'ls /usr/share/xsessions/'
+abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
 
 ### VPN
 function proton_vpn
@@ -187,6 +195,7 @@ function backup
             '/etc/locale.conf' \
             '/etc/vconsole.conf' \
             '/etc/pacman.conf' \
+            '/etc/pacman.d/mirrorlist' \
             '/boot/refind_linux.conf' \
             '/boot/EFI/refind/refind.conf' \
             "$HOME/.config/fish" \
@@ -207,8 +216,11 @@ function backup
             "$HOME/.bashrc" \
             "$HOME/.config/catnap/*.toml" \
             "$HOME/.config/mpd/mpd.conf" \
+            "$HOME/.config/hypr/" \
             "$HOME/.ncmpcpp/config" \
-            "$HOME/scripts/"
+            "$HOME/scripts/" \
+            "/usr/share/wayland-sessions/hyprland.desktop" \
+            "/etc/lxdm/lxdm.conf"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
