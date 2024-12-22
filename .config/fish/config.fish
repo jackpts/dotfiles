@@ -75,6 +75,7 @@ abbr h_clients 'hyprctl clients'
 abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
 abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
 abbr h_reload 'hyprctl reload'
+abbr w_reload 'killall -SIGUSR2 waybar'
 
 ### EXPORTS
 export EDITOR='nvim'
