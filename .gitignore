@@ -6,6 +6,7 @@
 !.gitconfig
 !.tmux.conf
 !.zshrc
+!.prettierrc
 
 !/.config/mpd/mpd.conf
 !/.ncmpcpp/config
@@ -19,6 +20,7 @@
 !/.config/catnap/
 !/.config/mpd/
 !/.config/hypr/
+!/.config/waybar/
 !/.ncmpcpp
 
 !**/.config/nvim/**
@@ -28,5 +30,6 @@
 !**/.config/fish/functions/[^!(_|fish|eff|soft|idea)]*.fish
 !**/.config/catnap/config.toml
 !**/.config/hypr/**
+!**/.config/waybar/**
 
 /.config/nvim/lazy-lock.json

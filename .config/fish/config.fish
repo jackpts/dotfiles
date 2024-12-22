@@ -73,6 +73,8 @@ abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com
 ### Hyprland
 abbr h_clients 'hyprctl clients'
 abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
+abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
+abbr h_reload 'hyprctl reload'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -224,7 +226,8 @@ function backup
             "$HOME/.ncmpcpp/config" \
             "$HOME/scripts/" \
             "/usr/share/wayland-sessions/hyprland.desktop" \
-            "/etc/lxdm/lxdm.conf"
+            "/etc/lxdm/lxdm.conf" \
+            "/etc/xdg/waybar/config.jsonc"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
