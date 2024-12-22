@@ -70,6 +70,10 @@ abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com
     gnome-extensions install ./gnome.ext.song.title.zip --force
 '
 
+### Hyprland
+abbr h_clients 'hyprctl clients'
+abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
+
 ### EXPORTS
 export EDITOR='nvim'
 export VISUAL='nvim'
