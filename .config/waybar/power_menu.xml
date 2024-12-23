@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<menu>
-    <item id="shutdown" label="Shutdown" />
-    <item id="reboot" label="Reboot" />
-    <item id="suspend" label="Suspend" />
-    <item id="hibernate" label="Hibernate" />
-    <item id="logout" label="Logout" />
-</menu>
