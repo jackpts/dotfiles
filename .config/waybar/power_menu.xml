@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <item>
+    <label>shutdown</label>
+        <exec>systemctl poweroff</exec>
+        <!-- <exec>shutdownf</exec> -->
+    </item>
+    <item>
+        <label>reboot</label>
+        <exec>reboot</exec>
+    </item>
+    <item>
+        <label>suspend</label>
+        <exec>systemctl suspend</exec>
+    </item>
+    <item>
+        <label>hibernate</label>
+        <exec>systemctl hibernate</exec>
+    </item>
+    <item>
+        <label>logout</label>
+        <exec>kill -1 -1</exec>
+    </item>
+</menu>

@@ -1,11 +1,29 @@
 {
   "layer": "top",
   "position": "top",
+  "height": 30,
+  "spacing": 4,
   "modules-left": ["custom/appmenu", "wlr/taskbar"],
   "modules-center": ["hyprland/workspaces", "clock"],
-  "modules-right": ["cpu", "network"],
+  "modules-right": [
+    "mpd",
+    "pulseaudio",
+    "backlight",
+    "network",
+    "cpu",
+    "temperature",
+    "temperature#gpu",
+    "memory",
+    "keyboard-state",
+    "sway/language",
+    "battery",
+    "battery#bat2",
+    "tray",
+    "custom/power"
+  ],
   "custom/appmenu": {
-    "format": "Menu {icon}",
+    // "format": "Menu {icon}",
+    "format": "⬡ Menu",
     "format-icon": "󰻀",
     "rotate": 0,
     "on-click": "~/.config/waybar/run_launcher.sh"
@@ -19,24 +37,30 @@
     "active-first": true
   },
   "hyprland/workspaces": {
-    "format": "{name} : {icon}",
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": "",
-      "active": "",
-      "default": ""
-    },
-    "persistent-workspaces": {
-      "Virtual-1": [1, 2, 3, 4, 5]
-    }
+    // "format": "{name} : {icon}",
+    "format": "{name}",
+    // "format-icons": {
+    //   "1": "",
+    //   "2": "",
+    //   "3": "",
+    //   "4": "",
+    //   "5": "",
+    //   "active": "",
+    //   "default": ""
+    // },
+    // "persistent-workspaces": {
+    //   "Virtual-1": [1, 2, 3, 4, 5]
+    // }
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "on-click": "activate"
   },
   "clock": {
-    "format": "{:%I:%M %p}",
+    // "format": "{:%I:%M %p}",
+    "format": "{:%a, %d %b  %H:%M}",
     "rotate": 0,
-    "format-alt": "{  %d·%m·%y}",
+    // "format-alt": "{  %d·%m·%y}",
+    // "format-alt": "{:%a, %d. %b  %H:%M}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "month",
@@ -49,18 +73,137 @@
     }
   },
   "cpu": {
-    "format": "{icon0} {icon1} {icon2} {icon3}",
-    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    // "format": "{icon0} {icon1} {icon2} {icon3}",
+    // "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    "format": "{usage}% ",
+    "tooltip": false
+  },
+  "temperature": {
+    // "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+    "critical-threshold": 80,
+    // "format-critical": "{temperatureC}°C {icon}",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": ["", "", ""]
+  },
+  "temperature#gpu": {
+    // "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+    "critical-threshold": 80,
+    // "format-critical": "{temperatureC}°C {icon}",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": ["", "\udb80\udf79", ""]
+  },
+  "backlight": {
+    // "device": "acpi_video1",
+    "format": "{percent}% {icon}",
+    "format-icons": ["", "", "", "", "", "", "", "", ""]
+  },
+  "memory": {
+    "format": "{}% "
   },
   "network": {
     "tooltip": true,
     "rotate": 0,
-    "format-ethernet": " ",
+    // "format-ethernet": " ",
+    "format-ethernet": "{ipaddr}/{cidr} ",
+    "format-wifi": "{essid} ({signalStrength}%) ",
     "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "󰖪 ",
     "tooltip-format-disconnected": "Disconnected",
-    "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+    // "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+    "format-alt": "{ipaddr}",
     "interval": 2
+  },
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": "{name} {icon}",
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    }
+  },
+  "mpd": {
+    // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+    "format": "{stateIcon}  {consumeIcon}{repeatIcon}{singleIcon}{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) [{songPosition}|{queueLength}] {volume}%",
+    "format-disconnected": "Disconnected ",
+    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    "unknown-tag": "N/A",
+    "interval": 5,
+    "consume-icons": {
+      "on": " "
+    },
+    "random-icons": {
+      "off": "<span color=\"#f53c3c\"></span> ",
+      "on": " "
+    },
+    "repeat-icons": {
+      "on": " "
+    },
+    "single-icons": {
+      "on": "1 "
+    },
+    "state-icons": {
+      "paused": "",
+      "playing": ""
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+  },
+  "pulseaudio": {
+    // "scroll-step": 1, // %, can be a float
+    "format": "{volume}% {icon} {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "  {volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}% {icon}",
+    "format-full": "{capacity}% {icon}",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{time} {icon}",
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "battery#bat2": {
+    "bat": "BAT2"
+  },
+  "tray": {
+    // "icon-size": 21,
+    "spacing": 10
+  },
+  "custom/power": {
+    "format": "⏻ ",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "$HOME/.config/waybar/power_menu.xml" // Menu file in resources folder
+    // "menu-actions": {
+    //   "shutdown": "shutdown",
+    //   "reboot": "reboot",
+    //   "suspend": "systemctl suspend",
+    //   "hibernate": "systemctl hibernate",
+    //   "logout": "kill -1 -1"
+    // }
   }
 }

@@ -76,8 +76,10 @@ abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
 abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
 abbr h_reload 'hyprctl reload'
 abbr w_reload 'killall -SIGUSR2 waybar'
+abbr w_start 'waybar &'
 abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
 abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
+abbr h_mons 'ls /sys/class/hwmon/'
 
 ### EXPORTS
 export EDITOR='nvim'
@@ -226,11 +228,11 @@ function backup
             "$HOME/.config/catnap/*.toml" \
             "$HOME/.config/mpd/mpd.conf" \
             "$HOME/.config/hypr/" \
+            "$HOME/.config/waybar/" \
             "$HOME/.ncmpcpp/config" \
             "$HOME/scripts/" \
-            "/usr/share/wayland-sessions/hyprland.desktop" \
-            "/etc/lxdm/lxdm.conf" \
-            "/etc/xdg/waybar/config.jsonc"
+            "$HOME/.prettierrc" \
+            "/usr/share/wayland-sessions/hyprland.desktop"
 
         for b in $backupArr
             7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
