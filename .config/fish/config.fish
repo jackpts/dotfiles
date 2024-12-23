@@ -76,6 +76,8 @@ abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
 abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
 abbr h_reload 'hyprctl reload'
 abbr w_reload 'killall -SIGUSR2 waybar'
+abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
+abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
 
 ### EXPORTS
 export EDITOR='nvim'
