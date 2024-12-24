@@ -119,14 +119,13 @@ tooltip {
 }
 
 #custom-appmenu {
-  box-shadow: none;
-  background: #4126a2;
-  text-shadow: none;
-  padding: 0px;
   margin: 3px 1px;
-  padding: 0 4px;
+  padding: 0;
+  padding: 0 4px 0 6px;
   color: #cddceb;
-  border: 1px solid #cddceb;
+  background-color: #4126a2;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 #mpd {

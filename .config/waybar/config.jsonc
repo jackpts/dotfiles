@@ -23,9 +23,11 @@
   ],
   "custom/appmenu": {
     // "format": "Menu {icon}",
-    "format": "⬡ Menu",
-    "format-icon": "󰻀",
-    "rotate": 0,
+    // "format": "⬡ Menu",
+    "format": "󰣇 ",
+    "tooltip-format": "Menu",
+    // "format-icon": "󰻀",
+    // "rotate": 0,
     "on-click": "~/.config/waybar/run_launcher.sh"
   },
   "wlr/taskbar": {
