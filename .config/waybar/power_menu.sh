@@ -8,6 +8,7 @@ Reboot) systemctl reboot ;;
 Lock) swaylock ;;
 Suspend) systemctl suspend ;;
 Hybernate) systemctl hybernate ;;
-LogOut) kill -1 -1 ;;
+# LogOut) kill -1 -1 ;;
+LogOut) hyprctl dispatch exit ;;
 *) exit 1 ;;
 esac
