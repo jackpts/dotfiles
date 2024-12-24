@@ -3,21 +3,22 @@
   "position": "top",
   "height": 30,
   "spacing": 4,
-  "modules-left": ["custom/appmenu", "wlr/taskbar"],
+  "modules-left": ["custom/appmenu", "custom/updates", "wlr/taskbar"],
   "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
     "mpd",
     "pulseaudio",
     "backlight",
     "network",
-    "cpu",
     "temperature",
     "temperature#gpu",
+    "cpu",
     "memory",
     "keyboard-state",
     "sway/language",
     "battery",
     "battery#bat2",
+    "hyprland/language",
     "tray",
     "custom/power"
   ],
@@ -61,7 +62,8 @@
     "rotate": 0,
     // "format-alt": "{  %d·%m·%y}",
     // "format-alt": "{:%a, %d. %b  %H:%M}",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    // "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "tooltip-format": "<tt><big>{calendar}</big></tt>",
     "calendar": {
       "mode": "month",
       "format": {
@@ -84,7 +86,9 @@
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "{temperatureC}°C {icon}",
-    "format-icons": ["", "", ""]
+    "format-icons": ["", "", ""],
+    "tooltip": false,
+    "on-click": "kitty -e btop"
   },
   "temperature#gpu": {
     // "thermal-zone": 2,
@@ -105,16 +109,19 @@
   "network": {
     "tooltip": true,
     "rotate": 0,
+    "format": "{ifname}",
     // "format-ethernet": " ",
     "format-ethernet": "{ipaddr}/{cidr} ",
     "format-wifi": "{essid} ({signalStrength}%) ",
-    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>",
+    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}",
     "format-linked": " {ifname} (No IP)",
     "format-disconnected": "󰖪 ",
     "tooltip-format-disconnected": "Disconnected",
     // "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
     "format-alt": "{ipaddr}",
-    "interval": 2
+    "interval": 2,
+    "on-click": "kitty -e nmtui",
+    "on-click-middle": "nmcli r wifi off | nmcli r wifi on"
   },
   "keyboard-state": {
     "numlock": true,
@@ -198,5 +205,18 @@
     "return-type": "json",
     "on-click": "$HOME/.config/waybar/power_menu.sh",
     "interval": 60
+  },
+  "custom/updates": {
+    "exec": "$HOME/.config/waybar/check_updates.sh",
+    "return-type": "json",
+    "interval": 300,
+    "on-click": "alacritty -e sudo pacman -Syu"
+  },
+  "hyprland/language": {
+    "on-click": "hyprctl switchxkbdlayout 'ite-tech.-inc.-ite-device(8910)-keyboard' next",
+    "format": "{}",
+    "format-en": "US",
+    "format-ru": "RU",
+    "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   }
 }

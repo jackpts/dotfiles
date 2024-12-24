@@ -80,6 +80,8 @@ abbr w_start 'waybar &'
 abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
 abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
 abbr h_mons 'ls /sys/class/hwmon/'
+abbr wifi_on 'nmcli r wifi on'
+abbr wifi_off 'nmcli r wifi off'
 
 ### EXPORTS
 export EDITOR='nvim'
