@@ -15,7 +15,6 @@
     "cpu",
     "memory",
     "keyboard-state",
-    "sway/language",
     "battery",
     "battery#bat2",
     "hyprland/language",
@@ -138,7 +137,8 @@
     // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
     "format": "{stateIcon}  {consumeIcon}{repeatIcon}{singleIcon}{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) [{songPosition}|{queueLength}] {volume}%",
     "format-disconnected": "Disconnected ",
-    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    // "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    "format-stopped": "{consumeIcon}{singleIcon}Stopped ",
     "unknown-tag": "N/A",
     "interval": 5,
     "consume-icons": {
