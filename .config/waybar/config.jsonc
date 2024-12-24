@@ -101,7 +101,9 @@
   "backlight": {
     // "device": "acpi_video1",
     "format": "{percent}% {icon}",
-    "format-icons": ["", "", "", "", "", "", "", "", ""]
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "tooltip": false,
+    "on-click": "gpustat"
   },
   "memory": {
     "format": "{}% "
@@ -210,13 +212,14 @@
     "exec": "$HOME/.config/waybar/check_updates.sh",
     "return-type": "json",
     "interval": 300,
-    "on-click": "alacritty -e sudo pacman -Syu"
+    // "on-click": "alacritty -e sudo pacman -Syu"
+    "on-click": "alacritty -e yay && sleep 1 && notify-send 'Update complete'"
   },
   "hyprland/language": {
-    "on-click": "hyprctl switchxkbdlayout 'ite-tech.-inc.-ite-device(8910)-keyboard' next",
+    // "on-click": "hyprctl switchxkbdlayout 'ite-tech.-inc.-ite-device(8910)-keyboard' next",
     "format": "{}",
     "format-en": "US",
-    "format-ru": "RU",
-    "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
+    "format-ru": "RU"
+    // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   }
 }
