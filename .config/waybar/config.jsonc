@@ -10,6 +10,7 @@
     "pulseaudio",
     "backlight",
     "network",
+    "bluetooth",
     "temperature",
     "temperature#gpu",
     "cpu",
@@ -73,7 +74,8 @@
         "weekdays": "<span color='#7CD37C'><b>{}</b></span>",
         "today": "<span color='#ffcc66'><b>{}</b></span>"
       }
-    }
+    },
+    "on-click": "gnome-calendar"
   },
   "cpu": {
     // "format": "{icon0} {icon1} {icon2} {icon3}",
@@ -161,7 +163,11 @@
       "playing": ""
     },
     "tooltip-format": "MPD (connected)",
-    "tooltip-format-disconnected": "MPD (disconnected)"
+    "tooltip-format-disconnected": "MPD (disconnected)",
+    "on-click": "mpc toggle",
+    "on-scroll-up": "mpc next",
+    "on-scroll-down": "mpc prev",
+    "font": "monospace 12"
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
@@ -181,6 +187,7 @@
       "default": ["", "", ""]
     },
     "on-click": "pavucontrol"
+    // "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle"
   },
   "battery": {
     "states": {
@@ -208,7 +215,8 @@
     "format": "⏻ ",
     "return-type": "json",
     "on-click": "$HOME/.config/waybar/power_menu.sh",
-    "interval": 60
+    "interval": 60,
+    "tooltip": false
   },
   "custom/updates": {
     "exec": "$HOME/.config/waybar/check_updates.sh",
@@ -223,5 +231,23 @@
     "format-en": "US",
     "format-ru": "RU"
     // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
+  },
+  "bluetooth": {
+    // "format": "{icon} {name}",
+    "format-icons": {
+      "connected": "🔵",
+      "disconnected": "⚪",
+      "disabled": "❌"
+    },
+    "tooltip": true
+    // "on-click": "blueman-manager",
+    // "on-scroll-up": "bluetoothctl connect {mac_address}",
+    // "on-scroll-down": "bluetoothctl disconnect {mac_address}",
+    // "tooltip-format": "{name}: {battery}%",
+    // "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
+    // "disabled": {
+    //   "format": "Bluetooth Disabled",
+    //   "icon": "❌"
+    // }
   }
 }
