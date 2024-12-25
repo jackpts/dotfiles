@@ -43,7 +43,7 @@ return {
     "brenoprata10/nvim-highlight-colors",
     config = function()
       require("nvim-highlight-colors").setup({
-        enable_tailwind = true,
+        enable_tailwind = false,
         enable_hex = true, ---Highlight hex colors, e.g. '#FFFFFF'
         enable_short_hex = true, ---Highlight short hex colors e.g. '#fff'
         enable_rgb = true, ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
