@@ -115,7 +115,7 @@ alias change_shell_to_bash='chsh -s /bin/bash'
 alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
 alias established='netstat -anp | grep ESTABLISHED'
-alias cat bat
+# alias cat bat
 abbr list_x_sessions 'ls /usr/share/xsessions/'
 abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
 

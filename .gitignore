@@ -21,6 +21,7 @@
 !/.config/mpd/
 !/.config/hypr/
 !/.config/waybar/
+!/.config/rofi/
 !/.ncmpcpp
 
 !**/.config/nvim/**
@@ -31,5 +32,6 @@
 !**/.config/catnap/config.toml
 !**/.config/hypr/**
 !**/.config/waybar/**
+!**/.config/rofi/**
 
 /.config/nvim/lazy-lock.json
