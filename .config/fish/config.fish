@@ -77,6 +77,7 @@ abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
 abbr h_reload 'hyprctl reload'
 abbr w_reload 'killall -SIGUSR2 waybar'
 abbr w_start 'waybar &'
+abbr w_trace 'WAYBAR_LOG_LEVEL=trace waybar'
 abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
 abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
 abbr h_plugins 'hyprpm list'
@@ -90,7 +91,6 @@ export VISUAL='nvim'
 set HISTFILESIZE 2000
 set -U -x TERMINAL alacritty
 export PATH="$PATH:/opt/nvim-linux64/bin"
-
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
@@ -181,86 +181,25 @@ function ex
     end
 end
 
-function backup
-    set cur_Date (date +"%d%b-%H")
-    set outputDir /run/media/jacky/back1up/regular
-
-    if [ ! -d "$outputDir" ]
-        then
-        echo -e "Directory $outputDir doesn't exist!"
-        exit 1
-    end
-
-    if test (count $argv) -lt 1
-        echo -e "Backing up NextCloud"
-        7z a -r -p1 "$outputDir/NextCloud-$cur_Date" /home/jacky/Nextcloud/Notes/*
-        cp /home/jacky/.config/fish/config.fish "$outputDir/config.fish.$cur_Date"
-    else
-        ls -1 ~/.local/share/gnome-shell/extensions/ >/home/jacky/soft/gnome_ext_list.txt
-        pacman -Qqen >/home/jacky/soft/pkglist_pacman.txt
-        pacman -Qqem >/home/jacky/soft/pkglist_aur.txt
-
-        set backupArr "$HOME/Nextcloud" \
-            /etc/hosts \
-            '/etc/resolv.conf' \
-            /etc/profile \
-            '/etc/nsswitch.conf' \
-            /etc/fstab \
-            '/etc/locale.conf' \
-            '/etc/vconsole.conf' \
-            '/etc/pacman.conf' \
-            '/etc/pacman.d/mirrorlist' \
-            '/boot/refind_linux.conf' \
-            '/boot/EFI/refind/refind.conf' \
-            "$HOME/.config/fish" \
-            "$HOME/.local/share/remmina" \
-            "$HOME/Documents/pgp" \
-            "$HOME/.gnupg" \
-            "$HOME/.ssh" \
-            "$HOME/vpn" \
-            "$HOME/soft/gnome_ext_list.txt" \
-            "$HOME/soft/pkglist_pacman.txt" \
-            "$HOME/soft/pkglist_aur.txt" \
-            "$HOME/.git*" \
-            "$HOME/.config/nvim" \
-            "$HOME/.vimrc" \
-            "$HOME/.config/alacritty/*.toml" \
-            "$HOME/.tmux.conf" \
-            "$HOME/.zshrc" \
-            "$HOME/.bashrc" \
-            "$HOME/.config/catnap/*.toml" \
-            "$HOME/.config/mpd/mpd.conf" \
-            "$HOME/.config/hypr/" \
-            "$HOME/.config/waybar/" \
-            "$HOME/.ncmpcpp/config" \
-            "$HOME/scripts/" \
-            "$HOME/.prettierrc" \
-            "/usr/share/wayland-sessions/hyprland.desktop"
-
-        for b in $backupArr
-            7z u -bt $outputDir/all-$cur_Date.7z -spf2 $b
-        end
-
-    end
-end
+abbr backup $HOME/scripts/backup.sh
 
 function backup_git
     set cur_Date (date +"%d%b-%H")
-    set outputDir /run/media/jacky/back1up/regular
+    set outputDir /run/media/jacky/back2up/regular
 
     sudo 7z u -bt $outputDir/git-$cur_Date.7z -spf2 -mx7 /home/jacky/git -xr!node_modules -xr!_others -xr!wpa2-wordlists '-xr!*.7z' '-xr!*.dump' '-xr!*.pack'
 end
 
 function backup_job
     set cur_Date (date +"%d%b-%H")
-    set outputDir /run/media/jacky/back1up/regular
+    set outputDir /run/media/jacky/back2up/regular
 
     sudo 7z u -bt $outputDir/jobs-$cur_Date.7z -spf2 -mx7 /home/jacky/Documents/CV /home/jacky/Documents/jobs/ /home/jacky/Documents/MyCerts
 end
 
 function backup_nvim
     set cur_Date (date +"%d%b-%H")
-    set outputDir /run/media/jacky/back1up/regular
+    set outputDir /run/media/jacky/back2up/regular
 
     sudo 7z u -bt $outputDir/nvim-$cur_Date.7z -spf2 -mx7 /home/jacky/.config/nvim /home/jacky/.local/share/nvim /home/jacky/.local/state/nvim /home/jacky/.cache/nvim
 end
