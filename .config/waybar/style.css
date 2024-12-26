@@ -247,3 +247,11 @@ tooltip {
   color: #cddceb;
   background-color: #3322cc;
 }
+
+#custom-weather {
+  padding: 0 10px;
+  font-family: "Nerd Font Complete", "Font Awesome 5 Free",
+    "Font Awesome 5 Brands", sans-serif;
+  font-size: 14px;
+  color: #fff;
+}

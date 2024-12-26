@@ -3,7 +3,12 @@
   "position": "top",
   "height": 30,
   "spacing": 4,
-  "modules-left": ["custom/appmenu", "custom/updates", "wlr/taskbar"],
+  "modules-left": [
+    "custom/appmenu",
+    "custom/weather",
+    // "custom/updates",
+    "wlr/taskbar"
+  ],
   "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
     "mpd",
@@ -15,9 +20,9 @@
     "temperature#gpu",
     "cpu",
     "memory",
-    "keyboard-state",
+    // "keyboard-state",
     "battery",
-    "battery#bat2",
+    // "battery#bat2",
     "hyprland/language",
     "tray",
     "custom/power"
@@ -129,15 +134,15 @@
     "on-click": "kitty -e nmtui",
     "on-click-middle": "nmcli r wifi off | nmcli r wifi on"
   },
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": "{name} {icon}",
-    "format-icons": {
-      "locked": "",
-      "unlocked": ""
-    }
-  },
+  // "keyboard-state": {
+  //   "numlock": true,
+  //   "capslock": true,
+  //   "format": "{name} {icon}",
+  //   "format-icons": {
+  //     "locked": "",
+  //     "unlocked": ""
+  //   }
+  // },
   "mpd": {
     // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
     "format": "{stateIcon}  {consumeIcon}{repeatIcon}{singleIcon}{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) [{songPosition}|{queueLength}] {volume}%",
@@ -205,12 +210,12 @@
     // "format-full": "",
     "format-icons": ["", "", "", "", ""]
   },
-  "battery#bat2": {
-    "bat": "BAT2"
-  },
+  // "battery#bat2": {
+  //   "bat": "BAT2"
+  // },
   "tray": {
     // "icon-size": 21,
-    "spacing": 10
+    "spacing": 7
   },
   "custom/power": {
     "format": "⏻ ",
@@ -240,15 +245,21 @@
       "disconnected": "⚪",
       "disabled": "❌"
     },
-    "tooltip": true
-    // "on-click": "blueman-manager",
-    // "on-scroll-up": "bluetoothctl connect {mac_address}",
-    // "on-scroll-down": "bluetoothctl disconnect {mac_address}",
+    "tooltip": true,
+    "on-click": "blueman-manager",
+    "on-scroll-up": "bluetoothctl connect {mac_address}",
+    "on-scroll-down": "bluetoothctl disconnect {mac_address}",
     // "tooltip-format": "{name}: {battery}%",
-    // "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
-    // "disabled": {
-    //   "format": "Bluetooth Disabled",
-    //   "icon": "❌"
-    // }
+    "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
+    "disabled": {
+      "format": "Bluetooth Disabled",
+      "icon": "❌"
+    }
+  },
+  "custom/weather": {
+    "format": "{}",
+    "exec": "$HOME/scripts/weather.sh",
+    "return-type": "json",
+    "interval": 600
   }
 }
