@@ -86,7 +86,8 @@
     // "format": "{icon0} {icon1} {icon2} {icon3}",
     // "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
     "format": "{usage}% ",
-    "tooltip": false
+    "tooltip": false,
+    "on-click": "kitty -e htop"
   },
   "temperature": {
     // "thermal-zone": 2,
@@ -104,14 +105,14 @@
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "{temperatureC}°C {icon}",
-    "format-icons": ["", "\udb80\udf79", ""]
+    "format-icons": ["", "\udb80\udf79", ""],
+    "on-click": "gpustat"
   },
   "backlight": {
     // "device": "acpi_video1",
     "format": "{percent}% {icon}",
     "format-icons": ["", "", "", "", "", "", "", "", ""],
-    "tooltip": false,
-    "on-click": "gpustat"
+    "tooltip": false
   },
   "memory": {
     "format": "{}% "
