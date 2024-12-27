@@ -93,3 +93,10 @@ map("n", ",<Right>", ":!mpc next<cr>", { noremap = true, silent = true })
 map("n", ",<Left>", ":!mpc prev<cr>", { noremap = true, silent = true })
 map("n", ",<Up>", ":!mpc volume +5<cr>", { noremap = true, silent = true })
 map("n", ",<Down>", ":!mpc volume -5<cr>", { noremap = true, silent = true })
+
+-- Exit insert mode with 'jj' in insert mode
+map("i", "jj", "<Esc>", { noremap = true, silent = true })
+-- Exit with 'qq' in normal mode
+map("n", "qq", ":q<CR>", { noremap = true, silent = true })
+-- Delete without copying to register in visual mode
+map("v", "<Del>", '"_d', { noremap = true, silent = true })
