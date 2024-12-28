@@ -1,3 +1,7 @@
-theme = UltraDark
-font-family = "JetBrains Mono"
+# theme = UltraDark
+theme = ayu
+window-theme=ghostty
+# font-family = "JetBrains Mono"
+font-family=Fira Code
+font-size=12
 background-opacity = 0.9
