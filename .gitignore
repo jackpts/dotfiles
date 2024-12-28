@@ -22,6 +22,7 @@
 !/.config/hypr/
 !/.config/waybar/
 !/.config/rofi/
+!/.config/ghostty/
 !/.ncmpcpp
 
 !**/.config/nvim/**
@@ -33,5 +34,6 @@
 !**/.config/hypr/**
 !**/.config/waybar/**
 !**/.config/rofi/**
+!**/.config/ghostty/config
 
 /.config/nvim/lazy-lock.json
