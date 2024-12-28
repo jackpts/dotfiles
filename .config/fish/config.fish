@@ -75,7 +75,7 @@ abbr h_clients 'hyprctl clients'
 abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
 abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
 abbr h_reload 'hyprctl reload'
-abbr w_reload 'killall -SIGUSR2 waybar'
+abbr w_kill 'killall -SIGUSR2 waybar'
 abbr w_start 'waybar &'
 abbr w_trace 'WAYBAR_LOG_LEVEL=trace waybar'
 abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
@@ -84,6 +84,14 @@ abbr h_plugins 'hyprpm list'
 abbr h_mons 'ls /sys/class/hwmon/'
 abbr wifi_on 'nmcli r wifi on'
 abbr wifi_off 'nmcli r wifi off'
+
+function w_toggle
+    if pgrep -x waybar >/dev/null
+        pkill waybar
+    else
+        WAYBAR_LOG_LEVEL=trace waybar
+    end
+end
 
 ### EXPORTS
 export EDITOR='nvim'
