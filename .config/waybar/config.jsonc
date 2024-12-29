@@ -35,6 +35,7 @@
     // "format-icon": "󰻀",
     // "rotate": 0,
     "on-click": "$HOME/.config/waybar/run_launcher.sh",
+    "on-double-click": "hyprsysteminfo",
     "on-click-right": "$HOME/.config/hypr/lock_with_matrix.sh"
   },
   "wlr/taskbar": {
@@ -259,7 +260,6 @@
     }
   },
   "custom/weather": {
-    "format": "{}",
     "exec": "$HOME/scripts/weather.sh",
     "return-type": "json",
     "interval": 600

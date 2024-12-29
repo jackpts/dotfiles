@@ -11,5 +11,5 @@
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio dunst jq wl-clipboard libnotify nitrogen
-    yay -S --needed hyprpicker wlogout arch-update hyprwall swaybg swaylock grim slurp hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent
+    yay -S --needed hyprpicker wlogout arch-update hyprwall swaybg swaylock grim slurp hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo
 ```
