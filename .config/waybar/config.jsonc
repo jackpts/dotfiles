@@ -31,10 +31,11 @@
     // "format": "Menu {icon}",
     // "format": "⬡ Menu",
     "format": "󰣇 ",
-    "tooltip-format": "Menu",
+    "tooltip-format": "Menu/Lock",
     // "format-icon": "󰻀",
     // "rotate": 0,
-    "on-click": "$HOME/.config/waybar/run_launcher.sh"
+    "on-click": "$HOME/.config/waybar/run_launcher.sh",
+    "on-click-right": "$HOME/.config/hypr/lock_with_matrix.sh"
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -132,7 +133,7 @@
     // "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
     "format-alt": "{ipaddr}",
     "interval": 5,
-    "on-click": "kitty -e nmtui",
+    // "on-click": "kitty -e nmtui",
     "on-click-middle": "nmcli r wifi off | nmcli r wifi on"
   },
   // "keyboard-state": {
@@ -225,13 +226,13 @@
     "interval": 60,
     "tooltip": false
   },
-  "custom/updates": {
-    "exec": "$HOME/.config/waybar/check_updates.sh",
-    "return-type": "json",
-    "interval": 300,
-    // "on-click": "alacritty -e sudo pacman -Syu"
-    "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
-  },
+  // "custom/updates": {
+  //   "exec": "$HOME/.config/waybar/check_updates.sh",
+  //   "return-type": "json",
+  //   "interval": 300,
+  //   // "on-click": "alacritty -e sudo pacman -Syu"
+  //   "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
+  // },
   "hyprland/language": {
     // "on-click": "hyprctl switchxkbdlayout 'ite-tech.-inc.-ite-device(8910)-keyboard' next",
     "format": "{}",
