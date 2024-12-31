@@ -17,6 +17,7 @@ backup() {
         "$HOME/Nextcloud"
         "/etc/hosts"
         "/etc/resolv.conf"
+        "/etc/systemd/resolved.conf"
         "/etc/profile"
         "/etc/nsswitch.conf"
         "/etc/fstab"

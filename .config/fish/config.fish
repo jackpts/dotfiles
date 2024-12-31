@@ -84,6 +84,8 @@ abbr h_plugins 'hyprpm list'
 abbr h_mons 'ls /sys/class/hwmon/'
 abbr wifi_on 'nmcli r wifi on'
 abbr wifi_off 'nmcli r wifi off'
+abbr list_x_sessions 'ls /usr/share/xsessions/'
+abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
 
 function w_toggle
     if pgrep -x waybar >/dev/null
@@ -124,8 +126,7 @@ alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
 alias established='netstat -anp | grep ESTABLISHED'
 # alias cat bat
-abbr list_x_sessions 'ls /usr/share/xsessions/'
-abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
+abbr ipinfo 'curl ipinfo.io'
 
 ### VPN
 function proton_vpn
