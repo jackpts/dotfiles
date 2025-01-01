@@ -37,9 +37,10 @@
 !**/.config/waybar/**
 !**/.config/rofi/**
 !**/.config/ghostty/config
+!**/.config/ghostty/**
 !**/.config/kitty/**
 !**/scripts/backup.sh
 !**/scripts/tags.sh
 
-/.config/nvim/lazy-lock.json
+.config/nvim/lazy-lock.json
 .config/waybar/bluelight_state

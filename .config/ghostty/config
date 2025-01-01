@@ -1,7 +1,14 @@
 # theme = UltraDark
 theme = ayu
 window-theme=ghostty
+
 # font-family = "JetBrains Mono"
-font-family=Fira Code
-font-size=12
+# font-family=Fira Code
+font-family = CaskaydiaCove Nerd Font
+font-size = 14
+
 background-opacity = 0.9
+gtk-titlebar = false
+
+# custom-shader = bloom.glsl
+
