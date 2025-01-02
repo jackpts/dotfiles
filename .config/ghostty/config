@@ -11,4 +11,4 @@ background-opacity = 0.9
 gtk-titlebar = false
 
 # custom-shader = bloom.glsl
-
+command = sh -c "tmux"
