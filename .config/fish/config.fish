@@ -105,13 +105,8 @@ set -U -x TERMINAL kitty
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
-
-switch "$TERM_EMULATOR"
-    case '*kitty*'
-        export TERM='xterm-kitty'
-    case '*'
-        export TERM='xterm-256color'
-end
+export TERM_EMULATOR='kitty'
+export TERM='xterm-kitty'
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'

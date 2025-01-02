@@ -10,6 +10,7 @@ backup() {
     fi
 
     ls -1 ~/.local/share/gnome-shell/extensions/ >$HOME/soft/gnome_ext_list.txt
+    ls -1 /usr/share/applications/ >$HOME/soft/usr_share_applications.txt
     pacman -Qqen >$HOME/soft/pkglist_pacman.txt
     pacman -Qqem >$HOME/soft/pkglist_aur.txt
 
@@ -18,6 +19,7 @@ backup() {
         "/etc/hosts"
         "/etc/resolv.conf"
         "/etc/systemd/resolved.conf"
+        "/etc/systemd/system.conf"
         "/etc/profile"
         "/etc/nsswitch.conf"
         "/etc/fstab"
@@ -35,6 +37,7 @@ backup() {
         "$HOME/.ssh"
         "$HOME/vpn"
         "$HOME/soft/gnome_ext_list.txt"
+        "$HOME/soft/usr_share_applications.txt"
         "$HOME/soft/pkglist_pacman.txt"
         "$HOME/soft/pkglist_aur.txt"
         "$HOME/.git*"
