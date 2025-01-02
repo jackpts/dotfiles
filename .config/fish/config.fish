@@ -95,12 +95,23 @@ function w_toggle
     end
 end
 
+
 ### EXPORTS
-export EDITOR='nvim'
 export VISUAL='nvim'
+export EDITOR='$VISUAL'
+export TERMINAL='kitty'
 set HISTFILESIZE 2000
-set -U -x TERMINAL alacritty
+set -U -x TERMINAL kitty
 export PATH="$PATH:/opt/nvim-linux64/bin"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+switch "$TERM_EMULATOR"
+    case '*kitty*'
+        export TERM='xterm-kitty'
+    case '*'
+        export TERM='xterm-256color'
+end
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
@@ -125,8 +136,13 @@ alias change_shell_to_bash='chsh -s /bin/bash'
 alias change_shell_to_fish='chsh -s /usr/bin/fish'
 alias docker_mem_usage='docker stats --no-stream'
 alias established='netstat -anp | grep ESTABLISHED'
-# alias cat bat
 abbr ipinfo 'curl ipinfo.io'
+abbr ipe 'curl ifconfig.co'
+abbr ips 'ip link show'
+abbr wloff 'rfkill block wlan'
+abbr wlon 'rfkill unblock wlan'
+abbr -a -g priv 'fish --private'
+abbr -a -g genpass 'openssl rand -base64 10'
 
 ### VPN
 function proton_vpn
