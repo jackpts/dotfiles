@@ -10,7 +10,6 @@ backup() {
     fi
 
     ls -1 ~/.local/share/gnome-shell/extensions/ >$HOME/soft/gnome_ext_list.txt
-    ls -1 /usr/share/applications/ >$HOME/soft/usr_share_applications.txt
     pacman -Qqen >$HOME/soft/pkglist_pacman.txt
     pacman -Qqem >$HOME/soft/pkglist_aur.txt
 
@@ -37,7 +36,6 @@ backup() {
         "$HOME/.ssh"
         "$HOME/vpn"
         "$HOME/soft/gnome_ext_list.txt"
-        "$HOME/soft/usr_share_applications.txt"
         "$HOME/soft/pkglist_pacman.txt"
         "$HOME/soft/pkglist_aur.txt"
         "$HOME/.git*"
@@ -59,6 +57,7 @@ backup() {
         "$HOME/scripts/"
         "$HOME/.prettierrc"
         "/usr/share/wayland-sessions/hyprland.desktop"
+        "/usr/share/applications/"
     )
 
     for b in "${backupArr[@]}"; do
