@@ -138,6 +138,7 @@ abbr wloff 'rfkill block wlan'
 abbr wlon 'rfkill unblock wlan'
 abbr -a -g priv 'fish --private'
 abbr -a -g genpass 'openssl rand -base64 10'
+abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
 
 ### VPN
 function proton_vpn
