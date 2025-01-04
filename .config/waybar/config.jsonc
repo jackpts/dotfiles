@@ -5,11 +5,12 @@
   "spacing": 4,
   "modules-left": [
     "custom/appmenu",
-    "custom/weather",
     // "custom/updates",
-    "wlr/taskbar"
+    "custom/weather",
+    "wlr/taskbar",
+    "hyprland/workspaces"
   ],
-  "modules-center": ["hyprland/workspaces", "clock"],
+  // "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
     "mpd",
     "pulseaudio",
@@ -20,9 +21,7 @@
     "temperature#gpu",
     "cpu",
     "memory",
-    // "keyboard-state",
     "battery",
-    // "battery#bat2",
     "hyprland/language",
     "tray",
     "custom/power"
@@ -63,11 +62,15 @@
     // }
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1",
-    "on-click": "activate"
+    "on-click": "activate",
+    "persistent_workspaces": {
+      "*": 1
+    }
   },
   "clock": {
     // "format": "{:%I:%M %p}",
-    "format": "{:%a, %d %b  %H:%M}",
+    // "format": "{:%a, %d %b  %H:%M}",
+    "format": "{:%H:%M, %d %b}",
     "rotate": 0,
     // "format-alt": "{  %d·%m·%y}",
     // "format-alt": "{:%a, %d. %b  %H:%M}",
@@ -82,7 +85,8 @@
         "today": "<span color='#ffcc66'><b>{}</b></span>"
       }
     },
-    "on-click": "gnome-calendar"
+    "on-click": "gnome-calendar",
+    "interval": 60
   },
   "cpu": {
     // "format": "{icon0} {icon1} {icon2} {icon3}",
@@ -242,26 +246,32 @@
     // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   },
   "bluetooth": {
-    // "format": "{icon} {name}",
+    "format": " {status}",
+    "format-disabled": " Off",
+    "format-connected": " {num_connections}",
     "format-icons": {
       "connected": "🔵",
       "disconnected": "⚪",
       "disabled": "❌"
     },
     "tooltip": true,
+    // "tooltip-format": "{name}: {battery}%",
+    "tooltip-format": "{device_alias}",
+    "tooltip-format-connected": " {device_enumerate}",
     "on-click": "blueman-manager",
     "on-scroll-up": "bluetoothctl connect {mac_address}",
     "on-scroll-down": "bluetoothctl disconnect {mac_address}",
-    // "tooltip-format": "{name}: {battery}%",
     "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
     "disabled": {
       "format": "Bluetooth Disabled",
       "icon": "❌"
-    }
+    },
+    "scroll-step": 1
   },
   "custom/weather": {
     "exec": "$HOME/scripts/weather.sh",
     "return-type": "json",
-    "interval": 600
+    "interval": 600,
+    "on-click": "kitty -e sh -c 'curl -s \"https://wttr.in/?T\"; read -p \"Press Enter\"'"
   }
 }
