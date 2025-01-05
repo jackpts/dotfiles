@@ -139,6 +139,7 @@ abbr wlon 'rfkill unblock wlan'
 abbr -a -g priv 'fish --private'
 abbr -a -g genpass 'openssl rand -base64 10'
 abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
+abbr rs "rsync -avh --progress --exclude 'node_modules'"
 
 ### VPN
 function proton_vpn
