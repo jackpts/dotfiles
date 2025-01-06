@@ -5,7 +5,7 @@
   "spacing": 4,
   "modules-left": [
     "custom/appmenu",
-    // "custom/updates",
+    "custom/updates",
     "custom/weather",
     "wlr/taskbar",
     "hyprland/workspaces"
@@ -231,13 +231,13 @@
     "interval": 60,
     "tooltip": false
   },
-  // "custom/updates": {
-  //   "exec": "$HOME/.config/waybar/check_updates.sh",
-  //   "return-type": "json",
-  //   "interval": 300,
-  //   // "on-click": "alacritty -e sudo pacman -Syu"
-  //   "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
-  // },
+  "custom/updates": {
+    "exec": "$HOME/.config/waybar/check_updates.sh",
+    "return-type": "json",
+    "interval": 300,
+    "on-click": "kitty -e arch-update"
+    // "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
+  },
   "hyprland/language": {
     // "on-click": "hyprctl switchxkbdlayout 'ite-tech.-inc.-ite-device(8910)-keyboard' next",
     "format": "{}",
