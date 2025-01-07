@@ -51,12 +51,14 @@ backup() {
         "$HOME/.config/hypr/"
         "$HOME/.config/waybar/"
         "$HOME/.config/rofi/"
+        "$HOME/.config/wofi/"
         "$HOME/.config/ghostty/"
         "$HOME/.config/kitty/"
         "$HOME/.ncmpcpp/config"
         "$HOME/scripts/"
         "$HOME/.prettierrc"
         "/usr/share/wayland-sessions/hyprland.desktop"
+        "/usr/share/rofi/themes/"
         "/usr/share/applications/"
     )
 
