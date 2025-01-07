@@ -21,7 +21,7 @@
 !/.config/mpd/
 !/.config/hypr/
 !/.config/waybar/
-!/.config/rofi/
+!/.config/[w|r]ofi/
 !/.config/ghostty/
 !/.config/kitty/
 !/scripts/
@@ -35,8 +35,7 @@
 !**/.config/catnap/config.toml
 !**/.config/hypr/**
 !**/.config/waybar/**
-!**/.config/rofi/**
-!**/.config/ghostty/config
+!**/.config/[w|r]ofi/**
 !**/.config/ghostty/**
 !**/.config/kitty/**
 !**/scripts/backup.sh
