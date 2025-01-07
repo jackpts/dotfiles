@@ -1,16 +1,23 @@
 #!/bin/bash
 
-# Use checkupdates to count available updates
-updates=$(checkupdates | awk {'print $1'})
-updatesCount=$(checkupdates 2>/dev/null | wc -l)
+# Check if checkupdates command exists
+if ! command -v checkupdates &>/dev/null; then
+    echo '{"text": "Error", "tooltip": "checkupdates not found", "class": "updates-error"}'
+    exit 1
+fi
 
-# Define the icon (use an appropriate icon that you have available)
-icon="⟳" # Вы можете заменить этот символ на любой другой, например, из Font Awesome
+# Use checkupdates to count available updates
+updates=$(checkupdates 2>/dev/null)
+updatesCount=$(echo "$updates" | wc -l)
+
+icon="⟳"
 
 # Output JSON format for Waybar
 if [ "$updatesCount" -gt 0 ]; then
-    # echo "{\"text\": \"$icon $updatesCount\", \"tooltip\": \"There are $updatesCount updates available:\n$updates\", \"class\": \"updates-available\"}"
-    echo "{\"text\": \"$icon $updatesCount\", \"tooltip\": \"There are $updatesCount updates available\", \"class\": \"updates-available\"}"
+    escaped_updates=$(echo "\n$updates" | sed ':a;N;$!ba;s/\n/\\n/g')
+    json_output=$(printf '{"text": "%s", "tooltip": "There are %d updates available:%s", "class": "updates-available"}' "$icon $updatesCount" "$updatesCount" "$escaped_updates")
 else
-    echo "{\"text\": \"$icon \", \"tooltip\": \"System is up to date\", \"class\": \"updates-none\"}"
+    json_output=$(printf '{"text": "%s ", "tooltip": "System is up to date", "class": "updates-none"}' "$icon")
 fi
+
+echo "$json_output"
