@@ -68,3 +68,4 @@ backup() {
 }
 
 backup "$@"
+backup "$@" && sleep 1 && notify-send 'Backup complete'
