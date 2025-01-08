@@ -19,6 +19,7 @@
 ```bash
     sudo pacman -S ttf-font-awesome
     yay -S ttf-cascadia-code-nerd
+    paru -S ttf-maple-beta
 
 ```
 
