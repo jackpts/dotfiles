@@ -17,6 +17,7 @@
     "backlight",
     "network",
     "bluetooth",
+    "custom/home-free-space",
     "temperature",
     "temperature#gpu",
     "cpu",
@@ -94,6 +95,13 @@
     "format": "{usage}% ",
     "tooltip": false,
     "on-click": "kitty -e htop"
+  },
+  "custom/home-free-space": {
+    "exec": "$HOME/scripts/home_free_space.sh",
+    "interval": 60,
+    "format": "{}",
+    "tooltip-format": "<tt>Home free space: {}</tt>",
+    "on-click": "~/home_free_space.sh"
   },
   "temperature": {
     // "thermal-zone": 2,

@@ -4,11 +4,13 @@
   border-radius: 0;
   font-weight: bold;
   font-size: 15px;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 window#waybar {
-  /* background-color: rgba(30, 30, 46, 0.3); */
-  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: rgba(100, 11, 200, 0.4); */
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 tooltip {
@@ -17,25 +19,29 @@ tooltip {
   border-width: 0;
 }
 
+#workspaces {
+  margin-left: 32px;
+}
+
 #workspaces button {
-  box-shadow: none;
-  background-color: transparent;
-  text-shadow: none;
   padding: 0 4px;
   color: #cddceb;
+  background-color: transparent;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 #workspaces button.active {
   margin: 0 3px;
   padding: 0 12px;
-  color: #2d333c;
+  color: #debcdf;
   /* background-color: #bb7b3c; */
-  background-color: #8655a8;
-  box-shadow: inset 0 -3px #c792ea;
+  background-color: #5a405d;
+  box-shadow: inset 0 -2px #70597f;
 }
 
 #workspaces button:hover {
-  color: #334;
+  color: #83a;
   /* background-color: #ac90f3; */
   background-color: rgba(0, 0, 0, 0.2);
 }
@@ -48,7 +54,7 @@ tooltip {
   margin: 0 2px;
   padding: 0 8px;
   color: #cddceb;
-  background-color: #536d64;
+  background-color: #1f1923;
   box-shadow: none;
   text-shadow: none;
 }
@@ -56,11 +62,12 @@ tooltip {
 #taskbar button.active {
   margin: 0 3px;
   padding: 0 12px;
-  background-color: #ac90f3;
+  background-color: #5a405d;
+  box-shadow: inset 0 -2px #70597f;
 }
 
 #taskbar button:hover {
-  background-color: #ac90f3;
+  background-color: #5a405d;
 }
 
 #clock,
@@ -80,11 +87,10 @@ tooltip {
 #scratchpad,
 #power-profiles-daemon,
 #custom-layout,
-#bluetooth {
+#bluetooth,
+#custom-home-free-space {
   padding: 0 10px;
   color: #32336e;
-  text-shadow: none;
-  box-shadow: none;
 }
 
 #clock {
@@ -168,12 +174,10 @@ tooltip {
 
 #language {
   padding: 0 5px;
-  margin: 0 5px;
   opacity: 0.6;
   font-size: 14px;
   color: #ccc;
   background-color: #740864;
-  border-radius: 5px;
 }
 
 #keyboard-state {
@@ -240,4 +244,8 @@ tooltip {
     "Font Awesome 5 Brands", sans-serif;
   font-size: 14px;
   color: #eeaa44;
+}
+
+#custom-home-free-space {
+  background-color: #448489;
 }
