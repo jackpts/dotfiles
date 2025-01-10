@@ -13,6 +13,7 @@
   // "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
     "mpd",
+    "custom/notification",
     "pulseaudio",
     "backlight",
     "network",
@@ -254,6 +255,35 @@
     "interval": 300,
     "on-click": "kitty -e arch-update"
     // "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
+  },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{} {icon}",
+    "format-icons": {
+      "notification": "󱅫 ",
+      "none": " ",
+      "dnd-notification": " ",
+      "dnd-none": "󰂛 ",
+      "inhibited-notification": " ",
+      "inhibited-none": " ",
+      "dnd-inhibited-notification": " ",
+      "dnd-inhibited-none": " ",
+      "email-notification": "<span foreground='white'><sup></sup></span>",
+      "chat-notification": "󱋊<span foreground='white'><sup></sup></span>",
+      "warning-notification": "󱨪<span foreground='yellow'><sup></sup></span>",
+      "error-notification": "󱨪<span foreground='red'><sup></sup></span>",
+      "network-notification": "󱂇<span foreground='white'><sup></sup></span>",
+      "battery-notification": "󰁺<span foreground='white'><sup></sup></span>",
+      "update-notification": "󰚰<span foreground='white'><sup></sup></span>",
+      "music-notification": "󰝚<span foreground='white'><sup></sup></span>",
+      "volume-notification": "󰕿<span foreground='white'><sup></sup></span>"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "sleep 0.1 && swaync-client -t -sw",
+    "on-click-right": "sleep 0.1 && swaync-client -d -sw",
+    "escape": true
   },
   "custom/copyq": {
     "format": "  ",

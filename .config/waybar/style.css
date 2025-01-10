@@ -87,6 +87,7 @@ tooltip {
 #scratchpad,
 #power-profiles-daemon,
 #custom-layout,
+#custom-notification,
 #bluetooth,
 #custom-home-free-space,
 #custom-power {
@@ -245,6 +246,11 @@ tooltip {
     "Font Awesome 5 Brands", sans-serif;
   font-size: 14px;
   color: #eeaa44;
+}
+
+#custom-notification {
+  color: #ade;
+  opacity: 0.8;
 }
 
 #custom-home-free-space.default {
