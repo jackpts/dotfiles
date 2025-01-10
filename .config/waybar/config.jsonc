@@ -23,9 +23,10 @@
     "cpu",
     "memory",
     "battery",
+    "custom/copyq",
     "hyprland/language",
     "clock",
-    "tray",
+    // "tray",
     "custom/power"
   ],
   "custom/appmenu": {
@@ -221,7 +222,7 @@
   },
   "battery": {
     "states": {
-      // "good": 95,
+      "good": 95,
       "warning": 30,
       "critical": 15
     },
@@ -234,13 +235,10 @@
     // "format-full": "",
     "format-icons": ["", "", "", "", ""]
   },
-  // "battery#bat2": {
-  //   "bat": "BAT2"
+  // "tray": {
+  //   "icon-size": 18,
+  //   "spacing": 7
   // },
-  "tray": {
-    "icon-size": 18,
-    "spacing": 7
-  },
   "custom/power": {
     "format": "⏻ ",
     "return-type": "json",
@@ -254,6 +252,12 @@
     "interval": 300,
     "on-click": "kitty -e arch-update"
     // "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
+  },
+  "custom/copyq": {
+    "format": "  ",
+    "on-click": "copyq show",
+    "interval": 1,
+    "tooltip": false
   },
   "hyprland/language": {
     // "on-click": "hyprctl switchxkbdlayout 611884009480 next",

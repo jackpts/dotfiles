@@ -88,7 +88,8 @@ tooltip {
 #power-profiles-daemon,
 #custom-layout,
 #bluetooth,
-#custom-home-free-space {
+#custom-home-free-space,
+#custom-power {
   padding: 0 10px;
   color: #32336e;
 }
@@ -252,4 +253,13 @@ tooltip {
 
 #custom-home-free-space.exceed {
   background-color: #f53c3c;
+}
+
+#custom-copyq {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+#custom-power {
+  color: darkcyan;
 }
