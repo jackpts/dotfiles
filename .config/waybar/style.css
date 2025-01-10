@@ -246,6 +246,10 @@ tooltip {
   color: #eeaa44;
 }
 
-#custom-home-free-space {
+#custom-home-free-space.default {
   background-color: #448489;
+}
+
+#custom-home-free-space.exceed {
+  background-color: #f53c3c;
 }

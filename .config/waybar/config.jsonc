@@ -98,10 +98,10 @@
   },
   "custom/home-free-space": {
     "exec": "$HOME/scripts/home_free_space.sh",
-    "interval": 60,
-    "format": "{}",
+    "interval": 180,
+    "return-type": "json",
     "tooltip-format": "<tt>Home free space: {}</tt>",
-    "on-click": "~/home_free_space.sh"
+    "on-click": "kitty -e sh -c 'duf --hide loops,special; read -p \"Press Enter\"'"
   },
   "temperature": {
     // "thermal-zone": 2,

@@ -50,6 +50,7 @@ alias pacman_clean='pacman -Rsn $(pacman -Qdtq)'
 alias pacman_clear_cache='sudo paccache -r'
 alias gnome_startup='gnome-session-properties'
 alias rel_info='cat /etc/*rel*'
+abbr duf 'duf --hide loops,special --sort filesystem'
 
 ### Errors
 abbr logs 'journalctl -xe'
