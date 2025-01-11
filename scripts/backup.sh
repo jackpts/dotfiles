@@ -67,5 +67,4 @@ backup() {
     done
 }
 
-backup "$@"
-backup "$@" && sleep 1 && notify-send 'Backup complete'
+backup "$@" && sleep 1 && notify-send -u normal -i dialog-information "Hi, $(whoami)!" "Backup is complete."

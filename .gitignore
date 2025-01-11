@@ -38,8 +38,7 @@
 !**/.config/[w|r]ofi/**
 !**/.config/ghostty/**
 !**/.config/kitty/**
-!**/scripts/backup.sh
-!**/scripts/tags.sh
+!**/scripts/**
 
 .config/nvim/lazy-lock.json
 .config/waybar/bluelight_state

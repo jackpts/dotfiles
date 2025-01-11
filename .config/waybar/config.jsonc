@@ -24,7 +24,7 @@
     "cpu",
     "memory",
     "battery",
-    "custom/copyq",
+    "custom/clipboard",
     "hyprland/language",
     "clock",
     // "tray",
@@ -285,7 +285,7 @@
     "on-click-right": "sleep 0.1 && swaync-client -d -sw",
     "escape": true
   },
-  "custom/copyq": {
+  "custom/clipboard": {
     "format": "  ",
     "on-click": "copyq show",
     "interval": 1,
