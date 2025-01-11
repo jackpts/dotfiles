@@ -52,6 +52,7 @@ backup() {
         "$HOME/.config/waybar/"
         "$HOME/.config/rofi/"
         "$HOME/.config/wofi/"
+        "$HOME/.config/swaync/"
         "$HOME/.config/ghostty/"
         "$HOME/.config/kitty/"
         "$HOME/.ncmpcpp/config"

@@ -1,0 +1,16 @@
+/* The actual notification */
+.notification-row .notification-background .notification {
+  border-radius: 0;
+  border: none;
+}
+
+/* Notification body */
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .text-box
+  .body {
+  padding: 20px;
+}
