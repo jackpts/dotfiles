@@ -43,8 +43,6 @@
 - kbd switcher doesn't work by clicking on waybar icon
 - add/test Walker launcher instead of WOFI/ROFI ones
 - move to .dotfiles (instead of $HOME now) + `stow` logic
-- free space home: diff icons (red when free < 10Gb)
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
-- disable tray, move copyq from tray to waybar icon
-- `notify-send` doesn't look good, bad tooltip text alignment
+- `notify-send` doesn't look good, bad tooltip text alignment (swaync config changes)
 - LazyGit custom theme add (or set of)
