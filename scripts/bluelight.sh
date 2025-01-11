@@ -1,6 +1,7 @@
 #!/bin/bash
 
-STATE_FILE="$HOME/.config/waybar/bluelight_state"
+# STATE_FILE="$HOME/.config/waybar/bluelight_state"
+STATE_FILE="./bluelight_state"
 
 if [ -f "$STATE_FILE" ]; then
     killall hyprsunset

@@ -41,4 +41,4 @@
 !**/scripts/**
 
 .config/nvim/lazy-lock.json
-.config/waybar/bluelight_state
+scripts/bluelight_state

@@ -37,9 +37,9 @@
     "tooltip-format": "Menu/Lock",
     // "format-icon": "󰻀",
     // "rotate": 0,
-    "on-click": "$HOME/.config/waybar/run_launcher.sh",
+    "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "hyprsysteminfo",
-    "on-click-right": "$HOME/.config/hypr/lock_with_matrix.sh"
+    "on-click-right": "$HOME/scripts/lock_with_matrix.sh"
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -145,7 +145,7 @@
     // "format": "{ifname}",
     "format": "{ip} | {public_ip}",
     // "public_ip": "curl -s ifconfig.me",
-    "public_ip": "$HOME/.config/waybar/get_public_ip.sh",
+    "public_ip": "$HOME/scripts/get_public_ip.sh",
     // "format-ethernet": " ",
     "format-ethernet": "{ipaddr}/{cidr} ",
     // "format-wifi": "{essid} ({signalStrength}%) ",
@@ -245,16 +245,16 @@
   "custom/power": {
     "format": "⏻ ",
     "return-type": "json",
-    "on-click": "$HOME/.config/waybar/power_menu.sh",
+    "on-click": "$HOME/scripts/power_menu.sh",
     "interval": 60,
     "tooltip": false
   },
   "custom/updates": {
-    "exec": "$HOME/.config/waybar/check_updates.sh",
+    "exec": "$HOME/scripts/check_updates.sh",
     "return-type": "json",
     "interval": 300,
     "on-click": "kitty -e arch-update"
-    // "on-click": "alacritty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/.config/waybar/check_updates.sh"
+    // "on-click": "kitty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/scripts/check_updates.sh"
   },
   "custom/notification": {
     "tooltip": false,
