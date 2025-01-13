@@ -1,13 +1,18 @@
 #!/bin/bash
 
 backup() {
-    cur_Date=$(date +"%d%b-%H")
+    cur_Date=$(date +"%Y-%b-%d-%H_00")
     outputDir="/run/media/jacky/back2up/regular"
 
     if [ ! -d "$outputDir" ]; then
         echo -e "Directory $outputDir doesn't exist!"
         exit 1
     fi
+
+    clear
+    outputFile="$outputDir/backup-$cur_Date.7z"
+    echo "Backup started to: $outputFile"
+    # gum spin --spinner dot --title "Backup started to: $outputFile" -- sleep 3
 
     ls -1 ~/.local/share/gnome-shell/extensions/ >$HOME/soft/gnome_ext_list.txt
     pacman -Qqen >$HOME/soft/pkglist_pacman.txt
@@ -27,10 +32,10 @@ backup() {
         "/etc/systemd/logind.conf"
         "/etc/pacman.conf"
         "/etc/pacman.d/mirrorlist"
-        "/boot/refind_linux.conf"
-        "/boot/EFI/refind/refind.conf"
+        # "/boot/refind_linux.conf"
+        # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
-        "$HOME/.local/share/remmina"
+        # "$HOME/.local/share/remmina"
         "$HOME/Documents/pgp"
         "$HOME/.gnupg"
         "$HOME/.ssh"
@@ -64,8 +69,14 @@ backup() {
     )
 
     for b in "${backupArr[@]}"; do
-        7z u -bt "$outputDir/all-$cur_Date.7z" -spf2 "$b"
+        7z u -bt "$outputFile" -spf2 "$b" -xr!.git >/dev/null
+        echo "--> $b"
     done
+
+    fileSize="$(du -sh $outputFile | awk '{print $1}')"
+    echo "Backup finished, size is: $fileSize"
+    notify-send -u normal -i dialog-information \
+        "Hi, $(whoami)!" "Backup is complete.\nFile: $cur_Date [$fileSize]."
 }
 
-backup "$@" && sleep 1 && notify-send -u normal -i dialog-information "Hi, $(whoami)!" "Backup is complete."
+backup "$@"
