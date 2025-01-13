@@ -137,7 +137,8 @@
     "tooltip": false
   },
   "memory": {
-    "format": "{}% "
+    "format": "{}% ",
+    "on-click": "missioncenter"
   },
   "network": {
     "tooltip": true,
