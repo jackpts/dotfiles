@@ -32,6 +32,7 @@ backup() {
         "/etc/systemd/logind.conf"
         "/etc/pacman.conf"
         "/etc/pacman.d/mirrorlist"
+        "/etc/sddm.conf"
         # "/boot/refind_linux.conf"
         # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
