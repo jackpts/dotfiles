@@ -61,6 +61,7 @@ backup() {
         "$HOME/.config/swaync/"
         "$HOME/.config/ghostty/"
         "$HOME/.config/kitty/"
+        "$HOME/.config/kdeconnect"
         "$HOME/.ncmpcpp/config"
         "$HOME/scripts/"
         "$HOME/.prettierrc"
