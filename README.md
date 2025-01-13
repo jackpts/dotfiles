@@ -46,3 +46,4 @@
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
 - `notify-send` doesn't look good, bad tooltip text alignment (swaync config changes)
 - LazyGit custom theme add (or set of)
+- KDE Connect waybar integration?
