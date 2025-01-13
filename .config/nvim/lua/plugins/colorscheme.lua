@@ -179,6 +179,11 @@ return {
         },
     },
 
+    -- A color scheme with minimal amount of highlighting for neovim.
+    {
+        "p00f/alabaster.nvim",
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
