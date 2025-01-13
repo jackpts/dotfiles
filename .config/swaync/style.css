@@ -1,7 +1,6 @@
 /* The actual notification */
 .notification-row .notification-background .notification {
   border-radius: 0;
-  border: none;
 }
 
 /* Notification body */
@@ -12,5 +11,5 @@
   .notification-content
   .text-box
   .body {
-  padding: 20px;
+  padding: 10px 20px;
 }

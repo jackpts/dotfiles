@@ -156,7 +156,7 @@
     "format-linked": " {ifname} (No IP)",
     "format-connected": "{ip} | {public_ip}",
     "format-disconnected": "󰖪 ",
-    "tooltip-format-disconnected": "Disconnected",
+    "tooltip-format-disconnected": "Disconnected ⚠",
     "format-alt": "<span foreground='#9fd'> {bandwidthDownBytes}</span> <span foreground='#fc6'> {bandwidthUpBytes}</span>",
     // "format-alt": "{ipaddr}",
     "interval": 5,
@@ -254,7 +254,8 @@
     "exec": "$HOME/scripts/check_updates.sh",
     "return-type": "json",
     "interval": 300,
-    "on-click": "kitty -e arch-update"
+    // "on-click": "kitty -e arch-update"
+    "on-click": "kitty -e paru"
     // "on-click": "kitty -e yay && sleep 3 && notify-send 'Update complete' && $HOME/scripts/check_updates.sh"
   },
   "custom/notification": {
