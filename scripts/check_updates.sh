@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Check if checkupdates command exists
-if ! command -v checkupdates &>/dev/null; then
-    echo '{"text": "Error", "tooltip": "checkupdates not found", "class": "updates-error"}'
+# Check if checkupdates-with-aur command exists
+if ! command -v checkupdates-with-aur &>/dev/null; then
+    echo '{"text": "Error", "tooltip": "checkupdates-with-aur not found", "class": "updates-error"}'
     exit 1
 fi
 
-# Use checkupdates to count available updates
-updates=$(checkupdates 2>/dev/null)
+# Use checkupdates-with-aur to count available updates
+updates=$(checkupdates-with-aur 2>/dev/null)
 updatesCount=$(echo "$updates" | awk 'NF' | wc -l)
 
 icon="⟳"
