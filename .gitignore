@@ -23,6 +23,7 @@
 !/.config/waybar/
 !/.config/[w|r]ofi/
 !/.config/swaync/
+!/.config/wlogout/
 !/.config/ghostty/
 !/.config/kitty/
 !/scripts/
@@ -38,6 +39,7 @@
 !**/.config/waybar/**
 !**/.config/[w|r]ofi/**
 !**/.config/swaync/style.css
+!**/.config/wlogout/**
 !**/.config/ghostty/**
 !**/.config/kitty/**
 !**/scripts/**
