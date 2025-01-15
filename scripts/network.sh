@@ -14,10 +14,11 @@ connect_to_network() {
     while true; do
         # Prompt for the network password
         echo "Please enter your password for $ssid:"
-        password=$(gum input --password --placeholder "Please type in password for $ssid")
+        # password=$(gum input --password --placeholder "Please type in password for $ssid")
 
         # Try to connect to the network
-        if nmcli dev wifi connect "$ssid" password "$password"; then
+        # if nmcli dev wifi connect "$ssid" password "$password"; then
+        if nmcli dev wifi connect "$ssid" --ask; then
             echo "Successfully connected to $ssid!"
             break
         else
