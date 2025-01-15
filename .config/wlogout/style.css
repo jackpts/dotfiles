@@ -23,17 +23,17 @@ window {
   background: url("../hypr/hyprlockwall.jpg");
   background-size: cover;
   font-size: 16pt;
-  /* color: #cdd6f4; */
 }
 
 button {
+  margin: 10px;
   color: #af3e9a;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20%;
   background-color: rgba(200, 220, 255, 0);
-  animation: gradient_f 20s ease-in infinite;
-  border-radius: 80px;
+  animation: 20s ease-in infinite;
+  border-radius: 20px;
   border: 0;
 }
 
@@ -44,12 +44,10 @@ button:focus {
 
 button:hover {
   font-weight: bolder;
-  /* background-color: transparent; */
   opacity: 0.8;
-  /* color: #cdd6f4; */
-  /* color: #af3e9a; */
+  color: #cdd6f4;
+  background-color: #af3e9a;
   background-size: 30%;
-  margin: 30px;
   border-radius: 80px;
   transition:
     all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682),
@@ -63,44 +61,26 @@ button span {
   font-size: 1.2em; /* Increase the font size */
 }
 
-/* 
------------------------------------------------------ 
-Buttons
------------------------------------------------------ 
-*/
-
 #lock {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/lock.png"));
 }
 
 #logout {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/logout.png"));
 }
 
 #suspend {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/suspend.png"));
 }
 
 #hibernate {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/hibernate.png"));
 }
 
 #shutdown {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/shutdown.png"));
 }
 
 #reboot {
-  margin: 10px;
-  border-radius: 20px;
   background-image: image(url("icons/reboot.png"));
 }

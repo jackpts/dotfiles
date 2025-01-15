@@ -128,6 +128,7 @@
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "{temperatureC}°C {icon}",
     "format-icons": ["", "\udb80\udf79", ""],
+    "tooltip": false,
     "on-click": "gpustat"
   },
   "backlight": {

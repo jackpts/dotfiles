@@ -8,7 +8,7 @@
     "label" : "logout",
     "action" : "hyprctl dispatch exit",
     "text" : "Log Out",
-    "keybind" : "e"
+    "keybind" : "o"
 }
 {
     "label" : "suspend",
@@ -27,4 +27,10 @@
     "action" : "systemctl poweroff",
     "text" : "Power Off",
     "keybind" : "s"
+}
+{
+    "label": "exit",
+    "action": "",
+    "text": "exit",
+    "keybind": "q"
 }
