@@ -162,7 +162,7 @@
     // "format-alt": "{ipaddr}",
     "interval": 5,
     // "on-click": "kitty -e nmtui",
-    "on-click-right": "nmcli r wifi off | nmcli r wifi on"
+    "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e bash ~/scripts/network.sh)' & disown"
   },
   // "keyboard-state": {
   //   "numlock": true,
