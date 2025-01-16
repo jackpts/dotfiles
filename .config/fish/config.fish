@@ -118,6 +118,7 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export TERM_EMULATOR='kitty'
 export TERM='xterm-kitty'
+export GDK_BACKEND=wayland
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
@@ -213,6 +214,9 @@ function ex
         echo "'$1' is not a valid file"
     end
 end
+
+abbr TAR 'tar -zcvf'
+abbr UNTAR 'tar -zxvf'
 
 abbr backup $HOME/scripts/backup.sh
 
