@@ -20,6 +20,8 @@ backup() {
     snap list >$HOME/soft/pkglist_snap.txt
     flatpak list >$HOME/soft/pkglist_flatpak.txt
 
+    rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
+
     backupArr=(
         "$HOME/Nextcloud"
         "/etc/hosts"

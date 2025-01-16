@@ -38,11 +38,11 @@ alias free='free -m'
 alias qq='notepadqq $1 --allow-root'
 alias cls='clear'
 alias la='ls -A'
-alias l='ls -CF'
+alias l='ls -alF'
 alias cd..='cd ..'
 abbr .. 'cd ..'
 abbr ... 'cd ../..'
-abbr .3 'cd ../../..'
+abbr ... 'cd ../../..'
 abbr mkdir 'mkdir -p'
 alias z..='z ..'
 alias logmeout='sudo pkill -u jacky'
@@ -51,6 +51,7 @@ alias pacman_clear_cache='sudo paccache -r'
 alias gnome_startup='gnome-session-properties'
 alias rel_info='cat /etc/*rel*'
 abbr duf 'duf --hide loops,special --sort filesystem'
+abbr themes 'ls /usr/share/themes'
 
 ### Errors
 abbr logs 'journalctl -xe'
@@ -110,7 +111,7 @@ end
 export VISUAL='nvim'
 export EDITOR='$VISUAL'
 export TERMINAL='kitty'
-set HISTFILESIZE 2000
+set HISTFILESIZE 256000
 set -U -x TERMINAL kitty
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export LANG="en_US.UTF-8"
