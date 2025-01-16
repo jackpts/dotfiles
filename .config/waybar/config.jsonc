@@ -3,6 +3,7 @@
   "position": "top",
   "height": 30,
   "spacing": 4,
+  "style": "Everforest-Dark",
   "modules-left": [
     "custom/appmenu",
     "custom/updates",
