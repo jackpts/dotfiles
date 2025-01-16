@@ -176,6 +176,7 @@ tooltip {
 
 #language {
   padding: 0 5px;
+  min-width: 32px;
   opacity: 0.6;
   font-size: 14px;
   color: #ccc;
