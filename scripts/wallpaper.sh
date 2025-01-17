@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# WALLPAPER_DIR="$HOME/Pictures/walls/NY"
-WALLPAPER_DIR="$HOME/Pictures/walls/wallheaven.cc"
+WALLPAPER_DIR="$HOME/Pictures/walls/NY"
+# WALLPAPER_DIR="$HOME/Pictures/walls/wallheaven.cc"
 STYLE_FILE="$HOME/.config/wofi/menu.css"
 
 SELECTED_WALLPAPER=$(find "$WALLPAPER_DIR" -type f -name '*.png' -o -name '*.jpg' | sed "s|^$WALLPAPER_DIR/||" | wofi --show dmenu --prompt "Select Wallpaper: " --style "$STYLE_FILE")
