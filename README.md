@@ -14,29 +14,29 @@
     yay -S --needed hyprpicker arch-update hyprwall swaybg grim hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch wlogout
 ```
 
-### Total system used packages
+### Install other packages
 
 ```bash
-    sudo pacman -S ttf-font-awesome
+    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd
     yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur
     paru -S ttf-maple-beta
 
 ```
 
-### TODO: Move to .dotfiles using Stow
+### Install dotfiles using Stow
 
 ```bash
     sudo pacman -S stow
-    git clone --depth 1 <repo_url> ~/.dotfiles
-    cd ~/.dotfiles
+    git clone --depth 1 https://github.com/jackpts/dotfiles.git ~/dotfiles
+    cd ~/dotfiles
+    stow fish
+    stow tmux
     stow kitty
     stow nvim
     stow hyprland
     stow waybar
     ...
 ```
-
-### TODO: fixes
 
 ### TODO
 
