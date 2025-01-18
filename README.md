@@ -2,10 +2,10 @@
 
 - .gitconfig
 - TMUX config
-- alacritty config
+- popular terminals config (kitty, alacritty, ghosty)
 - neovim config (based on LazyVim)
-- fish config
-- hyprland config
+- fish config (+ a bit of zsh customization)
+- hyprland/waybar config
 
 #### Hyprland pre-install packages
 
@@ -42,8 +42,6 @@
 
 - kbd switcher doesn't work by clicking on waybar icon
 - add/test Walker launcher instead of WOFI/ROFI ones
-- move to .dotfiles (instead of $HOME now) + `stow` logic
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
-- `notify-send` doesn't look good, bad tooltip text alignment (swaync config changes)
 - LazyGit custom theme add (or set of)
-- KDE Connect waybar integration?
+- KDE Connect waybar integration / display battery % of phone-watches?
