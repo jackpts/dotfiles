@@ -296,6 +296,9 @@ function :q
     exit
 end
 
+### hack
+alias hack_168='cd /home/jacky/hack && sudo aircrack-ng -w ./dict/rockyou.txt 68:ff:7b:27:96:cf ./168/clean-168.cap'
+
 function beep
     # paplay /home/jacky/Music/ringtones/keep-moving_ring.mp3
     play -n synth 0.1 sine 880 vol 0.2
