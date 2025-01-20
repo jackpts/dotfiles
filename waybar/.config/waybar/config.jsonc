@@ -258,7 +258,7 @@
     "return-type": "json",
     "interval": 300,
     // "on-click": "kitty -e arch-update"
-    "on-click": "kitty -e paru -Suyy --noconfirm && notify-send 'Update complete'"
+    "on-click": "kitty -e paru -Suyy --noconfirm && notify-send 'Update complete' && w_kill"
   },
   "custom/notification": {
     "tooltip": false,
