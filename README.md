@@ -7,7 +7,7 @@
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
 
-#### Hyprland pre-install packages
+#### Install `Hyprland` packages
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify nitrogen copyq figlet gum
@@ -17,13 +17,13 @@
 ### Install other packages
 
 ```bash
-    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd
+    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar
     yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru
     paru -S ttf-maple-beta
 
 ```
 
-### Install dotfiles using Stow
+### Install dotfiles using `Stow` & implement configs
 
 ```bash
     sudo pacman -S stow
