@@ -66,7 +66,7 @@ backup() {
         "$HOME/.ncmpcpp/config"
         "$HOME/scripts/"
         "$HOME/.prettierrc"
-        "$HOME/dotfiles/"
+        "$HOME/dotfiles"
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
         "/usr/share/applications/"
