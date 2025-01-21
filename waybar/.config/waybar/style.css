@@ -1,11 +1,12 @@
 * {
-  min-height: 12px;
+  /* min-height: 30px; */
   border: none;
   border-radius: 0;
   font-weight: bold;
-  font-size: 15px;
+  /* font-size: 15px; */
   text-shadow: none;
   box-shadow: none;
+  /* font-family: "JetBrainsMono Nerd Font Mono"; */
 }
 
 window#waybar {
