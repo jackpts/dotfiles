@@ -18,7 +18,7 @@
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar
-    yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru
+    yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru walker-bin
     paru -S ttf-maple-beta
 
 ```
@@ -41,7 +41,6 @@
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon
-- add/test Walker launcher instead of WOFI/ROFI ones
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
 - LazyGit custom theme add (or set of)
 - KDE Connect waybar integration / display battery % of phone-watches?
