@@ -7,7 +7,7 @@
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
 
-#### Install `Hyprland` packages
+### Install `Hyprland` packages
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify nitrogen copyq figlet gum
