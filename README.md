@@ -42,6 +42,8 @@
 
 ![image](assets/2025-01-13-171759_hyprshot.jpg)
 
+![image](assets/2025-01-13-173201_hyprshot.jpg)
+
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon
