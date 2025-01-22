@@ -38,6 +38,10 @@
     ...
 ```
 
+### Screenshots
+
+![image](https://github.com/user-attachments/assets/)
+
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon
