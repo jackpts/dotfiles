@@ -40,7 +40,7 @@
 
 ### Screenshots
 
-![image](https://github.com/user-attachments/assets/)
+![image](assets/2025-01-13-171759_hyprshot.jpg)
 
 ### TODO
 
