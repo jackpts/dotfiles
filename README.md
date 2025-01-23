@@ -48,6 +48,12 @@
     stow wlogout
 ```
 
+### SDDM Themify
+
+```sh
+    sh $HOME/scripts/sddm_setup_theme.sh
+```
+
 ### Screenshots
 
 ![image](assets/2025-01-13-171759_hyprshot.jpg)

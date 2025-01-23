@@ -21,6 +21,7 @@ backup() {
     flatpak list >$HOME/soft/pkglist_flatpak.txt
 
     rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
+    rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
 
     backupArr=(
         "$HOME/Nextcloud"
