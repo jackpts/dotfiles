@@ -30,12 +30,22 @@
     git clone --depth 1 https://github.com/jackpts/dotfiles.git ~/dotfiles
     cd ~/dotfiles
     stow fish
+    stow zsh
     stow tmux
     stow kitty
+    stow alacritty
+    stow ghosty
+    stow git
     stow nvim
-    stow hyprland
+    stow hypr
     stow waybar
-    ...
+    stow swaync
+    stow scripts
+    stow catnap
+    stow ncmpcpp
+    stow rofi
+    stow wofi
+    stow wlogout
 ```
 
 ### Screenshots
