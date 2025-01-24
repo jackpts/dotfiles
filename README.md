@@ -67,3 +67,4 @@
 - LazyGit custom theme add (or set of)
 - KDE Connect waybar integration / display battery % of phone-watches?
 - make swww wallpaper selection like here: <https://github.com/prasanthrangan/hyprdots/blob/main/Configs/.local/share/bin/swwwallselect.sh>
+- set Plymouth theme/config by article: <https://www.reddit.com/r/unixporn/comments/1i8827p/oc_some_plymouth_themes/>
