@@ -153,6 +153,7 @@ abbr -a -g genpass 'openssl rand -base64 10'
 abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
 abbr rs "rsync -avh --progress --exclude 'node_modules'"
 abbr sddm_theme 'sh ~/scripts/sddm_setup_theme.sh'
+abbr s_r 'gpu-screen-recorder -w screen -f 60 -a default_output -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
 
 ### VPN
 function proton_vpn
