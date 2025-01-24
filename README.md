@@ -66,3 +66,4 @@
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
 - LazyGit custom theme add (or set of)
 - KDE Connect waybar integration / display battery % of phone-watches?
+- make swww wallpaper selection like here: <https://github.com/prasanthrangan/hyprdots/blob/main/Configs/.local/share/bin/swwwallselect.sh>
