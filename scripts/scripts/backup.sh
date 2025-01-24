@@ -40,6 +40,8 @@ backup() {
         "/etc/pacman.d/mirrorlist"
         "/etc/sddm.conf"
         "/etc/plymouth/plymouthd.conf"
+        "/etc/mkinitcpio.conf"
+        "/etc/default/grub"
         # "/boot/refind_linux.conf"
         # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
