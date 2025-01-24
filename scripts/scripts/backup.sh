@@ -68,7 +68,6 @@ backup() {
         "$HOME/.config/kdeconnect"
         "$HOME/.ncmpcpp/config"
         "$HOME/scripts/"
-        "$HOME/.prettierrc"
         "$HOME/dotfiles"
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
