@@ -155,6 +155,7 @@ abbr rs "rsync -avh --progress --exclude 'node_modules'"
 abbr sddm_theme 'sh ~/scripts/sddm_setup_theme.sh'
 abbr s_r 'gpu-screen-recorder -w screen -f 60 -a default_output -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
 abbr plym_edit 'nvim /etc/plymouth/plymouthd.conf'
+abbr plym_update 'sudo mkinitcpio -P'
 
 ### VPN
 function proton_vpn
