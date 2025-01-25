@@ -204,7 +204,9 @@
     "on-click": "mpc toggle",
     "on-scroll-up": "mpc next",
     "on-scroll-down": "mpc prev",
-    "font": "monospace 12"
+    "font": "monospace 12",
+    "max-length": 99,
+    "ellipsize": "end"
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float

@@ -129,21 +129,22 @@ tooltip {
 #mpd {
   padding: 0 10px;
   /* background-color: #66cc99; */
-  background-color: mediumpurple;
-  color: #32336e;
+  /* background-color: mediumpurple; */
+  /* color: #32336e; */
+  color: #66a;
 }
 
-#mpd.disconnected {
-  background-color: #f53c3c;
-}
+/* #mpd.disconnected { */
+/* background-color: #f53c3c; */
+/* } */
 
-#mpd.stopped {
-  background-color: #90b1b1;
-}
+/* #mpd.stopped { */
+/* background-color: #90b1b1; */
+/* } */
 
-#mpd.paused {
-  background-color: #51a37a;
-}
+/* #mpd.paused { */
+/* background-color: #51a37a; */
+/* } */
 
 #pulseaudio {
   background-color: #f1c40f;
