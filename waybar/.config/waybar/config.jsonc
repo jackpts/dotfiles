@@ -2,7 +2,7 @@
   "layer": "top",
   "position": "top",
   "height": 30,
-  "spacing": 4,
+  // "spacing": 4,
   "style": "Everforest-Dark",
   "modules-left": [
     "custom/appmenu",
@@ -99,9 +99,13 @@
     }
   },
   "cpu": {
-    "format": "{usage}% ",
+    "format": "  {usage}%",
     "tooltip": "{icon0} {icon1} {icon2} {icon3}",
     "on-click": "kitty -e htop"
+  },
+  "memory": {
+    "format": "󰐼  {}%",
+    "on-click": "missioncenter"
   },
   "custom/home-free-space": {
     "exec": "$HOME/scripts/home_free_space.sh",
@@ -115,9 +119,9 @@
     "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
-    "format": "{temperatureC}°C {icon}",
+    "format": "  {temperatureC}°C {icon}",
     // "format-icons": ["", "", ""],
-    "tooltip": "CPU Temp",
+    "tooltip": false,
     "on-click": "kitty -e btop"
   },
   "temperature#gpu": {
@@ -125,9 +129,9 @@
     "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
-    "format": "{temperatureC}°C {icon}",
+    "format": "󰸸  {temperatureC}°C {icon}",
     // "format-icons": ["", "\udb80\udf79", ""],
-    "tooltip": "GPU Temp",
+    "tooltip": false,
     "on-click": "gpustat"
   },
   "backlight": {
@@ -136,10 +140,7 @@
     "format-icons": ["", "", "", "", "", "", "", "", ""],
     "tooltip": false
   },
-  "memory": {
-    "format": "{}% ",
-    "on-click": "missioncenter"
-  },
+
   "network": {
     "tooltip": true,
     "rotate": 0,

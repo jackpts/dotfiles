@@ -71,6 +71,10 @@ tooltip {
   background-color: #5a405d;
 }
 
+.module {
+  margin: 0 2px;
+}
+
 #clock,
 #battery,
 #cpu,
@@ -103,13 +107,10 @@ tooltip {
   box-shadow: none;
   opacity: 0.9;
 }
-#cpu {
-  color: #cddceb;
-  background-color: #4224a4;
-}
+
 #network {
   padding: 0 20px 0 10px;
-  color: rgba(160, 126, 255, 1);
+  color: #86f;
 }
 
 #network.disconnected {
@@ -117,8 +118,6 @@ tooltip {
 }
 
 #custom-appmenu {
-  margin: 3px 1px;
-  padding: 0;
   padding: 0 4px 0 9px;
   color: #cddceb;
   background-color: #4126a2;
@@ -147,7 +146,7 @@ tooltip {
 /* } */
 
 #pulseaudio {
-  background-color: #f1c40f;
+  background-color: rgba(241, 196, 15, 0.7);
   color: #32336e;
 }
 
@@ -160,29 +159,50 @@ tooltip {
   background-color: #a37800;
 }
 
-#memory {
-  background-color: #9b59b6;
-}
-
 #backlight {
   background-color: #90b1b1;
 }
 
 #temperature {
-  background-color: #f0932b;
+  color: #cddceb;
+  background-color: rgba(240, 147, 43, 0.5);
+  border-radius: 10px 0 0 10px;
+}
+
+#temperature {
+  margin-right: -2px;
+}
+
+#temperature.gpu {
+  margin: 0 2px 0 -4px;
+  border-radius: 0 10px 10px 0;
 }
 
 #temperature.critical {
   background-color: #eb4d4b;
 }
 
+#cpu,
+#memory {
+  min-width: 55px;
+  color: #cddceb;
+  background-color: rgba(96, 66, 194, 0.5);
+}
+#cpu {
+  margin-right: -2px;
+  border-radius: 10px 0 0 10px;
+}
+#memory {
+  margin-left: -4px;
+  border-radius: 0 10px 10px 0;
+}
+
 #language {
   padding: 0 5px;
   min-width: 32px;
-  opacity: 0.6;
   font-size: 14px;
-  color: #ccc;
-  background-color: #740864;
+  color: #abe;
+  background-color: rgba(116, 8, 100, 0.6);
 }
 
 #keyboard-state {
