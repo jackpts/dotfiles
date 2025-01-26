@@ -162,7 +162,7 @@
     // "format-alt": "{ipaddr}",
     "interval": 5,
     // "on-click": "kitty -e nmtui",
-    "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e bash ~/scripts/network.sh)' & disown"
+    "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
   },
   // "keyboard-state": {
   //   "numlock": true,
@@ -335,6 +335,6 @@
     "exec": "$HOME/scripts/weather.sh",
     "return-type": "json",
     "interval": 600,
-    "on-click": "kitty -e sh -c 'curl -s \"https://wttr.in/?T\"; read -p \"Press Enter\"'"
+    "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
   }
 }

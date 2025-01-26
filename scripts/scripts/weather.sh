@@ -1,29 +1,53 @@
 #!/bin/bash
 
-API_KEY="<YOUR_API_KEY>"
-CITY_ID="625144"
-
-weather_data=$(curl -sf "http://api.openweathermap.org/data/2.5/weather?id=${CITY_ID}&appid=${API_KEY}&units=metric")
+weather_data=$(curl -s "https://wttr.in/?format=%C+%t")
 
 if [ "$weather_data" ]; then
-    temp=$(echo "$weather_data" | jq ".main.temp" | xargs printf "%.0f")
-    weather=$(echo "$weather_data" | jq -r ".weather[0].description")
-    icon_code=$(echo "$weather_data" | jq -r ".weather[0].icon")
+    temp=$(echo "$weather_data" | grep -oE '[-+]?[0-9]+°C' | head -n 1 | sed 's/°C//')
+    weather=$(echo "$weather_data" | grep -oE '[A-Za-z ]+' | head -n 1 | sed 's/ *$//')
 
-    case "$icon_code" in
-    "01d" | "01n") icon="☀️" ;; # clear sky
-    "02d" | "02n") icon="🌤" ;;  # few clouds
-    "03d" | "03n") icon="☁️" ;; # scattered clouds
-    "04d" | "04n") icon="🌥" ;;  # broken clouds
-    "09d" | "09n") icon="🌧" ;;  # shower rain
-    "10d" | "10n") icon="🌦" ;;  # rain
-    "11d" | "11n") icon="⛈" ;;  # thunderstorm
-    "13d" | "13n") icon="❄️" ;; # snow
-    "50d" | "50n") icon="🌫" ;;  # mist
-    *) icon="❓" ;;              # unknown
+    case "$weather" in
+    "Clear") icon="☀️" ;;
+    "Partly cloudy") icon="🌤" ;;
+    "Cloudy") icon="☁️" ;;
+    "Overcast") icon="🌥" ;;
+    "Mist") icon="🌫" ;;
+    "Patchy rain possible") icon="🌦" ;;
+    "Patchy snow possible") icon="🌨" ;;
+    "Patchy sleet possible") icon="🌧" ;;
+    "Patchy freezing drizzle possible") icon="🌧" ;;
+    "Thundery outbreaks possible") icon="⛈" ;;
+    "Blowing snow") icon="❄️" ;;
+    "Blizzard") icon="❄️" ;;
+    "Fog") icon="🌫" ;;
+    "Freezing fog") icon="🌫" ;;
+    "Light drizzle") icon="🌦" ;;
+    "Light rain") icon="🌦" ;;
+    "Moderate rain at times") icon="🌦" ;;
+    "Moderate rain") icon="🌦" ;;
+    "Heavy rain at times") icon="🌦" ;;
+    "Heavy rain") icon="🌦" ;;
+    "Light snow") icon="❄️" ;;
+    "Moderate snow") icon="❄️" ;;
+    "Heavy snow") icon="❄️" ;;
+    "Ice pellets") icon="❄️" ;;
+    "Light rain shower") icon="🌦" ;;
+    "Moderate or heavy rain shower") icon="🌦" ;;
+    "Torrential rain shower") icon="🌦" ;;
+    "Light sleet") icon="🌧" ;;
+    "Moderate or heavy sleet") icon="🌧" ;;
+    "Light snow showers") icon="❄️" ;;
+    "Moderate or heavy snow showers") icon="❄️" ;;
+    "Light showers of ice pellets") icon="❄️" ;;
+    "Moderate or heavy showers of ice pellets") icon="❄️" ;;
+    "Patchy light rain with thunder") icon="⛈" ;;
+    "Moderate or heavy rain with thunder") icon="⛈" ;;
+    "Patchy light snow with thunder") icon="⛈" ;;
+    "Moderate or heavy snow with thunder") icon="⛈" ;;
+    *) icon="❓" ;; # unknown
     esac
 
-    echo "{\"text\": \"${icon} ${temp}°C\", \"tooltip\": \"${weather}\", \"class\": \"${icon_code}\"}"
+    echo "{\"text\": \"${icon} ${temp}°C\", \"tooltip\": \"${weather}\"}"
 else
     echo "{\"text\": \"No data\", \"tooltip\": \"Unable to fetch weather\"}"
 fi
