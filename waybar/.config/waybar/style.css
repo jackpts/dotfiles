@@ -11,7 +11,7 @@
 
 window#waybar {
   /* background-color: rgba(100, 11, 200, 0.4); */
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 tooltip {
@@ -130,7 +130,7 @@ tooltip {
   /* background-color: #66cc99; */
   /* background-color: mediumpurple; */
   /* color: #32336e; */
-  color: #66a;
+  color: #69a;
 }
 
 /* #mpd.disconnected { */
