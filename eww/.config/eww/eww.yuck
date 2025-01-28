@@ -1,0 +1,47 @@
+;; (config :geometry (geometry :x 0 :y 0 :width 200 :height 100) :monitor 0)
+
+
+;; (include "widgets/screenshoter.yuck")
+
+;; (defwindow hello-world
+;;   :geometry (geometry :x 0 :y 0 :width 200 :height 100)
+;;   :monitor 0
+;;   (centerbox
+;;     :orientation "vertical"
+;;     (label :text "Hello, World!")))
+
+
+;;    (defwindow screenshot-window
+;;      :geometry (geometry :x 100 :y 100 :width 200 :height 100)
+;;      :monitor 0
+;; :anchor "top-left"
+;; :stacking "fg"
+;; :windowtype "dock"
+;; :wm-ignore false
+;;      (screenshot-button)
+;;    )
+
+
+(defvar screenshot-menu
+  (box
+    :orientation "vertical"
+    :spacing 10
+    :padding 10
+    :halign "center"
+    :valign "center"
+    (button :onclick "scrot -s" :class "button" :text "Custom Selection")
+    (button :onclick "scrot -u" :class "button" :text "Current Window")
+    (button :onclick "scrot" :class "button" :text "Fullscreen")))
+
+(defvar main-window
+  (box
+    :orientation "horizontal"
+    :spacing 10
+    :padding 10
+    :halign "center"
+    :valign "center"
+    (button :onclick "eww open screenshot-menu" :class "button" :text "📸")))
+
+(main-window)
+
+

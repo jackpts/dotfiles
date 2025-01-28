@@ -1,0 +1,10 @@
+
+(box
+  :orientation "vertical"
+  :spacing 10
+  :padding 10
+  :halign "center"
+  :valign "center"
+  (button :onclick "scrot -s" :class "button" :text "Custom Selection")
+  (button :onclick "scrot -u" :class "button" :text "Current Window")
+  (button :onclick "scrot" :class "button" :text "Fullscreen"))

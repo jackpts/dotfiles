@@ -1,0 +1,14 @@
+
+
+   (defwidget screenshot-button []
+     (box
+       :orientation "vertical"
+       :spacing 10
+       (button
+         :onclick "eww close screenshot-window; grim -g \"$(slurp)\" ~/Pictures/screenshot-$(date +'%Y-%m-%d-%H%M%S').jpg; notify-send 'Full screenshot saved'"
+         :text "Take Screenshot"
+         :class "screenshot-button"
+       )
+     )
+   )
+   
