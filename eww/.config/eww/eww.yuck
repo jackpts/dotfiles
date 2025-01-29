@@ -1,47 +1,126 @@
-;; (config :geometry (geometry :x 0 :y 0 :width 200 :height 100) :monitor 0)
+;; (include "style.css")
 
-
-;; (include "widgets/screenshoter.yuck")
-
-;; (defwindow hello-world
-;;   :geometry (geometry :x 0 :y 0 :width 200 :height 100)
-;;   :monitor 0
-;;   (centerbox
-;;     :orientation "vertical"
-;;     (label :text "Hello, World!")))
-
-
-;;    (defwindow screenshot-window
-;;      :geometry (geometry :x 100 :y 100 :width 200 :height 100)
-;;      :monitor 0
-;; :anchor "top-left"
-;; :stacking "fg"
-;; :windowtype "dock"
-;; :wm-ignore false
-;;      (screenshot-button)
-;;    )
-
-
-(defvar screenshot-menu
-  (box
-    :orientation "vertical"
-    :spacing 10
-    :padding 10
-    :halign "center"
-    :valign "center"
-    (button :onclick "scrot -s" :class "button" :text "Custom Selection")
-    (button :onclick "scrot -u" :class "button" :text "Current Window")
-    (button :onclick "scrot" :class "button" :text "Fullscreen")))
-
-(defvar main-window
+(defwidget clock-widget []
   (box
     :orientation "horizontal"
     :spacing 10
-    :padding 10
+    ;; :padding 10
     :halign "center"
     :valign "center"
-    (button :onclick "eww open screenshot-menu" :class "button" :text "📸")))
+    (label :text (shell :command "date +'%H:%M:%S'"))))
 
-(main-window)
+(defwidget battery-widget []
+  (box
+    :orientation "horizontal"
+    :spacing 10
+    ;; :padding 10
+    :halign "center"
+    :valign "center"
+    (label :text (shell :command "cat /sys/class/power_supply/BAT0/capacity"))
+    (label :text "%")))
 
+(defwidget network-widget []
+  (box
+    :orientation "horizontal"
+    :spacing 10
+    ;; :padding 10
+    :halign "center"
+    :valign "center"
+    (label :text (shell :command "iwconfig wlan0 | grep 'Signal level' | awk '{print $4}' | sed 's/[^0-9]*//g'"))
+    (label :text "dBm")))
+
+
+(defwidget weather-widget []
+  (box
+    :orientation "horizontal"
+    :spacing 10
+    ;; :padding 10
+    :halign "center"
+    :valign "center"
+    (label :text (shell :command "curl -s 'wttr.in/T?format=%C+%t'"))))
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (music)
+    (sidestuff)))
+
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "h"
+       :space-evenly true
+       :halign "start"
+       :spacing 10
+    (button :onclick "wmctrl -s 0" 1)
+    (button :onclick "wmctrl -s 1" 2)
+    (button :onclick "wmctrl -s 2" 3)
+    (button :onclick "wmctrl -s 3" 4)
+    (button :onclick "wmctrl -s 4" 5)
+    (button :onclick "wmctrl -s 5" 6)
+    (button :onclick "wmctrl -s 6" 7)
+    (button :onclick "wmctrl -s 7" 8)
+    (button :onclick "wmctrl -s 8" 9)))
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    {music != "" ? "🎵${music}" : ""}))
+
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (metric :label "🔊"
+            :value volume
+            :onchange "amixer -D pulse sset Master {}%")
+    (metric :label ""
+            :value {EWW_RAM.used_mem_perc}
+            :onchange "")
+    (metric :label "💾"
+            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+            :onchange "")
+    time))
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(deflisten music :initial ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+(defpoll volume :interval "1s"
+  "scripts/getvol")
+
+(defpoll time :interval "10s"
+  "date '+%H:%M %b %d, %Y'")
+
+
+(defwindow dock-bar
+    :monitor 0
+    :windowtype "dock"
+    :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "90%"
+                      :height "40px"
+                      :anchor "top center")
+    :reserve (struts :side "top" :distance "4%")
+  (box
+    :orientation "horizontal"
+    :spacing 10
+    ;; :padding 10
+    :halign "center"
+    :valign "center"
+    ;; (clock-widget)
+    ;; (battery-widget)
+    ;; (network-widget)
+    ;; (weather-widget)
+    (bar)
+))
 
