@@ -40,3 +40,46 @@
 .workspaces button:hover {
   color: #d35d6e;
 }
+
+// Powermenu
+.powermenu {
+  font-family: feather;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.button-bspres,
+.button-reb,
+.button-lock,
+.button-quit,
+.button-off {
+  padding: 0.5rem 0.2rem 0.3rem 0.2rem;
+}
+.button-off {
+  margin-bottom: 0.5rem;
+  color: $red;
+}
+.button-bspres {
+  color: $green;
+}
+.button-reb {
+  color: $yellow;
+}
+.button-quit {
+  color: $magenta;
+}
+.button-lock {
+  color: $blue;
+}
+
+// Clock
+.time {
+  font-family: Comic Mono;
+  font-weight: bold;
+  font-size: 1.2em;
+  background-color: $black;
+  color: $white;
+  border-radius: 5px;
+  padding: 0.7rem 0 0.5rem 0;
+  margin: 0.5rem 0 0.5rem 0;
+}

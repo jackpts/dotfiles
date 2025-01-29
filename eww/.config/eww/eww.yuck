@@ -42,7 +42,9 @@
 (defwidget bar []
   (centerbox :orientation "h"
     (workspaces)
-    (music)
+    ;; (music)
+    ;; (launcher)
+    (volume)
     (sidestuff)))
 
 (defwidget workspaces []
@@ -70,16 +72,18 @@
 
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
-    (metric :label "🔊"
-            :value volume
-            :onchange "amixer -D pulse sset Master {}%")
-    (metric :label ""
-            :value {EWW_RAM.used_mem_perc}
-            :onchange "")
-    (metric :label "💾"
-            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-            :onchange "")
-    time))
+    ;; (metric :label "🔊"
+    ;;         :value volume
+    ;;         :onchange "amixer -D pulse sset Master {}%")
+    ;; (metric :label ""
+    ;;         :value {EWW_RAM.used_mem_perc}
+    ;;         :onchange "")
+    ;; (metric :label "💾"
+    ;;         :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+    ;;         :onchange "")
+    (time)
+    (power)
+    ))
 
 (defwidget metric [label value onchange]
   (box :orientation "h"
@@ -111,6 +115,9 @@
                       :height "40px"
                       :anchor "top center")
     :reserve (struts :side "top" :distance "4%")
+    :wm-ignore false
+	:hexpand "false"
+	:vexpand "false"
   (box
     :orientation "horizontal"
     :spacing 10
@@ -124,3 +131,91 @@
     (bar)
 ))
 
+(defvar eww "$HOME/.local/bin/eww -c $HOME/.config/eww/bar")
+
+;; Powermenu Widgets ;;
+(defwidget power []
+	(eventbox	:onhover "${eww} update power=true"	
+				:onhoverlost "${eww} update power=false" 
+	(box		:orientation "h"					
+				:space-evenly "false" 	 
+				:vexpand "false" 	
+				:class "powermenu"
+	(revealer	:transition "slideup"				
+				:reveal power			 
+				:duration "550ms"
+	(box		:orientation "h"					
+				:space-evenly "false"
+
+	(button   	:class "button-bspres"  			
+				:tooltip "BSPWM Restart" 
+				;; :onclick "bspc wm -r"
+                        "" 
+                    )
+
+  	(button		:class "button-reb"					
+	  			:tooltip "Reboot"		 
+				;; :onclick "reboot"	
+                        "")
+
+	(button		:class "button-quit" 				
+				:tooltip "Logout" 		 
+				;; :onclick "killall bspwm"
+                        ""
+                    )
+
+	(button		:class "button-lock" 				
+				:tooltip "Lock Screen"	 
+				;; :onclick "betterlockscreen -l"	
+                        ""
+                    )))
+
+	(button		:class "button-off"					
+				:tooltip "Shutdown"		 
+				;; :onclick "shutdown now"	
+                ""
+    ))))
+(defvar power false)
+
+
+;; Clock Widgets ;;
+(defwidget time []
+	(box	:orientation "h" 
+			:class "time" 
+			:valign "end"
+	(button	:onclick "scripts/popup calendar"	
+			:class "time-hour" hour)
+	(button	:onclick "scripts/popup calendar"	
+			:class "time-min"  min)))
+(defpoll hour	:interval "1s"	"date '+%H'")
+(defpoll min	:interval "1s"	"date '+%M'")
+
+
+(defwidget launcher []
+	(box :orientation "h" 
+		 :space-evenly "false" 
+		 :spacing -15
+  	(button :class "launcher_icon" 
+		   	:onclick "scripts/popup launcher"  "")))
+
+;; Volume Widgets ;;
+(defwidget volume []
+	(eventbox :onhover "${eww} update volum=true" 		
+			  :onhoverlost "${eww} update volum=false"
+	(box      :orientation "h" 	  
+			  :space-evenly "false" 
+			  :spacing "2"
+	(revealer :transition "slideup" 
+			  :reveal volum         
+			  :duration "550ms"
+	(scale    :class "volbar" 	  
+			  :value current-volume 
+			  :orientation "h"      
+			  :flipped true 
+			  :tooltip "Volume: ${current-volume}%" 
+			  :max 101 
+			  :min 0 
+			  :onchange "amixer -D pulse sset Master {}%" ))
+	(button   :onclick "scripts/popup audio"   :class "volume-icon" ""))))
+(defpoll current-volume :interval "1s" "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defvar volum false)
