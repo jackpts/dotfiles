@@ -71,10 +71,12 @@ backup() {
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
         "/usr/share/applications/"
+        "~/.config/gtk-3.0/settings.ini"
+        "~/.config/gtk-4.0/settings.ini"
     )
 
     for b in "${backupArr[@]}"; do
-        7z u -bt "$outputFile" -spf2 "$b" -xr!.git >/dev/null
+        7z u -bt "$outputFile" -spf2 "$b" -xr!.git -xr!@girs -xr!node_modules >/dev/null
         echo "--> $b"
     done
 
