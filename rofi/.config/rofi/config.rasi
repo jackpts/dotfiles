@@ -15,9 +15,11 @@ configuration {
 	normalize-match: true;
 	show-icons: true;
 	icon-theme: "Zafiro";
-/*	cache-dir: ;*/
 	steal-focus: false;
-/*	dpi: -1;*/
+    disable-history: false;
+    hide-scrollbar: true;
+    drun-display-format: "{icon} {name}";
+    terminal: "kitty";
 
 	/*---------- Matching setting ----------*/
 	matching: "normal";

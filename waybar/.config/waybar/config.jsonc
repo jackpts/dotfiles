@@ -250,8 +250,8 @@
   "custom/power": {
     "format": "⏻ ",
     "return-type": "json",
-    // "on-click": "$HOME/scripts/power_menu.sh",
-    "on-click": "wlogout",
+    "on-click": "$HOME/scripts/powermenu.sh",
+    // "on-click": "wlogout",
     "interval": 60,
     "tooltip": false
   },
