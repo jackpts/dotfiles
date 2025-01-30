@@ -162,7 +162,8 @@
     // "format-alt": "{ipaddr}",
     "interval": 5,
     // "on-click": "kitty -e nmtui",
-    "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
+    // "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
+    "on-click-right": "networkmanager_dmenu"
   },
   // "keyboard-state": {
   //   "numlock": true,
