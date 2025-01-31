@@ -64,7 +64,7 @@ backup() {
         "$HOME/.config/rofi/"
         "$HOME/.config/wofi/"
         "$HOME/.config/swaync/"
-        "$HOME/.config/wlogout/"
+        # "$HOME/.config/wlogout/"
         "$HOME/.config/ghostty/"
         "$HOME/.config/kitty/"
         "$HOME/.config/kdeconnect"

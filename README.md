@@ -11,7 +11,7 @@
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify nitrogen copyq figlet gum
-    yay -S --needed hyprpicker arch-update hyprwall swaybg grim hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch wlogout
+    yay -S --needed hyprpicker arch-update hyprwall swaybg grim hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch
 ```
 
 ### Install other packages
@@ -45,7 +45,6 @@
     stow ncmpcpp
     stow rofi
     stow wofi
-    stow wlogout
 ```
 
 ### SDDM Themify
