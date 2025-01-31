@@ -50,8 +50,19 @@
 
 ### SDDM Themify
 
-```sh
-    sh $HOME/scripts/sddm_setup_theme.sh
+```bash
+    bash $HOME/scripts/sddm_setup_theme.sh
+```
+
+### Plymouth Themify
+
+```bash
+    sudo mkdir /usr/share/plymouth/themes/
+    sudo pacman -S plymouth
+    git clone https://github.com/MrVivekRajan/Plymouth-Themes.git
+    cd Plymouth-Themes
+    sudo cp -vr {Deadlight,Ironman,Cube,Anonymous} /usr/share/plymouth/themes/
+    bash $HOME/scripts/plymouth_setup_theme.sh
 ```
 
 ### Screenshots
