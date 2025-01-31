@@ -22,6 +22,7 @@ backup() {
 
     rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
     rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
+    rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
 
     backupArr=(
         "$HOME/Nextcloud"
@@ -38,6 +39,9 @@ backup() {
         "/etc/pacman.conf"
         "/etc/pacman.d/mirrorlist"
         "/etc/sddm.conf"
+        "/etc/plymouth/plymouthd.conf"
+        "/etc/mkinitcpio.conf"
+        "/etc/default/grub"
         # "/boot/refind_linux.conf"
         # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
@@ -60,13 +64,12 @@ backup() {
         "$HOME/.config/rofi/"
         "$HOME/.config/wofi/"
         "$HOME/.config/swaync/"
-        "$HOME/.config/wlogout/"
+        # "$HOME/.config/wlogout/"
         "$HOME/.config/ghostty/"
         "$HOME/.config/kitty/"
         "$HOME/.config/kdeconnect"
         "$HOME/.ncmpcpp/config"
         "$HOME/scripts/"
-        "$HOME/.prettierrc"
         "$HOME/dotfiles"
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"

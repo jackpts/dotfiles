@@ -11,7 +11,7 @@
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify nitrogen copyq figlet gum
-    yay -S --needed hyprpicker arch-update hyprwall swaybg grim hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch wlogout
+    yay -S --needed hyprpicker arch-update hyprwall swaybg grim hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch
 ```
 
 ### Install other packages
@@ -45,13 +45,23 @@
     stow ncmpcpp
     stow rofi
     stow wofi
-    stow wlogout
 ```
 
 ### SDDM Themify
 
-```sh
-    sh $HOME/scripts/sddm_setup_theme.sh
+```bash
+    bash $HOME/scripts/sddm_setup_theme.sh
+```
+
+### Plymouth Themify
+
+```bash
+    sudo mkdir /usr/share/plymouth/themes/
+    sudo pacman -S plymouth
+    git clone https://github.com/MrVivekRajan/Plymouth-Themes.git
+    cd Plymouth-Themes
+    sudo cp -vr {Deadlight,Ironman,Cube,Anonymous} /usr/share/plymouth/themes/
+    bash $HOME/scripts/plymouth_setup_theme.sh
 ```
 
 ### Screenshots

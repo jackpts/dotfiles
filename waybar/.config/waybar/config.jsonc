@@ -162,7 +162,8 @@
     // "format-alt": "{ipaddr}",
     "interval": 5,
     // "on-click": "kitty -e nmtui",
-    "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
+    // "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
+    "on-click-right": "networkmanager_dmenu"
   },
   // "keyboard-state": {
   //   "numlock": true,
@@ -250,8 +251,8 @@
   "custom/power": {
     "format": "⏻ ",
     "return-type": "json",
-    // "on-click": "$HOME/scripts/power_menu.sh",
-    "on-click": "wlogout",
+    "on-click": "$HOME/scripts/powermenu.sh",
+    // "on-click": "wlogout",
     "interval": 60,
     "tooltip": false
   },
