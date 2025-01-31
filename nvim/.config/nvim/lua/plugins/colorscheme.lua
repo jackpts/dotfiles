@@ -184,12 +184,19 @@ return {
         "p00f/alabaster.nvim",
     },
 
+    {
+        "drewxs/ash.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
         "LazyVim/LazyVim",
         opts = {
             colorscheme = "evergarden",
+            -- colorscheme = "ash",
             -- colorscheme = "everforest",
             -- colorscheme = "solarized-osaka",
             -- colorscheme = "base16-icy",
