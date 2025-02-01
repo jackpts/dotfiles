@@ -30,12 +30,12 @@ backup() {
         "/etc/resolv.conf"
         "/etc/systemd/resolved.conf"
         "/etc/systemd/system.conf"
+        "/etc/systemd/logind.conf" # KillUserProcesses=yes
         "/etc/profile"
         "/etc/nsswitch.conf"
         "/etc/fstab"
         "/etc/locale.conf"
         "/etc/vconsole.conf"
-        "/etc/systemd/logind.conf"
         "/etc/pacman.conf"
         "/etc/pacman.d/mirrorlist"
         "/etc/sddm.conf"
