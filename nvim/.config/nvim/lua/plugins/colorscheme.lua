@@ -190,6 +190,15 @@ return {
         priority = 1000,
     },
 
+    {
+        "vague2k/vague.nvim",
+        config = function()
+            require("vague").setup({
+                -- optional configuration here
+            })
+        end,
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
