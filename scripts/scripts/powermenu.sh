@@ -48,43 +48,25 @@ run_rofi() {
     echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
 }
 
-# Execute Command
-run_cmd() {
-    selected="$(confirm_exit)"
-    if [[ "$selected" == "$yes" ]]; then
-        if [[ $1 == '--shutdown' ]]; then
-            systemctl poweroff
-        elif [[ $1 == '--reboot' ]]; then
-            systemctl reboot
-        elif [[ $1 == '--suspend' ]]; then
-            mpc -q pause
-            amixer set Master mute
-            systemctl suspend
-        elif [[ $1 == '--logout' ]]; then
-            hyprctl dispatch exit
-        fi
-    else
-        exit 0
-    fi
-}
-
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
 $shutdown)
-    run_cmd --shutdown
+    systemctl poweroff
     ;;
 $reboot)
-    run_cmd --reboot
+    systemctl reboot
     ;;
 $lock)
     $HOME/scripts/lock_with_matrix.sh
     ;;
 $suspend)
-    run_cmd --suspend
+    mpc -q pause
+    amixer set Master mute
+    systemctl suspend
     $HOME/scripts/lock_with_matrix.sh
     ;;
 $logout)
-    run_cmd --logout
+    hyprctl dispatch exit
     ;;
 esac
