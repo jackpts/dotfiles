@@ -45,6 +45,7 @@ if [ "$weather_data" ]; then
     "Moderate or heavy rain with thunder") icon="⛈" ;;
     "Patchy light snow with thunder") icon="⛈" ;;
     "Moderate or heavy snow with thunder") icon="⛈" ;;
+    "Rain and snow shower") icon="⛈️" ;;
     *) icon="❓" ;; # unknown
     esac
 
