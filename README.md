@@ -17,7 +17,7 @@
 ### Install other packages
 
 ```bash
-    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp
+    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu
     yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru walker-bin
     paru -S ttf-maple-beta
 
@@ -79,4 +79,4 @@
 - LazyGit custom theme add (or set of)
 - KDE Connect waybar integration / display battery % of phone-watches?
 - make swww wallpaper selection like here: <https://github.com/prasanthrangan/hyprdots/blob/main/Configs/.local/share/bin/swwwallselect.sh>
-- set Plymouth theme/config by article: <https://www.reddit.com/r/unixporn/comments/1i8827p/oc_some_plymouth_themes/>
+- set bar & widgets by `fabric` framework (best python replacement of eww/ags tools)
