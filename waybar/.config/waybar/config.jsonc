@@ -14,16 +14,17 @@
   // "modules-center": ["hyprland/workspaces", "clock"],
   "modules-center": ["mpd"],
   "modules-right": [
+    "group/expand",
     "custom/notification",
     "pulseaudio",
-    "backlight",
+    // "backlight",
     "network",
-    "bluetooth",
-    "custom/home-free-space",
-    "temperature",
-    "temperature#gpu",
-    "cpu",
-    "memory",
+    // "bluetooth",
+    // "custom/home-free-space",
+    // "temperature",
+    // "temperature#gpu",
+    // "cpu",
+    // "memory",
     "battery",
     "custom/clipboard",
     "hyprland/language",
@@ -51,12 +52,42 @@
     // "persistent-workspaces": {
     //   "Virtual-1": [1, 2, 3, 4, 5]
     // }
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4]
+    },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1",
     "on-click": "activate",
     "persistent_workspaces": {
       "*": 1
     }
+  },
+  "custom/expand": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/endpoint": {
+    "format": "",
+    "tooltip": false
+  },
+  "group/expand": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "transition-to-left": true,
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/expand",
+      "temperature",
+      "temperature#gpu",
+      "cpu",
+      "memory",
+      "custom/home-free-space",
+      "backlight",
+      "bluetooth",
+      "custom/endpoint"
+    ]
   },
   "clock": {
     // "format": "{:%I:%M %p}",
@@ -126,7 +157,6 @@
     "format-icons": ["", "", "", "", "", "", "", "", ""],
     "tooltip": false
   },
-
   "network": {
     "tooltip": true,
     "rotate": 0,
@@ -151,15 +181,6 @@
     // "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
     "on-click-right": "networkmanager_dmenu"
   },
-  // "keyboard-state": {
-  //   "numlock": true,
-  //   "capslock": true,
-  //   "format": "{name} {icon}",
-  //   "format-icons": {
-  //     "locked": "",
-  //     "unlocked": ""
-  //   }
-  // },
   "mpd": {
     // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
     "format": "{stateIcon}  {consumeIcon}{repeatIcon}{singleIcon}{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) [{songPosition}|{queueLength}] {volume}%",

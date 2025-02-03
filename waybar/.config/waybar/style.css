@@ -10,8 +10,29 @@
 }
 
 window#waybar {
-  /* background-color: rgba(100, 11, 200, 0.4); */
-  background-color: rgba(0, 0, 0, 0.8);
+  all: unset;
+}
+
+.modules-left {
+  padding: 5px;
+  margin: 2px 0 0 3px;
+  border-radius: 0 7px 7px 0;
+  background: alpha(black, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+.modules-center {
+  padding: 5px;
+  margin: 2px 0 0 3px;
+  border-radius: 7px;
+  background: alpha(black, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+.modules-right {
+  padding: 5px;
+  margin: 2px 3px 0 0;
+  border-radius: 7px 0 0 7px;
+  background: alpha(black, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 tooltip {
@@ -166,7 +187,6 @@ tooltip {
 #temperature {
   color: #cddceb;
   background-color: rgba(240, 147, 43, 0.5);
-  border-radius: 10px 0 0 10px;
 }
 
 #temperature {
@@ -175,7 +195,6 @@ tooltip {
 
 #temperature.gpu {
   margin: 0 2px 0 -4px;
-  border-radius: 0 10px 10px 0;
 }
 
 #temperature.critical {
@@ -190,11 +209,9 @@ tooltip {
 }
 #cpu {
   margin-right: -2px;
-  border-radius: 10px 0 0 10px;
 }
 #memory {
   margin-left: -4px;
-  border-radius: 0 10px 10px 0;
 }
 
 #language {
