@@ -12,8 +12,8 @@
     "hyprland/workspaces"
   ],
   // "modules-center": ["hyprland/workspaces", "clock"],
+  "modules-center": ["mpd"],
   "modules-right": [
-    "mpd",
     "custom/notification",
     "pulseaudio",
     "backlight",
@@ -32,12 +32,8 @@
     "custom/power"
   ],
   "custom/appmenu": {
-    // "format": "Menu {icon}",
-    // "format": "⬡ Menu",
     "format": "󰣇 ",
     "tooltip-format": "Menu/Lock",
-    // "format-icon": "󰻀",
-    // "rotate": 0,
     "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "hyprsysteminfo",
     "on-click-right": "$HOME/scripts/lock_with_matrix.sh"
@@ -51,17 +47,7 @@
     "active-first": true
   },
   "hyprland/workspaces": {
-    // "format": "{name} : {icon}",
     "format": "{name}",
-    // "format-icons": {
-    //   "1": "",
-    //   "2": "",
-    //   "3": "",
-    //   "4": "",
-    //   "5": "",
-    //   "active": "",
-    //   "default": ""
-    // },
     // "persistent-workspaces": {
     //   "Virtual-1": [1, 2, 3, 4, 5]
     // }
@@ -206,7 +192,7 @@
     "on-scroll-up": "mpc next",
     "on-scroll-down": "mpc prev",
     "font": "monospace 12",
-    "max-length": 99,
+    "max-length": 50,
     "ellipsize": "end"
   },
   "pulseaudio": {
