@@ -24,8 +24,8 @@ window#waybar {
   border-radius: 0 7px 7px 0;
 }
 .modules-center {
-  margin: 2px 0 0 0;
-  border-radius: 7px;
+  margin: -2px 0 0 0;
+  border-radius: 0 0 5px 5px;
 }
 .modules-right {
   margin: 2px 3px 0 0;
