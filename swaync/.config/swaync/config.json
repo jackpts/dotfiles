@@ -83,18 +83,18 @@
       "label": "󰕾 "
     },
     "backlight": {
-      "label": "󰃟 "
+      "label": "󰃟"
     },
     "buttons-grid": {
       "actions": [
         {
-          "label": "直",
+          "label": "󰤨",
           "type": "toggle",
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
           "update_command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
         },
         {
-          "label": "󰝟",
+          "label": "󰕿",
           "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
           "type": "toggle"
         },
@@ -118,6 +118,11 @@
         {
           "label": "󰨵",
           "command": "hyprshot -m output -m eDP-1 -o /home/jacky/Pictures/Screenshots"
+        },
+        {
+          "label": "󱡘",
+          "command": "nmcli con up id vpn-inscript",
+          "type": "toggle"
         },
         {
           "label": "",
