@@ -17,7 +17,7 @@
 ### Install other packages
 
 ```bash
-    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu
+    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl
     yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru walker-bin
     paru -S ttf-maple-beta
 
