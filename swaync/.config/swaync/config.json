@@ -47,7 +47,16 @@
       "app-name": "Spotify"
     }
   },
-  "widgets": ["inhibitors", "title", "dnd", "notifications"],
+  "widgets": [
+    "inhibitors",
+    "title",
+    "dnd",
+    "notifications",
+    "mpris",
+    "volume",
+    "backlight",
+    "buttons-grid"
+  ],
   "widget-config": {
     "inhibitors": {
       "text": "Inhibitors",
@@ -68,16 +77,59 @@
     },
     "mpris": {
       "image-size": 96,
-      "image-radius": 12
+      "image-radius": 0
+    },
+    "volume": {
+      "label": "󰕾 "
+    },
+    "backlight": {
+      "label": "󰃟 "
     },
     "buttons-grid": {
       "actions": [
         {
           "label": "直",
           "type": "toggle",
-          "active": true,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
           "update_command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+        },
+        {
+          "label": "󰝟",
+          "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+          "type": "toggle"
+        },
+        {
+          "label": "󰍭",
+          "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+          "type": "toggle"
+        },
+        {
+          "label": "",
+          "command": "blueman-manager"
+        },
+        {
+          "label": "R",
+          "command": "swaync-client -R"
+        },
+        {
+          "label": "",
+          "command": "kitty nmtui"
+        },
+        {
+          "label": "󰨵",
+          "command": "hyprshot -m output -m eDP-1 -o /home/jacky/Pictures/Screenshots"
+        },
+        {
+          "label": "",
+          "command": "/home/jacky/scripts/lock_with_matrix.sh"
+        },
+        {
+          "label": "",
+          "command": "systemctl reboot"
+        },
+        {
+          "label": "",
+          "command": "systemctl poweroff"
         }
       ]
     }
