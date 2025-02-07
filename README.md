@@ -79,4 +79,4 @@
 - LazyGit custom theme add (or set of)
 - KDE Connect waybar integration / display battery % of phone-watches?
 - make swww wallpaper selection like here: <https://github.com/prasanthrangan/hyprdots/blob/main/Configs/.local/share/bin/swwwallselect.sh>
-- set bar & widgets by `fabric` framework (best python replacement of eww/ags tools)
+- set bar & widgets by `fabric` framework (best python replacement of eww/ags tools). Examples: <https://github.com/Fabric-Development/fabric/tree/main/examples>
