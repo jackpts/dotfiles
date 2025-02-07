@@ -17,8 +17,8 @@
     "group/expand",
     "custom/notification",
     "temperature",
+    "custom/bluelight",
     "pulseaudio",
-    // "backlight",
     "network",
     "battery",
     "custom/clipboard",
@@ -338,5 +338,13 @@
     "return-type": "json",
     "interval": 600,
     "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
+  },
+  "custom/bluelight": {
+    "exec": "$HOME/scripts/bluelight.sh",
+    "exec-if": "exit 0",
+    "return-type": "json",
+    "on-click": "$HOME/scripts/bluelight.sh --toggle",
+    "tooltip": true,
+    "interval": 5
   }
 }

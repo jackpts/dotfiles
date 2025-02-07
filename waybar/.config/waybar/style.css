@@ -370,3 +370,15 @@ tooltip {
   color: rgba(255, 255, 255, 0.2);
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
 }
+
+#custom-bluelight {
+  padding: 0 20px 0 10px;
+}
+
+#custom-bluelight.on {
+  color: alpha(#dc1ea3, 0.7);
+}
+
+#custom-bluelight.off {
+  color: alpha(#ccc, 0.7);
+}
