@@ -7,7 +7,7 @@ if [ "$weather_data" ]; then
     weather=$(echo "$weather_data" | grep -oE '[A-Za-z ]+' | head -n 1 | sed 's/ *$//')
 
     case "$weather" in
-    "Clear") icon="☀️" ;;
+    "Clear" | "Sunny") icon="☀️" ;;
     "Partly cloudy") icon="🌤" ;;
     "Cloudy") icon="☁️" ;;
     "Overcast") icon="🌥" ;;
