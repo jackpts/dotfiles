@@ -80,3 +80,4 @@
 - KDE Connect waybar integration / display battery % of phone-watches?
 - make swww wallpaper selection like here: <https://github.com/prasanthrangan/hyprdots/blob/main/Configs/.local/share/bin/swwwallselect.sh>
 - set bar & widgets by `fabric` framework (best python replacement of eww/ags tools). Examples: <https://github.com/Fabric-Development/fabric/tree/main/examples>
+- make left sidebar with "AI chat integration with external providers (Gemini, OpenAI...)" like in: <https://www.reddit.com/r/unixporn/comments/1im22sn/hyprland_yet_another_hyprland_rice/>
