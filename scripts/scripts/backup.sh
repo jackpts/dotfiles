@@ -74,8 +74,8 @@ backup() {
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
         "/usr/share/applications/"
-        "~/.config/gtk-3.0/settings.ini"
-        "~/.config/gtk-4.0/settings.ini"
+        "$HOME/.config/gtk-3.0/settings.ini"
+        "$HOME/.config/gtk-4.0/settings.ini"
     )
 
     for b in "${backupArr[@]}"; do
