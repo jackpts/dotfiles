@@ -38,11 +38,6 @@ confirm_cmd() {
         -theme ${dir}/${theme}.rasi
 }
 
-# Ask for confirmation
-confirm_exit() {
-    echo -e "$yes\n$no" | confirm_cmd
-}
-
 # Pass variables to rofi dmenu
 run_rofi() {
     echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
