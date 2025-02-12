@@ -108,13 +108,16 @@ function w_toggle
     end
 end
 
+### SETS
+set HISTSIZE -1 # Infinte history
+set HISTFILESIZE -1 # Infinte history
+set HISTCONTROL ignoreboth # Don't save duplicate commands or commands starting with space
+set -U -x TERMINAL kitty
 
 ### EXPORTS
 export VISUAL='nvim'
 export EDITOR='$VISUAL'
 export TERMINAL='kitty'
-set HISTFILESIZE 256000
-set -U -x TERMINAL kitty
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -362,7 +365,11 @@ alias ls="eza --color=always --long --git --icons=always"
 function cd
     # builtin cd $argv
     z $argv
-    ls
+    l
+end
+
+function mkcd
+    mkdir -p $argv && cd $argv
 end
 
 # SQL
