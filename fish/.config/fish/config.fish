@@ -88,6 +88,8 @@ abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
 abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
 abbr h_plugins 'hyprpm list'
 abbr h_mons 'ls /sys/class/hwmon/'
+abbr h_active_monitor "hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'"
+abbr h_default_audio "pactl list sources | grep 'Name' | grep -v 'monitor' | cut -d ' ' -f2"
 abbr wifi_on 'nmcli r wifi on'
 abbr wifi_off 'nmcli r wifi off'
 abbr wifi_restart 'sudo systemctl restart NetworkManager'
@@ -153,10 +155,17 @@ abbr -a -g genpass 'openssl rand -base64 10'
 abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
 abbr rs "rsync -avh --progress --exclude 'node_modules'"
 abbr sddm_theme 'bash $HOME/scripts/sddm_setup_theme.sh'
-abbr s_r 'gpu-screen-recorder -w screen -f 60 -a default_output -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
 abbr plym_edit 'nvim /etc/plymouth/plymouthd.conf'
 abbr plym_update 'sudo mkinitcpio -P'
 abbr plym_theme 'bash $HOME/scripts/plymouth_setup_theme.sh'
+
+
+# CLI Screenrecorder
+abbr s_r 'gpu-screen-recorder -w screen -f 60 -a $(pactl list sources | grep "Name" | grep -v "monitor" | cut -d " " -f2) -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
+abbr rec_sound '$HOME/scripts/screen_record.sh --sound'
+abbr rec_fs '$HOME/scripts/screen_record.sh --fullscreen'
+abbr rec_fs_sound '$HOME/scripts/screen_record.sh --fullscreen-sound'
+abbr rec_selection '$HOME/scripts/screen_record.sh'
 
 ### VPN
 function proton_vpn
