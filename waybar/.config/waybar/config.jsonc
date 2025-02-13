@@ -4,6 +4,7 @@
   "height": 30,
   // "spacing": 4,
   "style": "Everforest-Dark",
+  "reload_style_on_change": true,
   "modules-left": [
     "custom/appmenu",
     "custom/updates",
@@ -40,7 +41,8 @@
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
-    "active-first": true
+    "active-first": true,
+    "ignore-list": ["htop"]
   },
   "hyprland/workspaces": {
     "format": "{name}",
