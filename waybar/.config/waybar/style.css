@@ -371,14 +371,15 @@ tooltip {
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-#custom-bluelight {
+#custom-bluelight,
+#custom-screen_recorder {
   padding: 0 20px 0 10px;
 }
-
-#custom-bluelight.on {
+#custom-bluelight.on,
+#custom-screen_recorder.on {
   color: alpha(#dc1ea3, 0.7);
 }
-
-#custom-bluelight.off {
+#custom-bluelight.off,
+#custom-screen_recorder.off {
   color: alpha(#ccc, 0.7);
 }

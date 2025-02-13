@@ -78,6 +78,7 @@
       // "cpu",
       // "memory",
       "custom/home-free-space",
+      "custom/screen_recorder",
       "backlight",
       "bluetooth",
       "custom/endpoint"
@@ -124,6 +125,14 @@
     "return-type": "json",
     "tooltip-format": "<tt>Home free space: {}</tt>",
     "on-click": "kitty -e sh -c 'duf --hide loops,special; read -p \"Press Enter\"'"
+  },
+  "custom/screen_recorder": {
+    "interval": 2,
+    "return-type": "json",
+    "tooltip": true,
+    "exec-if": "exit 0",
+    "exec": "$HOME/scripts/screen_record.sh",
+    "on-click": "$HOME/scripts/screen_record.sh --toggle"
   },
   "temperature": {
     // "thermal-zone": 2,
