@@ -131,8 +131,7 @@ alias fishedit='nvim ~/.config/fish/config.fish'
 alias neofetch_edit='sudo nano ~/.config/neofetch/config.conf'
 alias catnap_edit='nvim ~/.config/catnap/config.toml'
 alias alac_edit='nvim ~/.config/alacritty/alacritty.toml'
-abbr u1 'sudo pacman -Suyy'
-abbr u2 'yay -Suyy --noconfirm'
+
 alias mirrors_list='cat /etc/pacman.d/mirrorlist'
 alias mirrors_find='reflector --latest 20 --sort rate --protocol https'
 alias mirrors_update='sudo reflector --latest 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist'
@@ -375,6 +374,17 @@ end
 # SQL
 abbr mysql mariadb
 
+# Detect AUR wrapper
+if pacman -Qi yay &>/dev/null
+    set aurhelper yay
+end
+if pacman -Qi paru &>/dev/null
+    set aurhelper paru
+end
+
+abbr un '$aurhelper -Rns'
+abbr u1 'sudo pacman -Suyy'
+abbr u2 '$aurhelper -Suyy --noconfirm'
 
 
 ##################
