@@ -62,7 +62,7 @@ backup() {
     )
 
     for b in "${backupArr[@]}"; do
-        7z u -bt "$outputFile" -spf2 "$b" -xr!.git -xr!@girs -xr!node_modules >/dev/null
+        7z u -bt "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!node_modules >/dev/null
         echo "--> $b"
     done
 
