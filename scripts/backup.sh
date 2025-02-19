@@ -53,6 +53,7 @@ backup() {
         "$HOME/soft/*.txt"
         "$HOME/.git*"
         "$HOME/.config/kdeconnect"
+        "$HOME/.gnupg/"
         "$HOME/dotfiles"
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
