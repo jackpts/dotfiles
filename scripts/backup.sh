@@ -1,7 +1,7 @@
 #!/bin/bash
 
 backup() {
-    cur_Date=$(date +"%y-%b-%d-%h_00")
+    cur_Date=$(date +"%y-%b-%d-%H_%M")
     outputDir="/run/media/jacky/back2up/regular"
 
     if [ ! -d "$outputDir" ]; then
@@ -62,8 +62,8 @@ backup() {
     )
 
     for b in "${backupArr[@]}"; do
-        # 7z u -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p"$(pass backup)" "$b" -xr!.git -xr!node_modules >/dev/null
-        7z u -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!node_modules >/dev/null
+        # 7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p"$(pass backup)" "$b" -xr!.git -xr!node_modules >/dev/null
+        7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!node_modules >/dev/null
         echo "--> $b"
     done
 
