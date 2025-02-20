@@ -99,6 +99,7 @@ abbr wifi_2G 'nmcli dev wifi connect "Andromeda2" --ask'
 abbr wifi_5G 'nmcli dev wifi connect "Andromeda5" --ask'
 abbr list_x_sessions 'ls /usr/share/xsessions/'
 abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
+abbr cpu_usage "vmstat 1 2 | tail -1 | awk '{print 100 - \$15\"%\"}'"
 
 function w_toggle
     if pgrep -x waybar >/dev/null
