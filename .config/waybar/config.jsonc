@@ -13,10 +13,9 @@
     "hyprland/workspaces"
   ],
   // "modules-center": ["hyprland/workspaces", "clock"],
-  "modules-center": ["mpd"],
+  "modules-center": ["custom/notification", "clock", "custom/power"],
   "modules-right": [
     "group/expand",
-    "custom/notification",
     "temperature",
     "custom/bluelight",
     "pulseaudio",
@@ -24,9 +23,8 @@
     "battery",
     "custom/clipboard",
     "hyprland/language",
-    "clock",
+    "mpd"
     // "tray",
-    "custom/power"
   ],
   "custom/appmenu": {
     "format": "󰣇 ",
