@@ -26,6 +26,7 @@ backup() {
 
     backupArr=(
         "$HOME/Nextcloud"
+        "$HOME/obsidian/"
         "/etc/hosts"
         "/etc/resolv.conf"
         "/etc/systemd/resolved.conf"
