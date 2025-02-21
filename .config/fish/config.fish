@@ -157,6 +157,7 @@ abbr -a -g priv 'fish --private'
 abbr -a -g genpass 'openssl rand -base64 10'
 abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
 abbr rs "rsync -avh --progress --exclude 'node_modules'"
+abbr sddm_edit 'nvim /etc/sddm.conf'
 abbr sddm_theme 'bash $HOME/scripts/sddm_setup_theme.sh'
 abbr plym_edit 'nvim /etc/plymouth/plymouthd.conf'
 abbr plym_update 'sudo mkinitcpio -P'
