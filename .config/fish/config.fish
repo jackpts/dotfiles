@@ -386,6 +386,36 @@ if pacman -Qi paru &>/dev/null
     set aurhelper paru
 end
 
+# install `ffmpeg` before!
+# `sudo pacman -S ffmpeg`
+function mp4_to_gif --argument file
+    if not test -e $file
+        echo "File $file not found!"
+        return 1
+    end
+
+    set output (string replace -r '.mp4$' '.gif' $file)
+
+    ffmpeg -i $file -vf "fps=10,scale=640:-1:flags=lanczos" -c:v pam -f image2pipe - | convert -delay 5 -loop 0 - $output
+
+    echo "Encoding finished: $output"
+end
+
+# install `gifsicle` before!
+# `sudo pacman -S gifsicle`
+function optimize_gif --argument file
+    if not test -e $file
+        echo "File $file not found!"
+        return 1
+    end
+
+    set output (string replace -r '.gif$' '_optimized.gif' $file)
+
+    gifsicle -O3 $file -o $output --colors 256
+
+    echo "Optimization finished: $output"
+end
+
 abbr un '$aurhelper -Rns'
 abbr u1 'sudo pacman -Suyy'
 abbr u2 '$aurhelper -Suyy --noconfirm'
