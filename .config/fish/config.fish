@@ -159,6 +159,7 @@ abbr pull_fotos 'adb pull /sdcard/DCIM/Camera/ ~/Downloads/'
 abbr rs "rsync -avh --progress --exclude 'node_modules'"
 abbr sddm_list 'ls -1 /usr/share/sddm/themes'
 abbr sddm_edit 'nvim /etc/sddm.conf'
+abbr sddm_restart 'sudo systemctl restart sddm'
 abbr sddm_theme 'bash $HOME/scripts/sddm_setup_theme.sh'
 abbr plym_edit 'nvim /etc/plymouth/plymouthd.conf'
 abbr plym_update 'sudo mkinitcpio -P'
