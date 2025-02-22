@@ -38,24 +38,22 @@
     "tooltip": true,
     "tooltip-format": "{title}",
     "on-click": "activate",
-    "on-click-middle": "close",
-    "active-first": true,
-    "ignore-list": ["htop"]
+    "on-click-right": "close",
+    "active-first": false,
+    "ignore-list": ["htop"],
+    "all-outputs": true
   },
   "hyprland/workspaces": {
     "format": "{name}",
-    // "persistent-workspaces": {
-    //   "Virtual-1": [1, 2, 3, 4, 5]
-    // }
     "persistent-workspaces": {
       "*": [1, 2, 3, 4]
     },
-    "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "on-scroll-up": "hyprctl dispatch workspace m+1",
+    "on-scroll-down": "hyprctl dispatch workspace m-1",
     "on-click": "activate",
-    "persistent_workspaces": {
-      "*": 1
-    }
+    "on-double-click": "hyprctl dispatch togglespecialworkspace magic",
+    "show-special": true,
+    "ignore-workspaces": ["special:magic", "special:magic2"]
   },
   "custom/expand": {
     "format": "",
@@ -85,13 +83,8 @@
     ]
   },
   "clock": {
-    // "format": "{:%I:%M %p}",
-    // "format": "{:%a, %d %b  %H:%M}",
     "format": "{:%H:%M, %d %b}",
     "rotate": 0,
-    // "format-alt": "{  %d·%m·%y}",
-    // "format-alt": "{:%a, %d. %b  %H:%M}",
-    // "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "tooltip-format": "<tt><big>{calendar}</big></tt>",
     "calendar": {
       "mode": "month",
