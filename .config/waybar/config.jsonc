@@ -16,13 +16,13 @@
   "modules-center": ["custom/notification", "clock", "custom/power"],
   "modules-right": [
     "group/expand",
-    "temperature",
     "custom/bluelight",
     "pulseaudio",
     "network",
     "battery",
     "custom/clipboard",
     "hyprland/language",
+    "group/group-vitals",
     "mpd"
     // "tray",
   ],
@@ -72,10 +72,6 @@
     },
     "modules": [
       "custom/expand",
-      // "temperature#gpu",
-      // "cpu",
-      // "memory",
-      "custom/home-free-space",
       "custom/screen_recorder",
       "backlight",
       "bluetooth",
@@ -103,14 +99,32 @@
       "on-scroll-down": "shift_down"
     }
   },
+  "group/group-vitals": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "temperature",
+      "temperature#gpu",
+      "cpu",
+      "memory",
+      "custom/home-free-space"
+    ]
+  },
   "cpu": {
+    "interval": 2,
     "format": "  {usage}%",
     "tooltip": "{icon0} {icon1} {icon2} {icon3}",
     "on-click": "kitty -e htop"
   },
   "memory": {
+    "interval": 2,
     "format": "󰐼  {}%",
-    "on-click": "missioncenter"
+    "tooltip-format": "Swap: {swapUsed:0.1f}GiB",
+    "on-click": "missioncenter",
+    "on-click-right": "sleep 0.1 && resources"
   },
   "custom/home-free-space": {
     "exec": "$HOME/scripts/home_free_space.sh",
@@ -134,7 +148,7 @@
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "  {temperatureC}°",
     // "format-icons": ["", "", ""],
-    "tooltip": false,
+    "tooltip": "CPU Temp",
     "on-click": "kitty -e btop"
   },
   "temperature#gpu": {
@@ -144,7 +158,7 @@
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "󰸸  {temperatureC}°C {icon}",
     // "format-icons": ["", "\udb80\udf79", ""],
-    "tooltip": false,
+    "tooltip": "GPU Temp",
     "on-click": "gpustat"
   },
   "backlight": {

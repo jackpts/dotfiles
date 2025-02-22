@@ -18,7 +18,7 @@
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl wf-recorder
-    yay -S ttf-cascadia-code-nerd mission-center checkupdates-with-aur paru walker-bin warp-terminal-bin
+    yay -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin warp-terminal-bin
     paru -S ttf-maple-beta
 
 ```
