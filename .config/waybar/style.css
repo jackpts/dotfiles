@@ -381,3 +381,8 @@ tooltip {
 #custom-screen_recorder.off {
   color: alpha(#ccc, 0.7);
 }
+#custom-bluelight:hover,
+#custom-screen_recorder:hover {
+  transition: all 0.3s ease;
+  color: #fce;
+}
