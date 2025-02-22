@@ -13,17 +13,20 @@
     "hyprland/workspaces"
   ],
   // "modules-center": ["hyprland/workspaces", "clock"],
-  "modules-center": ["custom/notification", "clock", "custom/power"],
   "modules-right": [
     "group/expand",
     "custom/bluelight",
+    "backlight",
+    "group/group-vitals",
     "pulseaudio",
+    "custom/screen_recorder",
     "network",
+    "bluetooth",
     "battery",
     "custom/clipboard",
     "hyprland/language",
-    "group/group-vitals",
-    "mpd"
+    "custom/notification",
+    "clock"
     // "tray",
   ],
   "custom/appmenu": {
@@ -31,7 +34,8 @@
     "tooltip-format": "Menu/Lock",
     "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "hyprsysteminfo",
-    "on-click-right": "$HOME/scripts/lock_with_matrix.sh"
+    // "on-click-right": "$HOME/scripts/lock_with_matrix.sh"
+    "on-click-right": "$HOME/scripts/powermenu.sh"
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -72,9 +76,10 @@
     },
     "modules": [
       "custom/expand",
-      "custom/screen_recorder",
-      "backlight",
-      "bluetooth",
+      // "custom/screen_recorder",
+      // "backlight",
+      // "bluetooth",
+      "mpd",
       "custom/endpoint"
     ]
   },
@@ -265,14 +270,13 @@
   //   "icon-size": 18,
   //   "spacing": 7
   // },
-  "custom/power": {
-    "format": "⏻ ",
-    "return-type": "json",
-    "on-click": "$HOME/scripts/powermenu.sh",
-    // "on-click": "wlogout",
-    "interval": 60,
-    "tooltip": false
-  },
+  // "custom/power": {
+  //   "format": "⏻ ",
+  //   "return-type": "json",
+  //   "on-click": "$HOME/scripts/powermenu.sh",
+  //   "interval": 60,
+  //   "tooltip": false
+  // },
   "custom/updates": {
     "exec": "$HOME/scripts/check_updates.sh",
     "return-type": "json",
