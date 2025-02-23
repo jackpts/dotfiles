@@ -122,7 +122,7 @@ alias zshconfig="geany ~/.zshrc"
 alias ohmyzsh="thunar ~/.oh-my-zsh"
 
 # ls
-alias l='ls -lh'
+alias l='ls -alF'
 alias ll='ls -lah'
 alias la='ls -A'
 alias lm='ls -m'
