@@ -173,6 +173,12 @@ abbr rec_fs '$HOME/scripts/screen_record.sh --fullscreen'
 abbr rec_fs_sound '$HOME/scripts/screen_record.sh --fullscreen-sound'
 abbr rec_selection '$HOME/scripts/screen_record.sh'
 
+# update helpers
+abbr un '$aurhelper -Rns'
+abbr u1 'sudo pacman -Suyy'
+abbr u2 '$aurhelper -Suyy --noconfirm'
+
+
 ### VPN
 function proton_vpn
     z ~/vpn/proton/
@@ -416,9 +422,33 @@ function optimize_gif --argument file
     echo "Optimization finished: $output"
 end
 
-abbr un '$aurhelper -Rns'
-abbr u1 'sudo pacman -Suyy'
-abbr u2 '$aurhelper -Suyy --noconfirm'
+function record_selection_to_gif
+    set geometry (slurp)
+    set width_height (echo $geometry | cut -d'+' -f1)
+    set width (echo $width_height | cut -d'x' -f1)
+    set height (echo $width_height | cut -d'x' -f2)
+
+    cd $HOME/Videos/Screenrecorder/
+    set temp_file "./temp_recording.mp4"
+    set output "output_$(date +%Y%m%d_%H%M%S).gif"
+
+    if test -e $temp_file
+        rm $temp_file
+    end
+
+    wf-recorder --pixel-format yuv420p -f $temp_file -g $geometry
+
+    if test -e $temp_file
+        ffmpeg -i $temp_file -vf "fps=10,scale=640:-1:flags=lanczos" -f gif - | gifsicle --optimize=3 -o $output --colors 256
+
+        rm $temp_file
+
+        echo "Record finished: $output"
+    else
+        echo "Error: Temp file not found!"
+    end
+end
+
 
 
 ##################
