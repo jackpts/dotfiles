@@ -32,7 +32,11 @@ end, opts)
 -- map("n", "<C-E>", "<c-^>")
 map("n", "<A-.>", ":bnext<cr>")
 map("n", "<A-,>", ":bprevious<cr>")
-map("n", "<A-c>", ":bdelete<cr>")
+-- map("n", "<A-c>", ":bdelete<cr>")
+map("n", "<A-c>", function()
+    vim.cmd.bd()
+end)
+
 map("n", "<A-<>", "<cmd>BufferMovePrevious<cr>")
 map("n", "<A->>", "<cmd>BufferMoveNext<cr>")
 
