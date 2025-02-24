@@ -16,3 +16,4 @@
 /.ncmpcpp/config
 /.config/catnap/distros.toml
 /.config/nvim/lazy-lock.json
+/.config/nvim/lazyvim.json
