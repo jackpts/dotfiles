@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-# cd $HOME/Videos/Screenrecorder
-
 subdirRecord="Screenrecorder"
-dirRofi="$HOME/.config/rofi"
-theme='style'
+dirRecord=$(xdg-user-dir VIDEOS)/${subdirRecord}
+rofiTheme="$HOME/.config/rofi/screenrec.rasi"
 
 getdate() {
     date '+%Y-%m-%d_%H.%M.%S'
@@ -22,15 +20,16 @@ toggle_recording() {
         notify-send "Recording Stopped"
     else
         chosen=$(
-            rofi -dmenu -p "Select Recording Option" -theme ${dirRofi}/${theme}.rasi <<EOF
 Record with sound
 Record fullscreen with sound
+            rofi -dmenu -p "Select Recording Option" -theme ${rofiTheme} <<EOF
 Record fullscreen
 Record selected area
 EOF
         )
 
-        cd $(xdg-user-dir VIDEOS)/${subdirRecord} || exit 1
+        cd ${dirRecord} || exit 1
+
         case ${chosen} in
         "Record with sound")
             wf-recorder --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --geometry "$(slurp)" --audio="$(getaudiooutput)" &
