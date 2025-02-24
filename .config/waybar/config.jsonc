@@ -31,10 +31,9 @@
   ],
   "custom/appmenu": {
     "format": "󰣇 ",
-    "tooltip-format": "Menu/Lock",
+    "tooltip-format": "Menu/Power",
     "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "hyprsysteminfo",
-    // "on-click-right": "$HOME/scripts/lock_with_matrix.sh"
     "on-click-right": "$HOME/scripts/powermenu.sh"
   },
   "wlr/taskbar": {
