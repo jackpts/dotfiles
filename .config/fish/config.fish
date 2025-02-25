@@ -419,6 +419,9 @@ function optimize_gif --argument file
 
     gifsicle -O3 $file -o $output --colors 256
 
+    # TODO: handle warning with < 256 colors:
+    # > gifsicle: warning: trivial adaptive palette (only 134 colors in source)
+
     echo "Optimization finished: $output"
 end
 
