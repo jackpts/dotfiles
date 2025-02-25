@@ -370,8 +370,11 @@ tooltip {
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-#custom-bluelight,
 #custom-screen_recorder {
+  padding: 0 15px 0 10px;
+  border: solid 1px;
+}
+#custom-bluelight {
   padding: 0 20px 0 10px;
 }
 #custom-bluelight.on,

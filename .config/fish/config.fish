@@ -416,11 +416,23 @@ function optimize_gif --argument file
     end
 
     set output (string replace -r '.gif$' '_optimized.gif' $file)
+    set temp_file "./temp_recording.mp4"
 
-    gifsicle -O3 $file -o $output --colors 256
+    if test -e $temp_file
+        # unique palette colors calc
+        ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos,palettegen" -y /tmp/palette.png
+        set num_colors (magick $file -unique-colors txt:- | wc -l)
 
-    # TODO: handle warning with < 256 colors:
-    # > gifsicle: warning: trivial adaptive palette (only 134 colors in source)
+        if test $num_colors -lt 256
+            gifsicle -O3 $file -o $output --colors $num_colors
+        else
+            gifsicle -O3 $file -o $output --colors 256
+        end
+
+        rm $temp_file
+    else
+        gifsicle -O3 $file -o $output --colors 256
+    end
 
     echo "Optimization finished: $output"
 end
@@ -433,7 +445,7 @@ function record_selection_to_gif
 
     cd $HOME/Videos/Screenrecorder/
     set temp_file "./temp_recording.mp4"
-    set output "output_$(date +%Y%m%d_%H%M%S).gif"
+    set output "recording_$(date +%Y-%m-%d_%H.%M.%S).gif"
 
     if test -e $temp_file
         rm $temp_file
@@ -442,10 +454,9 @@ function record_selection_to_gif
     wf-recorder --pixel-format yuv420p -f $temp_file -g $geometry
 
     if test -e $temp_file
-        ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif - | gifsicle --optimize=3 -o $output --colors 256
+        ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif $output
 
-        rm $temp_file
-
+        # rm $temp_file
         echo "Record finished: $output"
     else
         echo "Error: Temp file not found!"
