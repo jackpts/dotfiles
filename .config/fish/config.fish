@@ -402,7 +402,7 @@ function mp4_to_gif --argument file
 
     set output (string replace -r '.mp4$' '.gif' $file)
 
-    ffmpeg -i $file -vf "fps=10,scale=640:-1:flags=lanczos" -c:v pam -f image2pipe - | convert -delay 5 -loop 0 - $output
+    ffmpeg -i $file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -c:v pam -f image2pipe - | magick -delay 5 -loop 0 - $output
 
     echo "Encoding finished: $output"
 end
@@ -439,7 +439,7 @@ function record_selection_to_gif
     wf-recorder --pixel-format yuv420p -f $temp_file -g $geometry
 
     if test -e $temp_file
-        ffmpeg -i $temp_file -vf "fps=10,scale=640:-1:flags=lanczos" -f gif - | gifsicle --optimize=3 -o $output --colors 256
+        ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif - | gifsicle --optimize=3 -o $output --colors 256
 
         rm $temp_file
 
