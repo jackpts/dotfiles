@@ -3,7 +3,7 @@
 subdirRecord="Screenrecorder"
 dirRecord=$(xdg-user-dir VIDEOS)/${subdirRecord}
 rofiTheme="$HOME/.config/rofi/screenrec.rasi"
-temp_file="${dirRecord}/temp_recording.mp4"
+temp_file="temp_recording.mp4"
 temp_palette="/tmp/palette.png"
 
 mkdir -p "${dirRecord}"
@@ -18,37 +18,38 @@ getactivemonitor() {
     hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'
 }
 
+covert_mp4_to_gif() {
+    notify-send "Converting Temp Rec file in GIF.." &&
+        ffmpeg -i $1 -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif $2
+}
+
+optimize_gif() {
+    notify-send "Optimizing GIF now.." &&
+        ffmpeg -i $1 -vf "fps=10,scale=iw/2:ih/2:flags=lanczos,palettegen" -y $temp_palette &&
+        num_colors=$(magick $temp_palette -unique-colors txt:- | wc -l) &&
+        notify-send "Unique colors in palette is: $num_colors" && check_gif_colors $num_colors
+}
+
+check_gif_colors() {
+    if [ "$1" -gt 2 ] && [ "$1" -lt 256 ]; then
+        gifsicle -O3 $temp_output -o $output --colors $1
+    else
+        gifsicle -O3 $temp_output -o $output --colors 256
+    fi
+}
+
 toggle_recording() {
     if pgrep -x "wf-recorder" >/dev/null; then
         pkill wf-recorder
         notify-send "Recording Stopped"
+        sleep 1
+        cd ${dirRecord} || exit 1
 
         if [ -e $temp_file ]; then
-            output="${dirRecord}/recording_$(getdate).gif"
-            notify-send "Converting Temp Rec file in GIF.."
+            output="recording_$(getdate).gif"
             temp_output="${output%.*}_temp.gif"
-            ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif $temp_output
-            notify-send "Optimizing GIF now.."
-
-            # creating colors palette
-            ffmpeg -i $temp_file -vf "fps=10,scale=iw/2:ih/2:flags=lanczos,palettegen" -y $temp_palette
-            # unique colors calc
-            num_colors=$(magick $temp_palette -unique-colors txt:- | wc -l)
-            echo "unique colors in palette is: $num_colors"
-
-            if [ "$num_colors" -gt 2 ] && [ "$num_colors" -lt 256 ]; then
-                gifsicle -O3 $temp_output -o $output --colors $num_colors
-            else
-                gifsicle -O3 $temp_output -o $output --colors 256
-            fi
-
-            rm $temp_file $temp_output /tmp/palette.png
-
-            if [ -e $output ]; then
-                notify-send "Saving GIF finished: $output"
-            else
-                notify-send "Error saving GIF!"
-            fi
+            covert_mp4_to_gif $temp_file $temp_output && optimize_gif $temp_file &&
+                notify-send "Saving GIF finished: $output" && rm $temp_file $temp_output $temp_palette &
         fi
     else
         chosen=$(
