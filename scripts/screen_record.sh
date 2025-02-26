@@ -85,16 +85,11 @@ EOF
             disown
             ;;
         "Record selected area in GIF")
-            geometry=$(slurp)
-            width_height=$(echo $geometry | cut -d'+' -f1)
-            width=$(echo $width_height | cut -d'x' -f1)
-            height=$(echo $width_height | cut -d'x' -f2)
-
             if [ -e $temp_file ]; then
                 rm $temp_file
             fi
 
-            wf-recorder --pixel-format yuv420p -f $temp_file -g $geometry &
+            wf-recorder --pixel-format yuv420p -f $temp_file -t --geometry "$(slurp)" &
             notify-send "Recording [selected area in GIF] started"
             disown
             ;;
