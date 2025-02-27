@@ -49,6 +49,7 @@
     bash $HOME/scripts/plymouth_setup_theme.sh
 ```
 
+<br />
 <details close>
 <summary>Screenshots</summary>
     <p align="center">
