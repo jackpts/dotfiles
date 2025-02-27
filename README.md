@@ -51,11 +51,14 @@
 
 ### Screenshots
 
-![image](assets/2025-01-13-171759_hyprshot.jpg)
-
-![image](assets/2025-01-13-173201_hyprshot.jpg)
-
-![image](assets/lock_screen.jpg)
+<details close>
+<summary>Screenshots</summary>
+    <p align="center">
+        ![image](assets/2025-01-13-171759_hyprshot.jpg)
+        ![image](assets/2025-01-13-173201_hyprshot.jpg)
+        ![image](assets/lock_screen.jpg)
+    </p>
+</details>
 
 ### TODO
 
