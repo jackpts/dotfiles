@@ -49,16 +49,17 @@
     bash $HOME/scripts/plymouth_setup_theme.sh
 ```
 
-### Screenshots
-
 <details close>
 <summary>Screenshots</summary>
     <p align="center">
         <img src="assets/2025-01-13-171759_hyprshot.jpg" />
+        <br />
         <img src="assets/2025-01-13-173201_hyprshot.jpg" />
+        <br />
         <img src="assets/lock_screen.jpg" />
     </p>
 </details>
+<br />
 
 ### TODO
 
