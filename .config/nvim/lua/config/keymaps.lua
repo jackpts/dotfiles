@@ -113,3 +113,7 @@ map("n", "<C-b>", "<C-b>zz")
 
 -- open new terminal tab with tt
 vim.keymap.set("n", "tt", ":term<cr>")
+
+-- goto prev/next error
+map("n", "<leader>j", "<cmd>cnext<CR>zz")
+map("n", "<leader>k", "<cmd>cprev<CR>zz")
