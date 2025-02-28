@@ -1,6 +1,6 @@
 
 [cursor]
-unfocused_hollow = false
+unfocused_hollow = true
 
 [cursor.style]
 blinking = "On"
@@ -11,8 +11,9 @@ TERM = "alacritty"
 WINIT_X11_SCALE_FACTOR = "1.0"
 
 [window]
-decorations = "full"
-dynamic_title = true
+decorations = "none" # "full"
+dynamic_title = false
+dynamic_padding = false
 # multiplier = 3
 opacity = 0.95
 startup_mode = "Windowed"
@@ -26,9 +27,6 @@ lines = 70
 x = 0
 y = 0
 
-[font]
-size = 12.5
-
 [[keyboard.bindings]]
 action = "ToggleFullscreen"
 key = "F11"
@@ -38,16 +36,40 @@ action = "SpawnNewInstance"
 key = "T"
 mods = "Control|Shift"
 
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key    = "PageUp"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key    = "PageDown"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key    = "Home"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key    = "End"
+mods   = "Shift"
+
 [mouse]
 hide_when_typing = true
 
 [scrolling]
 history = 50000
 
+[selection]
+save_to_clipboard  = true
+
 [general]
 live_config_reload = true
 import = [
-  "/home/jacky/.config/alacritty/colors.toml",
+  # "/home/jacky/.config/alacritty/colors.toml",
+  "/home/jacky/.config/alacritty/colors2.toml",
   "/home/jacky/.config/alacritty/fonts.toml",
   "/home/jacky/.config/alacritty/colorschemes/Tokyo_night.toml"
 ]
