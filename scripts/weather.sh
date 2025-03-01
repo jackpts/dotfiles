@@ -29,6 +29,7 @@ if [ "$weather_data" ]; then
     "Heavy rain at times") icon="🌦" ;;
     "Heavy rain") icon="🌦" ;;
     "Light snow") icon="❄️" ;;
+    "Light snow grains") icon="❄️" ;;
     "Light snow shower") icon="🌨️" ;;
     "Moderate snow") icon="❄️" ;;
     "Heavy snow") icon="❄️" ;;
