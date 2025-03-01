@@ -164,7 +164,7 @@ abbr sddm_theme 'bash $HOME/scripts/sddm_setup_theme.sh'
 abbr plym_edit 'nvim /etc/plymouth/plymouthd.conf'
 abbr plym_update 'sudo mkinitcpio -P'
 abbr plym_theme 'bash $HOME/scripts/plymouth_setup_theme.sh'
-
+abbr init_system 'ps -p 1 -o comm='
 
 # CLI Screenrecorder
 abbr s_r 'gpu-screen-recorder -w screen -f 60 -a $(pactl list sources | grep "Name" | grep -v "monitor" | cut -d " " -f2) -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
