@@ -474,4 +474,5 @@ end
 # cowfortune
 # fastfetch
 
-catnap
+# catnap -d kali
+rxfetch

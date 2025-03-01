@@ -2,7 +2,7 @@
 
 - .gitconfig
 - TMUX config
-- popular terminals config (kitty, alacritty, ghosty)
+- popular terminals config (kitty, alacritty, ghostty)
 - neovim config (based on LazyVim)
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
@@ -18,7 +18,7 @@
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl wf-recorder
-    yay -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin warp-terminal-bin
+    yay -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin ghostty rxfetch ttf-material-design-icons
     paru -S ttf-maple-beta
 
 ```
