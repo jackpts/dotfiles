@@ -6,7 +6,7 @@ configuration {
 /*****----- Global Properties -----*****/
 
 * {
-    font: "Figtree 16";
+    font: "Monospace 20";
     background:     #1E1D2FFF;
     background-alt: #282839FF;
     foreground:     #f38ba8;
@@ -47,7 +47,7 @@ mainbox {
     border-radius:               20px;
     border-color:                @selected;
     background-color:            transparent;
-    children:                    [ "inputbar", "listview" ];
+    children:                    [ "listview", "message" ];
 }
 
 /*****----- Inputbar -----*****/
