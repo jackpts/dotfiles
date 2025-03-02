@@ -7,20 +7,30 @@
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
 
+<br />
+<details close>
+<summary>Paru Installation</summary>
+    <code>
+    sudo pacman -S --needed base-devel
+ git clone https://aur.archlinux.org/paru.git
+ cd paru
+ makepkg -si
+    </code>
+</details>
+<br />
+
 ### Install `Hyprland` packages
 
 ```bash
     sudo pacman -S --needed hyprland starship swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify nitrogen copyq figlet gum
-    yay -S --needed hyprpicker arch-update hyprwall swaybg hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch nwg-dock-hyprland swww waypaper
+    paru -S --needed hyprpicker arch-update hyprwall swaybg hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch nwg-dock-hyprland swww waypaper
 ```
 
 ### Install other packages
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl wf-recorder
-    yay -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin ghostty rxfetch ttf-material-design-icons
-    paru -S ttf-maple-beta
-
+    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin ghostty rxfetch ttf-material-design-icons ttf-maple-beta
 ```
 
 ### Install dotfiles using `Stow` & implement configs
