@@ -10,14 +10,13 @@
 <br />
 <details close>
 <summary>Paru Installation</summary>
-    <code>
-    sudo pacman -S --needed base-devel
- git clone https://aur.archlinux.org/paru.git
- cd paru
- makepkg -si
-    </code>
+```sh
+sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+```
 </details>
-<br />
 
 ### Install `Hyprland` packages
 
