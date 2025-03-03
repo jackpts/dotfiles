@@ -4,6 +4,12 @@ return {
         "vuki656/package-info.nvim",
         requires = "MunifTanjim/nui.nvim",
         package_manager = "npm",
+        autostart = true,
+        colors = {
+            up_to_date = "#3C4048",
+            outdated = "#d19a66",
+            invalid = "#ee4b2b",
+        },
 
         keys = {
             { "<leader>ps", "<cmd>lua require('package-info').show()<cr>", desc = "PackageInfo show" },
