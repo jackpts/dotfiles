@@ -26,5 +26,8 @@ return {
                 },
             })
         end,
+        cmd = {
+            ":Telescope package_info"
+        },
     },
 }
