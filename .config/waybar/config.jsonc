@@ -21,6 +21,7 @@
     "pulseaudio",
     "custom/screen_recorder",
     "network",
+    "custom/hypershot",
     "bluetooth",
     "battery",
     "custom/clipboard",
@@ -194,6 +195,12 @@
     // "on-click": "kitty -e nmtui",
     // "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
     "on-click-right": "networkmanager_dmenu"
+  },
+  "custom/hypershot": {
+    "format": "󰨵",
+    "tooltip-format": "Screenshot",
+    // "exec-if": "which hyprshot-gui",
+    "on-click": "hyprshot-gui -o $HOME/Pictures/Screenshots"
   },
   "mpd": {
     // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",

@@ -377,16 +377,22 @@ tooltip {
 #custom-bluelight {
   padding: 0 20px 0 10px;
 }
+#custom-hypershot {
+  padding: 0 10px 0 10px;
+  border: solid 1px;
+}
 #custom-bluelight.on,
 #custom-screen_recorder.on {
   color: alpha(#dc1ea3, 0.7);
 }
 #custom-bluelight.off,
-#custom-screen_recorder.off {
+#custom-screen_recorder.off,
+#custom-hypershot {
   color: alpha(#ccc, 0.7);
 }
 #custom-bluelight:hover,
-#custom-screen_recorder:hover {
+#custom-screen_recorder:hover,
+#custom-hypershot:hover {
   transition: all 0.3s ease;
   color: #fce;
 }

@@ -17,7 +17,6 @@
     cd paru
     makepkg -si
 ```
-
 </details>
 
 ### Install `Hyprland` packages
@@ -33,6 +32,17 @@
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl wf-recorder
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur paru walker-bin ghostty rxfetch ttf-material-design-icons ttf-maple-beta
 ```
+
+<br />
+<details close>
+<summary>Hyprshot GUI Installation</summary>
+
+```sh
+    git clone https://github.com/s-adi-dev/hyprshot-gui.git
+    cd hyprshot-gui
+    ./install.sh
+```
+</details>
 
 ### Install dotfiles using `Stow` & implement configs
 
