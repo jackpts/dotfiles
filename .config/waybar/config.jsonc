@@ -48,7 +48,13 @@
     "all-outputs": true
   },
   "hyprland/workspaces": {
-    "format": "{name}",
+    "format": "{icon}",
+    "format-icons": {
+      // "default": "",
+      "active": "󰮯",
+      "urgent": ""
+    },
+    "exec-if": "waybar-hyprland-workspaces",
     "persistent-workspaces": {
       "*": [1, 2, 3, 4]
     },
@@ -57,7 +63,8 @@
     "on-click": "activate",
     "on-double-click": "hyprctl dispatch togglespecialworkspace magic",
     "show-special": true,
-    "ignore-workspaces": ["special:magic", "special:magic2"]
+    "ignore-workspaces": ["special:magic", "special:magic2"],
+    "font": "JetBrainsMono Nerd Font"
   },
   "custom/expand": {
     "format": "",

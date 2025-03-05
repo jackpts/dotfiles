@@ -43,11 +43,14 @@ tooltip {
 }
 
 #workspaces button {
-  padding: 0 4px;
+  padding: 0 7px;
   color: #cddceb;
   background-color: transparent;
   box-shadow: none;
   text-shadow: none;
+}
+#workspaces button + button {
+    border-left: dashed 1px;
 }
 
 #workspaces button.active {
