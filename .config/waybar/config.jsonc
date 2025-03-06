@@ -1,10 +1,11 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 30,
+  // "height": 30,
   // "spacing": 4,
   "style": "Everforest-Dark",
   "reload_style_on_change": true,
+  "debug": true,
   "modules-left": [
     "custom/appmenu",
     "custom/updates",
@@ -27,8 +28,8 @@
     "custom/clipboard",
     "hyprland/language",
     "custom/notification",
+    "tray",
     "clock"
-    // "tray",
   ],
   "custom/appmenu": {
     "format": "󰣇 ",
@@ -279,10 +280,11 @@
     // "format-full": "",
     "format-icons": ["", "", "", "", ""]
   },
-  // "tray": {
-  //   "icon-size": 18,
-  //   "spacing": 7
-  // },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 7,
+    "exclude": ["telegram", "viber", "nextcloud-client", "discord", "slack"]
+  },
   // "custom/power": {
   //   "format": "⏻ ",
   //   "return-type": "json",

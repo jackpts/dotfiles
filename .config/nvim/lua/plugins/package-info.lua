@@ -30,7 +30,7 @@ return {
             })
         end,
         cmd = {
-            ":Telescope package_info"
+            "Telescope package_info"
         },
     },
 }
