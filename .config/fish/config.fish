@@ -470,9 +470,10 @@ end
 #################
 
 # neofetch --colors 3 4 5 6 2 9 &&
+neofetch --backend chafa ~/dotfiles/.config/fastfetch/she-logo.jpg
 # duf --hide special &&
 # cowfortune
-fastfetch
+# fastfetch
 
 # catnap -d kali
 # rxfetch
