@@ -99,12 +99,12 @@
     "break",
     {
       "key": "    IP            ",
-      "keyColor": "cyan",
+      "keyColor": "red",
       "type": "publicip"
     },
     {
       "key": "    DNS           ",
-      "keyColor": "cyan",
+      "keyColor": "red",
       "type": "dns"
     },
     "break",
