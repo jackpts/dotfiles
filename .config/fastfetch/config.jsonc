@@ -1,0 +1,137 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "$HOME/.config/fastfetch/she-logo.jpg",
+    "width": 45,
+    "height": 20,
+    "padding": {
+      "top": 1
+    }
+  },
+  "display": {
+    "color": {
+      "keys": "blue",
+      "title": "yellow"
+    },
+    "separator": " "
+  },
+  "modules": [
+    {
+      "type": "custom",
+      "format": "┌──────────────────────────────────────────────────────────────────────────────┐"
+    },
+    "break",
+    {
+      "key": "    OS            ",
+      "keyColor": "blue",
+      "type": "os"
+    },
+    {
+      "key": "    Display       ",
+      "keyColor": "cyan",
+      "type": "display"
+    },
+    {
+      "key": "    Machine       ",
+      "keyColor": "cyan",
+      "type": "host"
+    },
+    {
+      "key": "    Init system   ",
+      "keyColor": "blue",
+      "type": "initsystem"
+    },
+    {
+      "key": "    Kernel        ",
+      "keyColor": "blue",
+      "type": "kernel"
+    },
+    {
+      "key": "    Packages      ",
+      "keyColor": "cyan",
+      "type": "packages"
+    },
+    {
+      "type": "lm",
+      "key": "    LM            ",
+      "keyColor": "blue"
+    },
+    {
+      "key": "    WM            ",
+      "keyColor": "blue",
+      "type": "wm"
+    },
+    {
+      "key": "    Theme         ",
+      "keyColor": "blue",
+      "type": "theme"
+    },
+    {
+      "key": "    Terminal      ",
+      "keyColor": "cyan",
+      "type": "terminal"
+    },
+    {
+      "key": "    Shell         ",
+      "keyColor": "cyan",
+      "type": "shell"
+    },
+    {
+      "key": "    Font          ",
+      "keyColor": "blue",
+      "type": "font"
+    },
+    {
+      "key": "    CPU           ",
+      "keyColor": "cyan",
+      "type": "cpu"
+    },
+    {
+      "key": "    GPU           ",
+      "keyColor": "blue",
+      "type": "gpu"
+    },
+    {
+      "key": "    Memory        ",
+      "keyColor": "cyan",
+      "type": "memory"
+    },
+    "break",
+    {
+      "key": "    IP            ",
+      "keyColor": "cyan",
+      "type": "publicip"
+    },
+    {
+      "key": "    DNS           ",
+      "keyColor": "cyan",
+      "type": "dns"
+    },
+    "break",
+    {
+      "type": "command",
+      "key": "    OS Age        ",
+      "keyColor": "green",
+      "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+    },
+    {
+      "type": "uptime",
+      "key": "    Uptime        ",
+      "keyColor": "green"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "└──────────────────────────────────────────────────────────────────────────────┘"
+    }
+    // "break",
+    // {
+    //   "type": "colors",
+    //   "paddingLeft": 34,
+    //   "symbol": "circle",
+    //   "block": {
+    //     "width": 10
+    //   }
+    // }
+  ]
+}
