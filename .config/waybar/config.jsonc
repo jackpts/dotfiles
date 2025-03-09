@@ -51,8 +51,9 @@
   "hyprland/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      // "default": "",
+      "default": "",
       "active": "󰮯",
+      "empty": "ᗣ",
       "urgent": ""
     },
     "exec-if": "waybar-hyprland-workspaces",
@@ -63,7 +64,7 @@
     "on-scroll-down": "hyprctl dispatch workspace m-1",
     "on-click": "activate",
     "on-double-click": "hyprctl dispatch togglespecialworkspace magic",
-    "show-special": true,
+    "show-special": false,
     "ignore-workspaces": ["special:magic", "special:magic2"],
     "font": "JetBrainsMono Nerd Font"
   },
