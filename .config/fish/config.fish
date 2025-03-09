@@ -470,7 +470,7 @@ end
 #################
 
 # neofetch --colors 3 4 5 6 2 9 &&
-neofetch --backend chafa ~/dotfiles/.config/fastfetch/she-logo.jpg
+neofetch --backend chafa --source ~/dotfiles/.config/fastfetch/she-logo.jpg --size 30%
 # duf --hide special &&
 # cowfortune
 # fastfetch
