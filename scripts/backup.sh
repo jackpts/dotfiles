@@ -25,7 +25,7 @@ backup() {
     rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
 
     backupArr=(
-        "$HOME/Nextcloud"
+        # "$HOME/Nextcloud"
         "$HOME/obsidian/"
         "/etc/hosts"
         "/etc/resolv.conf"
