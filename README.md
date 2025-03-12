@@ -23,14 +23,14 @@
 
 ```bash
     sudo pacman -S --needed hyprland swayimg waybar rofi swaync obs-studio jq wl-clipboard libnotify copyq figlet gum
-    paru -S --needed hyprpicker arch-update hyprwall swaybg hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch nwg-dock-hyprland swww waypaper
+    paru -S --needed hyprpicker arch-update hyprwall swaybg hyprlock hyprpicker scrot xclip hyprshot brightnessctl hyprpolkitagent hyprsunset hyprsysteminfo hypridle hyprswitch nwg-dock-hyprland swww waypaper walker-bin
 ```
 
 ### Install related packages
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship
-    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur walker-bin ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa
+    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa
 ```
 
 <br />
