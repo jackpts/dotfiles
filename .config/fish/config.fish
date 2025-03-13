@@ -469,7 +469,11 @@ end
 ### FINAL RUN ###
 #################
 
-set -U fish_greeting
+# set -U fish_greeting
+# set -U fish_greeting "Weather update: $(curl -s 'wttr.in?format=%C+%t')"
+set -U fish_greeting "Welcome, $(whoami), to Fish Shell on $(uname -n) running $(uname -o) $(uname -r)"
+
+fish_vi_key_bindings
 
 # neofetch --colors 3 4 5 6 2 9 &&
 neofetch --backend chafa --source ~/dotfiles/.config/fastfetch/she-logo.jpg --size 32%
