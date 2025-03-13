@@ -16,3 +16,20 @@
 #
 # You can remove these comments if you want or leave
 # them for future reference.
+
+
+$env.config.buffer_editor = "nvim"
+
+$env.config = {
+    color_config: {
+        shape_garbage: { fg: "#FFFFFF" bg: "#FF0000" attr: b}
+        shape_bool: green
+        shape_int: { fg: "#0000ff" attr: b}
+    }
+    history: {
+        file_format: sqlite
+        max_size: 1_000_000
+        sync_on_enter: true
+        isolation: true
+    }
+}

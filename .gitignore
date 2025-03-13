@@ -17,4 +17,4 @@
 /.config/catnap/distros.toml
 /.config/nvim/lazy-lock.json
 /.config/nvim/lazyvim.json
-/.config/nushell/history.txt
+/.config/nushell/history.*

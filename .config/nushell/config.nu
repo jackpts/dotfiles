@@ -17,6 +17,25 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
+
+$env.config = {
+  table: {
+# basic, compact, compact_double, light, thin, with_love, rounded, reinforced, heavy, none, psql
+    mode: "compact"
+# index_mode: never # "always" show indexes, "never" show indexes, "auto" = show indexes when a table has "index" column
+    index_mode: "auto"
+  }
+  # edit_mode:  "vi"
+  footer_mode: "never"
+  error_style: "plain"
+}
+
+alias c = clear
+alias q = exit
+alias l = eza -lF --time-style=long-iso --icons
+alias ll = eza -h --git --icons --color=auto --group-directories-first -s extension
+alias gcld = git clone --depth 1
+
 # starship init
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
