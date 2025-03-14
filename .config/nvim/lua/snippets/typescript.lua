@@ -52,4 +52,81 @@ ls.add_snippets("typescript", {
             }
         )
     ),
+
+    -- React
+    s(
+        { trig = "component", dscr = "React functional component" },
+        fmt(
+            [[
+      const {} = ({}) => {{
+      {}return (
+      {}        <div>
+      {}          {}
+      {}        </div>
+      {});
+      }};
+      ]],
+            {
+                i(1, "ComponentName"),
+                i(2, "props"),
+                t("\t"),
+                t("\t\t"),
+                t("\t\t\t"),
+                i(0),
+                t("\t\t"),
+                t("\t"),
+            }
+        )
+    ),
+    s(
+        { trig = "useState", dscr = "React useState hook" },
+        fmt(
+            [[
+      const [{}, set{}] = useState({});
+      ]],
+            {
+                i(1, "state"),
+                i(1, "", { user_data = { capitalize = true } }),
+                i(2, "initialValue"),
+            }
+        )
+    ),
+    s(
+        { trig = "useEffect", dscr = "React useEffect hook" },
+        fmt(
+            [[
+      useEffect(() => {{
+      {}{}
+      {}return () => {{
+      {}{}
+      {}}};
+      }}, [{}]);
+      ]],
+            {
+                t("\t"),
+                i(1, "effect"),
+                t("\t"),
+                t("\t\t"),
+                i(2, "cleanup"),
+                t("\t"),
+                i(3, "dependencies"),
+            }
+        )
+    ),
+    s(
+        { trig = "props", dscr = "React props interface" },
+        fmt(
+            [[
+      interface {} {{
+      {}{}: {};
+      }}
+      ]],
+            {
+                i(1, "PropsName"),
+                t("\t"),
+                i(2, "prop"),
+                i(3, "type"),
+            }
+        )
+    ),
 })
