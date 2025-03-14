@@ -188,6 +188,9 @@ return {
         "drewxs/ash.nvim",
         lazy = false,
         priority = 1000,
+        opts = {
+            transparent = true,
+        },
     },
 
     {
@@ -204,8 +207,8 @@ return {
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = "evergarden",
-            -- colorscheme = "ash",
+            -- colorscheme = "evergarden",
+            colorscheme = "ash",
             -- colorscheme = "everforest",
             -- colorscheme = "solarized-osaka",
             -- colorscheme = "base16-icy",

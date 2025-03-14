@@ -80,7 +80,7 @@ wk.add({
     { ",c5", ":colorscheme base16-black-metal-immortal<cr>", mode = { "n" }, desc = "black-metal" },
     { ",c6", ":colorscheme duskfox<cr>", mode = { "n" }, desc = "duskfox" },
     { ",c7", ":colorscheme tokyonight<cr>", mode = { "n" }, desc = "tokyonight" },
-    { ",c8", ":colorscheme base16-gruvbox-dark-medium<cr>", mode = { "n" }, desc = "gruvbox" },
+    { ",c8", ":colorscheme ash<cr>", mode = { "n" }, desc = "ash" },
     { ",c9", ":colorscheme base16-catppuccin<cr>", mode = { "n" }, desc = "catppuccin" },
 })
 

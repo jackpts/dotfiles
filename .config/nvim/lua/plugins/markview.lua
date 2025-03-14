@@ -3,7 +3,7 @@ return {
     {
         "OXY2DEV/markview.nvim",
         ft = "markdown",
-        enabled = true,
+        enabled = false,
 
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
