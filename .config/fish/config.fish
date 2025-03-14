@@ -317,6 +317,7 @@ alias vim_log='nvim ~/.local/state/nvim/lsp.log'
 alias vim_startify='nvim +:Startify'
 alias vim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias vim-lazy="NVIM_APPNAME=LazyVim nvim"
+abbr vim_minimal nvim -u NONE
 
 function :q
     exit
