@@ -134,7 +134,7 @@ tooltip {
 }
 
 #clock {
-  padding: 0;
+  padding: 0 0 0 5px;
   color: #cda;
   box-shadow: none;
   opacity: 0.9;
@@ -325,6 +325,7 @@ tooltip {
 }
 
 #custom-notification {
+  padding-right: 5px;
   color: #ade;
   opacity: 0.8;
 }
@@ -398,4 +399,9 @@ tooltip {
 #custom-hypershot:hover {
   transition: all 0.3s ease;
   color: #fce;
+}
+
+#tray {
+    border-left: dashed 1px #666;
+    border-right: dashed 1px #666;
 }
