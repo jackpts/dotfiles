@@ -24,6 +24,8 @@ backup() {
     rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
     rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
 
+    SFSfile=$(find $HOME/Documents/ -type f -name "sfs*.json" -printf "%T+ %f\n" | sort -r | head -n 1 | awk '{print $2}')
+
     backupArr=(
         # "$HOME/Nextcloud"
         "$HOME/obsidian/"
@@ -61,6 +63,7 @@ backup() {
         "/usr/share/applications/"
         "$HOME/.config/gtk-3.0/settings.ini"
         "$HOME/.config/gtk-4.0/settings.ini"
+        "$HOME/Documents/$SFSfile"
     )
 
     for b in "${backupArr[@]}"; do
