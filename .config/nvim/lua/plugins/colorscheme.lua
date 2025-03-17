@@ -75,7 +75,7 @@ return {
         },
     },
 
-    { "danwlker/primeppuccin", priority = 1000 },
+    -- { "danwlker/primeppuccin", priority = 1000 },
 
     { "yorumicolors/yorumi.nvim" },
 
