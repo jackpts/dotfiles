@@ -14,11 +14,16 @@ backup() {
     echo "Backup started to: $outputFile"
     # gum spin --spinner dot --title "Backup started to: $outputFile" -- sleep 3
 
+    if [ ! -d "$HOME/soft/" ]; then
+        mkdir -p "$HOME/soft/"
+    fi
+
     ls -1 ~/.local/share/gnome-shell/extensions/ >$HOME/soft/gnome_ext_list.txt
     pacman -Qqen >$HOME/soft/pkglist_pacman.txt
     pacman -Qqem >$HOME/soft/pkglist_aur.txt
     # snap list >$HOME/soft/pkglist_snap.txt
     flatpak list >$HOME/soft/pkglist_flatpak.txt
+    dconf dump /org/gnome/shell/extensions/ >$HOME/soft/ext-dump.txt
 
     rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
     rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
