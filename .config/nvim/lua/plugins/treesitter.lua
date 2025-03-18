@@ -59,4 +59,9 @@ return {
             max_lines = 1,
         },
     },
+
+    {
+        "windwp/nvim-ts-autotag",
+        ft = { "html", "xml" },
+    },
 }
