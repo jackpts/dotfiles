@@ -89,4 +89,19 @@ return {
             "tpope/vim-fugitive",
         },
     },
+
+    -- git blame
+    {
+        "f-person/git-blame.nvim",
+        event = "VeryLazy",
+        opts = {
+            enabled = true,
+            message_template = " <summary> • <date> • <author> • <<sha>>",
+            date_format = "%d.%m.%Y %H:%M",
+            virtual_text_column = 80,
+            message_when_not_committed = "Oh please, commit this!",
+            delay = 1000,
+        },
+        cmd = { "GitBlameToggle", "GitBlameEnable", "GitBlameDisable" },
+    },
 }
