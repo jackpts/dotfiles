@@ -3,7 +3,7 @@
 weather_data=$(curl -s "https://wttr.in/?format=%C+%t")
 
 if [ "$weather_data" ]; then
-    temp=$(echo "$weather_data" | grep -oE '[-+]?[0-9]+°C' | head -n 1 | sed 's/°C//')
+    temp=$(echo "$weather_data" | awk 'match($0, /(-?[0-9]+)°C/, a) {print a[1]}')
     weather=$(echo "$weather_data" | grep -oE '[A-Za-z ]+' | head -n 1 | sed 's/ *$//')
 
     case "$weather" in
