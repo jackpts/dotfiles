@@ -6,7 +6,9 @@
     "width": 45,
     "height": 20,
     "padding": {
-      "top": 1
+      "top": 1,
+      "left": 1,
+      "right": 1
     }
   },
   "display": {
@@ -21,7 +23,7 @@
       "type": "custom",
       "format": "┌──────────────────────────────────────────────────────────────────────────────┐"
     },
-    "break",
+    // "break",
     {
       "key": "    OS            ",
       "keyColor": "blue",
@@ -77,11 +79,11 @@
       "keyColor": "cyan",
       "type": "shell"
     },
-    {
-      "key": "    Font          ",
-      "keyColor": "blue",
-      "type": "font"
-    },
+    // {
+    //   "key": "    Font          ",
+    //   "keyColor": "blue",
+    //   "type": "font"
+    // },
     {
       "key": "    CPU           ",
       "keyColor": "cyan",
@@ -120,7 +122,7 @@
       "key": "    Uptime        ",
       "keyColor": "green"
     },
-    "break",
+    // "break",
     {
       "type": "custom",
       "format": "└──────────────────────────────────────────────────────────────────────────────┘"
