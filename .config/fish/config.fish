@@ -341,6 +341,11 @@ function gcl
     git clone $argv && cd $directory
 end
 
+function gcld
+    set directory (echo $argv | grep -oE '[^/]+$' | sed 's/.git//')
+    git clone --depth 1 $argv && cd $directory
+end
+
 
 ### FZF
 fzf --fish | source
@@ -477,10 +482,10 @@ set -U fish_greeting "Welcome, $(whoami), to Fish Shell on $(uname -n) running $
 fish_vi_key_bindings
 
 # neofetch --colors 3 4 5 6 2 9 &&
-# neofetch --backend chafa --source ~/dotfiles/.config/fastfetch/she-logo.jpg --size 32%
+neofetch --backend chafa --source ~/dotfiles/.config/fastfetch/she-logo.jpg --size 32%
 # duf --hide special &&
 # cowfortune
-fastfetch
+# fastfetch
 
 # catnap -d kali
 # rxfetch
