@@ -50,4 +50,13 @@ return {
             })
         end,
     },
+
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        opts = {
+            max_lines = 1,
+        },
+    },
 }
