@@ -469,6 +469,9 @@ function record_selection_to_gif
     end
 end
 
+function mkcd
+    mkdir -p $argv[1]; and cd $argv[1]
+end
 
 
 ##################
