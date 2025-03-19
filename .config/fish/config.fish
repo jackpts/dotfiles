@@ -482,7 +482,13 @@ set -U fish_greeting "Welcome, $(whoami), to Fish Shell on $(uname -n) running $
 fish_vi_key_bindings
 
 # neofetch --colors 3 4 5 6 2 9 &&
-neofetch --backend chafa --source ~/dotfiles/.config/fastfetch/she-logo.jpg --size 32%
+set fetchImg $HOME/dotfiles/.config/fastfetch/she-logo.jpg
+set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
+set fetchImgWidth (file $fetchImg | sed -nE 's/.* ([0-9]+)x[0-9]+.*/\1/p')
+set fetchImgScale (math "round($fetchImgWidth / $curTermWidth / 0.02)")
+echo "w=$fetchImgWidth, scale=$fetchImgScale"
+neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
+
 # duf --hide special &&
 # cowfortune
 # fastfetch
