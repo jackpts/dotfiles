@@ -487,12 +487,14 @@ set fetchImg $HOME/dotfiles/.config/fastfetch/she-logo.jpg
 set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
 set fetchImgWidth (file $fetchImg | sed -nE 's/.* ([0-9]+)x[0-9]+.*/\1/p')
 set fetchImgScale (math "round($fetchImgWidth / $curTermWidth / 0.02)")
-echo "w=$fetchImgWidth, scale=$fetchImgScale"
-neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
 
 # duf --hide special &&
 # cowfortune
 # fastfetch
-
 # catnap -d kali
 # rxfetch
+
+if status is-interactive
+    neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
+    echo ""
+end
