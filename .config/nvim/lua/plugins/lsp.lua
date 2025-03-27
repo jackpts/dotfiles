@@ -104,6 +104,11 @@ return {
             keys = {
                 { "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", { noremap = true, silent = true } },
             },
+
+            -- add custom diagnostics
+            diagnostics = {
+                -- virtual_text = false, -- Disable default virtual text
+            },
         },
     },
 }
