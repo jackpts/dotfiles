@@ -35,7 +35,8 @@ confirm_cmd() {
         -dmenu \
         -p 'Confirmation' \
         -mesg 'Are you Sure?' \
-        -theme ${dir}/${theme}.rasi
+        -theme ${dir}/${theme}.rasi \
+        -display-drv wayland
 }
 
 # Pass variables to rofi dmenu
