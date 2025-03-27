@@ -28,4 +28,5 @@ else
     # echo $msg # for debug
     sleep 2 && notify-send -u normal -i dialog-information \
         "Hey, $(whoami)!" "$msg"
+    sh $HOME/scripts/bluelight.sh --toggle
 fi
