@@ -92,22 +92,21 @@
 - move from `systemd` to `runit` ? (like here: <https://www.reddit.com/r/unixporn/comments/1j0w0id/swayfx_my_first_rice/#lightbox>)
 - try `home-manager` as a nvim plugin manager:
 ```sh
-paru -S nix
+    paru -S nix
 
 # in fish/zsh add: `. /etc/profile.d/nix.sh`
 
-sudo systemctl start nix-daemon
-sudo systemctl enable nix-daemon
+    sudo systemctl start nix-daemon
+    sudo systemctl enable nix-daemon
 
 
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-24_05.tar.gz home-manager
-nix-channel --update
-nix-shell -p home-manager --run "home-manager switch"
+    nix-channel --add https://github.com/nix-community/home-manager/archive/release-24_05.tar.gz home-manager
+    nix-channel --update
+    nix-shell -p home-manager --run "home-manager switch"
 
-touch ~/.config/nixpkgs/home.nix
-...
+    touch ~/.config/nixpkgs/home.nix
+    ...
 
-home-manager switch
+    home-manager switch
 ```
-```
-```
+- add S23 mount function for fish shell
