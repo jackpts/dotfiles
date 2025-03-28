@@ -26,6 +26,7 @@ set -g theme_project_dir_length 0
 set -g theme_newline_cursor yes
 
 
+
 ### NVM
 # bash /usr/share/nvm/init-nvm.sh
 # export NVM_DIR="$(printf %s "$HOME/.nvm")"
@@ -100,6 +101,9 @@ abbr wifi_5G 'nmcli dev wifi connect "Andromeda5" --ask'
 abbr list_x_sessions 'ls /usr/share/xsessions/'
 abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
 abbr cpu_usage "vmstat 1 2 | tail -1 | awk '{print 100 - \$15\"%\"}'"
+abbr opera_wayland 'opera --enable-features=UseOzonePlatform --ozone-platform=wayland'
+abbr obsidian_wayland 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland'
+abbr msty_wayland 'msty --enable-features=UseOzonePlatform --ozone-platform=wayland'
 
 function w_toggle
     if pgrep -x waybar >/dev/null
@@ -115,6 +119,18 @@ set HISTFILESIZE -1 # Infinte history
 set HISTCONTROL ignoreboth # Don't save duplicate commands or commands starting with space
 set -U -x TERMINAL kitty
 
+# Wayland
+set -gx MOZ_ENABLE_WAYLAND 1
+set -gx QT_QPA_PLATFORM wayland
+set -gx GDK_BACKEND wayland
+
+# Fix error: X11Helper-WARNING **: 01:47:27.455: Failed to open display: :1
+# echo $DISPLAY
+# :1
+# set -e DISPLAY
+# set -gx DISPLAY eDP-1
+set -gx DISPLAY $WAYLAND_DISPLAY
+
 ### EXPORTS
 export VISUAL='nvim'
 export EDITOR='$VISUAL'
@@ -125,6 +141,7 @@ export LC_ALL="en_US.UTF-8"
 export TERM_EMULATOR='kitty'
 export TERM='xterm-kitty'
 export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
