@@ -53,6 +53,11 @@
     stow .
 ```
 
+### Change screen resolution & refresh rate in hyprland.conf to your own:
+```conf
+monitor = eDP-1, 2560x1600@165, auto, 1
+```
+
 ### SDDM Themify
 
 ```bash
