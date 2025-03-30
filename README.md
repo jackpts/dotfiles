@@ -53,7 +53,7 @@
     stow .
 ```
 
-### Change screen resolution & refresh rate in `hyprland.conf` to your own:
+### Change screen resolution & refresh rate in `$HOME/dotfiles/.config/hypr/hyprland.conf` to your own:
 ```conf
 # monitor=,preferred,auto,1
 monitor = eDP-1, 2560x1600@165, auto, 1
