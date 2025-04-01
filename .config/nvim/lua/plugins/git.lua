@@ -100,7 +100,7 @@ return {
             date_format = "%d.%m.%Y %H:%M",
             virtual_text_column = 1,
             message_when_not_committed = "      Oh please, commit this!",
-            delay = 1000,
+            delay = 2000,
         },
         cmd = { "GitBlameToggle", "GitBlameEnable", "GitBlameDisable" },
     },
