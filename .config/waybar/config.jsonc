@@ -206,7 +206,7 @@
     "on-click-right": "networkmanager_dmenu"
   },
   "custom/hypershot": {
-    "format": "󰨵",
+    "format": "󰹑",
     "tooltip-format": "Screenshot",
     // "exec-if": "which hyprshot-gui",
     "on-click": "hyprshot-gui -o $HOME/Pictures/Screenshots"
