@@ -3,16 +3,14 @@
 *.tmp.*
 /.config/alacritty/colorschemes/*
 /.config/fish/functions/*
+/.config/fish/completions/*
+/.config/fish/conf.d/*
+/.config/fish/fish_variables
 /.config/mpd/*
+/.config/mpd/mpd.conf
 /.ncmpcpp/*
 
 !/.config/alacritty/colorschemes/Tokyo_night.toml
-/.config/fish/functions/bass.fish
-/.config/fish/functions/tide.fish
-/.config/fish/functions/z.fish
-/.config/fish/conf.d
-/.config/fish/fish_variables
-/.config/mpd/mpd.conf
 /.ncmpcpp/config
 /.config/catnap/distros.toml
 /.config/nvim/lazy-lock.json
