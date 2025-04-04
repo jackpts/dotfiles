@@ -1,18 +1,23 @@
 .git
 *.bak*
 *.tmp.*
+
 /.config/alacritty/colorschemes/*
+!/.config/alacritty/colorschemes/Tokyo_night.toml
+
 /.config/fish/functions/*
 /.config/fish/completions/*
 /.config/fish/conf.d/*
 /.config/fish/fish_variables
-/.config/mpd/*
-/.config/mpd/mpd.conf
-/.ncmpcpp/*
 
-!/.config/alacritty/colorschemes/Tokyo_night.toml
+/.config/mpd/*
+!/.config/mpd/mpd.conf
+/.ncmpcpp/*
 /.ncmpcpp/config
+
 /.config/catnap/distros.toml
+
 /.config/nvim/lazy-lock.json
 /.config/nvim/lazyvim.json
+
 /.config/nushell/history.*
