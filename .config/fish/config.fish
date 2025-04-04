@@ -2,7 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-
 ### For fisher plugins build
 set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
 # for file in $XDG_CONFIG_HOME/fish/conf.d/*.fish
@@ -24,8 +23,6 @@ set -g theme_title_use_abbreviated_path no
 set -g fish_prompt_pwd_dir_length 0
 set -g theme_project_dir_length 0
 set -g theme_newline_cursor yes
-
-
 
 ### NVM
 # bash /usr/share/nvm/init-nvm.sh
@@ -197,7 +194,6 @@ abbr un '$aurhelper -Rns'
 abbr u1 'sudo pacman -Suyy'
 abbr u2 '$aurhelper -Suyy --noconfirm'
 
-
 ### VPN
 function proton_vpn
     z ~/vpn/proton/
@@ -365,7 +361,6 @@ function gcld
     git clone --depth 1 $argv && cd $directory
 end
 
-
 ### FZF
 fzf --fish | source
 
@@ -488,8 +483,6 @@ function record_selection_to_gif
     end
 end
 
-
-
 ##################
 ### FINAL RUN ###
 #################
@@ -501,18 +494,46 @@ set -U fish_greeting "Welcome, $(whoami), to Fish Shell on $(uname -n) running $
 fish_vi_key_bindings
 
 # neofetch --colors 3 4 5 6 2 9 &&
-set fetchImg $HOME/dotfiles/.config/fastfetch/she-logo.jpg
-set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
-set fetchImgWidth (file $fetchImg | sed -nE 's/.* ([0-9]+)x[0-9]+.*/\1/p')
-set fetchImgScale (math "round($fetchImgWidth / $curTermWidth / 0.02)")
-
 # duf --hide special &&
 # cowfortune
 # fastfetch
 # catnap -d kali
 # rxfetch
 
-if status is-interactive
-    neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
-    echo ""
+function show_start_logo --description "My neofetch + she-logo output"
+    set fetchImg $HOME/dotfiles/.config/fastfetch/she-logo.jpg
+    set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
+    set fetchImgWidth (file $fetchImg | sed -nE 's/.* ([0-9]+)x[0-9]+.*/\1/p')
+    # set fetchImgScale (math "round($fetchImgWidth / ($curTermWidth * 0.02))")
+
+    if set -q HYPRLAND_INSTANCE_SIGNATURE && command -q hyprctl
+        # for Hyprland
+        set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
+    else if [ "$XDG_SESSION_TYPE" = x11 ] && command -q xwininfo && command -q xdotool
+        # For X11 (Plasma/GNOME on Xorg)
+        set termWindowId (xdotool getactivewindow)
+        set curTermWidth (xwininfo -id $termWindowId | grep "Width:" | awk '{print $2}')
+    else if [ "$XDG_SESSION_TYPE" = wayland ] && command -q gnome-shell
+        # For Wayland (GNOME)
+        set curTermWidth (gsettings get org.gnome.desktop.interface text-scaling-factor | awk '{print int(100 * $1)}') else
+        # Fallback: using width via DPI (not always works)
+        set charWidth 8 # approzimate char width
+        set curTermWidth (math "(tput cols) * $charWidth")
+        echo "Warning: Using estimated width ($curTermWidth px)"
+    end
+
+    # Validation
+    if not string match -qr '^\d+$' "$curTermWidth" || test "$curTermWidth" -eq 0
+        set curTermWidth 800 # Fallback
+    end
+
+    #  Image scale calc
+    set fetchImgScale (math --scale=0 "$fetchImgWidth / ($curTermWidth * 0.02)")
+
+    if status is-interactive
+        neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
+        echo ""
+    end
 end
+
+show_start_logo
