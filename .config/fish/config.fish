@@ -517,9 +517,13 @@ function show_start_logo --description "My neofetch + she-logo output"
         # For Wayland (GNOME)
         set curTermWidth (gsettings get org.gnome.desktop.interface text-scaling-factor | awk '{print int(100 * $1)}') else
         # Fallback: using width via DPI (not always works)
-        set charWidth 8 # approzimate char width
-        set curTermWidth (math "(tput cols) * $charWidth")
-        echo "Warning: Using estimated width ($curTermWidth px)"
+        if command -q tput
+            set cols (tput cols 2>/dev/null || echo 80)
+            set charWidth 8
+            set curTermWidth (math "$cols * $charWidth")
+        else
+            set curTermWidth 800
+        end
     end
 
     # Validation
