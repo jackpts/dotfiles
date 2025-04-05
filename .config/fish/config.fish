@@ -541,3 +541,5 @@ function show_start_logo --description "My neofetch + she-logo output"
 end
 
 show_start_logo
+
+starship init fish | source
