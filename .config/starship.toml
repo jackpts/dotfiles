@@ -1,0 +1,8 @@
+[status]
+
+
+[cmd_duration]
+disabled = false
+format = "took ⏱ [$duration]($style) "
+min_time = 1000 # in milliseconds
+style = "yellow dim"
