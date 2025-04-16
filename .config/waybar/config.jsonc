@@ -17,13 +17,13 @@
   "modules-right": [
     "group/expand",
     "custom/bluelight",
-    "backlight",
     "group/group-vitals",
+    "custom/home-free-space",
     "pulseaudio",
-    "custom/screen_recorder",
     "network",
-    "custom/hypershot",
     "bluetooth",
+    "custom/screen_recorder",
+    "custom/hypershot",
     "battery",
     "custom/clipboard",
     "hyprland/language",
@@ -119,13 +119,7 @@
       "transition-duration": 500,
       "transition-left-to-right": false
     },
-    "modules": [
-      "temperature",
-      "temperature#gpu",
-      "cpu",
-      "memory",
-      "custom/home-free-space"
-    ]
+    "modules": ["temperature", "backlight", "temperature#gpu", "cpu", "memory"]
   },
   "cpu": {
     "interval": 2,
@@ -279,7 +273,7 @@
     "format-alt": "{time} {icon}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": ["󰁺", "󰁼", "󰁾", "󰁿", "󰁹"]
   },
   "tray": {
     "icon-size": 18,
@@ -330,7 +324,7 @@
     "escape": true
   },
   "custom/clipboard": {
-    "format": "  ",
+    "format": "  ",
     "on-click": "copyq show",
     "interval": 1,
     "tooltip": false
