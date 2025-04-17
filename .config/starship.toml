@@ -1,6 +1,6 @@
 add_newline = false
 format = """
-$cmd_duration$directory $git_branch
+$cmd_duration$directory $git_branch $git_status
 $character
 """
 
@@ -17,19 +17,18 @@ disabled = true
 disabled = false
 # format = "took ⏱ [$duration]($style) "
 # format = '[](bold fg:yellow)[ $duration](bold bg:yellow fg:black)[](bold fg:yellow)'
-format = '[](bold fg:yellow)[ $duration](bold fg:yellow)[](bold fg:yellow)'
+format = '[ $duration](bold fg:yellow)'
 min_time = 0 # in milliseconds
 style = "yellow dim"
 
 [directory]
 home_symbol = "  "
 read_only = "  "
-# style = "bg:black fg:cyan"
 style = "bg:black fg:cyan"
 truncation_length = 6
 # truncation_symbol = "••/"
 truncation_symbol = " "
-format = '[](bold fg:cyan)[$path]($style)[](bold fg:cyan)'
+format = '[$path]($style)'
 
 [directory.substitutions]
 "Desktop" = "  "
@@ -55,6 +54,7 @@ format = '[\($state( $progress_current of $progress_total)\)]($style)'
 cherry_pick = "[🍒 PICKING](bold red)"
 
 [git_status]
+disabled = false
 conflicted = " 🏳 "
 ahead = " 🏎💨 "
 behind = " 😰 "
@@ -67,9 +67,9 @@ renamed = " ✍️ "
 deleted = " 🗑 "
 
 [hostname]
+disabled = false
 ssh_only = true
 format =  "[•$hostname](bg:cyan bold fg:black)[](bold fg:cyan )"
 trim_at = ".companyname.com"
-disabled = false
 
 
