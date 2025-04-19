@@ -17,6 +17,7 @@
     cd paru
     makepkg -si
 ```
+
 </details>
 
 ### Install `Hyprland` packages
@@ -30,7 +31,7 @@
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship tmux cmatrix cowfortune power-profiles-daemon mpv
-    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder
+    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
 <br />
@@ -42,6 +43,7 @@
     cd hyprshot-gui
     ./install.sh
 ```
+
 </details>
 
 ### Install dotfiles using `Stow` & implement configs
@@ -52,8 +54,14 @@
     cd ~/dotfiles
     stow .
 ```
+If error occured with conflicting configs (hyprland, fish, etc.), then stow like this:
+```bash
+    stow . --adopt
+    git stash
+```
 
 ### Change screen resolution & refresh rate in `$HOME/dotfiles/.config/hypr/hyprland.conf` to your own:
+
 ```conf
 # monitor=,preferred,auto,1
 monitor = eDP-1, 2560x1600@165, auto, 1
@@ -97,6 +105,7 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 - make left sidebar with "AI chat integration with external providers (Gemini, OpenAI...)" like in: <https://www.reddit.com/r/unixporn/comments/1im22sn/hyprland_yet_another_hyprland_rice/>
 - move from `systemd` to `runit` ? (like here: <https://www.reddit.com/r/unixporn/comments/1j0w0id/swayfx_my_first_rice/#lightbox>)
 - try `home-manager` as a nvim plugin manager:
+
 ```sh
     paru -S nix
 
@@ -115,4 +124,5 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 
     home-manager switch
 ```
+
 - add S23 mount function for fish shell
