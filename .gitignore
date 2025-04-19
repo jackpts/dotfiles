@@ -1,6 +1,7 @@
 .git
 *.bak*
 *.tmp.*
+Neogit*
 
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
