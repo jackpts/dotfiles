@@ -196,7 +196,7 @@ abbr u2 '$aurhelper -Suyy --noconfirm'
 
 ### VPN
 function proton_vpn
-    z ~/vpn/proton/
+    cd ~/vpn/proton/
 
     # regular options: nl | jp | us
     if test (count $argv) -gt 0
@@ -542,4 +542,5 @@ end
 
 show_start_logo
 
+zoxide init fish | source
 starship init fish | source
