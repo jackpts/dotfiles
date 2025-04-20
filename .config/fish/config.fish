@@ -59,20 +59,20 @@ abbr sys_acpi 'sudo dmesg | grep ACPI'
 ### Gnome shell
 abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f -o cat'
 abbr gnome_ver 'gnome-shell --version'
-abbr ext_create 'gnome-extensions create --interactive'
-abbr ext_list 'gnome-extensions list | grep jack'
-abbr ext_edit 'nvim ~/github/gnome.ext.song.title/extension.js'
-abbr ext_install 'gnome-extensions install ./gnome.ext.song.title.zip --force'
-abbr ext_remove 'gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com'
-abbr ext_pack 'z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"'
-abbr ext_enable 'gnome-extensions enable gnome.ext.song.title@jackpts.github.com'
-abbr ext_disable 'gnome-extensions disable gnome.extsong.title@jackpts.github.com'
-abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
-abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com && \
-    gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com && \
-    z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*" && \
-    gnome-extensions install ./gnome.ext.song.title.zip --force
-'
+# abbr ext_create 'gnome-extensions create --interactive'
+# abbr ext_list 'gnome-extensions list | grep jack'
+# abbr ext_edit 'nvim ~/github/gnome.ext.song.title/extension.js'
+# abbr ext_install 'gnome-extensions install ./gnome.ext.song.title.zip --force'
+# abbr ext_remove 'gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com'
+# abbr ext_pack 'z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"'
+# abbr ext_enable 'gnome-extensions enable gnome.ext.song.title@jackpts.github.com'
+# abbr ext_disable 'gnome-extensions disable gnome.extsong.title@jackpts.github.com'
+# abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
+# abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com && \
+    # gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com && \
+    # z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*" && \
+    # gnome-extensions install ./gnome.ext.song.title.zip --force
+# '
 
 ### Hyprland
 abbr h_clients 'hyprctl clients'
