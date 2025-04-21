@@ -88,7 +88,7 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 <details close>
 <summary>Screenshots</summary>
     <p align="center">
-        <img src="assets/2025-04-22-175800_hyprshot.jpg" />
+        <img src="assets/2025-04-21-175800_hyprshot.jpg" />
         <br />
         <img src="assets/lock_screen.jpg" />
     </p>
