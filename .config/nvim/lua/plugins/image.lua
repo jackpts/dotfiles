@@ -4,6 +4,19 @@ return {
         -- enabled = not vim.g.neovide,
         event = { "BufRead", "BufNewFile" },
         -- ft = { "md" },
+        opts = {
+            render = {
+                min_padding = 0,
+                show_label = true,
+                use_dither = true,
+            },
+            events = {
+                -- Очистка изображений при закрытии буфера
+                on_close = function()
+                    vim.fn.jobstart({ "kitty", "+kitten", "icat", "--clear" }, { detach = true })
+                end,
+            },
+        },
         config = function()
             require("image").setup({
                 backend = "kitty",
