@@ -39,7 +39,7 @@ backup() {
         "/etc/systemd/resolved.conf"
         "/etc/systemd/system.conf"
         "/etc/systemd/logind.conf" # KillUserProcesses=yes
-        "/etc/profile"
+        # "/etc/profile"
         "/etc/nsswitch.conf"
         "/etc/fstab"
         "/etc/locale.conf"
