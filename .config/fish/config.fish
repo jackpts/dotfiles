@@ -101,6 +101,7 @@ abbr cpu_usage "vmstat 1 2 | tail -1 | awk '{print 100 - \$15\"%\"}'"
 abbr opera_wayland 'opera --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr obsidian_wayland 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr msty_wayland 'msty --enable-features=UseOzonePlatform --ozone-platform=wayland'
+abbr term_theme 'sh $HOME/scripts/update_term_theme.sh'
 
 function w_toggle
     if pgrep -x waybar >/dev/null

@@ -95,6 +95,10 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 </details>
 <br />
 
+
+### Terminals Themify
+- use the fish `term_theme` abbr in your current terminal or type `wal -i <wallpaper_path>` directly
+
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon
