@@ -57,13 +57,15 @@ $reboot)
     systemctl reboot
     ;;
 $lock)
-    $HOME/scripts/lock_with_matrix.sh
+    # $HOME/scripts/lock_with_matrix.sh
+    mpvlock
     ;;
 $suspend)
     mpc -q pause
     amixer set Master mute
     systemctl suspend
-    $HOME/scripts/lock_with_matrix.sh
+    # $HOME/scripts/lock_with_matrix.sh
+    mpvlock
     ;;
 $logout)
     hyprctl dispatch exit
