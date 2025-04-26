@@ -126,7 +126,7 @@
         },
         {
           "label": "",
-          "command": "/home/jacky/scripts/lock_with_matrix.sh"
+          "command": "mpvlock"
         },
         {
           "label": "",

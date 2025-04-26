@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "$HOME/scripts/lock_with_matrix.sh",
+    "action" : "mpvlock",
     "text" : "Lock",
     "keybind" : "l"
 }
