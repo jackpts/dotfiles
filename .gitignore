@@ -25,3 +25,5 @@ Neogit*
 /.config/nvim/lazyvim.json
 
 /.config/nushell/history.*
+
+/.config/mpvlock/themes/cherry-blossom
