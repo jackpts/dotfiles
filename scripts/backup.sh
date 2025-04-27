@@ -39,7 +39,7 @@ backup() {
         "/etc/systemd/resolved.conf"
         "/etc/systemd/system.conf"
         "/etc/systemd/logind.conf" # KillUserProcesses=yes
-        # "/etc/profile"
+        "/etc/profile"
         "/etc/nsswitch.conf"
         "/etc/fstab"
         "/etc/locale.conf"
@@ -74,7 +74,7 @@ backup() {
 
     for b in "${backupArr[@]}"; do
         # 7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p"$(pass backup)" "$b" -xr!.git -xr!node_modules >/dev/null
-        7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!node_modules >/dev/null
+        7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!node_modules -xr!themes >/dev/null
         echo "--> $b"
     done
 
