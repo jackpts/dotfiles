@@ -69,9 +69,9 @@ abbr gnome_ver 'gnome-shell --version'
 # abbr ext_disable 'gnome-extensions disable gnome.extsong.title@jackpts.github.com'
 # abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
 # abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com && \
-    # gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com && \
-    # z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*" && \
-    # gnome-extensions install ./gnome.ext.song.title.zip --force
+# gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com && \
+# z ~/github && rm gnome.ext.song.title.zip && zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*" && \
+# gnome-extensions install ./gnome.ext.song.title.zip --force
 # '
 
 ### Hyprland
@@ -109,6 +109,13 @@ function w_toggle
     else
         WAYBAR_LOG_LEVEL=trace waybar
     end
+end
+
+function w_styles
+    cd "$HOME/dotfiles/.config/waybar"
+    sass style.scss style.css
+
+    sed '/@charset "UTF-8";/d' style.css >/tmp/style.css && mv /tmp/style.css style.css
 end
 
 ### SETS

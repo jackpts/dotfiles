@@ -30,7 +30,7 @@
 ### Install related packages
 
 ```bash
-    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship tmux cmatrix cowfortune power-profiles-daemon mpv
+    sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship tmux cmatrix cowfortune power-profiles-daemon mpv sass
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
@@ -54,7 +54,9 @@
     cd ~/dotfiles
     stow .
 ```
+
 If error occured with conflicting configs (hyprland, fish, etc.), then stow like this:
+
 ```bash
     stow . --adopt
     git stash
@@ -95,8 +97,8 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 </details>
 <br />
 
-
 ### Terminals Themify
+
 - use the fish `term_theme` abbr in your current terminal or type `wal -i <wallpaper_path>` directly
 
 ### TODO
