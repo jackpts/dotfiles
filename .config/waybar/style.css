@@ -1,8 +1,15 @@
+/***
+ *    ┓ ┏┏┓┓┏┳┓┏┓┳┓  ┏┓┏┓┳┓┏┓┳┏┓
+ *    ┃┃┃┣┫┗┫┣┫┣┫┣┫━━┃ ┃┃┃┃┣ ┃┃┓
+ *    ┗┻┛┛┗┗┛┻┛┛┗┛┗  ┗┛┗┛┛┗┻ ┻┗┛
+ *                                         
+ */
+
 * {
   border: none;
   border-radius: 0;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 17px;
   text-shadow: none;
   box-shadow: none;
   /* font-family: "JetBrainsMono Nerd Font Mono"; */
@@ -227,7 +234,7 @@ tooltip {
 #language {
   padding: 0 5px;
   min-width: 32px;
-  font-size: 14px;
+  font-size: 16px;
   color: rgb(216, 108, 200);
 }
 
@@ -299,6 +306,7 @@ tooltip {
   font-family:
     "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
     sans-serif;
+  font-size: 16px;
   color: #eeaa44;
 }
 #custom-weather:hover {
@@ -325,7 +333,7 @@ tooltip {
 }
 
 #custom-clipboard {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #ccc;
 }
