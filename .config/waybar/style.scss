@@ -26,23 +26,25 @@ window#waybar {
   all: unset;
 }
 
-.modules-left,
-.modules-right {
-  padding: 4px;
-  background: rgba(black, 0.7);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-}
-.modules-left {
-  margin: 2px 0 0 3px;
-  border-radius: 0 7px 7px 0;
-}
-.modules-center {
-  margin: -2px 0 0 0;
-  border-radius: 0 0 5px 5px;
-}
-.modules-right {
-  margin: 2px 3px 0 0;
-  border-radius: 7px 0 0 7px;
+.modules {
+  &-left,
+  &-right {
+    padding: 4px;
+    background: rgba(black, 0.7);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+  &-left {
+    margin: 2px 0 0 3px;
+    border-radius: 0 7px 7px 0;
+  }
+  &-right {
+    margin: 2px 3px 0 0;
+    border-radius: 7px 0 0 7px;
+  }
+  &-center {
+    margin: -2px 0 0 0;
+    border-radius: 0 0 5px 5px;
+  }
 }
 
 tooltip {
@@ -259,11 +261,11 @@ tooltip {
 
 #battery {
   color: rgb(150, 205, 150);
-}
 
-#battery.charging,
-#battery.plugged {
-  color: #26a65b;
+  &.charging,
+  &.plugged {
+    color: #26a65b;
+  }
 }
 
 @keyframes blink {
@@ -284,26 +286,25 @@ tooltip {
 #custom-updates {
   padding-left: 4px;
   color: #ffcc00;
-}
 
-#custom-updates.updates-available {
-  color: #22cc55;
-}
-
-#custom-updates.updates-none {
-  color: #215fad;
-}
-
-#custom-updates:hover {
-  transition: all 0.3s ease;
-  color: indianred;
+  &.updates-available {
+    color: #22cc55;
+  }
+  &.updates-none {
+    color: #215fad;
+  }
+  &:hover {
+    transition: all 0.3s ease;
+    color: indianred;
+  }
 }
 
 #bluetooth {
   color: #7777ff;
-}
-#bluetooth:hover {
-  color: #9999ff;
+
+  &:hover {
+    color: #9999ff;
+  }
 }
 
 #custom-weather {
@@ -313,46 +314,51 @@ tooltip {
     sans-serif;
   @include fontSize($base-font-size - 1px);
   color: #eeaa44;
-}
-#custom-weather:hover {
-  transition: all 0.3s ease;
-  color: indianred;
+
+  &:hover {
+    transition: all 0.3s ease;
+    color: indianred;
+  }
 }
 
 #custom-notification {
   padding-right: 5px;
   color: #ade;
   opacity: 0.8;
-}
-#custom-notification:hover {
-  transition: all 0.3s ease;
-  color: indianred;
+
+  &:hover {
+    transition: all 0.3s ease;
+    color: indianred;
+  }
 }
 
-#custom-home-free-space.default {
-  color: #448489;
-}
-
-#custom-home-free-space.exceed {
-  background-color: #f53c3c;
+#custom-home-free-space {
+  &.default {
+    color: #448489;
+  }
+  &.exceed {
+    background-color: #f53c3c;
+  }
 }
 
 #custom-clipboard {
   @include fontSize($base-font-size + 1px);
   font-weight: bold;
   color: #ccc;
-}
-#custom-clipboard:hover {
-  transition: all 0.3s ease;
-  color: indianred;
+
+  &:hover {
+    transition: all 0.3s ease;
+    color: indianred;
+  }
 }
 
 #custom-power {
   color: darkcyan;
-}
-#custom-power:hover {
-  transition: all 0.3s ease;
-  color: indianred;
+
+  &:hover {
+    transition: all 0.3s ease;
+    color: indianred;
+  }
 }
 
 #group-expand {
@@ -364,10 +370,11 @@ tooltip {
   color: rgba(#ade, 0.5);
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease;
-}
-#custom-expand:hover {
-  color: rgba(255, 255, 255, 0.2);
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  }
 }
 
 #custom-screen_recorder {
