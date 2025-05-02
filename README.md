@@ -101,6 +101,21 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 
 - use the fish `term_theme` abbr in your current terminal or type `wal -i <wallpaper_path>` directly
 
+
+### Waybar styling
+
+1) use ./.config/waybar/style.scss file
+2)  after making changes:
+    a)
+- convert it to CSS file:
+```
+    sass style.scss style.css
+```
+- then go to new CSS file and remove the 1st line: `@charset "UTF-8"`
+OR:
+    b) run fish function: `w_styles`
+
+
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon
