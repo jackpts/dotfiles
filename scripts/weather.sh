@@ -12,6 +12,7 @@ if [ "$weather_data" ]; then
     "Cloudy") icon="☁️" ;;
     "Overcast") icon="🌥" ;;
     "Mist") icon="🌫" ;;
+    "Patchy light drizzle") icon="󰕋 " ;;
     "Patchy rain possible") icon="🌦" ;;
     "Patchy rain nearby") icon="🌦" ;;
     "Patchy snow possible") icon="🌨" ;;
