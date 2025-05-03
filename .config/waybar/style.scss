@@ -11,7 +11,45 @@
 
 $base-font-size: 17px;
 
-/* @define-color error #ffb4ab; */
+$color-black: #000; // Black
+$color-white: #fff; // White
+$color-gray: #666; // Gray
+$color-light-gray: #ccc; // Light Gray
+$color-red: #f53c3c; // Red
+$color-green: #26a65b; // Green
+$color-yellow: #ffcc00; // Yellow
+$color-blue: #215fad; // Blue
+$color-cyan: darkcyan; // Cyan
+$color-magenta: #cddceb; // Magenta
+$color-orange: #eeaa44; // Orange
+$color-indianred: indianred; // Indian Red
+$color-dark-cyan: #008b8b; // Dark Cyan
+$color-dark-magenta: #debcdf; // Dark Magenta
+$color-dark-blue: #1f1923; // Dark Blue
+$color-dark-purple: #5a405d; // Dark Purple
+$color-light-purple: #70597f; // Light Purple
+$color-light-green: #22cc55; // Light Green
+$color-bright-green: #448489; // Bright Green
+$color-bright-red: #fce; // Bright Red
+$color-bright-blue: #cda; // Bright Blue
+$color-bright-cyan: #c8f; // Bright Cyan
+$color-bright-magenta: #cdd6f4; // Bright Magenta
+$color-bright-orange: #a37800; // Bright Orange
+$color-bright-yellow: #ffb4ab; // Bright Yellow
+$color-bright-purple: #77f; // Bright Purple
+$color-bright-pink: #99f; // Bright Pink
+$color-bright-gray: #90b1b1; // Bright Gray
+$color-bright-light-gray: #ade; // Bright Light Gray
+$color-bright-light-blue: #69a; // Bright Light Blue
+$color-bright-light-green: #51a37a; // Bright Light Green
+$color-light-red: #eb4d4b; // Light Red
+$color-light-yellow: rgba(241, 196, 15, 0.7); // Light Yellow
+$color-bright-light-cyan: #111; // Bright Light Cyan
+$color-bright-light-magenta: #32336e; // Bright Light Magenta
+$color-bright-light-orange: #cdd6f4; // Bright Light Orange
+$color-bright-light-purple: #debcdf; // Bright Light Purple
+$color-bright-light-gray: #cddceb; // Bright Light Gray
+$color-bright-light-red: #eb4d4b; // Bright Light Red
 
 * {
   border: none;
@@ -30,8 +68,8 @@ window#waybar {
   &-left,
   &-right {
     padding: 4px;
-    background: rgba(black, 0.7);
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    background: rgba($color-black, 0.7);
+    box-shadow: 0 0 2px rgba($color-black, 0.5);
   }
   &-left {
     margin: 2px 0 0 3px;
@@ -48,8 +86,8 @@ window#waybar {
 }
 
 tooltip {
-  color: #cdd6f4;
-  background-color: #111;
+  color: $color-bright-magenta;
+  background-color: $color-bright-light-cyan;
   border-width: 0;
 }
 
@@ -58,7 +96,7 @@ tooltip {
 
   button {
     padding: 0 7px;
-    color: #cddceb;
+    color: $color-magenta;
     background-color: transparent;
     box-shadow: none;
     text-shadow: none;
@@ -66,33 +104,33 @@ tooltip {
     &.active {
       margin: 0 3px;
       padding: 0 12px;
-      color: #debcdf;
-      background-color: rgba(0, 0, 0, 0.2);
+      color: $color-bright-light-purple;
+      background-color: rgba($color-black, 0.2);
     }
 
     &:hover {
-      color: #cddceb;
-      background-color: rgba(0, 0, 0, 0.2);
-      text-shadow: 0 0 1.5px rgba(0, 0, 0, 0.5);
+      color: $color-bright-light-magenta;
+      background-color: rgba($color-black, 0.2);
+      text-shadow: 0 0 1.5px rgba($color-black, 0.5);
       transition: all 1s ease;
     }
 
     & + button {
-      border-left: dashed 1px;
+      border-left: dashed 1px $color-gray;
     }
 
     &.empty {
-      color: rgba(150, 150, 150, 0.7);
-      text-shadow: 0 0 1.5px rgba(0, 0, 0, 0.4);
+      color: rgba($color-light-gray, 0.7);
+      text-shadow: 0 0 1.5px rgba($color-black, 0.4);
 
       &:hover {
-        color: #cddceb;
+        color: $color-bright-light-magenta;
         transition: all 1s ease;
       }
 
       &.active {
-        color: #debcdf;
-        text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        color: $color-bright-light-purple;
+        text-shadow: 0 0 2px rgba($color-black, 0.5);
       }
     }
   }
@@ -104,20 +142,20 @@ tooltip {
   button {
     margin: 0 2px;
     padding: 0 8px;
-    color: #cddceb;
-    background-color: #1f1923;
+    color: $color-bright-light-magenta;
+    background-color: $color-dark-blue;
     box-shadow: none;
     text-shadow: none;
 
     &.active {
       margin: 0 3px;
       padding: 0 12px;
-      background-color: #5a405d;
-      box-shadow: inset 0 -2px #70597f;
+      background-color: $color-dark-purple;
+      box-shadow: inset 0 -2px $color-light-purple;
     }
 
     &:hover {
-      background-color: #5a405d;
+      background-color: $color-dark-purple;
     }
   }
 }
@@ -148,93 +186,84 @@ tooltip {
 #custom-home-free-space,
 #custom-power {
   padding: 0 10px;
-  color: #32336e;
+  color: $color-bright-light-blue;
 }
 
 #clock {
   padding: 0 0 0 5px;
-  color: #cda;
+  color: $color-bright-blue;
   box-shadow: none;
   opacity: 0.9;
 
   &:hover {
     transition: all 0.3s ease;
-    color: #fce;
+    color: $color-bright-red;
   }
 }
 
 #network {
   padding: 0 20px 0 10px;
-  color: #c8f;
+  color: $color-bright-cyan;
 
   &:hover {
     transition: all 0.3s ease;
-    color: #fce;
+    color: $color-bright-red;
   }
   &.disconnected {
-    color: #f53c3c;
+    color: $color-red;
   }
 }
 
 #custom-appmenu {
   padding: 0 4px 0 9px;
-  color: #cddceb;
+  color: $color-magenta;
   background-color: transparent;
   box-shadow: none;
   text-shadow: none;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
 #mpd {
   padding: 0 10px;
-  color: #69a;
+  color: $color-bright-light-blue;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
-  /*   &.disconnected {
-    background-color: #f53c3c;
-  }
-  &.stopped {
-    background-color: #90b1b1;
-  }
-  &.paused {
-    background-color: #51a37a;
-  } */
 }
 
 #pulseaudio {
-  color: rgba(241, 196, 15, 0.7);
+  color: $color-light-yellow;
 
   &.muted {
-    color: #90b1b1;
+    color: $color-bright-gray;
   }
   &:hover {
-    color: #a37800;
+    color: $color-bright-orange;
   }
 }
 
 #backlight {
-  color: #90b1b1;
+  color: $color-bright-gray;
 }
 
 #temperature {
-  color: #cddceb;
+  color: $color-magenta;
 
   &.critical {
-    background-color: #eb4d4b;
+    background-color: $color-light-red;
   }
 }
 
 #cpu,
 #memory {
   min-width: 55px;
-  color: rgb(196, 166, 194);
+  color: $color-bright-light-gray;
   transition: all 0.3s ease;
 }
 
@@ -242,12 +271,12 @@ tooltip {
   padding: 0 5px;
   min-width: 32px;
   @include fontSize($base-font-size - 1px);
-  color: rgb(216, 108, 200);
+  color: $color-bright-light-purple;
 }
 
 #keyboard-state {
-  background-color: #97e1ad;
-  color: #000;
+  background-color: $color-bright-light-green;
+  color: $color-black;
   margin: 0 5px;
 }
 
@@ -256,15 +285,15 @@ tooltip {
 }
 
 #keyboard-state > label.locked {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba($color-black, 0.2);
 }
 
 #battery {
-  color: rgb(150, 205, 150);
+  color: $color-bright-light-green;
 
   &.charging,
   &.plugged {
-    color: #26a65b;
+    color: $color-green;
   }
 }
 
@@ -275,7 +304,7 @@ tooltip {
 }
 
 #battery.critical:not(.charging) {
-  color: #f53c3c;
+  color: $color-red;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: steps(12);
@@ -285,25 +314,25 @@ tooltip {
 
 #custom-updates {
   padding-left: 4px;
-  color: #ffcc00;
+  color: $color-yellow;
 
   &.updates-available {
-    color: #22cc55;
+    color: $color-light-green;
   }
   &.updates-none {
-    color: #215fad;
+    color: $color-blue;
   }
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
 #bluetooth {
-  color: #7777ff;
+  color: $color-bright-purple;
 
   &:hover {
-    color: #9999ff;
+    color: $color-bright-pink;
   }
 }
 
@@ -313,51 +342,51 @@ tooltip {
     "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
     sans-serif;
   @include fontSize($base-font-size - 1px);
-  color: #eeaa44;
+  color: $color-orange;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
 #custom-notification {
   padding-right: 5px;
-  color: #ade;
+  color: $color-bright-light-gray;
   opacity: 0.8;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
 #custom-home-free-space {
   &.default {
-    color: #448489;
+    color: $color-bright-light-green;
   }
   &.exceed {
-    background-color: #f53c3c;
+    background-color: $color-red;
   }
 }
 
 #custom-clipboard {
   @include fontSize($base-font-size + 1px);
   font-weight: bold;
-  color: #ccc;
+  color: $color-light-gray;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
 #custom-power {
-  color: darkcyan;
+  color: $color-cyan;
 
   &:hover {
     transition: all 0.3s ease;
-    color: indianred;
+    color: $color-indianred;
   }
 }
 
@@ -367,13 +396,13 @@ tooltip {
 }
 #custom-expand {
   padding: 0px 5px;
-  color: rgba(#ade, 0.5);
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  color: rgba($color-bright-light-gray, 0.5);
+  text-shadow: 0 0 2px rgba($color-black, 0.7);
   transition: all 0.3s ease;
 
   &:hover {
-    color: rgba(255, 255, 255, 0.2);
-    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+    color: rgba($color-white, 0.2);
+    text-shadow: 0 0 2px rgba($color-white, 0.5);
   }
 }
 
@@ -388,21 +417,21 @@ tooltip {
 }
 #custom-bluelight.on,
 #custom-screen_recorder.on {
-  color: rgba(#dc1ea3, 0.8);
+  color: rgba($color-bright-light-red, 0.8);
 }
 #custom-bluelight.off,
 #custom-screen_recorder.off,
 #custom-hypershot {
-  color: rgba(#ccc, 0.8);
+  color: rgba($color-light-gray, 0.8);
 }
 #custom-bluelight:hover,
 #custom-screen_recorder:hover,
 #custom-hypershot:hover {
   transition: all 0.3s ease;
-  color: #fce;
+  color: $color-bright-red;
 }
 
 #tray {
-  border-left: dashed 1px #666;
-  border-right: dashed 1px #666;
+  border-left: dashed 1px $color-gray;
+  border-right: dashed 1px $color-gray;
 }

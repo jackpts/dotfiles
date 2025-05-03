@@ -4,7 +4,6 @@
  *    ┗┻┛┛┗┗┛┻┛┛┗┛┗  ┗┛┗┛┛┗┻ ┻┗┛
  *                                         
  */
-/* @define-color error #ffb4ab; */
 * {
   border: none;
   border-radius: 0;
@@ -18,26 +17,22 @@ window#waybar {
   all: unset;
 }
 
-.modules-left,
-.modules-right {
+.modules-left, .modules-right {
   padding: 4px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
-
 .modules-left {
   margin: 2px 0 0 3px;
   border-radius: 0 7px 7px 0;
 }
-
-.modules-center {
-  margin: -2px 0 0 0;
-  border-radius: 0 0 5px 5px;
-}
-
 .modules-right {
   margin: 2px 3px 0 0;
   border-radius: 7px 0 0 7px;
+}
+.modules-center {
+  margin: -2px 0 0 0;
+  border-radius: 0 0 5px 5px;
 }
 
 tooltip {
@@ -63,20 +58,20 @@ tooltip {
   background-color: rgba(0, 0, 0, 0.2);
 }
 #workspaces button:hover {
-  color: #cddceb;
+  color: #32336e;
   background-color: rgba(0, 0, 0, 0.2);
   text-shadow: 0 0 1.5px rgba(0, 0, 0, 0.5);
   transition: all 1s ease;
 }
 #workspaces button + button {
-  border-left: dashed 1px;
+  border-left: dashed 1px #666666;
 }
 #workspaces button.empty {
-  color: rgba(150, 150, 150, 0.7);
+  color: rgba(204, 204, 204, 0.7);
   text-shadow: 0 0 1.5px rgba(0, 0, 0, 0.4);
 }
 #workspaces button.empty:hover {
-  color: #cddceb;
+  color: #32336e;
   transition: all 1s ease;
 }
 #workspaces button.empty.active {
@@ -90,7 +85,7 @@ tooltip {
 #taskbar button {
   margin: 0 2px;
   padding: 0 8px;
-  color: #cddceb;
+  color: #32336e;
   background-color: #1f1923;
   box-shadow: none;
   text-shadow: none;
@@ -131,7 +126,7 @@ tooltip {
 #custom-home-free-space,
 #custom-power {
   padding: 0 10px;
-  color: #32336e;
+  color: #69a;
 }
 
 #clock {
@@ -172,15 +167,6 @@ tooltip {
 #mpd {
   padding: 0 10px;
   color: #69a;
-  /*   &.disconnected {
-    background-color: #f53c3c;
-  }
-  &.stopped {
-    background-color: #90b1b1;
-  }
-  &.paused {
-    background-color: #51a37a;
-  } */
 }
 #mpd:hover {
   transition: all 0.3s ease;
@@ -211,7 +197,7 @@ tooltip {
 #cpu,
 #memory {
   min-width: 55px;
-  color: rgb(196, 166, 194);
+  color: #cddceb;
   transition: all 0.3s ease;
 }
 
@@ -219,12 +205,12 @@ tooltip {
   padding: 0 5px;
   min-width: 32px;
   font-size: 16px;
-  color: rgb(216, 108, 200);
+  color: #debcdf;
 }
 
 #keyboard-state {
-  background-color: #97e1ad;
-  color: #000;
+  background-color: #51a37a;
+  color: #000000;
   margin: 0 5px;
 }
 
@@ -237,11 +223,9 @@ tooltip {
 }
 
 #battery {
-  color: rgb(150, 205, 150);
+  color: #51a37a;
 }
-
-#battery.charging,
-#battery.plugged {
+#battery.charging, #battery.plugged {
   color: #26a65b;
 }
 
@@ -263,15 +247,12 @@ tooltip {
   padding-left: 4px;
   color: #ffcc00;
 }
-
 #custom-updates.updates-available {
   color: #22cc55;
 }
-
 #custom-updates.updates-none {
   color: #215fad;
 }
-
 #custom-updates:hover {
   transition: all 0.3s ease;
   color: indianred;
@@ -280,7 +261,6 @@ tooltip {
 #bluetooth {
   color: #7777ff;
 }
-
 #bluetooth:hover {
   color: #9999ff;
 }
@@ -291,7 +271,6 @@ tooltip {
   font-size: 16px;
   color: #eeaa44;
 }
-
 #custom-weather:hover {
   transition: all 0.3s ease;
   color: indianred;
@@ -299,19 +278,17 @@ tooltip {
 
 #custom-notification {
   padding-right: 5px;
-  color: #ade;
+  color: #cddceb;
   opacity: 0.8;
 }
-
 #custom-notification:hover {
   transition: all 0.3s ease;
   color: indianred;
 }
 
 #custom-home-free-space.default {
-  color: #448489;
+  color: #51a37a;
 }
-
 #custom-home-free-space.exceed {
   background-color: #f53c3c;
 }
@@ -319,9 +296,8 @@ tooltip {
 #custom-clipboard {
   font-size: 18px;
   font-weight: bold;
-  color: #ccc;
+  color: #cccccc;
 }
-
 #custom-clipboard:hover {
   transition: all 0.3s ease;
   color: indianred;
@@ -330,7 +306,6 @@ tooltip {
 #custom-power {
   color: darkcyan;
 }
-
 #custom-power:hover {
   transition: all 0.3s ease;
   color: indianred;
@@ -343,11 +318,10 @@ tooltip {
 
 #custom-expand {
   padding: 0px 5px;
-  color: rgba(170, 221, 238, 0.5);
+  color: rgba(205, 220, 235, 0.5);
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease;
 }
-
 #custom-expand:hover {
   color: rgba(255, 255, 255, 0.2);
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
@@ -367,7 +341,7 @@ tooltip {
 
 #custom-bluelight.on,
 #custom-screen_recorder.on {
-  color: rgba(220, 30, 163, 0.8);
+  color: rgba(235, 77, 75, 0.8);
 }
 
 #custom-bluelight.off,
@@ -384,8 +358,8 @@ tooltip {
 }
 
 #tray {
-  border-left: dashed 1px #666;
-  border-right: dashed 1px #666;
+  border-left: dashed 1px #666666;
+  border-right: dashed 1px #666666;
 }
 
 /*# sourceMappingURL=style.css.map */
