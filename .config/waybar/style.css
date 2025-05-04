@@ -46,7 +46,7 @@ tooltip {
 }
 #workspaces button {
   padding: 0 7px;
-  color: #cddceb;
+  color: rgba(204, 204, 204, 0.7);
   background-color: transparent;
   box-shadow: none;
   text-shadow: none;
@@ -64,10 +64,10 @@ tooltip {
   transition: all 1s ease;
 }
 #workspaces button + button {
-  border-left: dashed 1px #666666;
+  border-left: dashed 1px #666;
 }
 #workspaces button.empty {
-  color: rgba(204, 204, 204, 0.7);
+  /* color: rgba($color-light-gray, 0.7); */
   text-shadow: 0 0 1.5px rgba(0, 0, 0, 0.4);
 }
 #workspaces button.empty:hover {
@@ -210,7 +210,7 @@ tooltip {
 
 #keyboard-state {
   background-color: #51a37a;
-  color: #000000;
+  color: #000;
   margin: 0 5px;
 }
 
@@ -259,10 +259,10 @@ tooltip {
 }
 
 #bluetooth {
-  color: #7777ff;
+  color: #77f;
 }
 #bluetooth:hover {
-  color: #9999ff;
+  color: #99f;
 }
 
 #custom-weather {
@@ -296,7 +296,7 @@ tooltip {
 #custom-clipboard {
   font-size: 18px;
   font-weight: bold;
-  color: #cccccc;
+  color: #ccc;
 }
 #custom-clipboard:hover {
   transition: all 0.3s ease;
@@ -358,8 +358,8 @@ tooltip {
 }
 
 #tray {
-  border-left: dashed 1px #666666;
-  border-right: dashed 1px #666666;
+  border-left: dashed 1px #666;
+  border-right: dashed 1px #666;
 }
 
 /*# sourceMappingURL=style.css.map */

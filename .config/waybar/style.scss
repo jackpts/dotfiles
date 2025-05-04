@@ -96,7 +96,7 @@ tooltip {
 
   button {
     padding: 0 7px;
-    color: $color-magenta;
+    color: rgba($color-light-gray, 0.7);
     background-color: transparent;
     box-shadow: none;
     text-shadow: none;
@@ -120,7 +120,6 @@ tooltip {
     }
 
     &.empty {
-      color: rgba($color-light-gray, 0.7);
       text-shadow: 0 0 1.5px rgba($color-black, 0.4);
 
       &:hover {
