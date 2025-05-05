@@ -549,7 +549,8 @@ function show_start_logo --description "My neofetch + she-logo output"
     end
 end
 
-show_start_logo
+# show_start_logo
+neofetch
 
 zoxide init fish | source
 starship init fish | source
