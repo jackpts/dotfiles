@@ -29,6 +29,12 @@ set -g theme_newline_cursor yes
 # export NVM_DIR="$(printf %s "$HOME/.nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+### Proton
+export WLR_BACKEND=vulkan
+export __VK_LAYER_NV_optimus=NVIDIA_only
+export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+export MESA_LOADER_DRIVER_OVERRIDE=zink
+
 ### BASE ALIASES
 alias cp="cp -i"
 alias df='df -h'
@@ -138,8 +144,9 @@ set -gx DISPLAY $WAYLAND_DISPLAY
 
 ### EXPORTS
 export VISUAL='nvim'
-export EDITOR='$VISUAL'
+export EDITOR="$VISUAL"
 export TERMINAL='kitty'
+export BROWSER='zen'
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -147,6 +154,7 @@ export TERM_EMULATOR='kitty'
 export TERM='xterm-kitty'
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=wayland
+export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'
