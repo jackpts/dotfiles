@@ -198,6 +198,7 @@ abbr plym_update 'sudo mkinitcpio -P'
 abbr plym_theme 'bash $HOME/scripts/plymouth_setup_theme.sh'
 abbr init_system 'ps -p 1 -o comm='
 abbr kitty_reload 'killall -USR1 kitty'
+abbr viber_cc 'rm -rf ~/.ViberPC ~/.cache/Viber\ Media\ S.à\ r.l/ViberPC/'
 
 # CLI Screenrecorder
 abbr s_r 'gpu-screen-recorder -w screen -f 60 -a $(pactl list sources | grep "Name" | grep -v "monitor" | cut -d " " -f2) -o "$HOME/Videos/Screenrecorder/$(date +%Y-%m-%d-%H%M%S).mp4"'
