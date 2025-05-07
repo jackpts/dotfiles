@@ -202,6 +202,12 @@ return {
         end,
     },
 
+    {
+        "webhooked/kanso.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
