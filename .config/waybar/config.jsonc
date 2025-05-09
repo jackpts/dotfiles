@@ -336,16 +336,11 @@
     // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   },
   "bluetooth": {
-    "format": " {status}",
-    "format-disabled": " Off",
-    "format-connected": " {num_connections}",
+    "format": "",
+    "format-disabled": "󰂲",
+    // "format-connected": " {num_connections}",
     // "format-connected-battery": "{icon} {num_connections}",
     "format-connected-battery": " {device_battery_percentage}%",
-    "format-icons": {
-      "connected": "🔵",
-      "disconnected": "⚪",
-      "disabled": "❌"
-    },
     "tooltip": true,
     // "tooltip-format": "{name}: {battery}%",
     "tooltip-format": "{device_alias}",
@@ -356,10 +351,6 @@
     "on-scroll-up": "bluetoothctl connect {mac_address}",
     "on-scroll-down": "bluetoothctl disconnect {mac_address}",
     "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
-    "disabled": {
-      "format": "Bluetooth Disabled",
-      "icon": "❌"
-    },
     "scroll-step": 1
   },
   "custom/weather": {
