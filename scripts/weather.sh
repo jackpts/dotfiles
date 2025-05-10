@@ -46,6 +46,7 @@ if [ "$weather_data" ]; then
     "Moderate or heavy showers of ice pellets") icon="❄️" ;;
     "Patchy light rain with thunder") icon="⛈" ;;
     "Moderate or heavy rain with thunder") icon="⛈" ;;
+    "Rain with thunderstorm") icon="⛈️" ;;
     "Patchy light snow with thunder") icon="⛈" ;;
     "Moderate or heavy snow with thunder") icon="⛈" ;;
     "Rain and snow shower") icon="⛈️" ;;
