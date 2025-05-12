@@ -179,6 +179,14 @@ _fzf_comprun() {
 
 alias ls="eza --color=always --long --git --icons=always"
 
+##### Functions #####
+mkcd() { mkdir -p $1; cd $1 }
+
+# c for archive, z for gzip, v for verbose, f for file
+tarmake() { tar -czvf ${1}.tar.gz $1 }
+
+# x for extracting, v for verbose, f for file
+tarunmake() { tar -zxvf $1 }
 
 
 # =============================================================================
@@ -304,10 +312,42 @@ fi
 
 
 
-### Final run
-#
-# catnap
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+### Final run
+# catnap
+
+function zsh_greeting() {
+  # Colors
+  normal='\033[0m'
+
+  red='\033[0;31m'
+  brred='\033[1;31m'
+  green='\033[0;32m'
+  brgreen='\033[1;32m'
+  yellow='\033[0;33m'
+  bryellow='\033[1;33m'
+  blue='\033[0;34m'
+  brblue='\033[1;34m'
+  magenta='\033[0;35m'
+  brmagenta='\033[1;35m'
+  cyan='\033[0;36m'
+  brcyan='\033[1;36m'
+
+  my_hostname=$(hostname -s)
+  timestamp="$(date -I) $(date +"%T")"
+  uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" " }')
+
+  # Greeting msg
+  echo -e "  " "$brgreen" "Welcome back, $USER!"                       "$normal"
+  echo -e "  " "$yellow"  " Zsh Open:\t"   "$bryellow$timestamp"     "$normal"
+  echo -e "  " "$blue"    " Hostname:\t"   "$brmagenta$my_hostname"  "$normal"
+  echo -e "  " "$magenta" " Uptime  :\t"   "$brblue$uptime"          "$normal"
+  echo
+}
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+zsh_greeting
