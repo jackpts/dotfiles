@@ -151,6 +151,7 @@ gclcd() {
 # my
 alias zshedit='nvim ~/.zshrc'
 alias fishedit='nvim ~/.config/fish/config.fish'
+alias dot="cd \"$DOT_DIR\""
 
 # FZF
 eval "$(fzf --zsh)"
