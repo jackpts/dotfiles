@@ -1,11 +1,15 @@
 [user]
 	name = Jack Pts
 	email = jackpts1981@gmail.com
-[core]
-	autocrlf = input
 [credential "https://github.com"]
 	username = jackpts
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = !/usr/bin/gh auth git-credential
+[credential]
+	helper = cache
 [core]
+	autocrlf = input
 	editor = nvim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	; pager = delta
@@ -229,11 +233,8 @@
 	human = name-rev --name-only --refs=refs/heads/*
 [push]
 	autoSetupRemote = true
-[credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
-[credential]
-	helper = cache
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
+[fetch]
+  # Delete out deleted branch during fetch
+	prune = true
+[init]
+	defaultBranch = main
