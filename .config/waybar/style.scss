@@ -68,7 +68,7 @@ window#waybar {
   &-left,
   &-right {
     padding: 4px;
-    background: rgba($color-black, 0.7);
+    /* background: rgba($color-black, 0.7); */
     box-shadow: 0 0 2px rgba($color-black, 0.5);
   }
   &-left {
@@ -92,7 +92,8 @@ tooltip {
 }
 
 #workspaces {
-  margin-left: 32px;
+  margin-left: 48px;
+  background: rgba($color-black, 0.7);
 
   button {
     padding: 0 7px;
@@ -186,6 +187,21 @@ tooltip {
 #custom-power {
   padding: 0 10px;
   color: $color-bright-light-blue;
+  background: rgba($color-black, 0.7);
+}
+
+#custom-appmenu,
+#custom-bluelight,
+#custom-clipboard,
+#custom-hypershot,
+#custom-screen_recorder,
+#custom-updates,
+#custom-weather,
+#custom-expand,
+#keyboard-state,
+#language,
+#mpd {
+  background: rgba($color-black, 0.7);
 }
 
 #clock {
@@ -216,7 +232,6 @@ tooltip {
 #custom-appmenu {
   padding: 0 4px 0 9px;
   color: $color-magenta;
-  background-color: transparent;
   box-shadow: none;
   text-shadow: none;
 
@@ -312,7 +327,7 @@ tooltip {
 }
 
 #custom-updates {
-  padding-left: 4px;
+  padding: 0 5px;
   color: $color-yellow;
 
   &.updates-available {
@@ -336,7 +351,7 @@ tooltip {
 }
 
 #custom-weather {
-  padding: 0 10px;
+  padding: 0 5px;
   font-family:
     "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
     sans-serif;
@@ -380,14 +395,14 @@ tooltip {
   }
 }
 
-#custom-power {
+/* #custom-power {
   color: $color-cyan;
 
   &:hover {
     transition: all 0.3s ease;
     color: $color-indianred;
   }
-}
+} */
 
 #group-expand {
   padding: 0 5px;
