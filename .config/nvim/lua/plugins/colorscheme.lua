@@ -208,6 +208,12 @@ return {
         priority = 1000,
     },
 
+    {
+        "Vallen217/eidolon.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
