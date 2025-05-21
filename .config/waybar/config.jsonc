@@ -54,7 +54,7 @@
       "default": "",
       "active": "󰮯",
       "empty": "ᗣ",
-      "urgent": ""
+      "urgent": ""
     },
     "exec-if": "waybar-hyprland-workspaces",
     "persistent-workspaces": {
