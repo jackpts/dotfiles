@@ -155,6 +155,7 @@ export TERM='xterm-kitty'
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=wayland
 export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
+export MANPAGER='nvim +Man!'
 
 ### MY CUSTOM ALIASES
 alias bashedit='nvim ~/.bashrc --allow-root'

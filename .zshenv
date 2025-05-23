@@ -3,6 +3,7 @@ export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export TERMINAL="kitty"
 export BROWSER="zen"
+export MANPAGER='nvim +Man!'
 
 # default folders
 export XDG_CONFIG_HOME="$HOME/.config"
