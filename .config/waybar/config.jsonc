@@ -192,7 +192,7 @@
     "format-connected": "{ip} | {public_ip}",
     "format-disconnected": "󰖪 ",
     "tooltip-format-disconnected": "Disconnected ⚠",
-    "format-alt": "<span foreground='#9fd'> {bandwidthDownBytes}</span> <span foreground='#fc6'> {bandwidthUpBytes}</span>",
+    "format-alt": "<span foreground='#9fd'>  {bandwidthDownBytes}</span> <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
     // "format-alt": "{ipaddr}",
     "interval": 5,
     // "on-click": "kitty -e nmtui",
