@@ -92,7 +92,8 @@ tooltip {
 }
 
 #workspaces {
-  margin-left: 48px;
+  margin-left: 32px;
+  padding: 0;
   background: rgba($color-black, 0.7);
 
   button {
@@ -137,31 +138,33 @@ tooltip {
 }
 
 #taskbar {
-  padding: 0;
+  margin: 0 48px;
 
   button {
-    margin: 0 2px;
-    padding: 0 8px;
-    color: $color-bright-light-magenta;
+    margin: 0;
+    padding: 0 10px;
     background-color: $color-dark-blue;
     box-shadow: none;
     text-shadow: none;
 
     &.active {
-      margin: 0 3px;
-      padding: 0 12px;
-      background-color: $color-dark-purple;
+      padding: 0 14px;
+      background-color: $color-light-purple;
       box-shadow: inset 0 -2px $color-light-purple;
     }
 
     &:hover {
       background-color: $color-dark-purple;
     }
+
+    & + button {
+      border-left: 1px dashed $color-gray;
+    }
   }
 }
 
 .module {
-  margin: 0 2px;
+  padding: 0 3px;
 }
 
 #clock,
@@ -351,7 +354,7 @@ tooltip {
 }
 
 #custom-weather {
-  padding: 0 5px;
+  padding: 3px 12px 0;
   font-family:
     "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
     sans-serif;
