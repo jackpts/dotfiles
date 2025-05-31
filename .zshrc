@@ -148,6 +148,13 @@ gclcd() {
    git clone "$1" && cd "$(basename "$1" .git)"
 }
 
+# Docker
+alias dcu="docker-compose up"
+alias dcud="docker-compose up -d"
+alias dcd="docker-compose down"
+alias dcb="docker compose up --build"
+alias lzd="lazydocker"
+
 # my
 alias zshedit='nvim ~/.zshrc'
 alias fishedit='nvim ~/.config/fish/config.fish'
