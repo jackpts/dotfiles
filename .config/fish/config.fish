@@ -409,6 +409,7 @@ end
 
 alias ls="eza --color=always --long --git --icons=always"
 # alias lll='eza -la --git'
+alias cdi='zi'
 
 function cd
     # builtin cd $argv
