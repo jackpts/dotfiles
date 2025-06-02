@@ -25,6 +25,7 @@ if [ "$weather_data" ]; then
     "Freezing fog") icon="🌫" ;;
     "Light drizzle") icon="🌦" ;;
     "Light rain") icon="🌦" ;;
+    "Light rain with thunderstorm") icon="⛈ ";;
     "Moderate rain at times") icon="🌦" ;;
     "Moderate rain") icon="🌦" ;;
     "Heavy rain at times") icon="🌦" ;;
