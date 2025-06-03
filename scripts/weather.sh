@@ -22,6 +22,7 @@ if [ "$weather_data" ]; then
     "Blowing snow") icon="❄️" ;;
     "Blizzard") icon="❄️" ;;
     "Fog") icon="🌫" ;;
+    "Shallow fog") icon="🌫";;
     "Freezing fog") icon="🌫" ;;
     "Light drizzle") icon="🌦" ;;
     "Light rain") icon="🌦" ;;
