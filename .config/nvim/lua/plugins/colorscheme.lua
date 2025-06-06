@@ -79,13 +79,13 @@ return {
 
     { "yorumicolors/yorumi.nvim" },
 
-    {
+--[[     {
         "myagko/nymph",
         branch = "Nvim",
         -- opts = {
         --     transparent = true,
         -- }
-    },
+    }, ]]
 
     -- nightfox/terafox/carbonfox/nordfox/duskfox/dawnfox/dayfox
     {
