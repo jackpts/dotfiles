@@ -353,7 +353,8 @@
     "scroll-step": 1
   },
   "custom/weather": {
-    "exec": "$HOME/scripts/weather.sh",
+    // "exec": "$HOME/scripts/weather.sh",
+    "exec": "python3 $HOME/scripts/weather.py",
     "return-type": "json",
     "interval": 600,
     "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
