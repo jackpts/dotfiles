@@ -17,7 +17,7 @@ if [ "$updatesCount" -gt 0 ]; then
     escaped_updates=$(echo "\n$updates" | sed ':a;N;$!ba;s/\n/\\n/g')
     json_output=$(printf '{"text": "%s", "tooltip": "There are %d update(s) available:%s", "class": "updates-available"}' "$icon $updatesCount" "$updatesCount" "$escaped_updates")
 else
-    json_output=$(printf '{"text": "%s ", "tooltip": "System is up to date", "class": "updates-none"}' "$icon")
+    json_output=$(printf '{"text": "%s  ", "tooltip": "System is up to date", "class": "updates-none"}' "$icon")
 fi
 
 echo "$json_output"
