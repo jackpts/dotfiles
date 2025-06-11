@@ -124,3 +124,4 @@ map("n", "<leader>k", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<M-cr>", "i<cr><Esc>", { desc = "Insert newline at cursor" })
 vim.keymap.set("i", "<M-cr>", "<Esc>i<cr>", { desc = "Insert newline at cursor" })
 
+map("n", ";", ":", { desc = "CMD enter command mode" })
