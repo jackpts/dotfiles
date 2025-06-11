@@ -108,6 +108,7 @@ abbr opera_wayland 'opera --enable-features=UseOzonePlatform --ozone-platform=wa
 abbr obsidian_wayland 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr msty_wayland 'msty --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr term_theme 'sh $HOME/scripts/update_term_theme.sh'
+abbr dot 'cd $HOME/dotfiles'
 
 function w_toggle
     if pgrep -x waybar >/dev/null
