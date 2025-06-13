@@ -50,6 +50,7 @@ backup() {
         "/etc/plymouth/plymouthd.conf"
         "/etc/mkinitcpio.conf"
         "/etc/default/grub"
+        "/etc/security/faillock.conf"
         # "/boot/refind_linux.conf"
         # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
