@@ -104,4 +104,13 @@ return {
         },
         cmd = { "GitBlameToggle", "GitBlameEnable", "GitBlameDisable" },
     },
+
+    -- Run the command :Unified to display the diff against HEAD and open the file tree.
+    -- To show the diff against a specific commit, run :Unified <commit_ref>, for example :Unified HEAD~1
+    {
+        "axkirillov/unified.nvim",
+        opts = {
+            -- your configuration comes here
+        },
+    },
 }
