@@ -506,6 +506,9 @@ function record_selection_to_gif
     end
 end
 
+# Make Volta available at the start of PATH
+fish_add_path ~/.volta/bin
+
 ##################
 ### FINAL RUN ###
 #################
