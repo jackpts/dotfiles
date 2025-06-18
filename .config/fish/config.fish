@@ -567,7 +567,12 @@ function show_start_logo --description "My neofetch + she-logo output"
 end
 
 # show_start_logo
-neofetch
+if status is-interactive
+    if not set -q __NEOFETCH_STARTED
+        set -gx __NEOFETCH_STARTED 1
+        neofetch
+    end
+end
 
 zoxide init fish | source
 starship init fish | source
