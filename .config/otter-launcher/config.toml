@@ -44,9 +44,9 @@ echo -e ""
 # pad 3 spaces to the left of the image
 printf "\u001B[3G"
 # print the image using chafa
-chafa -s 22x8 $HOME/dotfiles/.config/fastfetch/she-logo.jpg
-# move cursor up 7 lines to print texts higher
-printf "\u001B[7A"
+chafa -s 25x10 $HOME/dotfiles/.config/fastfetch/she-logo.jpg
+# move cursor up 9 lines to print texts higher
+printf "\u001B[9A"
 # move cursor right 20 chars to print texts next to the image
 printf "\u001B[20G"
 
@@ -54,7 +54,8 @@ printf "\u001B[20G"
 """
 header_cmd_trimmed_lines = 0 # Remove a number of lines from header_cmd output, in case of some programs printing excessive empty lines at the end of its output
 # use three quotes to write longer commands
-header = """   \u001B[34;1m󱎘 \u001B[0;1m """
+# header = """   \u001B[34;1m󱎘 \u001B[0;1m """
+header = """ """
 header_concatenate = true # print header and header_cmd output at the same line, default to false
 list_prefix = "\u001B[21G "
 selection_prefix = "\u001B[20G\u001B[31;1m> "
@@ -62,7 +63,7 @@ place_holder = "type and search..."
 default_module_message = "      search the internet" # if set, the text will be shown when the default module is in use
 empty_module_message = "" # the text to show when empty module is in use
 suggestion_mode = "list" # available options: list, hint
-suggestion_lines = 5 # length of the suggestion list, set to 0 to disable suggestions and tab completion
+suggestion_lines = 7 # length of the suggestion list, set to 0 to disable suggestions and tab completion
 indicator_with_arg_module = "" # a sign showing whether the module should run with an argument
 indicator_no_arg_module = ""
 prefix_padding = 0 # format prefixes to have a unified width; prefixes will be padded with spaces to have a least specified number of chars
@@ -98,12 +99,12 @@ selected="$(desktop_file | sed 's/.desktop$//g' | sort | fzf -m -d / --with-nth 
 echo "$selected" | while read -r line ; do setsid -f gtk-launch "$(basename $line)"; done
 """
 
-[[modules]]
-description = "search github"
-prefix = "gh"
-cmd = "setsid -f xdg-open https://github.com/search?q='{}'"
-with_argument = true
-url_encode = true
+# [[modules]]
+# description = "search github"
+# prefix = "gh"
+# cmd = "setsid -f xdg-open https://github.com/search?q='{}'"
+# with_argument = true
+# url_encode = true
 
 [[modules]]
 description = "translate w/ Lara"
@@ -122,3 +123,18 @@ cmd = "fd --type f | fzf | setsid -f xargs -r -I {} xdg-open '{}'"
 description = "open folders with fzf and ranger"
 prefix = "yz"
 cmd = "fd --type d | fzf | xargs -r -I {} kitty -e \"ranger\" '{}'"
+
+[[modules]]
+description = "ncmpcpp with MPD update"
+prefix = "mus"
+cmd = """
+mpc update
+kitty --class dotfiles-floating -e ncmpcpp
+"""
+
+[[modules]]
+description = "BT"
+prefix = "tb"
+cmd = """
+bluetuith
+"""
