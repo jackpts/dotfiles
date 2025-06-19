@@ -139,7 +139,7 @@
     "interval": 180,
     "return-type": "json",
     "tooltip-format": "<tt>Home free space: {}</tt>",
-    "on-click": "kitty -e sh -c 'duf --hide loops,special; read -p \"Press Enter\"'"
+    "on-click": "kitty --class disk-info -e sh -c 'dysk; read -p \"Press Enter\"'"
   },
   "custom/screen_recorder": {
     "interval": 2,
