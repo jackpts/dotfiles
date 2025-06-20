@@ -526,47 +526,6 @@ fish_vi_key_bindings
 # catnap -d kali
 # rxfetch
 
-function show_start_logo --description "My neofetch + she-logo output"
-    set fetchImg $HOME/dotfiles/.config/fastfetch/she-logo.jpg
-    set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
-    set fetchImgWidth (file $fetchImg | sed -nE 's/.* ([0-9]+)x[0-9]+.*/\1/p')
-    # set fetchImgScale (math "round($fetchImgWidth / ($curTermWidth * 0.02))")
-
-    if set -q HYPRLAND_INSTANCE_SIGNATURE && command -q hyprctl
-        # for Hyprland
-        set curTermWidth (hyprctl activewindow | grep "size:" | awk '{print $2}' | cut -d',' -f1)
-    else if [ "$XDG_SESSION_TYPE" = x11 ] && command -q xwininfo && command -q xdotool
-        # For X11 (Plasma/GNOME on Xorg)
-        set termWindowId (xdotool getactivewindow)
-        set curTermWidth (xwininfo -id $termWindowId | grep "Width:" | awk '{print $2}')
-    else if [ "$XDG_SESSION_TYPE" = wayland ] && command -q gnome-shell
-        # For Wayland (GNOME)
-        set curTermWidth (gsettings get org.gnome.desktop.interface text-scaling-factor | awk '{print int(100 * $1)}') else
-        # Fallback: using width via DPI (not always works)
-        if command -q tput
-            set cols (tput cols 2>/dev/null || echo 80)
-            set charWidth 8
-            set curTermWidth (math "$cols * $charWidth")
-        else
-            set curTermWidth 800
-        end
-    end
-
-    # Validation
-    if not string match -qr '^\d+$' "$curTermWidth" || test "$curTermWidth" -eq 0
-        set curTermWidth 800 # Fallback
-    end
-
-    #  Image scale calc
-    set fetchImgScale (math --scale=0 "$fetchImgWidth / ($curTermWidth * 0.02)")
-
-    if status is-interactive
-        neofetch --backend chafa --source $fetchImg --size "$fetchImgScale%"
-        echo ""
-    end
-end
-
-# show_start_logo
 if status is-interactive
     if not set -q __NEOFETCH_STARTED
         set -gx __NEOFETCH_STARTED 1
