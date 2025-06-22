@@ -2,27 +2,14 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-### For fisher plugins build
-set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-# for file in $XDG_CONFIG_HOME/fish/conf.d/*.fish
-#   buildin source $file 2>/dev/null
-# end
-
-# if not functions -q fisher
-#     echo "Installing fisher for the first time..." >&2
-#     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-#     curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
-#     fisher
-# end
-
-# theme
-set -g theme_display_git yes
-set -g theme_display_git_untracked yes
-set -g theme_display_git_master_branch yes
-set -g theme_title_use_abbreviated_path no
-set -g fish_prompt_pwd_dir_length 0
-set -g theme_project_dir_length 0
-set -g theme_newline_cursor yes
+### theme
+# set -g theme_display_git yes
+# set -g theme_display_git_untracked yes
+# set -g theme_display_git_master_branch yes
+# set -g theme_title_use_abbreviated_path no
+# set -g fish_prompt_pwd_dir_length 0
+# set -g theme_project_dir_length 0
+# set -g theme_newline_cursor yes
 
 ### NVM
 # bash /usr/share/nvm/init-nvm.sh
@@ -130,6 +117,7 @@ set HISTSIZE -1 # Infinte history
 set HISTFILESIZE -1 # Infinte history
 set HISTCONTROL ignoreboth # Don't save duplicate commands or commands starting with space
 set -U -x TERMINAL kitty
+set -U XDG_DATA_HOME $HOME/.local/share
 
 # Wayland
 set -gx MOZ_ENABLE_WAYLAND 1
@@ -307,35 +295,6 @@ end
 function write_iso
     # sudo dd if=$1 of=/dev/sda1 bs=4M status=progress conv=fsync
     sudo dd if=$1 of=/dev/sda1 bs=100M conv=fsync
-end
-
-function _tide_item_git
-    fish_git_prompt
-end
-
-function fish_prompt__ --description 'Informative prompt'
-    #Save the return status of the previous command
-    set -l last_pipestatus $pipestatus
-    set -lx __fish_last_status $status # Export for __fish_print_pipestatus.
-    set -l git_branch (git branch 2>/dev/null | sed -n '/\* /s///p')
-
-    set gitstuff (_tide_item_git)
-    # do other tide stuff
-    printf '%s' $gitstuff $otherstuff
-
-    if functions -q fish_is_root_user; and fish_is_root_user
-        printf '%s@%s %s%s%s# ' $USER (prompt_hostname) (set -q fish_color_cwd_root
-                                                         and set_color $fish_color_cwd_root
-                                                         or set_color $fish_color_cwd) \
-            (prompt_pwd) (set_color normal)
-    else
-        set -l status_color (set_color $fish_color_status)
-        set -l statusb_color (set_color --bold $fish_color_status)
-        set -l pipestatus_string (__fish_print_pipestatus "[" "]" "|" "$status_color" "$statusb_color" $last_pipestatus)
-
-        printf (set_color yellow)'[%s] %s%s@%s %s%s %s%s%s \n> ' (date "+%H:%M:%S") (set_color brblue) \
-            $USER (prompt_hostname) (set_color $fish_color_cwd) $PWD (set_color normal)'('(set_color purple)"$git_branch"(set_color normal)')' $pipestatus_string (set_color normal)
-    end
 end
 
 # K8Ns
@@ -534,4 +493,4 @@ if status is-interactive
 end
 
 zoxide init fish | source
-starship init fish | source
+# starship init fish | source
