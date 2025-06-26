@@ -16,6 +16,12 @@ end
 # export NVM_DIR="$(printf %s "$HOME/.nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+### pnpm
+set -gx PNPM_HOME "/home/jacky/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+
 ### Proton
 export WLR_BACKEND=vulkan
 export __VK_LAYER_NV_optimus=NVIDIA_only
@@ -494,3 +500,5 @@ end
 
 zoxide init fish | source
 # starship init fish | source
+
+
