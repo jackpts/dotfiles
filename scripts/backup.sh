@@ -34,6 +34,7 @@ backup() {
     backupArr=(
         # "$HOME/Nextcloud"
         "$HOME/obsidian/"
+        "/etc/bluetooth/main.conf"
         "/etc/hosts"
         "/etc/resolv.conf"
         "/etc/systemd/resolved.conf"
