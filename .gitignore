@@ -8,6 +8,8 @@ Neogit*
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
 
+/.config/ghostty/shaders/*
+
 /.config/fish/functions/*
 !/.config/fish/functions/bass.fish
 !/.config/fish/functions/tide.fish
