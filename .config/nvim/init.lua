@@ -56,3 +56,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
+
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
