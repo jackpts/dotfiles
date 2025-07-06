@@ -1,18 +1,52 @@
 #!/bin/bash
 
-VIDEO_FILE="/home/jacky/Pictures/walls/live-walls_from_motionbgs.com/cyberpunk/kda-akali-motorbike.1920x1080.mp4"
+get_waybar_ipc_socket() {
+    WAYBAR_PID=$(pgrep waybar)
+    if [ -z "$WAYBAR_PID" ]; then
+        echo "Error: Waybar is not running." >&2
+        return 1
+    fi
+    echo "/tmp/waybar-ipc-${WAYBAR_PID}.sock"
+}
+
+get_active_monitor_resolution() {
+    # Получаем информацию об активном мониторе в JSON, затем извлекаем ширину и высоту
+    MONITOR_RESOLUTION=$(hyprctl monitors -j | jq -r '.[] | select(.focused==true) | "\(.width)x\(.height)"')
+
+    if [ -z "$MONITOR_RESOLUTION" ]; then
+        # echo "Error: Could not get active monitor resolution." >&2
+        # return 1
+        notify-send "Error" "Could not get monitor resolution!"
+        echo "2560x1600"
+    fi
+    echo "$MONITOR_RESOLUTION"
+}
+
+WAYBAR_IPC_SOCKET=$(get_waybar_ipc_socket)
+
+if [ -z "$WAYBAR_IPC_SOCKET" ]; then
+    notify-send "Error" "Waybar IPC socket not found. Is Waybar running?"
+    exit 1
+fi
+
+MONITOR_RESOLUTION=$(get_active_monitor_resolution)
+echo '{"command":"layer", "layer":"overlay"}' | socat - "$WAYBAR_IPC_SOCKET"
+sleep 0.2
+
+
+VIDEO_FILE="/home/jacky/Pictures/walls/live-walls_from_motionbgs.com/clair-obscur.3840x2160.mp4"
 
 mpv "$VIDEO_FILE" \
     --loop \
     --no-audio \
-    --fullscreen \
+    --geometry="$MONITOR_RESOLUTION" \
     --no-terminal \
     --input-ipc-server=/tmp/mpvlock-ipc \
     --speed=1.0 \
     --panscan=1.0 &
 MPV_PID=$!
 
-# sleep 0.5
+sleep 0.2
 
 swaylock \
     --color 00000020 \
@@ -26,3 +60,5 @@ swaylock \
     --font-size 20
 
 kill $MPV_PID
+echo '{"command":"layer", "layer":"top"}' | socat - "$WAYBAR_IPC_SOCKET"
+
