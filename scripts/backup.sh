@@ -68,7 +68,7 @@ backup() {
         "/usr/share/wayland-sessions/hyprland.desktop"
         "/usr/share/rofi/themes/"
         "/usr/share/applications/"
-        "$HOME/.config/gtk-3.0/"
+        "$HOME/.config/gtk-3.0/"    # Nemo Bookmarks here
         "$HOME/.config/gtk-4.0/"
         "$HOME/Documents/$SFSfile"
         "$HOME/Documents/browser/"
