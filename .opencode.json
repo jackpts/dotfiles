@@ -3,13 +3,12 @@
     "directory": ".opencode"
   },
   "mcpServers": {
-    "example": {
-      "command": "path/to/mcp-server",
-      "env": [],
-      "args": [],
-      "type": "stdio",
-      "url": "",
-      "headers": null
+    "lmstudio": {
+      "type": "http",
+      "url": "http://localhost:1234/v1",
+      "headers": {
+        "Content-Type": "application/json"
+      }
     }
   },
   "providers": {
@@ -64,9 +63,7 @@
   },
   "shell": {
     "path": "/bin/fish",
-    "args": [
-      "-l"
-    ]
+    "args": ["-l"]
   },
   "autoCompact": true
 }
