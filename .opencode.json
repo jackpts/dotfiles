@@ -4,6 +4,9 @@
   },
   "mcpServers": {
     "lmstudio": {
+      "command": "",
+      "env": null,
+      "args": null,
       "type": "http",
       "url": "http://localhost:1234/v1",
       "headers": {
@@ -18,7 +21,7 @@
     },
     "copilot": {
       "apiKey": "",
-      "disabled": true
+      "disabled": false
     },
     "groq": {
       "apiKey": "your-api-key",
@@ -39,6 +42,11 @@
       "command": "gopls",
       "args": null,
       "options": null
+    },
+    "typescript": {
+      "disabled": false,
+      "command": "typescript-language-server",
+      "args": ["--stdio"]
     }
   },
   "agents": {
@@ -67,3 +75,4 @@
   },
   "autoCompact": true
 }
+
