@@ -1,0 +1,72 @@
+{
+  "data": {
+    "directory": ".opencode"
+  },
+  "mcpServers": {
+    "example": {
+      "command": "path/to/mcp-server",
+      "env": [],
+      "args": [],
+      "type": "stdio",
+      "url": "",
+      "headers": null
+    }
+  },
+  "providers": {
+    "anthropic": {
+      "apiKey": "your-api-key",
+      "disabled": true
+    },
+    "copilot": {
+      "apiKey": "",
+      "disabled": true
+    },
+    "groq": {
+      "apiKey": "your-api-key",
+      "disabled": true
+    },
+    "openai": {
+      "apiKey": "your-api-key",
+      "disabled": true
+    },
+    "openrouter": {
+      "apiKey": "your-api-key",
+      "disabled": true
+    }
+  },
+  "lsp": {
+    "go": {
+      "enabled": false,
+      "command": "gopls",
+      "args": null,
+      "options": null
+    }
+  },
+  "agents": {
+    "coder": {
+      "model": "claude-3.7-sonnet",
+      "maxTokens": 5000,
+      "reasoningEffort": ""
+    },
+    "task": {
+      "model": "claude-3.7-sonnet",
+      "maxTokens": 5000,
+      "reasoningEffort": ""
+    },
+    "title": {
+      "model": "claude-3.7-sonnet",
+      "maxTokens": 80,
+      "reasoningEffort": ""
+    }
+  },
+  "tui": {
+    "theme": "opencode"
+  },
+  "shell": {
+    "path": "/bin/fish",
+    "args": [
+      "-l"
+    ]
+  },
+  "autoCompact": true
+}
