@@ -62,6 +62,12 @@ If error occured with conflicting configs (hyprland, fish, etc.), then stow like
     git stash
 ```
 
+### Remove all `Stow` configuration symlinks
+
+```bash
+    stow -D .
+```
+
 ### Change screen resolution & refresh rate in `$HOME/dotfiles/.config/hypr/hyprland.conf` to your own:
 
 ```conf
