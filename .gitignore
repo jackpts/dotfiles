@@ -31,3 +31,5 @@ Neogit*
 /.config/nushell/history.*
 
 /.config/mpvlock/themes/*
+
+.opencode/
