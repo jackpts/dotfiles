@@ -15,25 +15,9 @@
     }
   },
   "providers": {
-    "anthropic": {
-      "apiKey": "your-api-key",
-      "disabled": true
-    },
-    "copilot": {
-      "apiKey": "",
-      "disabled": false
-    },
-    "groq": {
-      "apiKey": "your-api-key",
-      "disabled": true
-    },
     "openai": {
-      "apiKey": "your-api-key",
-      "disabled": true
-    },
-    "openrouter": {
-      "apiKey": "your-api-key",
-      "disabled": true
+      "apiKey": "dummy",
+      "disabled": false
     }
   },
   "lsp": {
@@ -44,9 +28,12 @@
       "options": null
     },
     "typescript": {
-      "disabled": false,
+      "enabled": false,
       "command": "typescript-language-server",
-      "args": ["--stdio"]
+      "args": [
+        "--stdio"
+      ],
+      "options": null
     }
   },
   "agents": {
@@ -75,4 +62,3 @@
   },
   "autoCompact": true
 }
-
