@@ -19,7 +19,7 @@ end
 ### pnpm
 set -gx PNPM_HOME "/home/jacky/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
 
 ### Proton
@@ -124,6 +124,18 @@ set HISTFILESIZE -1 # Infinte history
 set HISTCONTROL ignoreboth # Don't save duplicate commands or commands starting with space
 set -U -x TERMINAL kitty
 set -U XDG_DATA_HOME $HOME/.local/share
+
+# For Opencode:
+# set LOCAL_ENDPOINT http://localhost:1234/v1
+# export LOCAL_ENDPOINT="http://localhost:1234/v1"
+# export BASE_URL="http://localhost:1234/v1"
+
+# For Aider:
+export OLLAMA_API_BASE=http://127.0.0.1:11434
+abbr ol_serve OLLAMA_CONTEXT_LENGTH=8192 OLLAMA_ACCELERATE=1 ollama serve
+abbr ai_gemma OLLAMA_ACCELERATE=1 aider --model ollama_chat/gemma3
+abbr ai_qwen OLLAMA_ACCELERATE=1 aider --model ollama_chat/qwen3
+export AIDER_DARK_MODE=true
 
 # Wayland
 set -gx MOZ_ENABLE_WAYLAND 1
@@ -500,5 +512,3 @@ end
 
 zoxide init fish | source
 # starship init fish | source
-
-
