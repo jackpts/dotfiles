@@ -14,12 +14,6 @@
       }
     }
   },
-  "providers": {
-    "openai": {
-      "apiKey": "dummy",
-      "disabled": false
-    }
-  },
   "lsp": {
     "go": {
       "enabled": false,
@@ -38,18 +32,18 @@
   },
   "agents": {
     "coder": {
-      "model": "oh-dcft-v3.1-gemini-1.5-pro-i1",
-      "maxTokens": 5000,
-      "reasoningEffort": ""
+      "model": "local.qwen/qwen3-8b",
+      "maxTokens": 512,
+      "reasoningEffort": "high"
     },
     "task": {
-      "model": "oh-dcft-v3.1-gemini-1.5-pro-i1",
-      "maxTokens": 5000,
+      "model": "local.qwen/qwen3-8b",
+      "maxTokens": 512,
       "reasoningEffort": ""
     },
     "title": {
-      "model": "oh-dcft-v3.1-gemini-1.5-pro-i1",
-      "maxTokens": 80,
+      "model": "local.qwen/qwen3-8b",
+      "maxTokens": 40,
       "reasoningEffort": ""
     }
   },
@@ -58,7 +52,9 @@
   },
   "shell": {
     "path": "/bin/fish",
-    "args": ["-l"]
+    "args": [
+      "-l"
+    ]
   },
   "autoCompact": true
 }
