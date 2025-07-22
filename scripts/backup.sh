@@ -23,7 +23,10 @@ backup() {
     pacman -Qqem >$HOME/soft/pkglist_aur.txt
     # snap list >$HOME/soft/pkglist_snap.txt
     flatpak list >$HOME/soft/pkglist_flatpak.txt
-    dconf dump /org/gnome/shell/extensions/ >$HOME/soft/ext-dump.txt
+    # dconf dump /org/gnome/shell/extensions/ > $HOME/soft/ext-dump.txt
+    
+    dconf dump /org/nemo/ > $HOME/dotfiles/nemo-dconf-settings
+    # To restore: dconf load /org/nemo/ < ~/dotfiles/nemo-dconf-settings
 
     rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
     rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
