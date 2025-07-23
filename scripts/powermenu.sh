@@ -57,13 +57,15 @@ $reboot)
     systemctl reboot
     ;;
 $lock)
-    $HOME/scripts/lock_n_play.sh
+    # $HOME/scripts/lock_n_play.sh
+    $HOME/scripts/lock_w_matrix.sh
     ;;
 $suspend)
     mpc -q pause
     amixer set Master mute
     systemctl suspend
-    $HOME/scripts/lock_n_play.sh
+    # $HOME/scripts/lock_n_play.sh
+    $HOME/scripts/lock_w_matrix.sh
     ;;
 $logout)
     hyprctl dispatch exit
