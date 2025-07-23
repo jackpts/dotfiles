@@ -33,7 +33,6 @@ MONITOR_RESOLUTION=$(get_active_monitor_resolution)
 echo '{"command":"layer", "layer":"overlay"}' | socat - "$WAYBAR_IPC_SOCKET"
 sleep 0.2
 
-
 VIDEO_FILE="/home/jacky/Pictures/walls/live-walls_from_motionbgs.com/clair-obscur.3840x2160.mp4"
 
 mpv "$VIDEO_FILE" \
@@ -41,24 +40,37 @@ mpv "$VIDEO_FILE" \
     --no-audio \
     --geometry="$MONITOR_RESOLUTION" \
     --no-terminal \
+    --no-border \
     --input-ipc-server=/tmp/mpvlock-ipc \
     --speed=1.0 \
-    --panscan=1.0 &
+    --panscan=1.0 \
+    --vo=wayland \
+    --hwdec=auto \
+    --log-file=/tmp/mpv.log \
+    --msg-level=all=info \
+    --ontop \
+    --wayland-app-id=mpv-lock-screen \
+    --wayland-configure-size-mode=maximize \
+    --fullscreen \
+    --layer=overlay \
+    --gpu-api=opengl &
 MPV_PID=$!
 
-sleep 0.2
+# sleep 1
 
 swaylock \
-    --color 00000020 \
+    --color 00000000 \
     --key-hl-color 458588 \
     --bs-hl-color cc241d \
     --ring-color on \
     --text-color ebdbb2 \
     --line-color ebdbb2 \
-    --inside-color 3c3836 \
+    --inside-color 3c383600 \
     --font "Sans" \
     --font-size 20
 
-kill $MPV_PID
+# hyprlock
+
+kill $MPV_PID 2>/dev/null
 echo '{"command":"layer", "layer":"top"}' | socat - "$WAYBAR_IPC_SOCKET"
 
