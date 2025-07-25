@@ -51,6 +51,7 @@ backup() {
         "/etc/pacman.conf"
         "/etc/pacman.d/mirrorlist"
         "/etc/sddm.conf"
+        "/etc/pam.d/sddm*"
         "/etc/plymouth/plymouthd.conf"
         "/etc/mkinitcpio.conf"
         "/etc/default/grub"
