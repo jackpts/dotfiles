@@ -34,7 +34,8 @@
   "custom/appmenu": {
     "format": "󰣇 ",
     "tooltip-format": "Menu/Power",
-    "on-click": "$HOME/scripts/run_launcher.sh",
+    // "on-click": "$HOME/scripts/run_launcher.sh",
+    "on-click": "kitty --class launcher -e /usr/bin/otter-launcher",
     "on-double-click": "hyprsysteminfo",
     "on-click-right": "$HOME/scripts/powermenu.sh"
   },
