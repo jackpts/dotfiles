@@ -79,7 +79,7 @@ return {
 
     { "yorumicolors/yorumi.nvim" },
 
---[[     {
+    --[[     {
         "myagko/nymph",
         branch = "Nvim",
         -- opts = {
@@ -214,13 +214,33 @@ return {
         priority = 1000,
     },
 
+    {
+        "hyperb1iss/silkcircuit-nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- vim.cmd.colorscheme("silkcircuit")
+            require("silkcircuit").setup({
+                variant = "soft", -- "neon" | "vibrant" | "soft" | "glow"
+                -- Or use commands
+                -- :SilkCircuit neon     -- 100% intensity
+                -- :SilkCircuit vibrant  -- 85% intensity
+                -- :SilkCircuit soft     -- 70% intensity
+                -- :SilkCircuit glow     -- Ultra-dark backgrounds with pure neon colors
+
+                transparent = true,
+            })
+        end,
+    },
+
     ----------------------------------
     -- Configure LazyVim to load theme
     {
         "LazyVim/LazyVim",
         opts = {
             -- colorscheme = "evergarden",
-            colorscheme = "ash",
+            -- colorscheme = "ash",
+            colorscheme = "silkcircuit",
             -- colorscheme = "everforest",
             -- colorscheme = "solarized-osaka",
             -- colorscheme = "base16-icy",
