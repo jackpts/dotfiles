@@ -21,7 +21,7 @@
     "custom/home-free-space",
     "pulseaudio",
     "network",
-    "bluetooth",
+    "custom/bluetooth-battery",
     "custom/screen_recorder",
     "custom/hypershot",
     "battery",
@@ -335,23 +335,13 @@
     "format-ru": "RU"
     // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   },
-  "bluetooth": {
-    "format": "",
-    "format-disabled": "󰂲",
-    // "format-connected": " {num_connections}",
-    // "format-connected-battery": "{icon} {num_connections}",
-    "format-connected-battery": " {device_battery_percentage}%",
-    "tooltip": true,
-    // "tooltip-format": "{name}: {battery}%",
-    "tooltip-format": "{device_alias}",
-    "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{icon} {device_battery_percentage}%",
+  "custom/bluetooth-battery": {
+    "exec": "$HOME/scripts/bluetooth-battery.sh",
+    "return-type": "json",
+    "interval": 5,
     "on-click": "blueman-manager",
-    "on-scroll-up": "bluetoothctl connect {mac_address}",
-    "on-scroll-down": "bluetoothctl disconnect {mac_address}",
-    "battery": "bluetoothctl info {mac_address} | grep 'Battery Percentage:' | awk '{print $3}' || echo 'N/A'",
-    "scroll-step": 1
+    "format": "{}",
+    "tooltip": true
   },
   "custom/weather": {
     // "exec": "$HOME/scripts/weather.sh",

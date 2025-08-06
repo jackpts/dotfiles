@@ -17,7 +17,8 @@ window#waybar {
   all: unset;
 }
 
-.modules-left, .modules-right {
+.modules-left,
+.modules-right {
   padding: 4px;
   /* background: rgba($color-black, 0.7); */
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -123,7 +124,7 @@ tooltip {
 #power-profiles-daemon,
 #custom-layout,
 #custom-notification,
-#bluetooth,
+#custom-bluetooth-battery,
 #custom-home-free-space,
 #custom-power {
   padding: 0 10px;
@@ -241,7 +242,8 @@ tooltip {
 #battery {
   color: #51a37a;
 }
-#battery.charging, #battery.plugged {
+#battery.charging,
+#battery.plugged {
   color: #26a65b;
 }
 
@@ -274,16 +276,19 @@ tooltip {
   color: indianred;
 }
 
-#bluetooth {
+#custom-bluetooth-battery {
+  padding-left: 0;
   color: #77f;
 }
-#bluetooth:hover {
+#custom-bluetooth-battery:hover {
   color: #99f;
 }
 
 #custom-weather {
   padding: 3px 12px 0;
-  font-family: "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands", sans-serif;
+  font-family:
+    "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
+    sans-serif;
   font-size: 16px;
   color: #eeaa44;
 }
