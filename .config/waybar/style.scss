@@ -184,7 +184,7 @@ tooltip {
 #power-profiles-daemon,
 #custom-layout,
 #custom-notification,
-#bluetooth,
+#custom-bluetooth-battery,
 #custom-home-free-space,
 #custom-power {
   padding: 0 10px;
@@ -345,7 +345,8 @@ tooltip {
   }
 }
 
-#bluetooth {
+#custom-bluetooth-battery {
+  padding-left: 0;
   color: $color-bright-purple;
 
   &:hover {

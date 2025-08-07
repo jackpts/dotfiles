@@ -17,8 +17,7 @@ window#waybar {
   all: unset;
 }
 
-.modules-left,
-.modules-right {
+.modules-left, .modules-right {
   padding: 4px;
   /* background: rgba($color-black, 0.7); */
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -242,8 +241,7 @@ tooltip {
 #battery {
   color: #51a37a;
 }
-#battery.charging,
-#battery.plugged {
+#battery.charging, #battery.plugged {
   color: #26a65b;
 }
 
@@ -286,9 +284,7 @@ tooltip {
 
 #custom-weather {
   padding: 3px 12px 0;
-  font-family:
-    "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
-    sans-serif;
+  font-family: "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands", sans-serif;
   font-size: 16px;
   color: #eeaa44;
 }
