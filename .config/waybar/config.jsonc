@@ -329,11 +329,10 @@
     "tooltip": false
   },
   "hyprland/language": {
-    // "on-click": "hyprctl switchxkbdlayout 611884009480 next",
     "format": "{}",
-    "format-en": "US",
-    "format-ru": "RU"
-    // "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
+    "format-en": "EN",
+    "format-ru": "RU",
+    "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
   },
   "custom/bluetooth-battery": {
     "exec": "$HOME/scripts/bluetooth-battery.sh",
