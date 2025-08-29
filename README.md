@@ -31,7 +31,7 @@
 
 ```bash
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship tmux cmatrix cowfortune power-profiles-daemon mpv sass dysk
-    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur ghostty rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
+    paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
 <br />
