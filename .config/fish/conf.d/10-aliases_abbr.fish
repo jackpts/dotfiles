@@ -182,3 +182,5 @@ abbr gl 'git log --oneline --graph'
 abbr gs 'clear; and git log --graph --stat'
 abbr gss 'clear; and git log --stat --color -p'
 
+# Gnome accounts settings run
+abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accounts'
