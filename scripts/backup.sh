@@ -1,7 +1,7 @@
 #!/bin/bash
 
 backup() {
-    cur_Date=$(date +"%y-%b-%d-%H_%M")
+    cur_Date=$(date +"%d_%b-%H_%M")
     outputDir="/run/media/jacky/back2up/regular"
 
     if [ ! -d "$outputDir" ]; then
@@ -91,6 +91,9 @@ backup() {
         7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!.venv -xr!node_modules -xr!themes >/dev/null
         echo "--> $b"
     done
+
+
+    rm "$HOME/soft/$mysql_file"
 
     fileSize="$(du -sh $outputFile | awk '{print $1}')"
     echo "Backup finished, size is: $fileSize"
