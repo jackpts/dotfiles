@@ -216,6 +216,7 @@ return {
 
     {
         "hyperb1iss/silkcircuit-nvim",
+        enabled = false,
         lazy = false,
         priority = 1000,
         config = function()
@@ -235,13 +236,13 @@ return {
 
     ----------------------------------
     -- Configure LazyVim to load theme
-    {
+        {
         "LazyVim/LazyVim",
         opts = {
-            -- colorscheme = "evergarden",
-            -- colorscheme = "ash",
-            colorscheme = "silkcircuit",
             -- colorscheme = "everforest",
+            -- colorscheme = "evergarden",
+            colorscheme = "ash",
+            -- colorscheme = "silkcircuit",
             -- colorscheme = "solarized-osaka",
             -- colorscheme = "base16-icy",
             -- colorscheme = "base16-darkmoss",
