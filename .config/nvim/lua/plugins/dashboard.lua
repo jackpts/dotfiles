@@ -530,9 +530,16 @@ return {
         end,
       })
 
-      vim.defer_fn(function()
-        theAnimation(theAnimation)
-      end, 100)
+      -- Disable deferred animation to avoid calling Neovim API from a libuv callback (E5560)
+      -- theAnimation uses Snacks.animate which internally creates augroups. Calling it from
+      -- a libuv (vim.defer_fn) callback triggers: E5560: nvim_create_augroup must not be called in a lua loop callback
+      -- If you want to re-enable the animation, consider triggering it from a regular autocmd or schedule()
+      -- instead of defer_fn, or only when Snacks.animate is known-safe in your current Neovim version.
+      -- vim.defer_fn(function()
+      --   theAnimation(theAnimation)
+      -- end, 100)
     end,
   },
+
+    { "MunifTanjim/nui.nvim" }
 }
