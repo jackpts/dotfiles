@@ -4,6 +4,8 @@
 *.map*
 *.tmp.*
 Neogit*
+Neo-tree*
+migrations
 
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
