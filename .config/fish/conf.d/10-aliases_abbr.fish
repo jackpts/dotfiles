@@ -33,19 +33,6 @@ abbr sys_acpi 'sudo dmesg | grep ACPI'
 # Gnome shell
 abbr gnome_errors 'journalctl /usr/bin/gnome-shell -f -o cat'
 abbr gnome_ver 'gnome-shell --version'
-# abbr ext_create 'gnome-extensions create --interactive'
-# abbr ext_list 'gnome-extensions list | grep jack'
-# abbr ext_edit 'nvim ~/github/gnome.ext.song.title/extension.js'
-# abbr ext_install 'gnome-extensions install ./gnome.ext.song.title.zip --force'
-# abbr ext_remove 'gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com'
-# abbr ext_pack 'z ~/github; and rm gnome.ext.song.title.zip; and zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"'
-# abbr ext_enable 'gnome-extensions enable gnome.ext.song.title@jackpts.github.com'
-# abbr ext_disable 'gnome-extensions disable gnome.extsong.title@jackpts.github.com'
-# abbr ext_go 'cd /home/jacky/.local/share/gnome-shell/extensions/'
-# abbr ext_reload 'gnome-extensions disable gnome.extsong.title@jackpts.github.com; and \
-# gnome-extensions uninstall gnome.ext.song.title@jackpts.github.com; and \
-# z ~/github; and rm gnome.ext.song.title.zip; and zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"; and \
-# gnome-extensions install ./gnome.ext.song.title.zip --force'
 
 # Hyprland and Waybar
 abbr h_clients 'hyprctl clients'
@@ -106,7 +93,7 @@ alias mirrors_update 'sudo reflector --verbose --latest 20 --sort rate --protoco
 alias list_gnome_extensions 'ls -1 ~/.local/share/gnome-shell/extensions/'
 alias show_opened_ports 'lsof -i -P -n | grep LISTEN'
 alias pogoda_minsk 'curl -4 https://wttr.in/Minsk'
-alias ventoy_update 'sudo ~/soft/ventoy-1.1.05/Ventoy2Disk.sh -u /dev/sda'
+alias ventoy_update 'sudo ~/soft/ventoy/Ventoy2Disk.sh -u /dev/sda'
 alias refind_conf_edit1 'sudo nano /boot/refind_linux.conf'
 alias refind_conf_edit2 'sudo nano /boot/EFI/refind/refind.conf'
 alias resolution_back 'xrandr -s 2560x1600'

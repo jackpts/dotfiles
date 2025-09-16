@@ -1,13 +1,13 @@
 [user]
-	name = Jack Pts
-	email = jackpts1981@gmail.com
+	name = Yauheni Pauliukanets
+	email = yauheni.pauliukanets@innowise.com
 [credential "https://github.com"]
 	username = jackpts
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
     helper = !/usr/bin/gh auth git-credential
 [credential]
-	helper = cache
+	helper = store
 [core]
 	autocrlf = input
 	editor = nvim

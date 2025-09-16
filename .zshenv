@@ -13,3 +13,4 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
 
 export DOT_DIR="$HOME/dotfiles"
+. "$HOME/.cargo/env"

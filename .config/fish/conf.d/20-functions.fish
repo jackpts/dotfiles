@@ -192,12 +192,12 @@ function mkcd
 end
 
 # Custom cd wrapping zoxide (see 30-integrations for zoxide init)
-function cd
-    if type -q z
-        z $argv
-    else
-        builtin cd $argv
-    end
-    l
-end
+# function cd
+#     if type -q z
+#         z $argv
+#     else
+#         builtin cd $argv
+#     end
+#     l
+# end
 

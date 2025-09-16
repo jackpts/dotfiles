@@ -359,3 +359,5 @@ function zsh_greeting() {
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 zsh_greeting
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

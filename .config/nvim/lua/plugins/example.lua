@@ -20,6 +20,11 @@ return {
     },
   },
 
+{
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
+  },
+
   -- change trouble config
   {
     "folke/trouble.nvim",

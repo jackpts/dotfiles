@@ -72,3 +72,4 @@ set -gx TERM xterm-kitty
 set -gx XDG_SCREENSHOTS_DIR "$HOME/Pictures/Screenshots"
 set -gx MANPAGER 'nvim +Man!'
 
+set PATH "$HOME/.local/bin:$PATH"
