@@ -2,9 +2,9 @@
 # Tool integrations and dynamic detections.
 
 # FZF integration (guarded)
-if type -q fzf
-    fzf --fish | source
-end
+# if type -q fzf
+    # fzf --fish | source
+# end
 
 # FZF environment and previews
 set -gx FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"

@@ -36,15 +36,15 @@ require("neo-tree").setup({
     },
 })
 
--- vim.api.nvim_create_autocmd("BufEnter", {
---     callback = function()
---         local filepath = vim.fn.expand("%:p:h") -- Get the directory of the current file
---         require("neo-tree.command").execute({
---             action = "show",
---             path = filepath,
---         })
---     end,
--- })
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        local filepath = vim.fn.expand("%:p:h") -- Get the directory of the current file
+        require("neo-tree.command").execute({
+            action = "show",
+            path = filepath,
+        })
+    end,
+})
 
 -- auto-create file if not exist
 vim.api.nvim_create_autocmd("BufEnter", {

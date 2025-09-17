@@ -11,7 +11,7 @@
     "custom/updates",
     "custom/weather",
     "wlr/taskbar",
-    "hyprland/workspaces"
+    "sway/workspaces"
   ],
   // "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
@@ -26,7 +26,7 @@
     "custom/hypershot",
     "battery",
     "custom/clipboard",
-    "hyprland/language",
+    "sway/language",
     "custom/notification",
     "tray",
     "clock"
@@ -36,7 +36,7 @@
     "tooltip-format": "Menu/Power",
     // "on-click": "$HOME/scripts/run_launcher.sh",
     "on-click": "kitty --class launcher -e /usr/bin/otter-launcher",
-    "on-double-click": "hyprsysteminfo",
+    "on-double-click": "swaymsg reload",
     "on-click-right": "$HOME/scripts/powermenu.sh"
   },
   "wlr/taskbar": {
@@ -49,7 +49,7 @@
     "ignore-list": ["htop"],
     "all-outputs": true
   },
-  "hyprland/workspaces": {
+  "sway/workspaces": {
     "format": "{icon}",
     "format-icons": {
       "default": "",
@@ -57,16 +57,9 @@
       "empty": "ᗣ",
       "urgent": ""
     },
-    "exec-if": "waybar-hyprland-workspaces",
-    "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
-    },
-    "on-scroll-up": "hyprctl dispatch workspace m+1",
-    "on-scroll-down": "hyprctl dispatch workspace m-1",
+    "on-scroll-up": "swaymsg workspace next",
+    "on-scroll-down": "swaymsg workspace prev",
     "on-click": "activate",
-    "on-double-click": "hyprctl dispatch togglespecialworkspace magic",
-    "show-special": false,
-    "ignore-workspaces": ["special:magic", "special:magic2"],
     "font": "JetBrainsMono Nerd Font"
   },
   "custom/expand": {
@@ -202,8 +195,7 @@
   "custom/hypershot": {
     "format": "󰹑",
     "tooltip-format": "Screenshot",
-    // "exec-if": "which hyprshot-gui",
-    "on-click": "hyprshot-gui -o $HOME/Pictures/Screenshots"
+    "on-click": "bash -lc 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p "$dir"; grim -g "$(slurp)" "$dir/$(date +"%F_%H-%M-%S").png"'"
   },
   "mpd": {
     // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
@@ -257,7 +249,6 @@
       "default": ["", "", ""]
     },
     "on-click": "pavucontrol"
-    // "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle"
   },
   "battery": {
     "states": {
@@ -287,11 +278,10 @@
   //   "tooltip": false
   // },
   "custom/updates": {
-    "exec": "$HOME/scripts/check_updates.sh",
+    "exec": "$HOME/scripts/ubuntu_updates.sh",
     "return-type": "json",
     "interval": 300,
-    // "on-click": "kitty -e arch-update"
-    "on-click": "[ $(checkupdates-with-aur | wc -l) -ne 0 ] && kitty -e paru -Suyy --noconfirm && notify-send 'Update complete' && pkill waybar && waybar"
+    "on-click": "kitty -e bash -lc 'sudo apt update && sudo apt upgrade -y; notify-send \"Update complete\"; read -n 1 -s -p \"Press any key to close\"'"
   },
   "custom/notification": {
     "tooltip": false,
@@ -328,11 +318,10 @@
     "interval": 1,
     "tooltip": false
   },
-  "hyprland/language": {
+  "sway/language": {
     "format": "{}",
     "format-en": "EN",
-    "format-ru": "RU",
-    "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
+    "format-ru": "RU"
   },
   "custom/bluetooth-battery": {
     "exec": "$HOME/scripts/bluetooth-battery.sh",
