@@ -113,4 +113,7 @@ return {
             -- your configuration comes here
         },
     },
+
+
+    { "akinsho/git-conflict.nvim", config = true }
 }
