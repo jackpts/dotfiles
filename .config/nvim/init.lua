@@ -38,7 +38,13 @@ require("neo-tree").setup({
 
 vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
-        local filepath = vim.fn.expand("%:p:h") -- Get the directory of the current file
+        -- Skip when Snacks buffers are active or no file is loaded
+        local ft = vim.bo.filetype
+        if ft == "snacks_dashboard" or ft:match("^snacks") or vim.fn.expand("%") == "" then
+            return
+        end
+
+        local filepath = vim.fn.expand("%:p:h")
         require("neo-tree.command").execute({
             action = "show",
             path = filepath,

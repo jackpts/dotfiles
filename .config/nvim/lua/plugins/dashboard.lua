@@ -277,6 +277,7 @@ return {
     ---@type snacks.Config
     opts = {
       image = { enabled = true },
+      explorer = { enabled = false },
 
       -- DASHBOARD
       dashboard = {

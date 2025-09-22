@@ -51,6 +51,9 @@ else
     map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 end
 
+-- Explorer: force Neo-tree on <leader>e (override LazyVim default Snacks explorer)
+map("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Explorer Neo-tree (toggle)" })
+
 -- Remap Enter to Paste new Line & get back to Normal mode
 -- map("n", "<Return>", "o<ESC>")
 -- temporary disabled 'cause it affects QuickFix list behavior
