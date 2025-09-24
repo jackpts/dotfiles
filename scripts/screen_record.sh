@@ -6,16 +6,117 @@ rofiTheme="$HOME/.config/rofi/screenrec.rasi"
 temp_file="temp_recording.mp4"
 temp_palette="/tmp/palette.png"
 
+# Temporary mixing sink and state
+AUDIO_NULL_SINK_NAME="screenrec_mix"
+AUDIO_STATE_FILE="/tmp/screenrec_audio_modules"
+
 mkdir -p "${dirRecord}"
 
 getdate() {
     date '+%Y-%m-%d_%H.%M.%S'
 }
-getaudiooutput() {
-    pactl list sources | grep 'Name' | grep -v 'monitor' | cut -d ' ' -f2
+
+# Returns the monitor source of the current default sink (i.e., system/desktop audio)
+get_default_sink_monitor() {
+    # Prefer newer pactl command if available
+    if command -v pactl >/dev/null 2>&1; then
+        local sink
+        sink=$(pactl get-default-sink 2>/dev/null)
+        if [ -n "$sink" ]; then
+            echo "${sink}.monitor"
+            return
+        fi
+        # Fallback for older pactl
+        sink=$(pactl info | awk -F': ' '/Default Sink:/ {print $2}')
+        if [ -n "$sink" ]; then
+            echo "${sink}.monitor"
+            return
+        fi
+        # Last resort: first available monitor source
+        pactl list sources short | awk '{print $2}' | grep '\.monitor$' | head -n1
+    fi
 }
+
+# Returns the current default microphone source (if needed for future use)
+get_default_source() {
+    if command -v pactl >/dev/null 2>&1; then
+        local src
+        src=$(pactl get-default-source 2>/dev/null)
+        if [ -n "$src" ]; then
+            echo "$src"
+            return
+        fi
+        pactl info | awk -F': ' '/Default Source:/ {print $2}'
+    fi
+}
+
+# Unload any temporary mix modules created for recording
+cleanup_audio_mix() {
+    if [ -f "$AUDIO_STATE_FILE" ]; then
+        read -r null_id loop_sys loop_mic < "$AUDIO_STATE_FILE"
+        # Unload loopbacks first, then the null sink
+        [ -n "$loop_sys" ] && pactl unload-module "$loop_sys" >/dev/null 2>&1
+        [ -n "$loop_mic" ] && pactl unload-module "$loop_mic" >/dev/null 2>&1
+        [ -n "$null_id" ] && pactl unload-module "$null_id" >/dev/null 2>&1
+        rm -f "$AUDIO_STATE_FILE"
+    fi
+}
+
+# Create a temporary null sink and loop back both system audio and microphone into it.
+# Returns the monitor source of that sink for wf-recorder.
+setup_audio_mix() {
+    # Clean any previous session leftovers
+    cleanup_audio_mix >/dev/null 2>&1
+
+    local monitor mic null_id loop_sys loop_mic default_sink default_rate
+    monitor="$(get_default_sink_monitor)"
+    mic="$(get_default_source)"
+
+    # Cache current default sink so creating the null sink doesn't steal default
+    default_sink=$(pactl get-default-sink 2>/dev/null || pactl info | awk -F': ' '/Default Sink:/ {print $2}')
+
+    # Derive system default sample rate for compatibility
+    default_rate=$(pactl info | awk -F': ' '/Default Sample Rate:/ {print $2}')
+    if [ -z "$default_rate" ]; then
+        # Parse from Default Sample Specification if needed (e.g., s16le 2ch 48000Hz)
+        default_rate=$(pactl info | awk -F': ' '/Default Sample Specification:/ {print $2}' | grep -oE '[0-9]+')
+    fi
+    default_rate=${default_rate:-48000}
+
+    # Create null sink to mix into (match system rate, stereo)
+    null_id=$(pactl load-module module-null-sink \
+        sink_name="$AUDIO_NULL_SINK_NAME" \
+        sink_properties="device.description=Screenrec Mix" \
+        channels=2 rate="$default_rate" 2>/dev/null)
+
+    # If creating null sink failed, fall back to system audio only
+    if [ -z "$null_id" ]; then
+        echo "$monitor"
+        return
+    fi
+
+    # Ensure default sink remains what it was (avoid module-switch-on-connect effects)
+    if [ -n "$default_sink" ]; then
+        pactl set-default-sink "$default_sink" >/dev/null 2>&1
+    fi
+
+    # Loop system audio (default sink monitor) into the null sink (use safer latency)
+    if [ -n "$monitor" ]; then
+        loop_sys=$(pactl load-module module-loopback source="$monitor" sink="$AUDIO_NULL_SINK_NAME" latency_msec=50 sink_dont_move=1 source_dont_move=1 adjust_time=0 2>/dev/null)
+    fi
+
+    # Loop microphone into the null sink (use same latency)
+    if [ -n "$mic" ]; then
+        loop_mic=$(pactl load-module module-loopback source="$mic" sink="$AUDIO_NULL_SINK_NAME" latency_msec=50 sink_dont_move=1 source_dont_move=1 adjust_time=0 2>/dev/null)
+    fi
+
+    printf "%s %s %s\n" "$null_id" "${loop_sys:-}" "${loop_mic:-}" > "$AUDIO_STATE_FILE"
+
+    echo "${AUDIO_NULL_SINK_NAME}.monitor"
+}
+
 getactivemonitor() {
-    hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'
+    swaymsg -t get_outputs | jq -r '.[] | select(.focused == true) | .name'
 }
 
 covert_mp4_to_gif() {
@@ -51,6 +152,8 @@ toggle_recording() {
             covert_mp4_to_gif $temp_file $temp_output && optimize_gif $temp_file &&
                 notify-send "Saving GIF finished: $output" && rm $temp_file $temp_output $temp_palette &
         fi
+        # Tear down any temporary audio mixing modules
+        cleanup_audio_mix
     else
         chosen=$(
             rofi -dmenu -p "Select Recording Option" -theme ${rofiTheme} <<EOF
@@ -71,8 +174,8 @@ EOF
             disown
             ;;
         "Record fullscreen with sound")
-            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --audio="$(getaudiooutput)" &
-            notify-send "Recording [fullscreen with sound] started"
+            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --audio="$(setup_audio_mix)" &
+            notify-send "Recording [fullscreen with system+mic audio] started"
             disown
             ;;
         "Record selected area")
@@ -81,8 +184,8 @@ EOF
             disown
             ;;
         "Record selected area with sound")
-            wf-recorder --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --geometry "$(slurp)" --audio="$(getaudiooutput)" &
-            notify-send "Recording [selected area with sound] started"
+            wf-recorder --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --geometry "$(slurp)" --audio="$(setup_audio_mix)" &
+            notify-send "Recording [selected area with system+mic audio] started"
             disown
             ;;
         "Record selected area in GIF")
