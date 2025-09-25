@@ -37,19 +37,19 @@ include /etc/sway/config-vars.d/*
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 # Environment (ported from Hyprland envs) for Wayland apps on Ubuntu
-setenv XCURSOR_SIZE 24
-setenv XCURSOR_THEME Bibata-Modern-Classic
-setenv QT_QPA_PLATFORM wayland
-setenv QT_WAYLAND_DISABLE_WINDOWDECORATION 1
-setenv QT_AUTO_SCREEN_SCALE_FACTOR 1
-setenv GDK_BACKEND wayland
-setenv MOZ_ENABLE_WAYLAND 1
-setenv XDG_SESSION_TYPE wayland
-setenv XDG_CURRENT_DESKTOP sway
-setenv XDG_SESSION_DESKTOP sway
+# setenv XCURSOR_SIZE 24
+# setenv XCURSOR_THEME Bibata-Modern-Classic
+# setenv QT_QPA_PLATFORM wayland
+# setenv QT_WAYLAND_DISABLE_WINDOWDECORATION 1
+# setenv QT_AUTO_SCREEN_SCALE_FACTOR 1
+# setenv GDK_BACKEND wayland
+# setenv MOZ_ENABLE_WAYLAND 1
+# setenv XDG_SESSION_TYPE wayland
+# setenv XDG_CURRENT_DESKTOP sway
+# setenv XDG_SESSION_DESKTOP sway
 #
 # Example configuration:
 #
@@ -60,10 +60,13 @@ setenv XDG_SESSION_DESKTOP sway
 ### Idle configuration
 #
 # swayidle replacing hypridle
-exec_always --no-startup-id swayidle -w \
-         timeout 420 '$HOME/scripts/lock_with_matrix.sh' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep '$HOME/scripts/lock_with_matrix.sh'
+# exec_always --no-startup-id swayidle -w \
+#          timeout 420 '$HOME/scripts/lock_with_matrix.sh' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep '$HOME/scripts/lock_with_matrix.sh'
+
+# exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
+
 # If you don't have the lock script, install swaylock and swap the command above with: swaylock -f -c 000000
 
 ### Input configuration
@@ -86,7 +89,7 @@ exec_always --no-startup-id swayidle -w \
 #
 #    # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym $mod+t exec $term
+    bindsym $mod+t exec warp-terminal 
     bindsym $mod+x exec kitty
 
     # Kill focused window (ported from Hyprland $mod+q)
@@ -96,16 +99,16 @@ exec_always --no-startup-id swayidle -w \
 
     # Start your launcher (uses $launcher)
     bindsym $mod+d exec $menu
+    # bindsym $mod+d exec sh -c 'grep -l "^Exec=" /usr/share/applications/*.desktop ~/.local/share/applications/*.desktop 2>/dev/null | while read desktop; do name="$(grep "^Name=" "$desktop" | head -n1 | cut -d"=" -f2-)"; exec_cmd="$(grep "^Exec=" "$desktop" | head -n1 | cut -d"=" -f2- | sed "s/%[fFuUcCDi]*//g")"; printf "%s\t%s\n" "$name" "$exec_cmd"; done | fuzzel --dmenu --prompt "Launch" | cut -f2- | sh'
 
     # Notifications toggle
     bindsym $mod+c exec "$swaync -t -sw"
 
     # File manager, browser, editor
-    bindsym $mod+e exec $explorer
-    bindsym $mod+b exec $browser
-    bindsym $mod+n exec $editor
-    bindsym $mod+z exec zen-browser
-    bindsym $mod+m exec lmstudio
+    bindsym $mod+n exec $explorer
+    bindsym $mod+b exec $google-chrome
+    # bindsym $mod+n exec $editor
+    bindsym $mod+z exec flatpak run app.zen_browser.zen
 
     # Toggle floating / fullscreen
     bindsym $mod+Shift+f floating toggle
@@ -114,7 +117,8 @@ exec_always --no-startup-id swayidle -w \
 
     # Custom scripts
     bindsym $mod+u exec "$scripts/bluelight.sh --toggle"
-    bindsym $mod+w exec waypaper
+    # bindsym $mod+Ctrl+w exec waypaper
+    bindsym $mod+Ctrl+w exec bash -lc waypaper
     bindsym $mod+r exec "$scripts/radio.sh"
 
     # Screenshots (grim/slurp replacement for hyprshot)
@@ -126,7 +130,8 @@ exec_always --no-startup-id swayidle -w \
     bindsym $mod+Shift+p exec wl-color-picker -f hex -a
 
     # Lock screen
-    bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
+    # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
+    bindsym $mod+l exec "swaylock -f -c 000000"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -150,7 +155,7 @@ exec_always --no-startup-id swayidle -w \
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    # bindsym $mod+$right focus right
     # Cycle focus (replacement for hypr cyclenext)
     bindsym $mod+Tab focus next
     bindsym Mod1+Tab exec wofi --show window
@@ -208,16 +213,16 @@ exec_always --no-startup-id swayidle -w \
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    # bindsym $mod+b splith
+    # bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
+    bindsym $mod+i layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    # bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -234,15 +239,15 @@ exec_always --no-startup-id swayidle -w \
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    # bindsym $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    # bindsym $mod+minus scratchpad show
 
     # Hyprland "special" workspace rough equivalent:
-    bindsym $mod+i scratchpad show
-    bindsym $mod+Shift+i move scratchpad
+    bindsym $mod+s scratchpad show
+    bindsym $mod+Shift+s move scratchpad
 #
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
@@ -271,7 +276,7 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+# bindsym $mod+r mode "resize"
 
 #
 # Status Bar:
@@ -283,17 +288,23 @@ exec_always --no-startup-id dbus-update-activation-environment --systemd WAYLAND
 exec_always --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id waybar
 exec_always --no-startup-id swaync
+# exec_always --no-startup-id dunst
 # Clipboard history
 exec_always --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
 exec_always --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
 exec_always --no-startup-id copyq
 # KDE Connect indicator
-exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
+# exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
 # Wallpaper
 exec_always --no-startup-id waypaper --restore
 # User scripts
-exec_always --no-startup-id sh -c 'sleep 6 && "$HOME"/scripts/run_special_apps.sh'
-exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
+# exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
+
+# exec_always --no-startup-id flatpak run com.viber.Viber -startintray && swaymsg '[app_id="viber"] move to workspace 3'
+exec_always --no-startup-id flatpak run com.viber.Viber -startintray && sleep 2 && swaymsg '[app_id="com.viber.Viber"] move to workspace 3'
+# exec_always --no-startup-id telegram-desktop -startintray && swaymsg '[app_id="telegram-desktop"] move to workspace 3'
+exec_always --no-startup-id telegram-desktop -startintray
+for_window [app_id="telegram-desktop"] move to workspace 3
 
 # Multimedia keys
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
@@ -307,6 +318,20 @@ bindsym XF86AudioPlay exec playerctl --player=playerctld play-pause
 bindsym XF86AudioPause exec playerctl --player=playerctld play-pause
 bindsym XF86AudioNext exec playerctl --player=playerctld next
 bindsym XF86AudioPrev exec playerctl --player=playerctld previous
+
+# Float everything by default (Wayland + Xwayland)
+for_window [app_id=".*"] floating enable
+for_window [class=".*"] floating enable
+
+
+# Цвета: border, bg, text, indicator, child_border
+# client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
+client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
+
+
+# Workspaces list circle
+bindsym --whole-window $mod+button4 workspace prev_on_output
+bindsym --whole-window $mod+button5 workspace next_on_output
 
 # OBS quick bind
 bindsym $mod+F10 exec obs
