@@ -15,3 +15,4 @@
 #  - 30-integrations.fish tool integrations (fzf, zoxide, etc.)
 #  - 99-interactive.fish  greeting, keybindings, interactive UX
 
+set -x PATH $HOME/.local/bin $PATH
