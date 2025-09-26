@@ -25,6 +25,13 @@ set $scripts $HOME/scripts
 set $launcher $scripts/run_launcher.sh
 set $power $scripts/powermenu.sh
 set $swaync swaync-client
+# Define workspaces for Waybar to show
+workspace 1
+workspace 2
+workspace 3
+workspace 4
+workspace 5
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -284,27 +291,31 @@ mode "resize" {
 # Read `man 5 sway-bar` for more information about this section.
 
 # Autostart (ported from Hyprland execs)
-exec_always --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-exec_always --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec_always --no-startup-id waybar
-exec_always --no-startup-id swaync
+exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id waybar
+exec --no-startup-id swaync
 # exec_always --no-startup-id dunst
 # Clipboard history
-exec_always --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
-exec_always --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
-exec_always --no-startup-id copyq
+exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
+exec --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
+exec --no-startup-id copyq
+# Ensure workspaces 1..5 exist at startup for Waybar
+exec --no-startup-id swaymsg 'workspace number 1; workspace number 2; workspace number 3; workspace number 4; workspace number 5; workspace number 1'
 # KDE Connect indicator
 # exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
 # Wallpaper
-exec_always --no-startup-id waypaper --restore
+exec --no-startup-id $HOME/scripts/restore_wallpaper.sh
 # User scripts
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
 
-# exec_always --no-startup-id flatpak run com.viber.Viber -startintray && swaymsg '[app_id="viber"] move to workspace 3'
-exec_always --no-startup-id flatpak run com.viber.Viber -startintray && sleep 2 && swaymsg '[app_id="com.viber.Viber"] move to workspace 3'
-# exec_always --no-startup-id telegram-desktop -startintray && swaymsg '[app_id="telegram-desktop"] move to workspace 3'
-exec_always --no-startup-id telegram-desktop -startintray
+# Messengers: place on workspace 3
+for_window [class="TelegramDesktop"] move to workspace 3
 for_window [app_id="telegram-desktop"] move to workspace 3
+for_window [app_id="org.telegram.desktop"] move to workspace 3
+for_window [class="Viber"] move to workspace 3
+for_window [app_id="com.viber.Viber"] move to workspace 3
+for_window [app_id="Viber"] move to workspace 3
 
 # Multimedia keys
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
