@@ -62,6 +62,7 @@ backup() {
         "/etc/mkinitcpio.conf"
         "/etc/default/grub"
         "/etc/security/faillock.conf"
+        "/etc/wireguard/wginno.conf"
         # "/boot/refind_linux.conf"
         # "/boot/EFI/refind/refind.conf"
         "$HOME/.config/fish"
