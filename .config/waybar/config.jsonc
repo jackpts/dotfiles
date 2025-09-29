@@ -113,7 +113,7 @@
   },
   "custom/home-free-space": {
     "exec": "$HOME/scripts/home_free_space.sh",
-    "interval": 180,
+    "interval": 300,
     "return-type": "json",
     "tooltip-format": "<tt>Home free space: {}</tt>",
     "on-click": "kitty --class disk-info -e sh -c 'dysk; read -p \"Press Enter\"'"
@@ -166,7 +166,7 @@
   "custom/hypershot": {
     "format": "󰹑",
     "tooltip-format": "Screenshot",
-    "on-click": "bash -lc 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; grim -g \"$(slurp)\" \"$dir/$(date +\"%F_%H-%M-%S\").png\"'"
+    "on-click": "bash -lc 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; filename=\"$dir/$(date +\"%F_%H-%M-%S\").png\"; grim -g \"$(slurp)\" \"$filename\" && wl-copy < \"$filename\"'"
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
@@ -276,7 +276,7 @@
     // "exec": "$HOME/scripts/weather.sh",
     "exec": "python3 $HOME/scripts/weather.py",
     "return-type": "json",
-    "interval": 600,
+    "interval": 900,
     "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
   },
   "custom/bluelight": {

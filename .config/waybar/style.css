@@ -8,7 +8,7 @@
   border: none;
   border-radius: 0;
   font-weight: bold;
-  font-size: 17px;
+  font-size: 16px;
   text-shadow: none;
   box-shadow: none;
 }
@@ -17,22 +17,22 @@ window#waybar {
   all: unset;
 }
 
-.modules-left, .modules-right {
+.modules-left,
+.modules-right {
   padding: 4px;
   /* background: rgba($color-black, 0.7); */
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  border-radius: 0;
 }
 .modules-left {
-  margin: 2px 0 0 3px;
-  border-radius: 0 7px 7px 0;
+  margin: 2px 0 0 2px;
 }
 .modules-right {
-  margin: 2px 3px 0 0;
-  border-radius: 7px 0 0 7px;
+  margin: 2px 2px 0 0;
 }
 .modules-center {
   margin: -2px 0 0 0;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0;
 }
 
 tooltip {
@@ -125,6 +125,7 @@ tooltip {
 #custom-notification,
 #custom-bluetooth-battery,
 #custom-home-free-space,
+#custom-ram-usage,
 #custom-power {
   padding: 0 10px;
   color: #69a;
@@ -140,7 +141,6 @@ tooltip {
 #custom-weather,
 #custom-expand,
 #keyboard-state,
-#language,
 #mpd {
   background: rgba(0, 0, 0, 0.7);
 }
@@ -157,7 +157,7 @@ tooltip {
 }
 
 #network {
-  padding: 0 20px 0 10px;
+  padding: 0 20px 0 0;
   color: #c8f;
 }
 #network:hover {
@@ -169,14 +169,18 @@ tooltip {
 }
 
 #custom-appmenu {
-  padding: 0 4px 0 9px;
-  color: #cddceb;
+  padding: 0 6px 0 9px;
+  color: #e95420; /* Ubuntu orange */
+  /* background-color: rgba(119, 33, 111, 0.8); */
+  border-radius: 5px;
+  font-weight: bold;
   box-shadow: none;
   text-shadow: none;
 }
 #custom-appmenu:hover {
   transition: all 0.3s ease;
-  color: indianred;
+  color: #ff6a00; /* Brighter orange on hover */
+  background-color: rgba(139, 47, 122, 0.9);
 }
 
 #mpd {
@@ -189,7 +193,6 @@ tooltip {
 }
 
 #pulseaudio {
-  padding-right: 15px;
   color: rgba(241, 196, 15, 0.7);
 }
 #pulseaudio.muted {
@@ -217,11 +220,19 @@ tooltip {
   transition: all 0.3s ease;
 }
 
-#language {
-  padding: 0 5px;
+#custom-keyboard-layout {
+  padding: 5px;
   min-width: 32px;
   font-size: 16px;
-  color: #debcdf;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+#custom-keyboard-layout:hover {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
 }
 
 #keyboard-state {
@@ -241,7 +252,8 @@ tooltip {
 #battery {
   color: #51a37a;
 }
-#battery.charging, #battery.plugged {
+#battery.charging,
+#battery.plugged {
   color: #26a65b;
 }
 
@@ -284,7 +296,9 @@ tooltip {
 
 #custom-weather {
   padding: 3px 12px 0;
-  font-family: "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands", sans-serif;
+  font-family:
+    "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
+    sans-serif;
   font-size: 16px;
   color: #eeaa44;
 }
@@ -377,6 +391,53 @@ tooltip {
 #tray {
   border-left: dashed 1px #666;
   border-right: dashed 1px #666;
+}
+
+/* RAM Usage Module */
+#custom-ram-usage {
+  color: #51a37a; /* Default green */
+}
+#custom-ram-usage.normal {
+  color: #51a37a; /* Green for normal usage */
+}
+#custom-ram-usage.warning {
+  color: #f39c12; /* Orange for high usage */
+}
+#custom-ram-usage.critical {
+  color: #e74c3c; /* Red for critical usage */
+  animation: blink 0.8s infinite alternate;
+}
+#custom-ram-usage:hover {
+  transition: all 0.3s ease;
+  color: #fce;
+}
+
+/* Language Module */
+#language {
+  min-width: 35px; /* Ensure minimum width for EN/RU */
+  padding: 0 8px; /* Add horizontal padding */
+  background: rgba(0, 0, 0, 0.7);
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+/* US layout - Violet */
+#language.en,
+#language.us {
+  color: #b19cd9; /* Violet color for US/EN */
+}
+#language.en:hover,
+#language.us:hover {
+  color: #d8bfd8; /* Lighter violet on hover */
+}
+
+/* RU layout - Blue */
+#language.ru {
+  color: #6495ed; /* Blue color for RU */
+}
+#language.ru:hover {
+  color: #87ceeb; /* Lighter blue on hover */
 }
 
 /*# sourceMappingURL=style.css.map */
