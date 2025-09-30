@@ -184,3 +184,7 @@ abbr gss 'clear; and git log --stat --color -p'
 
 # Gnome accounts settings run
 abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accounts'
+
+# Inno VPN start
+abbr inno_vpn_start systemctl start wg-quick@wginno.service
+abbr inno_vpn_stop systemctl stop wg-quick@wginno.service
