@@ -12,11 +12,7 @@ migrations
 
 /.config/ghostty/shaders/*
 
-/.config/fish/functions/*
-!/.config/fish/functions/bass.fish
-!/.config/fish/functions/tide.fish
-!/.config/fish/functions/z.fish
-/.config/fish/completions/*
+/.config/fish/fish_variables
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
