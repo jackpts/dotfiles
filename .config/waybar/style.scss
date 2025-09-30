@@ -9,7 +9,7 @@
   font-size: $size;
 }
 
-$base-font-size: 17px;
+$base-font-size: 16px;
 
 $color-black: #000; // Black
 $color-white: #fff; // White
@@ -50,6 +50,8 @@ $color-bright-light-orange: #cdd6f4; // Bright Light Orange
 $color-bright-light-purple: #debcdf; // Bright Light Purple
 $color-bright-light-gray: #cddceb; // Bright Light Gray
 $color-bright-light-red: #eb4d4b; // Bright Light Red
+$color-ubuntu-orange: #E95420; // Ubuntu Orange
+$color-ubuntu-orange-bright: #FF6A00; // Bright Ubuntu Orange
 
 * {
   border: none;
@@ -65,6 +67,8 @@ window#waybar {
 }
 
 .modules {
+    border-radius: 0;
+
   &-left,
   &-right {
     padding: 4px;
@@ -72,16 +76,13 @@ window#waybar {
     box-shadow: 0 0 2px rgba($color-black, 0.5);
   }
   &-left {
-    margin: 2px 0 0 3px;
-    border-radius: 0 7px 7px 0;
+    margin: 2px 0 0 2px;
   }
   &-right {
-    margin: 2px 3px 0 0;
-    border-radius: 7px 0 0 7px;
+    margin: 2px 2px 0 0;
   }
   &-center {
     margin: -2px 0 0 0;
-    border-radius: 0 0 5px 5px;
   }
 }
 
@@ -198,10 +199,7 @@ tooltip {
 #custom-hypershot,
 #custom-screen_recorder,
 #custom-updates,
-#custom-weather,
-#custom-expand,
-#keyboard-state,
-#mpd {
+#custom-weather {
   background: rgba($color-black, 0.7);
 }
 
@@ -218,7 +216,7 @@ tooltip {
 }
 
 #network {
-  padding: 0 20px 0 10px;
+  padding: 0 10px 0 5px;
   color: $color-bright-cyan;
 
   &:hover {
@@ -231,24 +229,17 @@ tooltip {
 }
 
 #custom-appmenu {
-  padding: 0 4px 0 9px;
-  color: $color-magenta;
+  padding: 0 6px 0 9px;
+  color: $color-ubuntu-orange;
+  /* border-radius: 5px; */
+  font-weight: bold;
   box-shadow: none;
   text-shadow: none;
 
   &:hover {
     transition: all 0.3s ease;
-    color: $color-indianred;
-  }
-}
-
-#mpd {
-  padding: 0 10px;
-  color: $color-bright-light-blue;
-
-  &:hover {
-    transition: all 0.3s ease;
-    color: $color-indianred;
+    color: $color-ubuntu-orange-bright; // Brighter orange on hover
+    background-color: rgba(139, 47, 122, 0.9);
   }
 }
 
@@ -283,34 +274,6 @@ tooltip {
   transition: all 0.3s ease;
 }
 
-#custom-keyboard-layout {
-  padding: 0 5px;
-  min-width: 32px;
-  @include fontSize($base-font-size - 1px);
-  color: $color-white;
-  background: linear-gradient(135deg, #8b5cf6, #a855f7);
-  border-radius: 4px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: linear-gradient(135deg, #7c3aed, #9333ea);
-  }
-}
-
-#keyboard-state {
-  background-color: $color-bright-light-green;
-  color: $color-black;
-  margin: 0 5px;
-}
-
-#keyboard-state > label {
-  padding: 0 5px;
-}
-
-#keyboard-state > label.locked {
-  background-color: rgba($color-black, 0.2);
-}
 
 #battery {
   color: $color-bright-light-green;
@@ -337,7 +300,8 @@ tooltip {
 }
 
 #custom-updates {
-  padding: 0 5px;
+  padding: 0 15px 0 5px;
+  @include fontSize($base-font-size - 1px);
   color: $color-yellow;
 
   &.updates-available {
@@ -353,7 +317,7 @@ tooltip {
 }
 
 #custom-bluetooth-battery {
-  padding-left: 0;
+  padding: 0 5px;
   color: $color-bright-purple;
 
   &:hover {
@@ -362,10 +326,7 @@ tooltip {
 }
 
 #custom-weather {
-  padding: 3px 12px 0;
-  font-family:
-    "Nerd Font Complete", "Font Awesome 5 Free", "Font Awesome 5 Brands",
-    sans-serif;
+  padding: 3px 12px 0 3px;
   @include fontSize($base-font-size - 1px);
   color: $color-orange;
 
@@ -415,22 +376,6 @@ tooltip {
   }
 } */
 
-#group-expand {
-  padding: 0 5px;
-  transition: all 0.3s ease;
-}
-#custom-expand {
-  padding: 0px 5px;
-  color: rgba($color-bright-light-gray, 0.5);
-  text-shadow: 0 0 2px rgba($color-black, 0.7);
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: rgba($color-white, 0.2);
-    text-shadow: 0 0 2px rgba($color-white, 0.5);
-  }
-}
-
 #custom-screen_recorder {
   padding: 0 15px 0 10px;
 }
@@ -454,6 +399,32 @@ tooltip {
 #custom-hypershot:hover {
   transition: all 0.3s ease;
   color: $color-bright-red;
+}
+
+#language {
+  padding: 0 5px;
+  min-width: 28px;
+  @include fontSize($base-font-size - 1); // readable
+  font-weight: bold;
+  color: $color-bright-light-blue;
+  background: rgba($color-black, 0.7);
+  transition: all 0.3s ease;
+
+  &.en, &.us {
+    color: #e15cd9; // Violet color for US/EN
+
+    &:hover {
+      color: #d8bfd8; // Lighter violet on hover
+    }
+  }
+
+  &.ru {
+    color: #6495ed; // Blue color for RU
+
+    &:hover {
+      color: #87ceeb; // Lighter blue on hover
+    }
+  }
 }
 
 #tray {

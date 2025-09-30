@@ -3,7 +3,7 @@
   "position": "top",
   "height": 40,
   // "spacing": 4,
-  "style": "Everforest-Dark",
+  "style": "style.css",
   "reload_style_on_change": true,
   "debug": true,
   "modules-left": [
@@ -68,14 +68,6 @@
     "on-scroll-down": "swaymsg workspace prev",
     "on-click": "activate",
     "font": "JetBrainsMono Nerd Font"
-  },
-  "custom/expand": {
-    "format": "",
-    "tooltip": false
-  },
-  "custom/endpoint": {
-    "format": "",
-    "tooltip": false
   },
   "clock": {
     "format": "{:%H:%M, %d %b}",
@@ -151,7 +143,7 @@
     // "format-wifi": "<span foreground='#9fd'>  {bandwidthDownBytes}</span> <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
     "format-wifi": "{ipaddr}",
     // "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\nPublic IP: {public_ip}\n",
-    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\n<span foreground='#9fd'>  {bandwidthDownBytes}</span> <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
+    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\n<span foreground='#9fd'>  {bandwidthDownBytes}</span>   <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
     "format-linked": " {ifname} (No IP)",
     "format-connected": "{ip} | {public_ip}",
     "format-disconnected": "󰖪 ",
