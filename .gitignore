@@ -30,3 +30,7 @@ migrations
 
 .opencode/
 dbui
+
+
+.sass-cache
+
