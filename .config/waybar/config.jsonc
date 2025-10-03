@@ -18,13 +18,14 @@
     // "group/expand",
     // "custom/bluelight",
     // "group/group-vitals",
-    "temperature",
+    // "temperature",
     "backlight",
     "cpu",
     "memory",
     "custom/home-free-space",
     "pulseaudio",
     "network",
+    "custom/public-ip",
     "custom/bluetooth-battery",
     "custom/screen_recorder",
     "custom/hypershot",
@@ -36,8 +37,8 @@
     "clock"
   ],
   "custom/appmenu": {
-    "format": " ",
-    "tooltip-format": "Menu/Power",
+    "format": "",
+    "tooltip-format": "Garuda Menu/Power",
     "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "swaymsg reload",
     "on-click-right": "$HOME/scripts/powermenu.sh",
@@ -133,27 +134,24 @@
   },
   "network": {
     "tooltip": true,
-    "rotate": 0,
-    // "format": "{ifname}",
-    "format": "{ip} | {public_ip}",
-    // "public_ip": "curl -s ifconfig.me",
-    "public_ip": "$HOME/scripts/get_public_ip.sh",
-    // "format-ethernet": " ",
-    "format-ethernet": "{ipaddr}/{cidr} ",
-    // "format-wifi": "<span foreground='#9fd'>  {bandwidthDownBytes}</span> <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
-    "format-wifi": "{ipaddr}",
-    // "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\nPublic IP: {public_ip}\n",
-    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\n<span foreground='#9fd'>  {bandwidthDownBytes}</span>   <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
-    "format-linked": " {ifname} (No IP)",
-    "format-connected": "{ip} | {public_ip}",
-    "format-disconnected": "󰖪 ",
+    "format-wifi": "󰤨  {icon}",
+    "format-ethernet": "󰈀  {icon}", 
+    "format-disconnected": "󰤭  Disconnected",
+    "format-icons": [""],
+    "tooltip-format-wifi": "Network: <big><b>{essid}</b></big>\nSignal: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nLocal IP: <b>{ipaddr}</b>\nGateway: <b>{gwaddr}</b>\n󰇚: <b>{bandwidthDownBytes}</b>   󰕒: <b>{bandwidthUpBytes}</b>",
+    "tooltip-format-ethernet": "Interface: <b>{ifname}</b>\nLocal IP: <b>{ipaddr}</b>\nGateway: <b>{gwaddr}</b>\n󰇚: <b>{bandwidthDownBytes}</b>   󰕒: <b>{bandwidthUpBytes}</b>",
     "tooltip-format-disconnected": "Disconnected ⚠",
-    "format-alt": "{essid} ({signalStrength}%) ",
-    // "format-alt": "{ipaddr}",
     "interval": 5,
-    // "on-click": "kitty -e nmtui",
-    // "on-click-right": "sh -c '(sleep 0.1s; kitty --class dotfiles-floating -e sh $HOME/scripts/network.sh)' & disown"
-    "on-click-right": "networkmanager_dmenu"
+    "on-click": "networkmanager_dmenu",
+    "on-click-right": "kitty -e nmtui"
+  },
+  "custom/public-ip": {
+    "format": "{}",
+    "exec": "$HOME/dotfiles/scripts/get_public_ip.sh --json",
+    "interval": 60,
+    "return-type": "json",
+    "tooltip": true,
+    "on-click": "$HOME/dotfiles/scripts/get_public_ip.sh | wl-copy && notify-send 'IP Copied' 'Public IP copied to clipboard'"
   },
   "custom/hypershot": {
     "format": "󰹑",
@@ -207,10 +205,12 @@
   //   "tooltip": false
   // },
   "custom/updates": {
-    "exec": "$HOME/scripts/ubuntu_updates.sh",
+    "exec": "$HOME/scripts/garuda_updates.sh",
     "return-type": "json",
+    "format": "{}",
     "interval": 300,
-    "on-click": "kitty -e bash -lc 'sudo apt update && sudo apt upgrade -y; notify-send \"Update complete\"; read -n 1 -s -p \"Press any key to close\"'"
+    "tooltip": true,
+    "on-click": "kitty -e bash -lc 'sudo pacman -Syu && paru -Sua --noconfirm; notify-send \"Update complete\"; read -n 1 -s -p \"Press any key to close\"'"
   },
   "custom/notification": {
     "tooltip": false,
@@ -269,7 +269,7 @@
     "exec": "python3 $HOME/scripts/weather.py",
     "return-type": "json",
     "interval": 900,
-    "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
+    "on-click": "sleep 0.5s; alacritty --class weather-display --option window.dimensions.columns=85 --option window.dimensions.lines=30 --option font.size=12 -e sh -c 'curl -s \"https://wttr.in/?2n\"; echo; echo \"Press any key to exit...\"; read -n 1 -s key'"
   },
   "custom/bluelight": {
     "exec": "$HOME/scripts/bluelight.sh",

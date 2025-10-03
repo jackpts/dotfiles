@@ -14,6 +14,7 @@ alias cd.. 'cd ..'
 abbr .. 'cd ..'
 abbr ... 'cd ../..'
 abbr .... 'cd ../../..'
+abbr cd 'z'
 abbr mkdir 'mkdir -p'
 alias z.. 'z ..'
 alias logmeout "sudo pkill -u $USER"

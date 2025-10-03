@@ -115,7 +115,7 @@ include /etc/sway/config-vars.d/*
     bindsym $mod+n exec $explorer
     bindsym $mod+b exec $google-chrome
     # bindsym $mod+n exec $editor
-    bindsym $mod+z exec flatpak run app.zen_browser.zen
+    bindsym $mod+z exec zen-browser
 
     # Toggle floating / fullscreen
     bindsym $mod+Shift+f floating toggle
@@ -337,6 +337,12 @@ bindsym XF86AudioPrev exec playerctl --player=playerctld previous
 # Float everything by default (Wayland + Xwayland)
 for_window [app_id=".*"] floating enable
 for_window [class=".*"] floating enable
+
+# Override floating for specific apps that should be tiled
+# Warp terminal should always be tiled
+for_window [app_id="dev.warp.Warp"] floating disable
+for_window [class="dev.warp.Warp"] floating disable
+for_window [title=".*Warp.*"] floating disable
 
 
 # Цвета: border, bg, text, indicator, child_border

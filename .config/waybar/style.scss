@@ -50,8 +50,8 @@ $color-bright-light-orange: #cdd6f4; // Bright Light Orange
 $color-bright-light-purple: #debcdf; // Bright Light Purple
 $color-bright-light-gray: #cddceb; // Bright Light Gray
 $color-bright-light-red: #eb4d4b; // Bright Light Red
-$color-ubuntu-orange: #E95420; // Ubuntu Orange
-$color-ubuntu-orange-bright: #FF6A00; // Bright Ubuntu Orange
+$color-garuda-teal: #4DD0E1; // Garuda Teal
+$color-garuda-teal-bright: #26C6DA; // Bright Garuda Teal
 
 * {
   border: none;
@@ -97,7 +97,7 @@ tooltip {
   background: rgba($color-black, 0.7);
 
   button {
-    padding: 0 7px;
+    padding: 2px 7px;
     color: rgba($color-light-gray, 0.7);
     background-color: transparent;
     box-shadow: none;
@@ -187,8 +187,9 @@ tooltip {
 #custom-notification,
 #custom-bluetooth-battery,
 #custom-home-free-space,
-#custom-power {
-  padding: 0 10px;
+#custom-power,
+#custom-public-ip {
+  padding: 0 10px 0 0;
   color: $color-bright-light-blue;
   background: rgba($color-black, 0.7);
 }
@@ -216,7 +217,7 @@ tooltip {
 }
 
 #network {
-  padding: 0 10px 0 5px;
+  padding: 0 5px 0 10px;
   color: $color-bright-cyan;
 
   &:hover {
@@ -230,7 +231,7 @@ tooltip {
 
 #custom-appmenu {
   padding: 0 6px 0 9px;
-  color: $color-ubuntu-orange;
+  color: $color-garuda-teal;
   /* border-radius: 5px; */
   font-weight: bold;
   box-shadow: none;
@@ -238,8 +239,8 @@ tooltip {
 
   &:hover {
     transition: all 0.3s ease;
-    color: $color-ubuntu-orange-bright; // Brighter orange on hover
-    background-color: rgba(139, 47, 122, 0.9);
+    color: $color-garuda-teal-bright; // Brighter teal on hover
+    background-color: rgba(77, 208, 225, 0.2);
   }
 }
 
