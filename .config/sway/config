@@ -17,6 +17,7 @@ set $right l
 set $term kitty
 # Common apps and scripts (ported from Hyprland)
 set $explorer nemo
+# set $explorer dolphin
 set $notes obsidian
 set $browser firefox
 set $editor nvim
@@ -347,7 +348,8 @@ for_window [title=".*Warp.*"] floating disable
 
 # Цвета: border, bg, text, indicator, child_border
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
-client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
+# client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
+client.focused          #4c7899 #55116677 #ffffff #2e9ef4 #285577
 
 
 # Workspaces list circle
