@@ -73,7 +73,6 @@ window#waybar {
   &-right {
     padding: 4px;
     /* background: rgba($color-black, 0.7); */
-    box-shadow: 0 0 2px rgba($color-black, 0.5);
   }
   &-left {
     margin: 2px 0 0 2px;
@@ -82,7 +81,6 @@ window#waybar {
     margin: 2px 2px 0 0;
   }
   &-center {
-    margin: -2px 0 0 0;
   }
 }
 
@@ -93,7 +91,7 @@ tooltip {
 }
 
 #workspaces {
-  padding: 0;
+  padding: 0 3px 0 0;
   background: rgba($color-black, 0.7);
 
   button {
@@ -301,7 +299,7 @@ tooltip {
 }
 
 #custom-updates {
-  padding: 0 15px 0 5px;
+  padding: 0 15px 0 20px;
   @include fontSize($base-font-size - 1px);
   color: $color-yellow;
 
