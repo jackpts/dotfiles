@@ -57,14 +57,13 @@
   "sway/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "default": "",
-      "active": "󰮯",
-      "empty": "ᗣ",
+      "default": "ᗣ",
+      "focused": "󰮯",
       "urgent": ""
     },
-    // "persistent-workspaces": {
-    //   "outputs": {"*": [1, 2, 3, 4, 5]}
-    // },
+    "persistent-workspaces": {
+      "outputs": {"*": [1, 2, 3, 4, 5]}
+    },
     "on-scroll-up": "swaymsg workspace next",
     "on-scroll-down": "swaymsg workspace prev",
     "on-click": "activate",
@@ -128,7 +127,7 @@
   },
   "backlight": {
     // "device": "acpi_video1",
-    "format": "{percent}% {icon}",
+    "format": " {icon} {percent}%",
     "format-icons": ["○", "◑", "◑", "◐", "◐", "●", "●", "☀", "☀"],
     "tooltip": false
   },
