@@ -119,6 +119,37 @@ getactivemonitor() {
     swaymsg -t get_outputs | jq -r '.[] | select(.focused == true) | .name'
 }
 
+# Get active window geometry string for wf-recorder ("x,y WxH")
+getactivewindow() {
+    swaymsg -t get_tree | jq -r '.. | select(.focused? == true) | "\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)"'
+}
+
+# Get active window region string for gpu-screen-recorder ("WxH+X+Y")
+get_window_region() {
+    swaymsg -t get_tree | jq -r '.. | select(.focused? == true) | "\(.rect.width)x\(.rect.height)+\(.rect.x)+\(.rect.y)"'
+}
+
+# Detect if gpu-screen-recorder is available
+has_gsr() {
+    command -v gpu-screen-recorder >/dev/null 2>&1
+}
+
+# Wrapper function to start wf-recorder with error handling
+start_wf_recorder() {
+    local cmd="$1"
+    # Start recording in background and capture any immediate errors
+    $cmd 2>/dev/null &
+    local pid=$!
+    sleep 0.5
+    # Check if process is still running (indicates success)
+    if kill -0 $pid 2>/dev/null; then
+        return 0
+    else
+        notify-send "Recording Error" "wf-recorder failed to start. Check logs."
+        return 1
+    fi
+}
+
 covert_mp4_to_gif() {
     notify-send "Converting Temp Rec file in GIF.." &&
         ffmpeg -i $1 -vf "fps=10,scale=iw/2:ih/2:flags=lanczos" -f gif $2
@@ -140,8 +171,14 @@ check_gif_colors() {
 }
 
 toggle_recording() {
-    if pgrep -x "wf-recorder" >/dev/null; then
-        pkill wf-recorder
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        # Stop whichever recorder is running
+        if pgrep -x "wf-recorder" >/dev/null; then
+            pkill wf-recorder
+        fi
+        if pgrep -f "gpu-screen-recorder" >/dev/null; then
+            pkill -SIGINT -f gpu-screen-recorder
+        fi
         notify-send "Recording Stopped"
         sleep 1
         cd ${dirRecord} || exit 1
@@ -162,6 +199,8 @@ Record fullscreen with sound
 Record selected area
 Record selected area with sound
 Record selected area in GIF
+Record window
+Record window with sound
 EOF
         )
 
@@ -169,22 +208,38 @@ EOF
 
         case ${chosen} in
         "Record fullscreen")
-            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t &
+            if has_gsr; then
+                gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -o "./recording_$(getdate).mp4" &
+            else
+                wf-recorder -o "$(getactivemonitor)" -f "./recording_$(getdate).mp4" &
+            fi
             notify-send "Recording [fullscreen] started"
             disown
             ;;
         "Record fullscreen with sound")
-            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --audio="$(setup_audio_mix)" &
+            if has_gsr; then
+                gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+            else
+                wf-recorder -o "$(getactivemonitor)" -f "./recording_$(getdate).mp4" --audio="$(setup_audio_mix)" &
+            fi
             notify-send "Recording [fullscreen with system+mic audio] started"
             disown
             ;;
         "Record selected area")
-            wf-recorder --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --geometry "$(slurp)" &
+            if has_gsr; then
+                gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -o "./recording_$(getdate).mp4" &
+            else
+                wf-recorder -f "./recording_$(getdate).mp4" --geometry "$(slurp)" &
+            fi
             notify-send "Recording [selected area] started"
             disown
             ;;
         "Record selected area with sound")
-            wf-recorder --pixel-format yuv420p -f "./recording_$(getdate).mp4" -t --geometry "$(slurp)" --audio="$(setup_audio_mix)" &
+            if has_gsr; then
+                gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+            else
+                wf-recorder -f "./recording_$(getdate).mp4" --geometry "$(slurp)" --audio="$(setup_audio_mix)" &
+            fi
             notify-send "Recording [selected area with system+mic audio] started"
             disown
             ;;
@@ -192,26 +247,247 @@ EOF
             if [ -e $temp_file ]; then
                 rm $temp_file
             fi
-
-            wf-recorder --pixel-format yuv420p -f $temp_file -t --geometry "$(slurp)" &
+            if has_gsr; then
+                gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 30 -q medium -o "$temp_file" &
+            else
+                wf-recorder -f $temp_file --geometry "$(slurp)" &
+            fi
             notify-send "Recording [selected area in GIF] started"
             disown
+            ;;
+        "Record window")
+            if has_gsr; then
+                region="$(get_window_region)"
+                if [ -n "$region" ]; then
+                    gpu-screen-recorder -w region -region "$region" -f 60 -q high -o "./recording_$(getdate).mp4" &
+                    notify-send "Recording [active window] started" "Region: $region"
+                    disown
+                else
+                    notify-send "Error" "Could not get active window geometry"
+                fi
+            else
+                window_geom=$(getactivewindow)
+                if [ -n "$window_geom" ]; then
+                    wf-recorder -f "./recording_$(getdate).mp4" --geometry "$window_geom" &
+                    notify-send "Recording [active window] started" "Geometry: $window_geom"
+                    disown
+                else
+                    notify-send "Error" "Could not get active window geometry"
+                fi
+            fi
+            ;;
+        "Record window with sound")
+            if has_gsr; then
+                region="$(get_window_region)"
+                if [ -n "$region" ]; then
+                    gpu-screen-recorder -w region -region "$region" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+                    notify-send "Recording [active window with system+mic audio] started" "Region: $region"
+                    disown
+                else
+                    notify-send "Error" "Could not get active window geometry"
+                fi
+            else
+                window_geom=$(getactivewindow)
+                if [ -n "$window_geom" ]; then
+                    wf-recorder -f "./recording_$(getdate).mp4" --geometry "$window_geom" --audio="$(setup_audio_mix)" &
+                    notify-send "Recording [active window with system+mic audio] started" "Geometry: $window_geom"
+                    disown
+                else
+                    notify-send "Error" "Could not get active window geometry"
+                fi
+            fi
             ;;
         esac
     fi
 }
 
 get_recording_state() {
-    if pgrep -x "wf-recorder" >/dev/null; then
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
         echo '{"text": "", "tooltip": "Recording: ON", "class": "on"}'
     else
         echo '{"text": "", "tooltip": "Recording: OFF", "class": "off"}'
     fi
 }
 
+# Direct recording functions for parameter support
+start_fullscreen_recording() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -o "./recording_$(getdate).mp4" &
+    else
+        wf-recorder -o "$(getactivemonitor)" -f "./recording_$(getdate).mp4" &
+    fi
+    notify-send "Recording [fullscreen] started"
+    disown
+}
+
+start_fullscreen_recording_with_sound() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+    else
+        wf-recorder -o "$(getactivemonitor)" -f "./recording_$(getdate).mp4" --audio="$(setup_audio_mix)" &
+    fi
+    notify-send "Recording [fullscreen with system+mic audio] started"
+    disown
+}
+
+start_area_recording() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -o "./recording_$(getdate).mp4" &
+    else
+        wf-recorder -f "./recording_$(getdate).mp4" --geometry "$(slurp)" &
+    fi
+    notify-send "Recording [selected area] started"
+    disown
+}
+
+start_area_recording_with_sound() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+    else
+        wf-recorder -f "./recording_$(getdate).mp4" --geometry "$(slurp)" --audio="$(setup_audio_mix)" &
+    fi
+    notify-send "Recording [selected area with system+mic audio] started"
+    disown
+}
+
+start_window_recording() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        region="$(get_window_region)"
+        if [ -n "$region" ]; then
+            gpu-screen-recorder -w region -region "$region" -f 60 -q high -o "./recording_$(getdate).mp4" &
+            notify-send "Recording [active window] started"
+            disown
+        else
+            notify-send "Error" "Could not get active window geometry"
+        fi
+    else
+        window_geom=$(getactivewindow)
+        if [ -n "$window_geom" ]; then
+            wf-recorder -f "./recording_$(getdate).mp4" --geometry "$window_geom" &
+            notify-send "Recording [active window] started"
+            disown
+        else
+            notify-send "Error" "Could not get active window geometry"
+        fi
+    fi
+}
+
+start_window_recording_with_sound() {
+    cd ${dirRecord} || exit 1
+    if has_gsr; then
+        region="$(get_window_region)"
+        if [ -n "$region" ]; then
+            gpu-screen-recorder -w region -region "$region" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
+            notify-send "Recording [active window with system+mic audio] started"
+            disown
+        else
+            notify-send "Error" "Could not get active window geometry"
+        fi
+    else
+        window_geom=$(getactivewindow)
+        if [ -n "$window_geom" ]; then
+            wf-recorder -f "./recording_$(getdate).mp4" --geometry "$window_geom" --audio="$(setup_audio_mix)" &
+            notify-send "Recording [active window with system+mic audio] started"
+            disown
+        else
+            notify-send "Error" "Could not get active window geometry"
+        fi
+    fi
+}
+
+start_gif_recording() {
+    cd ${dirRecord} || exit 1
+    if [ -e $temp_file ]; then
+        rm $temp_file
+    fi
+wf-recorder -f $temp_file --geometry "$(slurp)" &
+    notify-send "Recording [selected area in GIF] started"
+    disown
+}
+
+stop_recording() {
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        if pgrep -x "wf-recorder" >/dev/null; then
+            pkill wf-recorder
+        fi
+        if pgrep -f "gpu-screen-recorder" >/dev/null; then
+            pkill -SIGINT -f gpu-screen-recorder
+        fi
+        notify-send "Recording Stopped"
+        sleep 1
+        cd ${dirRecord} || exit 1
+
+        if [ -e $temp_file ]; then
+            output="recording_$(getdate).gif"
+            temp_output="${output%.*}_temp.gif"
+            covert_mp4_to_gif $temp_file $temp_output && optimize_gif $temp_file &&
+                notify-send "Saving GIF finished: $output" && rm $temp_file $temp_output $temp_palette &
+        fi
+        # Tear down any temporary audio mixing modules
+        cleanup_audio_mix
+    fi
+}
+
 case "$1" in
 --toggle)
     toggle_recording
+    ;;
+--stop)
+    stop_recording
+    ;;
+--fullscreen)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_fullscreen_recording
+    fi
+    ;;
+--fullscreen-sound)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_fullscreen_recording_with_sound
+    fi
+    ;;
+--area)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_area_recording
+    fi
+    ;;
+--area-sound)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_area_recording_with_sound
+    fi
+    ;;
+--window)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_window_recording
+    fi
+    ;;
+--window-sound)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_window_recording_with_sound
+    fi
+    ;;
+--gif)
+    if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
+        stop_recording
+    else
+        start_gif_recording
+    fi
     ;;
 *)
     get_recording_state
