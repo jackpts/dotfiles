@@ -30,7 +30,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       20%;
+    width:                       30%;
     x-offset:                    0px;
     y-offset:                    0px;
     enabled:                     true;
@@ -97,7 +97,7 @@ button selected {
 listview {
     enabled:                     true;
     columns:                     1;
-    lines:                       5;
+    lines:                       7;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;
