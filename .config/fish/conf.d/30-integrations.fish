@@ -35,6 +35,12 @@ end
 # zoxide
 if type -q zoxide
     zoxide init fish | source
+    # Override zoxide's z function to add auto-ls
+    function z --wraps __zoxide_z --description 'zoxide with auto-ls'
+        __zoxide_z $argv
+        # Auto-run ls after successful z
+        ls
+    end
 end
 
 # Prompt (kept commented)
