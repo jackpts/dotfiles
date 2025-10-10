@@ -65,7 +65,7 @@ fi
 
 # Format the output
 if [ "$total_updates" -gt 0 ]; then
-  if [ "$aur_count" -gt 0 ]; then
+  if [ "$aur_count" -gt 0 ] && [ "$updates_count" -gt 0 ]; then
     display_text="$updates_count+$aur_count $icon"
   else
     display_text="$total_updates $icon"
