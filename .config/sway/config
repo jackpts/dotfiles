@@ -309,6 +309,8 @@ exec --no-startup-id swaymsg 'workspace number 1; workspace number 2; workspace 
 exec --no-startup-id $HOME/scripts/restore_wallpaper.sh
 # User scripts
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
+# for remote connect via rustdesk
+exec xdg-desktop-portal-wlr
 
 # Messengers: place on workspace 3
 for_window [class="TelegramDesktop"] move to workspace 3
