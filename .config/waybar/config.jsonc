@@ -20,7 +20,7 @@
     // "group/group-vitals",
     // "temperature",
     "backlight",
-    "cpu",
+    "custom/cpu",
     "memory",
     "custom/home-free-space",
     "pulseaudio",
@@ -57,7 +57,8 @@
   "sway/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "default": "ᗣ",
+      // "default": "ᗣ",
+      "default": "",
       "focused": "󰮯",
       "urgent": ""
     },
@@ -67,6 +68,8 @@
     "on-scroll-up": "swaymsg workspace next",
     "on-scroll-down": "swaymsg workspace prev",
     "on-click": "activate",
+    // "on-click": "swaymsg workspace {instance}",
+    // "on-click-right": "swaymsg move container to workspace {instance}",
     "font": "JetBrainsMono Nerd Font"
   },
   "clock": {
@@ -90,10 +93,12 @@
       "on-scroll-down": "shift_down"
     }
   },
-  "cpu": {
+  "custom/cpu": {
+    "exec": "$HOME/dotfiles/scripts/cpu_with_temp.sh",
     "interval": 2,
-    "format": "  {usage}%",
-    "tooltip": "{icon0} {icon1} {icon2} {icon3}",
+    "format": "{}",
+    "return-type": "json",
+    "tooltip": true,
     "on-click": "kitty -e htop"
   },
   "memory": {
@@ -116,7 +121,8 @@
     "tooltip": true,
     "exec-if": "exit 0",
     "exec": "$HOME/scripts/screen_record.sh",
-    "on-click": "$HOME/scripts/screen_record.sh --toggle"
+    "on-click": "$HOME/scripts/screen_record.sh --toggle",
+    "on-click-right": "nemo $(xdg-user-dir VIDEOS)/Screenrecorder"
   },
   "temperature": {
     "hwmon-path": "/sys/class/hwmon/hwmon0/temp1_input",
