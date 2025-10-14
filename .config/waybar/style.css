@@ -103,6 +103,7 @@ tooltip {
 #clock,
 #battery,
 #cpu,
+#custom-cpu,
 #memory,
 #disk,
 #temperature,
@@ -197,6 +198,7 @@ tooltip {
 }
 
 #cpu,
+#custom-cpu,
 #memory {
   min-width: 55px;
   color: #cddceb;
