@@ -118,7 +118,8 @@ alias docker_mem_usage 'docker stats --no-stream'
 alias established 'netstat -anp | grep ESTABLISHED'
 
 # Misc abbr
-abbr backup $HOME/scripts/backup.sh
+# abbr backup $HOME/scripts/backup.sh
+abbr backup $HOME/dotfiles/scripts/sway-backup.sh
 abbr ipinfo 'curl ipinfo.io'
 abbr ip 'ip -c'
 abbr ipe 'curl ifconfig.co'
