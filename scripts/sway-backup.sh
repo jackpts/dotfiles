@@ -36,9 +36,10 @@ ARCHIVE_PATH="${BACKUP_DIR}/${ARCHIVE_NAME}"
 CORE_BACKUP_ITEMS=(
     "$HOME_DIR/obsidian/"
     "$HOME_DIR/Projects/"
-    "$HOME_DIR/Passwords.kdbx"
+    "$HOME_DIR/*.kdbx"
     "$HOME_DIR/dotfiles"
     "$HOME_DIR/Documents/bookmarks-*.json"
+    "$HOME_DIR/Documents/Sala/"
     "/etc/systemd/logind.conf.d/ignore-lid.conf"
 )
 
