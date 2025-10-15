@@ -1,30 +1,36 @@
 return {
     "mfussenegger/nvim-lint",
-    config = function()
-        require("lint").linters_by_ft = {
+    opts = {
+        linters_by_ft = {
             c = { "cpplint" },
             cpp = { "cpplint" },
             sh = { "shellcheck" },
-            bash = { "bash" },
+            bash = { "shellcheck" },
             rust = { "clippy" },
             python = { "pylint" },
             lua = { "luacheck" },
             sql = { "sqlfluff" },
-            markdown = { "Vale" },
+            markdown = { "vale" },
             html = { "htmlhint" },
             css = { "stylelint" },
-            scss = { "stylelint-scss" },
-            yaml = { "spectral" },
-            json = { "spectral" },
-        }
+            scss = { "stylelint" },
+            yaml = { "yamllint" },
+            json = { "jsonlint" },
+        },
+    },
+    config = function(_, opts)
+        local lint = require("lint")
+        
+        -- Merge with LazyVim's default linters
+        for ft, linters in pairs(opts.linters_by_ft) do
+            lint.linters_by_ft[ft] = lint.linters_by_ft[ft] or {}
+            vim.list_extend(lint.linters_by_ft[ft], linters)
+        end
 
+        -- Add codespell as a global linter
         vim.api.nvim_create_autocmd({ "BufWritePost" }, {
             callback = function()
-                local function try_lint(lint)
-                    require("lint").try_lint(lint)
-                end
-
-                try_lint("codespell")
+                require("lint").try_lint("codespell")
             end,
         })
     end,
