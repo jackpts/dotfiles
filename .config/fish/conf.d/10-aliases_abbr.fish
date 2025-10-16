@@ -156,7 +156,9 @@ abbr u1 'sudo pacman -Suyy'
 abbr u2 '$aurhelper -Suyy --noconfirm'
 
 # Tools
-alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# yt-dlp -x --audio-format mp3 --cookies-from-browser chrome "https://www.youtube.com/watch?v=RLPfcG8oVqs"
+alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --cookies-from-browser chrome --embed-metadata --audio-quality 0 -x'
 
 # K8s and misc
 alias k 'kubectl'
