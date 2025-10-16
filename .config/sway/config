@@ -349,6 +349,7 @@ for_window [title=".*Warp.*"] floating disable
 
 ### Opacity apps
 for_window [app_id="nemo"] opacity 0.9
+for_window [app_id="zen"] opacity 0.95
 
 # Цвета: border, bg, text, indicator, child_border
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
