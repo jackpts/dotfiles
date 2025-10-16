@@ -6,6 +6,7 @@ return {
         dependencies = {
             "nvim-telescope/telescope-fzf-native.nvim",
             "nvim-telescope/telescope-live-grep-args.nvim",
+            "nvim-telescope/telescope-media-files.nvim",
             build = "make",
             config = function()
                 local lga_actions = require("telescope-live-grep-args.actions")
@@ -37,12 +38,19 @@ return {
                             -- Optional theme (the extension doesn't set a default theme)
                             theme = "ivy",
                         },
+                        media_files = {
+                            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
+                            filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
+                            -- find command (defaults to `fd`)
+                            find_cmd = "rg",
+                        },
                     },
                 })
 
                 telescope.load_extension("fzf")
                 telescope.load_extension("live_grep_args")
                 telescope.load_extension("package_info")
+                telescope.load_extension("media_files")
             end,
         },
         keys = {
@@ -85,29 +93,5 @@ return {
                 },
             },
         },
-    },
-
-    -- :Telescope media_files
-    {
-        "nvim-telescope/telescope-media-files.nvim",
-        dependencies = {
-            { "nvim-telescope/telescope.nvim" },
-            { "nvim-lua/popup.nvim" },
-            { "nvim-lua/plenary.nvim" },
-        },
-        config = function()
-            telescope.setup({
-                extensions = {
-                    media_files = {
-                        -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-                        filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
-                        -- find command (defaults to `fd`)
-                        find_cmd = "rg",
-                    },
-                },
-            })
-
-            telescope.load_extension("media_files")
-        end,
     },
 }
