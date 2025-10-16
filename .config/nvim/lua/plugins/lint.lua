@@ -7,7 +7,7 @@ return {
             sh = { "shellcheck" },
             bash = { "shellcheck" },
             rust = { "clippy" },
-            python = { "pylint" },
+            python = { "pylint", "flake8" },
             lua = { "luacheck" },
             sql = { "sqlfluff" },
             markdown = { "vale" },

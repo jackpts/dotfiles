@@ -9,7 +9,8 @@ return {
       null_ls.builtins.formatting.stylua, -- Lua formatting (if not using conform for this)
       
       -- Additional diagnostics not in nvim-lint
-      null_ls.builtins.diagnostics.flake8, -- Python diagnostics
+      -- Note: flake8 builtin has been removed, use nvim-lint or conform.nvim instead
+      -- null_ls.builtins.diagnostics.flake8, -- Python diagnostics
       
       -- Code actions and other tools
       null_ls.builtins.code_actions.refactoring,
