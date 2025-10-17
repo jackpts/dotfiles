@@ -11,7 +11,7 @@ WEATHER_CODES = {
     '116': '⛅️',
     '119': '☁️',
     '122': '☁️',
-    '143': '🌫',
+    '143': '󰖑',
     '176': '🌦',
     '179': '🌧',
     '182': '🌧',
@@ -19,8 +19,8 @@ WEATHER_CODES = {
     '200': '⛈',
     '227': '🌨',
     '230': '❄️',
-    '248': '🌫',
-    '260': '🌫',
+    '248': '󰖑',
+    '260': '󰖑',
     '263': '🌦',
     '266': '🌦',
     '281': '🌧',
@@ -98,7 +98,7 @@ def format_chances(hour):
 
 try:
     data['text'] = WEATHER_CODES[weather['current_condition'][0]['weatherCode']] + \
-        " "+weather['current_condition'][0]['FeelsLikeC']+"°"
+        "  "+weather['current_condition'][0]['FeelsLikeC']+"°"
 
     data['tooltip'] = f"<b>{weather['current_condition'][0]['weatherDesc'][0]['value']} {weather['current_condition'][0]['temp_C']}°C</b>\n"
     data['tooltip'] += f"Feels like: {weather['current_condition'][0]['FeelsLikeC']}°C\n"
