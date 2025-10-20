@@ -37,7 +37,7 @@
     "clock"
   ],
   "custom/appmenu": {
-    "format": "",
+    "format": "",
     "tooltip-format": "Garuda Menu/Power",
     "on-click": "$HOME/scripts/run_launcher.sh",
     "on-double-click": "swaymsg reload",

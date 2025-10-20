@@ -229,7 +229,7 @@ tooltip {
 }
 
 #custom-appmenu {
-  padding: 0 6px 0 9px;
+  padding: 0 15px 0 10px;
   color: $color-garuda-teal;
   /* border-radius: 5px; */
   font-weight: bold;
@@ -301,7 +301,7 @@ tooltip {
 }
 
 #custom-updates {
-  padding: 0 15px 0 20px;
+  padding: 0 12px;
   @include fontSize($base-font-size - 1px);
   color: $color-yellow;
 
@@ -327,7 +327,7 @@ tooltip {
 }
 
 #custom-weather {
-  padding: 3px 12px 0 3px;
+  padding: 3px 12px 0;
   @include fontSize($base-font-size - 1px);
   color: $color-orange;
 

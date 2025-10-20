@@ -162,7 +162,7 @@ tooltip {
 }
 
 #custom-appmenu {
-  padding: 0 6px 0 9px;
+  padding: 0 15px 0 10px;
   color: #4DD0E1;
   /* border-radius: 5px; */
   font-weight: bold;
@@ -227,7 +227,7 @@ tooltip {
 }
 
 #custom-updates {
-  padding: 0 15px 0 20px;
+  padding: 0 12px;
   font-size: 15px;
   color: #ffcc00;
 }
@@ -251,7 +251,7 @@ tooltip {
 }
 
 #custom-weather {
-  padding: 3px 12px 0 3px;
+  padding: 3px 12px 0;
   font-size: 15px;
   color: #eeaa44;
 }
