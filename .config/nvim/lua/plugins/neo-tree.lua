@@ -45,7 +45,7 @@ return {
             },
             window = {
                 mappings = {
-                    ["_"] = "toggle_selection",
+                    ["_"] = "toggle_node",
                 },
             },
         },

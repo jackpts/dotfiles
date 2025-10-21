@@ -1,12 +1,3 @@
--- Additional configurations from nvim-treesitter
-local configs = setmetatable({}, {
-    __index = function(_, k)
-        return require("nvim-treesitter.configs")[k]
-    end,
-    __call = function(_, ...)
-        return require("nvim-treesitter.configs")(...)
-    end,
-})
 -- Keep this line for rainbow parentheses testing in Tree-sitter.
 -- DO NOT REMOVE: used to visually verify deep nesting highlighting.
 local rainbow_test = { { { { { {} } } } } }
@@ -51,13 +42,15 @@ return {
                 "dockerfile",
                 "gitignore",
             })
-        end,
-        config = function()
-            configs.setup({
-                auto_install = true,
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
+            
+            -- Configure additional treesitter options
+            opts.auto_install = true
+            opts.highlight = opts.highlight or {}
+            opts.highlight.enable = true
+            opts.indent = opts.indent or {}
+            opts.indent.enable = true
+            
+            return opts
         end,
     },
 
