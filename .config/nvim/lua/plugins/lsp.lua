@@ -3,7 +3,7 @@
 return {
     -- tools
     {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
                 "stylua",
@@ -17,12 +17,11 @@ return {
             })
         end,
     },
-
     -- add tsserver and setup with typescript.nvim instead of lspconfig
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason-lspconfig.nvim",
             "jose-elias-alvarez/typescript.nvim",
             init = function()
                 require("lazyvim.util").lsp.on_attach(function(_, buffer)
