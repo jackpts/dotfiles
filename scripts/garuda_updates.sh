@@ -13,7 +13,8 @@ fi
 # Count available updates (official repos + AUR if available)
 updates_count=0
 if command -v checkupdates >/dev/null 2>&1; then
-  updates_count=$(checkupdates 2>/dev/null | wc -l)
+  # checkupdates may exit non-zero even when there are 0 updates; ignore its exit code
+  updates_count=$(checkupdates 2>/dev/null | wc -l) || true
 else
   # Fallback to pacman -Qu if checkupdates is not available
   if pacman -Qu >/dev/null 2>&1; then
@@ -86,7 +87,7 @@ if [ "$total_updates" -gt 0 ]; then
   class="updates"
 fi
 
-# Format the output
+# Format the output - always show the count
 if [ "$total_updates" -gt 0 ]; then
   if [ "$aur_count" -gt 0 ] && [ "$updates_count" -gt 0 ]; then
     display_text="$updates_count+$aur_count $icon"
@@ -94,7 +95,7 @@ if [ "$total_updates" -gt 0 ]; then
     display_text="$total_updates $icon"
   fi
 else
-  display_text="$icon"
+  display_text="0 $icon"
 fi
 
 # Escape for JSON
