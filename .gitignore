@@ -3,9 +3,11 @@
 *.bak*
 *.map*
 *.tmp.*
+\[*\]
 Neogit*
-Neo-tree*
+[Nn]eo-tree*
 migrations
+filesystem
 
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
