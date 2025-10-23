@@ -188,3 +188,6 @@ abbr gss 'clear; and git log --stat --color -p'
 
 # Gnome accounts settings run
 abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accounts'
+
+# GitHub login
+abbr gh_login 'gh auth login'
