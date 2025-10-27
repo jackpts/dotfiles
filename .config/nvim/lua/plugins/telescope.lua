@@ -1,61 +1,76 @@
-local telescope = require("telescope")
-
 return {
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
-            "nvim-telescope/telescope-fzf-native.nvim",
+            { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
             "nvim-telescope/telescope-live-grep-args.nvim",
             "nvim-telescope/telescope-media-files.nvim",
-            build = "make",
-            config = function()
-                local lga_actions = require("telescope-live-grep-args.actions")
-                telescope.setup({
-                    defaults = {
-                        file_ignore_patterns = {
-                            "node_modules",
-                            "build",
-                            "dist",
-                            "yarn.lock",
-                            "package-lock.json",
-                            ".git",
-                            "lazy-lock.json",
-                        },
-                    },
-                    extensions = {
-                        live_grep_args = {
-                            auto_quoting = true, -- enable/disable auto-quoting
-                            mappings = { -- extend mappings
-                                i = {
-                                    -- ["<C-k>"] = lga_actions.quote_prompt(),
-                                    -- ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-                                    -- freeze the current list and start a fuzzy search in the frozen list
-                                    ["<C-space>"] = lga_actions.to_fuzzy_refine,
-                                },
-                            },
-                        },
-                        package_info = {
-                            -- Optional theme (the extension doesn't set a default theme)
-                            theme = "ivy",
-                        },
-                        media_files = {
-                            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-                            filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
-                            -- find command (defaults to `fd`)
-                            find_cmd = "rg",
-                        },
-                    },
-                })
-
-                telescope.load_extension("fzf")
-                telescope.load_extension("live_grep_args")
-                telescope.load_extension("package_info")
-                telescope.load_extension("media_files")
-            end,
         },
+        config = function(_, opts)
+            local telescope = require("telescope")
+            local lga_actions = require("telescope-live-grep-args.actions")
+
+            opts = opts or {}
+            opts.extensions = opts.extensions or {}
+            opts.extensions.live_grep_args = vim.tbl_deep_extend("force", {
+                auto_quoting = true,
+                mappings = { i = { ["<C-space>"] = lga_actions.to_fuzzy_refine } },
+            }, opts.extensions.live_grep_args or {})
+            opts.extensions.package_info = vim.tbl_deep_extend("force", { theme = "ivy" }, opts.extensions.package_info or {})
+            opts.extensions.media_files = vim.tbl_deep_extend("force", {
+                filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
+                find_cmd = "rg",
+            }, opts.extensions.media_files or {})
+
+            opts.defaults = opts.defaults or {}
+            opts.defaults.file_ignore_patterns = opts.defaults.file_ignore_patterns or {
+                "node_modules",
+                "build",
+                "dist",
+                "yarn.lock",
+                "package-lock.json",
+                "%.git/",
+                "lazy-lock.json",
+            }
+
+            telescope.setup(opts)
+            pcall(telescope.load_extension, "fzf")
+            pcall(telescope.load_extension, "live_grep_args")
+            pcall(telescope.load_extension, "package_info")
+            pcall(telescope.load_extension, "media_files")
+        end,
         keys = {
-            -- change a keymap
-            { "<C-p>", "<cmd>Telescope find_files<CR>", desc = "Find Files" },
+            -- Files
+            { "<leader><leader>", function() require('telescope.builtin').find_files({find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow" }}) end, desc = "Find Files" },
+            { "<C-p>", function() require('telescope.builtin').find_files({find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow" }}) end, desc = "Find Files" },
+            -- Grep
+            {
+                "<leader>/",
+                function()
+                    local vimgrep_args = {
+                        "rg",
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                        "--hidden",
+                        "--no-ignore",
+                    }
+                    local ok = pcall(function()
+                        require("telescope").extensions.live_grep_args.live_grep_args({
+                            vimgrep_arguments = vimgrep_args
+                        })
+                    end)
+                    if not ok then
+                        require("telescope.builtin").live_grep({
+                            vimgrep_arguments = vimgrep_args
+                        })
+                    end
+                end,
+                desc = "Grep in files",
+            },
             -- add a keymap to browse plugin files
             {
                 "<leader>fp",
@@ -81,6 +96,17 @@ return {
             --   },
             -- add some mappings
             defaults = {
+                vimgrep_arguments = {
+                    "rg",
+                    "--color=never",
+                    "--no-heading",
+                    "--with-filename",
+                    "--line-number",
+                    "--column",
+                    "--smart-case",
+                    "--hidden",
+                    "--no-ignore",
+                },
                 mappings = {
                     i = {
                         ["<C-j>"] = function(...)
@@ -90,6 +116,15 @@ return {
                             return require("telescope.actions").move_selection_previous(...)
                         end,
                     },
+                },
+            },
+            -- Make find_files ignore VCS and other ignore files so expected files always appear
+            pickers = {
+                find_files = {
+                    find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow" },
+                    hidden = true,
+                    no_ignore = true,
+                    follow = true,
                 },
             },
         },

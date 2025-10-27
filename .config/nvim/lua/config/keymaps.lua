@@ -2,6 +2,58 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- Disable LazyVim defaults that conflict with our Telescope setup
+pcall(vim.keymap.del, "n", "<leader><leader>")
+pcall(vim.keymap.del, "n", "<leader>/")
+
+-- Telescope keymaps (explicit overrides)
+vim.keymap.set("n", "<leader><leader>", function()
+    require('telescope.builtin').find_files({
+        find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow" },
+        prompt_title = "Find Files (with hidden)"
+    })
+end, { desc = "Find Files" })
+
+-- Debug keybinding
+vim.keymap.set("n", "<leader>fh", function()
+    require('telescope.builtin').find_files({
+        find_command = { "fd", "--type", "f", "--hidden", "--no-ignore", "--follow", "gitignore" },
+        prompt_title = "Find gitignore files"
+    })
+end, { desc = "Find gitignore (debug)" })
+vim.keymap.set("n", "<leader>/", function()
+    local ok = pcall(function()
+        require("telescope").extensions.live_grep_args.live_grep_args({
+            vimgrep_arguments = {
+                "rg",
+                "--color=never",
+                "--no-heading",
+                "--with-filename",
+                "--line-number",
+                "--column",
+                "--smart-case",
+                "--hidden",
+                "--no-ignore",
+            }
+        })
+    end)
+    if not ok then
+        require("telescope.builtin").live_grep({
+            vimgrep_arguments = {
+                "rg",
+                "--color=never",
+                "--no-heading",
+                "--with-filename",
+                "--line-number",
+                "--column",
+                "--smart-case",
+                "--hidden",
+                "--no-ignore",
+            }
+        })
+    end
+end, { desc = "Grep in files" })
+
 -- Perusing code faster with K and J
 -- vim.keymap.set({ "n", "v" }, "K", "5k", { noremap = true, desc = "Up faster" })
 -- vim.keymap.set({ "n", "v" }, "J", "5j", { noremap = true, desc = "Down faster" })
