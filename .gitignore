@@ -3,20 +3,17 @@
 *.bak*
 *.map*
 *.tmp.*
+\[*\]
 Neogit*
-Neo-tree*
+[Nn]eo-tree*
 migrations
+filesystem
 
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
 
 /.config/ghostty/shaders/*
 
-/.config/fish/functions/*
-!/.config/fish/functions/bass.fish
-!/.config/fish/functions/tide.fish
-!/.config/fish/functions/z.fish
-/.config/fish/completions/*
 /.config/fish/fish_variables
 
 /.config/mpd/*
@@ -35,3 +32,7 @@ migrations
 
 .opencode/
 dbui
+
+.sass-cache
+
+.agents
