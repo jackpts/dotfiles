@@ -130,19 +130,31 @@ collect_backup_items() {
 	local valid_items=()
 
 	for item in "${items_ref[@]}"; do
-		# Handle glob patterns (like bookmarks-*.json)
+	# Handle glob patterns (like bookmarks-*.json)
 		if [[ "$item" == *"*"* ]]; then
 			# Use find to expand glob patterns
 			local expanded_files
 			mapfile -t expanded_files < <(find "$(dirname "$item")" -name "$(basename "$item")" 2>/dev/null || true)
 
 			if [[ ${#expanded_files[@]} -gt 0 ]]; then
-				for file in "${expanded_files[@]}"; do
-					if [[ -e "$file" ]]; then
-						valid_items+=("$file")
-						print_info "Found: $file"
+				# Special handling for bookmarks: only keep the latest one
+				if [[ "$item" == *"bookmarks-"*".json" ]]; then
+					local latest_file
+					# Sort by modification time and get the newest
+					latest_file=$(printf '%s\n' "${expanded_files[@]}" | xargs ls -t 2>/dev/null | head -1)
+					if [[ -n "$latest_file" ]] && [[ -e "$latest_file" ]]; then
+						valid_items+=("$latest_file")
+						print_info "Found latest bookmark: $latest_file"
 					fi
-				done
+				else
+					# For other patterns, include all matches
+					for file in "${expanded_files[@]}"; do
+						if [[ -e "$file" ]]; then
+							valid_items+=("$file")
+							print_info "Found: $file"
+						fi
+					done
+				fi
 			else
 				print_warning "No files found matching pattern: $item"
 			fi
