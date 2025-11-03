@@ -19,22 +19,20 @@ Singleton {
 
         implicitWidth: content.implicitWidth + tip.padding * 2
         implicitHeight: content.implicitHeight + tip.padding * 2
-        width: implicitWidth
-        height: implicitHeight
 
         Rectangle {
             anchors.fill: parent
             radius: 6
-            color: "#111"
-            border.color: "#444"
-            border.width: 1
+            color: C.Theme.tooltipBg
+            border.color: C.Theme.tooltipBorder
+            border.width: 0
         }
 
         Text {
             id: content
             anchors.centerIn: parent
             text: tip.text
-            color: C.Theme.text
+            color: C.Theme.tooltipText
             font.pixelSize: 12
             wrapMode: Text.NoWrap
         }

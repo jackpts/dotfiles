@@ -13,7 +13,9 @@ PanelWindow {
 
     Rectangle {
         anchors.fill: parent
-        color: C.Theme.bg // translucent dark background
+        // color: C.Theme.bg // translucent dark background
+        // color: Qt.rgba(0,0,0,0)
+        color: "#111111"
     }
 
     Row {
@@ -22,17 +24,19 @@ PanelWindow {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 8
+        AppMenu {}
         UpdatesIndicator {}
+        Weather {}
         TaskList {}
         Workspaces {}
     }
 
     Row {
         id: rightRow
-        spacing: 10
+        spacing: 8
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        anchors.rightMargin: 8
+        anchors.rightMargin: 20
         CpuGauge {}
         MemoryGauge {}
         FreeSpaceGauge {}

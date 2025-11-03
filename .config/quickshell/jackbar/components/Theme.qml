@@ -3,12 +3,13 @@ import Quickshell
 import QtQuick
 
 Singleton {
-    // Backgrounds and text
-    property color bg: "#000000B3"         // translucent dark background
-    property color text: "#cdd6f4"         // light text
-    property color track: "#444"           // gauge track ring
+    // Backgrounds and text (from Waybar style.css)
+    property color bg: "#000000B3"                    // rgba(0, 0, 0, 0.7) - translucent dark background
+    property color text: "#cdd6f4"                    // light text
+    property color textMuted: "#ccccccb3"             // rgba(204, 204, 204, 0.7)
+    property color track: "#444444"                   // gauge track ring
 
-    // Palette
+    // Palette (from Waybar)
     property color red: "#f53c3c"
     property color green: "#51a37a"
     property color greenCharging: "#26a65b"
@@ -16,28 +17,36 @@ Singleton {
     property color blue: "#215fad"
     property color grayMuted: "#90b1b1"
 
-    // Module accent colors
-    property color cpu: "#cddceb"
-    property color memory: "#cdd6f4"
-    property color freeOk: green
-    property color freeLow: red
-    property color volumeActive: "#f1c40f"
-    property color volumeMuted: grayMuted
-    property color batteryOk: green
-    property color batteryCharging: greenCharging
-    property color batteryCritical: red
-    property color networkWifi: "#c8f"
-    property color networkEthernet: "#cdd6f4"
-    property color networkDisconnected: red
-    property color clock: "#cda"
-    property color updatesDefault: yellow
-    property color updatesAvailable: "#22cc55"
-    property color updatesNone: blue
+    // Module accent colors (matching Waybar CSS)
+    property color cpu: "#cddceb"                     // #cddceb from CSS
+    property color memory: "#cddceb"                  // #cddceb from CSS
+    property color freeOk: green                      // #51a37a
+    property color freeLow: red                       // #f53c3c
+    property color volumeActive: "#f1c40fb3"          // rgba(241, 196, 15, 0.7)
+    property color volumeMuted: grayMuted             // #90b1b1
+    property color batteryOk: green                   // #51a37a
+    property color batteryCharging: greenCharging     // #26a65b
+    property color batteryCritical: red               // #f53c3c
+    property color networkWifi: "#cc88ff"             // #c8f
+    property color networkEthernet: "#6699aa"         // #69a
+    property color networkDisconnected: red           // #f53c3c
+    property color clock: "#ccddaa"                   // #cda
+    property color updatesDefault: yellow             // #ffcc00
+    property color updatesAvailable: "#22cc55"        // #22cc55
+    property color updatesNone: blue                  // #215fad
+    property color screenshotIcon: "#cccccccc"        // rgba(204, 204, 204, 0.8)
+    property color recorderOn: "#eb4d4bcc"            // rgba(235, 77, 75, 0.8)
+    property color recorderOff: "#cccccccc"           // rgba(204, 204, 204, 0.8)
 
-    // Workspace/Task styling
-    property color wsBg: "#1f1923"
-    property color wsActiveBg: "#70597f"
-    property color wsBorder: "#666666"
-    property color wsText: text
-    property color wsTextActive: "#debcdf"
+    // Workspace/Task styling (from Waybar taskbar/workspaces)
+    property color wsBg: "#1f1923"                    // #1f1923 from taskbar button
+    property color wsActiveBg: "#70597f"              // #70597f from taskbar button.active
+    property color wsBorder: "#666666"                // #666 from workspaces button separator
+    property color wsText: textMuted                  // rgba(204, 204, 204, 0.7)
+    property color wsTextActive: "#debcdf"            // #debcdf from workspaces button.active
+    
+    // Tooltip (from Waybar tooltip)
+    property color tooltipBg: "#111111"               // #111
+    property color tooltipText: text                  // #cdd6f4
+    property color tooltipBorder: "#444444"           // border
 }

@@ -7,9 +7,8 @@ Item {
     id: root
     width: 40; height: 40
 
-    Text { anchors.centerIn: parent; text: "󰹑"; color: C.Theme.text; font.pixelSize: 18 }
-
     Process { id: run }
+    
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -18,5 +17,14 @@ Item {
             ];
             run.running = true
         }
+    }
+    
+    Text {
+        anchors.centerIn: parent
+        text: "󰹑"
+        color: C.Theme.screenshotIcon
+        font.pixelSize: 18
+        // Make text transparent to mouse events so clicks pass through to MouseArea
+        enabled: false
     }
 }

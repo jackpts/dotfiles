@@ -49,6 +49,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: false
+        acceptedButtons: Qt.NoButton  // Don't accept clicks, only wheel events
+        propagateComposedEvents: true  // Let clicks pass through to workspace buttons
         onWheel: function(wheel) {
             if (root.compositor === "sway") {
                 run.command = ["bash","-lc", wheel.angleDelta.y > 0 ? "swaymsg workspace next" : "swaymsg workspace prev"]

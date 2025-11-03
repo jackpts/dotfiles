@@ -9,13 +9,6 @@ Item {
     property string textValue: "0 󰚰"
     property string statusClass: "ok" // "ok" or "updates"
 
-    Text {
-        anchors.centerIn: parent
-        text: textValue
-        color: statusClass === "updates" ? C.Theme.updatesAvailable : C.Theme.updatesNone
-        font.pixelSize: 14
-    }
-
     Process {
         id: proc
         command: ["bash","-lc","$HOME/scripts/garuda_updates.sh"]
@@ -33,11 +26,20 @@ Item {
     Timer { interval: 300000; running: true; repeat: true; onTriggered: proc.running = true }
 
     Process { id: run }
+    
     MouseArea {
         anchors.fill: parent
         onClicked: {
             run.command = ["bash","-lc","kitty -e bash -lc 'sudo pacman -Syu && paru -Sua --noconfirm; notify-send \"Update complete\"; read -n 1 -s -p \"Press any key to close\"' "]
             run.running = true
         }
+    }
+    
+    Text {
+        anchors.centerIn: parent
+        text: textValue
+        color: statusClass === "updates" ? C.Theme.updatesAvailable : C.Theme.updatesNone
+        font.pixelSize: 14
+        enabled: false  // Make text transparent to mouse events
     }
 }

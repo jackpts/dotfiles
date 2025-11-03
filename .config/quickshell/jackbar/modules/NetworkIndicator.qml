@@ -16,13 +16,6 @@ Item {
         return "󰤭";
     }
 
-    Text {
-        anchors.centerIn: parent
-        text: icon()
-        color: kind === "disc" ? C.Theme.networkDisconnected : (kind === "wifi" ? C.Theme.networkWifi : C.Theme.networkEthernet)
-        font.pixelSize: 18
-    }
-
     Process {
         id: proc
         command: ["bash","-lc",
@@ -44,11 +37,20 @@ Item {
     Timer { interval: 5000; running: true; repeat: true; onTriggered: proc.running = true }
 
     Process { id: run }
+    
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: { run.command = ["bash","-lc","networkmanager_dmenu || nm-connection-editor"]; run.running = true }
         onPressed: function(mouse) { if (mouse.button === Qt.RightButton) { run.command = ["bash","-lc","kitty -e nmtui"]; run.running = true } }
+    }
+    
+    Text {
+        anchors.centerIn: parent
+        text: icon()
+        color: kind === "disc" ? C.Theme.networkDisconnected : (kind === "wifi" ? C.Theme.networkWifi : C.Theme.networkEthernet)
+        font.pixelSize: 18
+        enabled: false  // Make text transparent to mouse events
     }
 }
