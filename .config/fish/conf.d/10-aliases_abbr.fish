@@ -191,3 +191,10 @@ abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accou
 
 # GitHub login
 abbr gh_login 'gh auth login'
+
+# WayVNC connect
+abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
+
+# Quickshell run
+abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
+abbr q_reload 'pkill -9 quickshell; sleep 1; quickshell -p /home/jack/dotfiles/.config/quickshell/jackbar > /dev/null 2>&1 &'
