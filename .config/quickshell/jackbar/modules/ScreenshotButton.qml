@@ -5,16 +5,15 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
+    width: 30; height: 40
 
     Process { id: run }
     
     MouseArea {
         anchors.fill: parent
+        acceptedButtons: Qt.LeftButton
         onClicked: {
-            run.command = ["bash","-lc",
-                "dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; file=\"$dir/$(date +'%F_%H-%M-%S').png\"; grim -g \"$(slurp)\" \"$file\" && wl-copy < \"$file\" && notify-send 'Screenshot' 'Saved and copied'"
-            ];
+            run.command = ["sh", "-c", "WAYLAND_DISPLAY=${WAYLAND_DISPLAY} setsid -f sh -c 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; filename=\"$dir/$(date +\"%F_%H-%M-%S\").png\"; grim -g \"$(slurp)\" \"$filename\" && wl-copy < \"$filename\"'"]
             run.running = true
         }
     }
