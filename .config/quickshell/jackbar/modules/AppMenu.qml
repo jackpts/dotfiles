@@ -35,8 +35,8 @@ Item {
     // Garuda logo/icon
     Text {
         anchors.centerIn: parent
-        text: ""  // Same icon as in Waybar
-        color: C.Theme.text
+        text: "󰣇"
+        color: C.Theme.appMenu
         font.pixelSize: 20
         enabled: false  // Make text transparent to mouse events
     }
@@ -44,6 +44,7 @@ Item {
     // Tooltip
     MouseArea {
         anchors.fill: parent
+		acceptedButtons: Qt.NoButton
         hoverEnabled: true
         onEntered: C.Tooltip.show(root, "Garuda Menu/Power")
         onExited: C.Tooltip.hide()
