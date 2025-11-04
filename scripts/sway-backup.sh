@@ -9,7 +9,6 @@ set -euo pipefail
 # Configuration
 BACKUP_PASSWORD="t2"
 BACKUP_DIR="$HOME/backup"
-HOME_DIR="$HOME"
 
 # Exclusion patterns (directories/files to exclude from backup)
 EXCLUSION_PATTERNS=(
@@ -34,13 +33,13 @@ ARCHIVE_PATH="${BACKUP_DIR}/${ARCHIVE_NAME}"
 
 # Core backup items (always included)
 CORE_BACKUP_ITEMS=(
-	"$HOME_DIR/obsidian/"
-	"$HOME_DIR/Projects/"
-	"$HOME_DIR/*.kdbx"
-	"$HOME_DIR/dotfiles"
-	"$HOME_DIR/Documents/bookmarks-*.json"
-	"$HOME_DIR/Documents/Sala/"
-	"$HOME_DIR/Documents/Checks/"
+	"$HOME/obsidian/"
+	"$HOME/Projects/"
+	"$HOME/*.kdbx"
+	"$HOME/dotfiles"
+	"$HOME/Documents/bookmarks-*.json"
+	"$HOME/Documents/Sala/"
+	"$HOME/Documents/Checks/"
 	"/etc/systemd/logind.conf.d/ignore-lid.conf"
 	"/etc/hosts"
 	"/etc/resolv.conf"
@@ -49,14 +48,15 @@ CORE_BACKUP_ITEMS=(
 	"/etc/systemd/logind.conf"
 	"/etc/profile"
     "~/.config/xdg-desktop-portal/portal.conf"
+    "$HOME/.config/wayvnc"
 )
 
 # Additional backup items (add more paths here as needed)
-# Example: ADDITIONAL_BACKUP_ITEMS+=("$HOME_DIR/my-custom-folder")
+# Example: ADDITIONAL_BACKUP_ITEMS+=("$HOME/my-custom-folder")
 ADDITIONAL_BACKUP_ITEMS=(
 	# Add custom paths here
-	# "$HOME_DIR/.ssh/"
-	# "$HOME_DIR/.config/some-app/"
+	# "$HOME/.ssh/"
+	# "$HOME/.config/some-app/"
 )
 
 # Color output functions
@@ -294,8 +294,8 @@ main() {
 	print_info "Date: $(date '+%Y-%m-%d %H:%M:%S')"
 
 	# Check if running with proper permissions
-	if [[ ! -r "$HOME_DIR" ]]; then
-		print_error "Cannot read home directory: $HOME_DIR"
+	if [[ ! -r "$HOME" ]]; then
+		print_error "Cannot read home directory: $HOME"
 		exit 1
 	fi
 
