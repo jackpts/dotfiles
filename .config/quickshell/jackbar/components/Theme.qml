@@ -20,6 +20,9 @@ Singleton {
     // Module accent colors (matching Waybar CSS)
     property color cpu: "#cddceb"                     // #cddceb from CSS
     property color memory: "#cddceb"                  // #cddceb from CSS
+    // AppMenu (Waybar Garuda teal)
+    property color appMenu: "#4DD0E1"                 // #4DD0E1
+    property color appMenuHover: "#26C6DA"            // #26C6DA
     property color freeOk: green                      // #51a37a
     property color freeLow: red                       // #f53c3c
     property color volumeActive: "#f1c40fb3"          // rgba(241, 196, 15, 0.7)
