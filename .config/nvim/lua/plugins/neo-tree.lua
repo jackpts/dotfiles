@@ -51,21 +51,28 @@ return {
         },
         config = function(_, opts)
             require("neo-tree").setup(opts)
-            
-            -- Auto-open neo-tree when entering a buffer
-            vim.api.nvim_create_autocmd("BufEnter", {
+
+            -- Open Neo-tree once on startup after UI is ready (avoids invalid window id errors)
+            vim.api.nvim_create_autocmd("VimEnter", {
+                once = true,
                 callback = function()
-                    -- Skip when Snacks buffers are active or no file is loaded
+                    -- Skip when Snacks dashboard or special buffers are active, or no file is loaded
                     local ft = vim.bo.filetype
-                    if ft == "snacks_dashboard" or ft:match("^snacks") or vim.fn.expand("%") == "" then
+                    if ft == "snacks_dashboard" or (type(ft) == "string" and ft:match("^snacks")) or vim.fn.expand("%") == "" then
                         return
                     end
 
                     local filepath = vim.fn.expand("%:p:h")
-                    require("neo-tree.command").execute({
-                        action = "show",
-                        path = filepath,
-                    })
+                    -- Use focus + jump back instead of action=show to avoid plugin's window restore bug
+                    vim.defer_fn(function()
+                        local ok, cmd = pcall(require, "neo-tree.command")
+                        if not ok then return end
+                        -- Open/focus the tree, then return to previous window safely
+                        cmd.execute({ action = "focus", path = filepath })
+                        vim.schedule(function()
+                            pcall(vim.cmd, "wincmd p")
+                        end)
+                    end, 30)
                 end,
             })
         end,
