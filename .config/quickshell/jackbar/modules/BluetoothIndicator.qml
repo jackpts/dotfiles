@@ -110,11 +110,11 @@ Item {
         }
     }
     
-    Text {
-        anchors.centerIn: parent
-        text: root.hasDevices ? root.displayText : "󰂲"
-        color: root.hasDevices ? "#89b4fa" : "#6c7086"
-        font.pixelSize: 16
-        enabled: false  // Make text transparent to mouse events
-    }
+        Text {
+            anchors.centerIn: parent
+            text: root.hasDevices ? root.displayText : "󰂲"
+            color: root.hasDevices ? C.Theme.bluetoothActive : C.Theme.bluetoothInactive
+            font.pixelSize: 16
+            enabled: false  // Make text transparent to mouse events
+        }
 }
