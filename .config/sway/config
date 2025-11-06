@@ -294,7 +294,9 @@ mode "resize" {
 # Autostart (ported from Hyprland execs)
 exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id waybar
+# exec --no-startup-id waybar
+# exec --no-startup-id quickshell -c $HOME/.config/quickshell/jackbar/shell.qml
+exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 exec --no-startup-id swaync
 # exec_always --no-startup-id dunst
 # Clipboard history
