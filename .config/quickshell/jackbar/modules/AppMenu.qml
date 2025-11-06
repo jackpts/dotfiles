@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
+    width: 20; height: 40
     
     Process { id: run }
     
@@ -37,7 +37,7 @@ Item {
         anchors.centerIn: parent
         text: "󰣇"
         color: C.Theme.appMenu
-        font.pixelSize: 20
+        font.pixelSize: 16
         enabled: false  // Make text transparent to mouse events
     }
     
@@ -46,7 +46,7 @@ Item {
         anchors.fill: parent
 		acceptedButtons: Qt.NoButton
         hoverEnabled: true
-        onEntered: C.Tooltip.show(root, "Garuda Menu/Power")
+        onEntered: C.Tooltip.show(root, "Menu/Power")
         onExited: C.Tooltip.hide()
     }
 }
