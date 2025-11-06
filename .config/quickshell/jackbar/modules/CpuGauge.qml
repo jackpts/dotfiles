@@ -43,7 +43,9 @@ Item {
         target: gauge
         function onHoveredChanged() {
             if (gauge.hovered) {
-                C.Tooltip.show(gauge, "CPU: " + percent + "%" + (tip ? "\n" + tip : ""))
+                var tooltipText = "CPU: " + percent + "%"
+                if (tip) tooltipText += "<br>" + tip
+                C.Tooltip.show(gauge, tooltipText)
             } else {
                 C.Tooltip.hide()
             }
@@ -56,7 +58,11 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
         onClicked: { run.command = ["bash","-lc","kitty -e htop"]; run.running = true }
-        onEntered: { C.Tooltip.show(gauge, "CPU: " + percent + "%" + (tip ? "\n" + tip : "")) }
+        onEntered: { 
+            var tooltipText = "CPU: " + percent + "%"
+            if (tip) tooltipText += "<br>" + tip
+            C.Tooltip.show(gauge, tooltipText)
+        }
         onExited: { C.Tooltip.hide() }
     }
 }
