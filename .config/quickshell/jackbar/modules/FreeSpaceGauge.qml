@@ -41,11 +41,23 @@ Item {
     }
     Timer { interval: 30000; running: true; repeat: true; onTriggered: proc.running = true }
 
+    Process { id: run }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            run.command = ["bash", "-lc", "kitty --class disk-info -e sh -c 'dysk; read -p \"Press Enter\"'"]
+            run.running = true
+        }
+    }
+
     Connections {
         target: gauge
         function onHoveredChanged() {
             if (gauge.hovered) {
-                C.Tooltip.show(gauge, "Home free: " + freePercent + "%\n" + (tip || ""))
+                var tooltipText = "Home free: " + freePercent + "%"
+                if (tip) tooltipText += "<br>" + tip
+                C.Tooltip.show(gauge, tooltipText)
             } else {
                 C.Tooltip.hide()
             }
