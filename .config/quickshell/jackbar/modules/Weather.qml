@@ -63,8 +63,13 @@ Item {
     // Tooltip with detailed weather info
     MouseArea {
         anchors.fill: parent
+        acceptedButtons: Qt.NoButton
         hoverEnabled: true
-        onEntered: C.Tooltip.show(root, tooltipText)
+        onEntered: {
+            // Preserve line breaks in tooltip while keeping normal wrapping
+            const html = tooltipText.replace(/\r?\n/g, '<br/>')
+            C.Tooltip.show(root, html)
+        }
         onExited: C.Tooltip.hide()
     }
 }
