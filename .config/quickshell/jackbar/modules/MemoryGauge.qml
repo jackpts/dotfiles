@@ -14,7 +14,8 @@ Item {
         anchors.centerIn: parent
         size: 28
         thickness: 4
-        color: C.Theme.memory
+        // color: C.Theme.memory
+        color: C.Theme.memoryGauge
         trackColor: C.Theme.track
         value: percent/100
         label: percent + "%"
@@ -50,7 +51,12 @@ Item {
         target: gauge
         function onHoveredChanged() {
             if (gauge.hovered) {
-                C.Tooltip.show(gauge, "Memory: " + percent + "%\n" + (tip || ""))
+                var tooltipText = "Memory: " + percent + "%"
+                if (tip) {
+                    // Convert escaped newlines from JSON to HTML line breaks
+                    tooltipText += "<br>" + tip.replace(/\\n/g, "<br>")
+                }
+                C.Tooltip.show(gauge, tooltipText)
             } else {
                 C.Tooltip.hide()
             }
