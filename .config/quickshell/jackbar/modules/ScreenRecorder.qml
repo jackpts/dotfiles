@@ -1,39 +1,105 @@
 import Quickshell
 import Quickshell.Io
+import Qt.labs.platform
 import QtQuick
 import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
-    property bool on: false
+    width: 30; height: 40
+    property bool isRecording: false
 
-    Process {
-        id: poll
-        command: ["bash","-lc","$HOME/scripts/screen_record.sh"]
+    // Update the recording state every 1 second
+    Timer {
+        interval: 1000
         running: true
+        repeat: true
+        onTriggered: updateRecordingState()
+    }
+
+    // Process to check recording state
+    Process {
+        id: stateCheck
+        command: ["bash", "-lc", "$HOME/dotfiles/scripts/quickshell_screen_record.sh"]
+        running: false
         stdout: StdioCollector {
             onStreamFinished: {
-                try { var obj = JSON.parse(this.text); root.on = (obj.class === "on") } catch (e) { root.on = false }
+                try {
+                    var result = JSON.parse(text)
+                    root.isRecording = (result.class === "on")
+                } catch (e) {
+                    console.error("Failed to parse recording state:", e, "Output:", text)
+                    root.isRecording = false
+                }
             }
         }
     }
-    Timer { interval: 2000; running: true; repeat: true; onTriggered: poll.running = true }
 
-    Process { id: run }
-    
+    // Process to toggle recording via sway (detached)
+    Process { 
+        id: toggleProcess
+        command: ["bash", "-lc", "$HOME/dotfiles/scripts/quickshell_screen_record.sh --toggle"]
+        running: false
+        onExited: {
+            updateTimer.start()
+        }
+    }
+
+    // Process to open file manager
+    Process { id: fileManager }
+
+    // Timer to delay state update after toggle
+    Timer {
+        id: updateTimer
+        interval: 1000
+        onTriggered: updateRecordingState()
+    }
+
+    // Function to update recording state
+    function updateRecordingState() {
+        stateCheck.running = true
+    }
+
+    // Toggle recording
+    function toggleRecording() {
+        toggleProcess.running = true
+    }
+
+    // Click handling
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: { run.command = ["bash","-lc","$HOME/scripts/screen_record.sh --toggle"]; run.running = true }
-        onPressed: function(mouse) { if (mouse.button === Qt.RightButton) { run.command = ["bash","-lc","nemo $(xdg-user-dir VIDEOS)/Screenrecorder"]; run.running = true } }
+        onClicked: function(mouse) {
+            if (mouse.button === Qt.LeftButton) {
+                toggleRecording()
+            } else if (mouse.button === Qt.RightButton) {
+                var videosDir = String(Quickshell.env("HOME")) + "/Videos/Screenrecorder"
+                fileManager.command = ["bash","-lc", "swaymsg exec -- nemo '" + videosDir + "' || xdg-open '" + videosDir + "' "]
+                fileManager.running = true
+            }
+        }
     }
-    
+
+    // Recording indicator
     Text {
         anchors.centerIn: parent
         text: ""
-        color: on ? C.Theme.recorderOn : C.Theme.recorderOff
+        color: isRecording ? C.Theme.recorderOn : C.Theme.recorderOff
         font.pixelSize: 18
         enabled: false  // Make text transparent to mouse events
+    }
+    
+    // Tooltip
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        hoverEnabled: true
+        onEntered: C.Tooltip.show(root, isRecording ? "Recording: ON (click to stop)" : "Recording: OFF (click to start)")
+        onExited: C.Tooltip.hide()
+    }
+
+    // Initial state check
+    Component.onCompleted: {
+        updateRecordingState()
     }
 }
