@@ -44,9 +44,9 @@ Item {
 
     Text {
         anchors.centerIn: parent
-        text: mouse.containsMouse ? root.label : ""
+        text: root.label
         color: C.Theme.text
-        font.pixelSize: Math.round(root.size * 0.42)
+        font.pixelSize: Math.round(root.size * 0.42) - 4
     }
 
     MouseArea {
