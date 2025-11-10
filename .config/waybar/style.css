@@ -168,6 +168,16 @@ tooltip {
   color: #f53c3c;
 }
 
+#custom-public-ip {
+  padding: 0 10px;
+  color: #69a;
+  background: rgba(0, 0, 0, 0.7);
+}
+#custom-public-ip:hover {
+  transition: all 0.3s ease;
+  color: #fce;
+}
+
 #custom-appmenu {
   padding: 0 4px 0 9px;
   color: #cddceb;

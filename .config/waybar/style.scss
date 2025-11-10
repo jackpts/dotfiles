@@ -2,7 +2,7 @@
  *    ┓ ┏┏┓┓┏┳┓┏┓┳┓  ┏┓┏┓┳┓┏┓┳┏┓
  *    ┃┃┃┣┫┗┫┣┫┣┫┣┫━━┃ ┃┃┃┃┣ ┃┃┓
  *    ┗┻┛┛┗┗┛┻┛┛┗┛┗  ┗┛┗┛┛┗┻ ┻┗┛
- *                                         
+ *
  */
 
 @mixin fontSize($size) {
@@ -229,6 +229,17 @@ tooltip {
   &.disconnected {
     color: $color-red;
   }
+}
+
+
+#custom-public-ip {
+  padding: 0 10px;
+  color: #69a;
+  background: rgba(0, 0, 0, 0.7);
+
+  &:hover {
+    transition: all 0.3s ease;
+    color: #fce;
 }
 
 #custom-appmenu {
