@@ -53,8 +53,8 @@ Item {
             if (gauge.hovered) {
                 var tooltipText = "Memory: " + percent + "%"
                 if (tip) {
-                    // Convert escaped newlines from JSON to HTML line breaks
-                    tooltipText += "<br>" + tip.replace(/\\n/g, "<br>")
+                    // Convert both escaped newlines (\\n) and literal newlines (\n) to HTML line breaks
+                    tooltipText += "<br>" + tip.replace(/\\n/g, "<br>").replace(/\n/g, "<br>")
                 }
                 C.Tooltip.show(gauge, tooltipText)
             } else {
