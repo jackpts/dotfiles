@@ -27,12 +27,39 @@ Item {
             "    num=$((num + 1)); " +
             "    alias=$(bluetoothctl info \"$mac\" | grep 'Alias:' | awk '{print substr($0, index($0,$2))}' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'); " +
             "    [ -z \"$alias\" ] && alias=\"Unknown Device ($mac)\"; " +
-            "    batt=$(bluetoothctl info \"$mac\" | awk -F '[()]' '/Battery Percentage:/ {print $2}' | grep -oP '\\d+'); " +
-            "    if [ -n \"$batt\" ]; then " +
+            "    batt=''; " +
+            "    dbus_path=\"/org/bluez/hci0/dev_${mac//:/_}\"; " +
+            "    batt=$(gdbus call --system --dest org.bluez --object-path \"$dbus_path\" --method org.freedesktop.DBus.Properties.Get org.bluez.Battery1 Percentage 2>/dev/null | grep -oP '\\d+'); " +
+            "    if [ -z \"$batt\" ]; then " +
+            "      batt=$(bluetoothctl info \"$mac\" | awk -F '[()]' '/Battery Percentage:/ {print $2}' | grep -oP '\\d+'); " +
+            "    fi; " +
+            "    if [ -z \"$batt\" ]; then " +
+            "      upower_path=$(upower -e | grep -i \"${mac//:/_}\"); " +
+            "      if [ -n \"$upower_path\" ]; then " +
+            "        batt=$(upower -i \"$upower_path\" | grep 'percentage:' | awk '{print $2}' | tr -d '%'); " +
+            "      fi; " +
+            "    fi; " +
+            "    if [ -z \"$batt\" ]; then " +
+            "      for sysfs in /sys/class/power_supply/*/; do " +
+            "        if [ -f \"${sysfs}device/address\" ]; then " +
+            "          addr=$(cat \"${sysfs}device/address\" 2>/dev/null | tr '[:lower:]' '[:upper:]'); " +
+            "          if [ \"$addr\" = \"$mac\" ] && [ -f \"${sysfs}capacity\" ]; then " +
+            "            batt=$(cat \"${sysfs}capacity\" 2>/dev/null); " +
+            "            break; " +
+            "          fi; " +
+            "        fi; " +
+            "      done; " +
+            "    fi; " +
+            "    if [ -z \"$batt\" ]; then " +
+            "      if [ -x /usr/bin/libre\ pods ]; then " +
+            "        batt=$(libre\ pods --battery $mac 2>/dev/null | grep -oP '\\d+'); " +
+            "      fi; " +
+            "    fi; " +
+            "    if [ -n \"$batt\" ] && [ \"$batt\" -gt 0 ] 2>/dev/null; then " +
             "      parts+=(\"${batt}%\"); " +
             "      tips+=(\"${alias}@${batt}%\"); " +
             "    else " +
-            "      parts+=(\"N/A\"); " +
+            "      parts+=(\"󰂯\"); " +
             "      tips+=(\"${alias}@NA\"); " +
             "    fi; " +
             "  fi; " +

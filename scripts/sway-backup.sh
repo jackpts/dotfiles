@@ -47,6 +47,7 @@ CORE_BACKUP_ITEMS=(
 	"/etc/systemd/system.conf"
 	"/etc/systemd/logind.conf"
 	"/etc/profile"
+    "/etc/bluetooth/main.conf"
     "~/.config/xdg-desktop-portal/portal.conf"
     "$HOME/.config/wayvnc"
 )
