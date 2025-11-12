@@ -12,7 +12,7 @@ migrations
 
 /.config/ghostty/shaders/*
 
-/.config/fish/fish_variables
+/.config/fish/fish_variables*
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
