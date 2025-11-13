@@ -356,10 +356,17 @@ for_window [app_id="slurp"] border none, floating enable, sticky enable
 for_window [app_id="nemo"] opacity 0.9
 for_window [app_id="zen"] opacity 0.95
 
-# Цвета: border, bg, text, indicator, child_border
+# Border settings (required for client colors to work)
+default_border pixel 2
+default_floating_border pixel 2
+
+# Colors: border, bg, text, indicator, child_border
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
 # client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
-client.focused          #4c7899 #55116677 #ffffff #2e9ef4 #285577
+client.focused          #4c789988 #33333388 #bbbbbb #4c789988 #4c789988
+client.unfocused        #333333 #33333388 #888888 #292d2e   #222222
+client.focused_inactive #333333 #33333388 #888888 #484e50   #5f676a
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
 
 
 # Workspaces list circle
