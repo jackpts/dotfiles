@@ -38,6 +38,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/*.kdbx"
 	"$HOME/dotfiles"
 	"$HOME/Documents/bookmarks-*.json"
+	"$HOME/Documents/sfs*.json"
 	"$HOME/Documents/Sala/"
 	"$HOME/Documents/Checks/"
 	"/etc/systemd/logind.conf.d/ignore-lid.conf"
@@ -138,14 +139,18 @@ collect_backup_items() {
 			mapfile -t expanded_files < <(find "$(dirname "$item")" -name "$(basename "$item")" 2>/dev/null || true)
 
 			if [[ ${#expanded_files[@]} -gt 0 ]]; then
-				# Special handling for bookmarks: only keep the latest one
-				if [[ "$item" == *"bookmarks-"*".json" ]]; then
+				# Special handling for bookmarks and sfs files: only keep the latest one
+				if [[ "$item" == *"bookmarks-"*".json" ]] || [[ "$item" == *"sfs*"".json" ]]; then
 					local latest_file
 					# Sort by modification time and get the newest
 					latest_file=$(printf '%s\n' "${expanded_files[@]}" | xargs ls -t 2>/dev/null | head -1)
 					if [[ -n "$latest_file" ]] && [[ -e "$latest_file" ]]; then
 						valid_items+=("$latest_file")
-						print_info "Found latest bookmark: $latest_file"
+						if [[ "$item" == *"bookmarks-"*".json" ]]; then
+							print_info "Found latest bookmark: $latest_file"
+						else
+							print_info "Found latest sfs file: $latest_file"
+						fi
 					fi
 				else
 					# For other patterns, include all matches
