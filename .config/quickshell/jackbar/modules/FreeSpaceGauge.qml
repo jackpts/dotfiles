@@ -6,7 +6,10 @@ import "../components" as C
 Item {
     id: root
     width: 40; height: 40
+    // Percentage of free space
     property int freePercent: 0
+    // Percentage of used/occupied space (for chart display)
+    property int usedPercent: 0
     property string tip: ""
 
     C.CircleGauge {
@@ -14,10 +17,12 @@ Item {
         anchors.centerIn: parent
         size: 28
         thickness: 4
+        // Keep color logic based on free space remaining
         color: freePercent < 10 ? C.Theme.freeLow : C.Theme.freeOk
         trackColor: C.Theme.track
-        value: freePercent/100
-        label: freePercent + "%"
+        // Show occupied percentage in the gauge
+        value: usedPercent/100
+        label: usedPercent + "%"
     }
 
     function fmtGB(bytes) { return Math.round(bytes/1024/1024/1024) + " GB" }
@@ -32,8 +37,10 @@ Item {
                 var parts = s.split(":")
                 if (parts.length >= 3) {
                     var total = parseFloat(parts[0]); var used = parseFloat(parts[1]); var avail = parseFloat(parts[2]);
-                    var p = total > 0 ? Math.floor(avail*100/total) : 0
-                    root.freePercent = p
+                    var freeP = total > 0 ? Math.floor(avail*100/total) : 0
+                    var usedP = total > 0 ? Math.floor(used*100/total) : 0
+                    root.freePercent = freeP
+                    root.usedPercent = usedP
                     root.tip = "Free: " + fmtGB(avail) + " / " + fmtGB(total)
                 }
             }
