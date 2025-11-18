@@ -8,6 +8,9 @@ Item {
     width: 40; height: 40
     property int percent: 0
     property string status: "Unknown"
+    property int health: 0
+    property string capacity: "Unknown"
+    property string powerMode: "Unknown"
 
     C.CircleGauge {
         id: gauge
@@ -23,6 +26,9 @@ Item {
     // Read from sysfs first for efficiency
     Process { id: cap; stdout: StdioCollector { onStreamFinished: { var v = parseInt(this.text); root.percent = isNaN(v) ? root.percent : v } } }
     Process { id: stat; stdout: StdioCollector { onStreamFinished: { root.status = this.text.trim() || root.status } } }
+    Process { id: healthProc; stdout: StdioCollector { onStreamFinished: { var v = parseInt(this.text); root.health = isNaN(v) ? root.health : v } } }
+    Process { id: capacityProc; stdout: StdioCollector { onStreamFinished: { root.capacity = this.text.trim() || root.capacity } } }
+    Process { id: powerModeProc; stdout: StdioCollector { onStreamFinished: { root.powerMode = this.text.trim() || root.powerMode } } }
 
     // Fallback updater via upower if sysfs is unavailable
     Process {
@@ -46,6 +52,9 @@ Item {
     function update() {
         cap.command = ["bash","-lc","cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1"]; cap.running = true
         stat.command = ["bash","-lc","cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1"]; stat.running = true
+        healthProc.command = ["bash","-lc","full=$(cat /sys/class/power_supply/BAT*/energy_full 2>/dev/null | head -n1); design=$(cat /sys/class/power_supply/BAT*/energy_full_design 2>/dev/null | head -n1); if [ -n \"$full\" ] && [ -n \"$design\" ] && [ \"$design\" -gt 0 ]; then echo $(($full * 100 / $design)); fi"]; healthProc.running = true
+        capacityProc.command = ["bash","-lc","cat /sys/class/power_supply/BAT*/capacity_level 2>/dev/null | head -n1"]; capacityProc.running = true
+        powerModeProc.command = ["bash","-lc","mode=$(cat /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference 2>/dev/null | head -n1); if [ -n \"$mode\" ]; then echo $mode; elif [ -f /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ]; then cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor 2>/dev/null | head -n1; fi"]; powerModeProc.running = true
         upowerProc.command = ["bash","-lc","dev=$(upower -e 2>/dev/null | grep -m1 BAT || true); if [ -n \"$dev\" ]; then upower -i \"$dev\"; fi"]; upowerProc.running = true
     }
 
@@ -56,7 +65,19 @@ Item {
         target: gauge
         function onHoveredChanged() {
             if (gauge.hovered) {
-                C.Tooltip.show(gauge, "Battery: " + percent + "%\nStatus: " + status)
+                var tooltip = "Battery"
+                tooltip += "<br>Charge: " + percent + "%"
+                tooltip += "<br>Status: " + status
+                if (health > 0) {
+                    tooltip += "<br>Health: " + health + "%"
+                }
+                if (capacity !== "Unknown" && capacity !== "") {
+                    tooltip += "<br>Capacity: " + capacity
+                }
+                if (powerMode !== "Unknown" && powerMode !== "") {
+                    tooltip += "<br>Mode: " + powerMode
+                }
+                C.Tooltip.show(gauge, tooltip)
             } else {
                 C.Tooltip.hide()
             }
