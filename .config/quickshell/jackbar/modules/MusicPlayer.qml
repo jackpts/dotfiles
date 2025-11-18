@@ -12,8 +12,8 @@ Item {
     property string title: ""
     property string status: "Stopped"
     property string playerName: ""
-    property int textWidth: 150
-    property int maxTextLength: 25
+    property int textWidth: 220
+    property int maxTextLength: 45
     
     property bool useNerdFont: true  // Set to false if icons don't show
     
