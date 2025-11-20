@@ -83,8 +83,9 @@ Item {
     // Recording indicator
     Text {
         anchors.centerIn: parent
-        text: ""
-        color: isRecording ? C.Theme.recorderOn : C.Theme.recorderOff
+        text: isRecording ? "" : "󱃋"
+        // color: isRecording ? C.Theme.recorderOn : C.Theme.recorderOff
+        color: C.Theme.recorderOff
         font.pixelSize: 18
         enabled: false  // Make text transparent to mouse events
     }
