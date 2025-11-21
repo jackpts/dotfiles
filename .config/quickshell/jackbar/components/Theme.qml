@@ -61,7 +61,10 @@ Singleton {
     property color wsTextActive: "#debcdf"            // #debcdf from workspaces button.active
     
     // Tooltip (from Waybar tooltip)
-    property color tooltipBg: "#111111"               // #111
+    // Nearly opaque black background (alpha ≈ 0.95)
+    // Use ARGB format: #AARRGGBB -> F2 alpha, 00 red, 00 green, 00 blue
+    property color tooltipBg: "#F2000000"             // rgba(0, 0, 0, 0.95)
     property color tooltipText: text                  // #cdd6f4
-    property color tooltipBorder: "#444444"           // border
+    // Match border to background so no light edge is visible
+    property color tooltipBorder: "#F2000000"
 }
