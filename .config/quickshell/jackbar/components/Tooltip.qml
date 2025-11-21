@@ -28,7 +28,7 @@ Singleton {
 
         Rectangle {
             anchors.fill: parent
-            radius: 6
+            radius: 0
             color: C.Theme.tooltipBg
             border.color: C.Theme.tooltipBorder
             border.width: 0
