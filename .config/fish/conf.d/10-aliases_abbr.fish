@@ -198,3 +198,9 @@ abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
 # Quickshell run
 abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
 abbr q_reload 'pkill -9 quickshell; sleep 1; quickshell -p /home/jack/dotfiles/.config/quickshell/jackbar > /dev/null 2>&1 &'
+
+# Mirroring
+abbr mir_list 'swaymsg -t get_outputs'
+abbr mir_on 'wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1'
+abbr mir_scale 'wl-mirror eDP-1 '
+abbr mir_off 'pkill wl-mirror'
