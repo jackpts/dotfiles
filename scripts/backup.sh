@@ -2,7 +2,7 @@
 
 backup() {
     cur_Date=$(date +"%d_%b-%H_%M")
-    outputDir="/run/media/jacky/back2up/regular"
+    outputDir="/run/media/jacky/media/backup/regular/"
 
     if [ ! -d "$outputDir" ]; then
         echo -e "Directory $outputDir doesn't exist!"
@@ -28,9 +28,9 @@ backup() {
     dconf dump /org/nemo/ > $HOME/dotfiles/nemo-dconf-settings
     # To restore: dconf load /org/nemo/ < ~/dotfiles/nemo-dconf-settings
 
-    rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
-    rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
-    rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
+    # rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
+    # rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
+    # rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
 
     SFSfile=$(find $HOME/Documents/ -type f -name "sfs*.json" -printf "%T+ %f\n" | sort -r | head -n 1 | awk '{print $2}')
 
@@ -92,11 +92,12 @@ backup() {
         "$HOME/Documents/browser/"
         "$HOME/.my.cnf" # `chmod 600 ~/.my.cnf`
         "$HOME/soft/$mysql_file"
+        "$HOME/Monero/"
     )
 
     for b in "${backupArr[@]}"; do
         # 7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p"$(pass backup)" "$b" -xr!.git -xr!node_modules >/dev/null
-        7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -p1 "$b" -xr!.git -xr!.venv -xr!node_modules -xr!themes >/dev/null
+        7z a -bt -t7z -m0=lzma -mx=9 "$outputFile" -spf2 -pt2 "$b" -xr!.git -xr!.venv -xr!node_modules -xr!themes >/dev/null
         echo "--> $b"
     done
 
