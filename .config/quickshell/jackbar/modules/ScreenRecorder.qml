@@ -83,7 +83,7 @@ Item {
     // Recording indicator
     Text {
         anchors.centerIn: parent
-        text: isRecording ? "" : "󱃋"
+        text: isRecording ? "" : ""
         // color: isRecording ? C.Theme.recorderOn : C.Theme.recorderOff
         color: C.Theme.recorderOff
         font.pixelSize: 18
