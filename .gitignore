@@ -1,6 +1,7 @@
 .git
 .env
 *.bak*
+*.old*
 *.map*
 *.tmp.*
 \[*\]
