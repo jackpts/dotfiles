@@ -37,11 +37,20 @@ spawn-sh-at-startup "quickshell -p $HOME/dotfiles/.config/quickshell/jackbar"
 
 ## Modules
 
-- CPU, Memory, Free space, Volume, Battery as circular gauges (hover shows value; click/scroll actions preserved where applicable).
-- Network indicator (click: `networkmanager_dmenu`, right-click: `nmtui`).
-- Screenshot button (slurp + grim -> file + clipboard).
-- Screen recorder (uses your `scripts/screen_record.sh` with toggle and status polling).
-- Updates indicator (uses your `scripts/garuda_updates.sh`).
+- **CPU, Memory, Free space, Volume, Battery** - Circular gauges (hover shows value; click/scroll actions preserved where applicable).
+- **Network indicator** - Click: `networkmanager_dmenu`, Right-click: `nmtui`.
+- **Screenshot button** - Click to capture (slurp + grim -> file + clipboard).
+- **Screen recorder** - Uses your `scripts/screen_record.sh` with toggle and status polling.
+- **Updates indicator** - Uses your `scripts/garuda_updates.sh`.
+- **MusicPlayer** - MPRIS media player control via `playerctl`:
+  - Displays current track (artist - title) with play/pause/stop icon
+  - Left click: Play/Pause
+  - Right click: Stop
+  - Scroll up: Previous track
+  - Scroll down: Next track
+  - Hover: Shows full metadata tooltip
+  - Auto-updates every 2 seconds
+  - Works with any MPRIS-compatible player (Spotify, VLC, Firefox, Chrome, etc.)
 
 ## Notes
 
