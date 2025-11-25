@@ -50,6 +50,7 @@ CORE_BACKUP_ITEMS=(
 	"/etc/profile"
     "/etc/bluetooth/main.conf"
     "$HOME/.config/wayvnc"
+    "$HOME/.qwen/*.json"
 )
 
 # Additional backup items (add more paths here as needed)
