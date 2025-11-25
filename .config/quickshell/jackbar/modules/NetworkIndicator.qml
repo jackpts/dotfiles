@@ -5,7 +5,9 @@ import "../components" as C
 
 Item {
     id: root
-    width: 80; height: 40
+    // Width follows content (icon/text) instead of being fixed
+    width: Math.max(indicatorText.implicitWidth + 8, 24)
+    height: 40
     property string kind: "disc" // wifi | eth | disc
     property string ssid: ""
     property int signal: 0
@@ -150,11 +152,23 @@ Item {
         }
     }
     
+    /* Previous implementation showing local IP address
     Text {
         anchors.centerIn: parent
         text: ip && ip.length ? ip : "—"
         color: kind === "disc" ? C.Theme.networkDisconnected : (kind === "wifi" ? C.Theme.networkWifi : C.Theme.networkEthernet)
         font.pixelSize: 12
+        enabled: false  // Make text transparent to mouse events
+    }
+    */
+
+    // Temporary implementation: show only a network icon (WiFi/Ethernet/Disconnected)
+    Text {
+        id: indicatorText
+        anchors.centerIn: parent
+        text: root.icon()
+        color: kind === "disc" ? C.Theme.networkDisconnected : (kind === "wifi" ? C.Theme.networkWifi : C.Theme.networkEthernet)
+        font.pixelSize: 16
         enabled: false  // Make text transparent to mouse events
     }
 }
