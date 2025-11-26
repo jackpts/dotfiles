@@ -20,6 +20,8 @@ EXCLUSION_PATTERNS=(
 	"*.log"
 	".DS_Store"
 	"*.mp*"
+    "*/tmp/*"
+    "tmp"
 )
 
 # Get current date
@@ -51,6 +53,7 @@ CORE_BACKUP_ITEMS=(
     "/etc/bluetooth/main.conf"
     "$HOME/.config/wayvnc"
     "$HOME/.qwen/*.json"
+    "$HOME/.gemini/*.json"
 )
 
 # Additional backup items (add more paths here as needed)
