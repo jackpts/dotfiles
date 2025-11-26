@@ -122,6 +122,14 @@ OR:
     b) run fish function: `w_styles`
 
 
+### BlazinLock installing
+```sh
+git clone https://github.com/Thunder-Blaze/BlazinLock/ ~/BlazinLock
+cd ~/BlazinLock
+chmod +x installer.sh
+./installer.sh
+```
+
 ### TODO
 
 - kbd switcher doesn't work by clicking on waybar icon

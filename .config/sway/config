@@ -76,14 +76,14 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 ### Idle configuration
 #
 # swayidle replacing hypridle
-# exec_always --no-startup-id swayidle -w \
-#          timeout 420 '$HOME/scripts/lock_with_matrix.sh' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep '$HOME/scripts/lock_with_matrix.sh'
+exec_always --no-startup-id swayidle -w \
+         timeout 420 'blazinlock -s' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'blazinlock -s'
 
+# Old examples (kept for reference)
 # exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
-
-# If you don't have the lock script, install swaylock and swap the command above with: swaylock -f -c 000000
+# If you don't have the lock script, install swaylock and swap the command above with: swaylock -f -c 000000'
 
 ### Input configuration
 #
@@ -147,7 +147,9 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 
     # Lock screen
     # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
-    bindsym $mod+l exec "swaylock -f -c 000000"
+    # bindsym $mod+l exec "swaylock -f -c 000000"
+    # bindsym $mod+l exec "hyprlock"
+    bindsym $mod+l exec "blazinlock -s"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
