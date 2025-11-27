@@ -1,0 +1,11 @@
+{
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>", "<space>"],
+      "commands": ["workbench.action.quickOpen"]
+    }
+  ],
+  "vim.handleKeys": {
+    "<space>": true
+  }
+}
