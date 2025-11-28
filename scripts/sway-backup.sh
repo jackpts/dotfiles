@@ -42,6 +42,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/Documents/bookmarks-*.json"
 	"$HOME/Documents/sfs*.json"
 	"$HOME/Documents/Sala/"
+	"$HOME/Documents/AI.Checks/"
 	"$HOME/Documents/Checks/"
 	"/etc/systemd/logind.conf.d/ignore-lid.conf"
 	"/etc/hosts"
