@@ -44,6 +44,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/Documents/Sala/"
 	"$HOME/Documents/AI.Checks/"
 	"$HOME/Documents/Checks/"
+	"$HOME/Documents/pplCVs"
 	"/etc/systemd/logind.conf.d/ignore-lid.conf"
 	"/etc/hosts"
 	"/etc/resolv.conf"
@@ -51,10 +52,10 @@ CORE_BACKUP_ITEMS=(
 	"/etc/systemd/system.conf"
 	"/etc/systemd/logind.conf"
 	"/etc/profile"
-    "/etc/bluetooth/main.conf"
-    "$HOME/.config/wayvnc"
-    "$HOME/.qwen/*.json"
-    "$HOME/.gemini/*.json"
+	"/etc/bluetooth/main.conf"
+	"$HOME/.config/wayvnc"
+	"$HOME/.qwen/*.json"
+	"$HOME/.gemini/*.json"
 )
 
 # Additional backup items (add more paths here as needed)
