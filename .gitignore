@@ -37,3 +37,5 @@ dbui
 .sass-cache
 
 .agents
+
+output:tasks
