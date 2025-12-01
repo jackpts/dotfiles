@@ -8,36 +8,36 @@
         "command": "workbench.action.findInFiles"
     },
     {
-        "key": "space b",
-        "command": "workbench.action.showAllEditors"
-    },
-    {
-        "key": "space f",
-        "command": "workbench.action.quickOpenPreviousRecentlyUsedEditor"
-    },
-    {
         "key": "space s",
         "command": "workbench.action.files.saveAll"
     },
     {
-        "key": "space w",
-        "command": "workbench.action.closeActiveEditor"
-    },
-    {
-        "key": "space n",
-        "command": "explorer.newFile"
-    },
-    {
-        "key": "space shift+n",
-        "command": "explorer.newFolder"
-    },
-    {
-        "key": "space d",
-        "command": "editor.action.deleteLines",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
         "key": "ctrl+\\",
         "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "left",
+        "command": "cursorMove",
+        "args": {
+            "to": "left",
+            "by": "character",
+            "value": 1
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "right",
+        "command": "cursorMove",
+        "args": {
+            "to": "right",
+            "by": "character",
+            "value": 1
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "y c",
+        "command": "multiCommand.ycDuplicateAndComment",
+        "when": "editorTextFocus && !editorReadonly"
     }
 ]

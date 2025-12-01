@@ -3,9 +3,26 @@
     {
       "before": ["<space>", "<space>"],
       "commands": ["workbench.action.quickOpen"]
+    },
+    {
+      "before": ["y", "c"],
+      "commands": [
+        "multiCommand.ycDuplicateAndComment"
+      ]
     }
   ],
   "vim.handleKeys": {
     "<space>": true
-  }
+  },
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.ycDuplicateAndComment",
+      "sequence": [
+        "editor.action.copyLinesDownAction",
+        "cursorUp",
+        "editor.action.addCommentLine",
+        "cursorDown"
+      ]
+    }
+  ]
 }
