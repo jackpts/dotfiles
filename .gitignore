@@ -1,18 +1,21 @@
 .git
 .env
 *.bak*
+*.old*
 *.map*
 *.tmp.*
+\[*\]
 Neogit*
-Neo-tree*
+[Nn]eo-tree*
 migrations
+filesystem
 
 /.config/alacritty/colorschemes/*
 !/.config/alacritty/colorschemes/Tokyo_night.toml
 
 /.config/ghostty/shaders/*
 
-/.config/fish/fish_variables*
+/.config/fish/fish_variables
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
@@ -30,3 +33,7 @@ migrations
 
 .opencode/
 dbui
+
+.sass-cache
+
+.agents
