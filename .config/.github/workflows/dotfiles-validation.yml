@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v4
 
       # Format check: YAML + JSON
-      - name: Install formatters
         run: |
           pip install yamllint
 
