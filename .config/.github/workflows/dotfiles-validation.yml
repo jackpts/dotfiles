@@ -1,0 +1,35 @@
+name: Dotfiles validation
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Format check: YAML + JSON
+      - name: Install formatters
+        run: |
+          pip install yamllint
+
+      - name: Validate YAML files
+        run: |
+          yamllint . --format parsable --strict
+
+      - name: Validate JSON files
+        run: |
+          find . -name "*.json" -type f -exec python3 -m json.tool {} \; > /dev/null
+
+      - name: Validate scripts/ directory
+        run: |
+          if [ -d "scripts" ]; then
+            find scripts -type f -name "*.sh" -exec bash -n {} \;
+          fi
+
