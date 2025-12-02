@@ -39,3 +39,11 @@ jobs:
             find scripts -type f -name "*.sh" -exec bash -n {} \;
           fi
 
+      - name: Validate stow structure
+        run: |
+          for pkg in */; do
+            if [[ -d "$pkg" && "$pkg" != ".github/" && "$pkg" != ".git/" ]]; then
+              echo "Checking stow package: $pkg"
+              stow --no --target=/tmp/stow-test --dir="$PWD" --simulate "$(basename "$pkg")"
+            fi
+          done
