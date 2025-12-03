@@ -362,6 +362,8 @@ for_window [app_id="slurp"] border none, floating enable, sticky enable
 for_window [app_id="nemo"] opacity 0.95
 for_window [app_id="zen"] opacity 0.95
 for_window [app_id="codium"] opacity 0.95
+for_window [app_id="windsurf"] opacity 0.95
+for_window [app_id="cursor"] opacity 0.95
 
 # Border settings (required for client colors to work)
 default_border pixel 2
