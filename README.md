@@ -98,6 +98,8 @@ monitor = eDP-1, 2560x1600@165, auto, 1
     <p align="center">
         <img src="assets/quickshell_2025-11-21_15-54-53.jpg" />
         <br />
+        <img src="assets/quickshell_2025-12-03_11-40-23.jpg" />
+        <br />
         <img src="assets/lock_screen.jpg" />
     </p>
 </details>
