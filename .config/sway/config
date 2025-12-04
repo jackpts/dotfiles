@@ -175,7 +175,8 @@ exec_always --no-startup-id swayidle -w \
     # bindsym $mod+$right focus right
     # Cycle focus (replacement for hypr cyclenext)
     bindsym $mod+Tab focus next
-    # bindsym Mod1+Tab exec wofi --show window
+    # Alt+Tab window switching
+    bindsym Mod1+Tab focus mode_toggle
     # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
