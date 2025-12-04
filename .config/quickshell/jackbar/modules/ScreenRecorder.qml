@@ -36,7 +36,7 @@ Item {
     }
 
     // Process to toggle recording via sway (detached)
-    Process { 
+    Process {
         id: toggleProcess
         command: ["bash", "-lc", "$HOME/dotfiles/scripts/quickshell_screen_record.sh --toggle"]
         running: false
@@ -89,7 +89,7 @@ Item {
         font.pixelSize: 18
         enabled: false  // Make text transparent to mouse events
     }
-    
+
     // Tooltip
     MouseArea {
         anchors.fill: parent
