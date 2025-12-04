@@ -10,12 +10,14 @@ PanelWindow {
     implicitHeight: 40
     exclusiveZone: implicitHeight
     focusable: false
+    color: "transparent"
 
     Rectangle {
         anchors.fill: parent
         // color: C.Theme.bg // translucent dark background
         // color: Qt.rgba(0,0,0,0)
         color: "#111111"
+        opacity: 0.7
     }
 
     Row {
@@ -27,7 +29,8 @@ PanelWindow {
         AppMenu {}
         UpdatesIndicator {}
         Weather {}
-        TaskList {}
+		TaskList {}
+		Item { width: 48; height: 1 }
         Workspaces {}
     }
 
@@ -44,17 +47,11 @@ PanelWindow {
         NetworkIndicator {}
         ScreenRecorder {}
         ScreenshotButton {}
+        Clipboard {}
+        NotificationIndicator {}
+        // BlueLight {}
         BatteryGauge {}
-        // Clock
-        Item {
-            width: 70; height: 40
-            Text {
-                anchors.centerIn: parent
-                text: Qt.formatDateTime(clock.date, "HH:mm, dd MMM")
-                color: C.Theme.clock
-                font.pixelSize: 14
-            }
-            SystemClock { id: clock; precision: SystemClock.Minutes }
-        }
+        // Tray {}
+        Clock {}
     }
 }
