@@ -1,0 +1,68 @@
+[
+    {
+        "key": "space space",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "space /",
+        "command": "workbench.action.findInFiles"
+    },
+    {
+        "key": "space s",
+        "command": "workbench.action.files.saveAll"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "left",
+        "command": "cursorMove",
+        "args": {
+            "to": "left",
+            "by": "character",
+            "value": 1
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "right",
+        "command": "cursorMove",
+        "args": {
+            "to": "right",
+            "by": "character",
+            "value": 1
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "y c",
+        "command": "multiCommand.ycDuplicateAndComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+.",
+        "command": "workbench.action.nextEditorInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+,",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+c",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+shift+,",
+        "command": "workbench.action.moveEditorLeftInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+shift+.",
+        "command": "workbench.action.moveEditorRightInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    }
+]

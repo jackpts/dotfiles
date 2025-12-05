@@ -1,0 +1,124 @@
+{
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>", "<space>"],
+      "commands": ["workbench.action.quickOpen"]
+    },
+    {
+      "before": ["y", "c"],
+      "commands": [
+        "multiCommand.ycDuplicateAndComment"
+      ]
+    },
+    {
+      "before": ["<C-a>"],
+      "commands": ["editor.action.selectAll"]
+    },
+    {
+      "before": ["<C-q>"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    },
+    {
+      "before": ["t", "e"],
+      "commands": ["workbench.action.files.newUntitledFile"]
+    },
+    {
+      "before": ["<Tab>"],
+      "commands": ["workbench.action.nextEditorInGroup"]
+    },
+    {
+      "before": ["<S-Tab>"],
+      "commands": ["workbench.action.previousEditorInGroup"]
+    },
+    {
+      "before": ["<C-j>"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": ["<left>"],
+      "after": ["h"]
+    },
+    {
+      "before": ["<right>"],
+      "after": ["l"]
+    },
+    {
+      "before": ["H"],
+      "after": ["^"]
+    },
+    {
+      "before": ["L"],
+      "after": ["$"]
+    },
+    {
+      "before": ["q", "q"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    },
+    {
+      "before": ["<C-d>"],
+      "after": ["<C-d>", "z", "z"]
+    },
+    {
+      "before": ["<C-u>"],
+      "after": ["<C-u>", "z", "z"]
+    },
+    {
+      "before": ["<C-f>"],
+      "after": ["<C-f>", "z", "z"]
+    },
+    {
+      "before": ["<C-b>"],
+      "after": ["<C-b>", "z", "z"]
+    },
+    {
+      "before": ["t", "t"],
+      "commands": ["workbench.action.terminal.toggleTerminal"]
+    },
+    {
+      "before": ["<space>", "j"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": ["<space>", "k"],
+      "commands": ["editor.action.marker.prev"]
+    },
+    {
+      "before": ["g", "p"],
+      "commands": ["editor.action.peekDefinition"]
+    },
+    {
+      "before": [";"],
+      "after": [":"]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["H"],
+      "after": ["^"]
+    },
+    {
+      "before": ["L"],
+      "after": ["$"]
+    }
+  ],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.handleKeys": {
+    "<space>": true
+  },
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.ycDuplicateAndComment",
+      "sequence": [
+        "editor.action.copyLinesDownAction",
+        "cursorUp",
+        "editor.action.addCommentLine",
+        "cursorDown"
+      ]
+    }
+  ]
+}
