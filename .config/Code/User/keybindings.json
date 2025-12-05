@@ -39,5 +39,30 @@
         "key": "y c",
         "command": "multiCommand.ycDuplicateAndComment",
         "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+.",
+        "command": "workbench.action.nextEditorInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+,",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+c",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+shift+,",
+        "command": "workbench.action.moveEditorLeftInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt+shift+.",
+        "command": "workbench.action.moveEditorRightInGroup",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
     }
 ]
