@@ -40,11 +40,21 @@ PanelWindow {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: 20
+        // RedShift {}
+        // Separator {}
+        MusicPlayer {}
+        Separator {}
+        Shazam {}
+        Separator {}
         CpuGauge {}
         MemoryGauge {}
         FreeSpaceGauge {}
         VolumeGauge {}
+        Separator {}
+        Brightness {}
         NetworkIndicator {}
+        BluetoothIndicator {}
+        LanguageSwitcher {}
         ScreenRecorder {}
         ScreenshotButton {}
         Clipboard {}

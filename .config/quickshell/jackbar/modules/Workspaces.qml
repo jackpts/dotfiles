@@ -17,15 +17,43 @@ Item {
         spacing: 4
         Repeater {
             model: spaces
-            delegate: Rectangle {
-                radius: 4
-                height: 28
+            delegate: Item {
                 width: 28
-                color: modelData.focused ? C.Theme.wsActiveBg : C.Theme.wsBg
-                border.color: modelData.urgent ? C.Theme.red : C.Theme.wsBorder
-                border.width: modelData.focused ? 2 : 1
+                height: 28
+                layer.enabled: true
+                layer.smooth: true
+
+                Canvas {
+                    id: triangleCanvas
+                    anchors.fill: parent
+                    antialiasing: true
+
+                    onPaint: {
+                        var ctx = getContext("2d");
+                        ctx.reset();
+
+                        // Draw triangle
+                        ctx.beginPath();
+                        ctx.moveTo(width/2, 0);
+                        ctx.lineTo(width, height);
+                        ctx.lineTo(0, height);
+                        ctx.closePath();
+
+                        // Fill with background color
+                        ctx.fillStyle = modelData.focused ? C.Theme.wsActiveBg : C.Theme.wsBg;
+                        ctx.fill();
+
+                        // Draw border
+                        ctx.strokeStyle = modelData.urgent ? C.Theme.red : C.Theme.wsBorder;
+                        ctx.lineWidth = modelData.focused ? 2 : 1;
+                        ctx.stroke();
+                    }
+                }
+
                 Text {
-                    anchors.centerIn: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 1
                     text: modelData.num
                     color: modelData.focused ? C.Theme.wsTextActive : C.Theme.wsText
                     font.pixelSize: 13
