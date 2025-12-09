@@ -93,6 +93,7 @@ backup() {
         "$HOME/.my.cnf" # `chmod 600 ~/.my.cnf`
         "$HOME/soft/$mysql_file"
         "$HOME/Monero/"
+        "$HOME/.docker/"
     )
 
     for b in "${backupArr[@]}"; do
