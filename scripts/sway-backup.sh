@@ -57,7 +57,8 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.config/wayvnc"
 	"$HOME/.qwen/*.json"
 	"$HOME/.gemini/*.json"
-    "$HOME/.docker/config.json"
+	"$HOME/.docker/config.json"
+	"$HOME/git/BlazinLock"
 )
 
 # Additional backup items (add more paths here as needed)
