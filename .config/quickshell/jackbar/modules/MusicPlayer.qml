@@ -12,7 +12,7 @@ Item {
         if (!artist && !title) {
             // Calculate width of "No media" text
             var text = "No media"
-            var tempText = Qt.createQmlObject('import QtQuick 2.0; Text { text: "' + text + '"; font.pixelSize: 12 }', root, 'dynamicText')
+            var tempText = Qt.createQmlObject('import QtQuick 2.0; Text { text: "' + text + '"; font.pixelSize: 18 }', root, 'dynamicText')
             var width = Math.ceil(tempText.implicitWidth) + 20  // Add some padding
             tempText.destroy()
             return width
@@ -308,7 +308,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             text: root.getDisplayText()
             color: status === "Playing" ? C.Theme.text : C.Theme.textMuted
-            font.pixelSize: 12
+            font.pixelSize: 18
             width: root.artist || root.title ? root.textWidth : implicitWidth
             horizontalAlignment: (root.artist || root.title) ? Text.AlignLeft : Text.AlignRight
             elide: Text.ElideRight
