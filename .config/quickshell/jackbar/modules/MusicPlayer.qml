@@ -5,8 +5,8 @@ import "../components" as C
 
 Item {
     id: root
-    width: contentWidth + 20
-    height: 40
+    width: contentWidth + 40
+    height: 50
 
     property int contentWidth: {
         if (!artist && !title) {
