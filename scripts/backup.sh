@@ -94,6 +94,9 @@ backup() {
         "$HOME/soft/$mysql_file"
         "$HOME/Monero/"
         "$HOME/.docker/"
+        "$HOME/.qwen/*.json"
+        "$HOME/.gemini/*.json"
+        "$HOME/.vibe/"
     )
 
     for b in "${backupArr[@]}"; do
