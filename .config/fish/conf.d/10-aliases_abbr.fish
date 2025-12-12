@@ -204,3 +204,6 @@ abbr mir_list 'swaymsg -t get_outputs'
 abbr mir_on 'wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1'
 abbr mir_scale 'wl-mirror eDP-1 '
 abbr mir_off 'pkill wl-mirror'
+
+# Chrome run in wayland mode
+abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
