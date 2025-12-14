@@ -5,6 +5,14 @@
       "commands": ["workbench.action.quickOpen"]
     },
     {
+      "before": ["<space>", "/"],
+      "commands": ["workbench.action.findInFiles"]
+    },
+    {
+      "before": ["<space>", "s"],
+      "commands": ["workbench.action.files.saveAll"]
+    },
+    {
       "before": ["y", "c"],
       "commands": [
         "multiCommand.ycDuplicateAndComment"
@@ -13,13 +21,13 @@
     {
       "before": ["<C-a>"],
       "commands": ["editor.action.selectAll"]
-    },
+   },
     {
       "before": ["<C-q>"],
       "commands": ["workbench.action.closeActiveEditor"]
     },
     {
-      "before": ["t", "e"],
+      "before": ["<space>", "e"],
       "commands": ["workbench.action.files.newUntitledFile"]
     },
     {
@@ -51,7 +59,7 @@
       "after": ["$"]
     },
     {
-      "before": ["q", "q"],
+      "before": ["<space>", "q"],
       "commands": ["workbench.action.closeActiveEditor"]
     },
     {
@@ -71,7 +79,7 @@
       "after": ["<C-b>", "z", "z"]
     },
     {
-      "before": ["t", "t"],
+      "before": ["<space>", "t"],
       "commands": ["workbench.action.terminal.toggleTerminal"]
     },
     {
