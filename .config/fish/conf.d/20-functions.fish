@@ -204,6 +204,6 @@ function cd
 end
 
 # bash sudo!! equivalent
-function please
+function plz
     eval sudo $history[1]
 end
