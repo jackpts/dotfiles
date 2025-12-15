@@ -15,9 +15,14 @@ Item {
         if (!node) return
         var isWin = (node.type === 'con' || node.type === 'floating_con') && (node.app_id || (node.window_properties && node.window_properties.class))
         if (isWin) {
+            var appId = node.app_id || (node.window_properties ? node.window_properties.class : '')
+            // Skip zen-browser windows entirely
+            // if (appId && (appId.includes('zen-browser') || appId.includes('zen'))) {
+                // return
+            // }
             list.push({
                 id: node.id,
-                app: node.app_id || (node.window_properties ? node.window_properties.class : undefined),
+                app: appId,
                 title: node.name,
                 focused: !!node.focused,
                 urgent: !!node.urgent
@@ -74,8 +79,8 @@ Item {
 	}
 
     function shortLabel(app, title) {
-		var base = app && app.length ? ((app.indexOf('.') !== -1) ? normalizeAppId(app) : app) : (title || "?")
-		base = stripVendorWords(base)
+        var base = app && app.length ? ((app.indexOf('.') !== -1) ? normalizeAppId(app) : app) : (title || "?")
+        base = stripVendorWords(base)
         // Trim common separators to get the leading part (e.g., "Page - Firefox")
         var seps = [" — ", " - ", " | ", ": "]
         for (var i = 0; i < seps.length; i++) {
@@ -137,10 +142,12 @@ Item {
                             run.running = true
                         }
                     }
-                    onPressed: function(mouse) { if (mouse.button === Qt.RightButton && root.compositor === "sway") {
-                        run.command = ["bash","-lc", "swaymsg '[con_id=" + modelData.id + "] kill'"]
-                        run.running = true
-                    } }
+                    onPressed: function(mouse) {
+                        if (mouse.button === Qt.RightButton && root.compositor === "sway") {
+                            run.command = ["bash","-lc", "swaymsg '[con_id=" + modelData.id + "] kill'"]
+                            run.running = true
+                        }
+                    }
                     hoverEnabled: true
                     onEntered: C.Tooltip.show(root, modelData.title || modelData.app || "?")
                     onExited: C.Tooltip.hide()
