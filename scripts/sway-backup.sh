@@ -59,6 +59,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
 	"$HOME/git/BlazinLock"
+	"$HOME/gitlab/"
 )
 
 # Additional backup items (add more paths here as needed)
