@@ -201,3 +201,33 @@ function cd
     l
 end
 
+function plz
+    # If arguments are provided, just run sudo with them
+    if test (count $argv) -gt 0
+        sudo $argv
+        return
+    end
+
+    # Get the last command from history
+    set -l last_cmd $history[1]
+    if test -z "$last_cmd"
+        echo "No previous command in history." >&2
+        return 1
+    end
+
+    # List of safe commands allowed to be re-run with sudo
+    set -l safe_commands apt pacman systemctl journalctl ls lsd cat bat grep find cp mv mkdir rm touch chmod chown npm node yarn pnpm
+
+    # Extract the base command (first word)
+    set -l cmd (string split ' ' -- $last_cmd | head -n1)
+
+    # Check if the command is in the safe list
+    if contains -- $cmd $safe_commands
+        echo "Re-running with sudo: $last_cmd"
+        eval sudo $last_cmd
+    else
+        echo "Refusing to sudo: '$last_cmd' (not in safe list)" >&2
+        echo "Allowed commands: "(string join ', ' $safe_commands) >&2
+        return 1
+    end
+end
