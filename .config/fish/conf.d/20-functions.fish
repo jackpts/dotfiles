@@ -203,6 +203,7 @@ function cd
     end
 end
 
+# bash sudo !! analog
 function plz
     # If arguments are provided, just run sudo with them
     if test (count $argv) -gt 0
