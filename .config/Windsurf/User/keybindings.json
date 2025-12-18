@@ -1,0 +1,99 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "z",
+    "command": "vscode-neovim.send",
+    "when": "editorTextFocus && neovim.init && focusedView == 'workbench.panel.output' && neovim.mode != 'insert' && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z c",
+    "command": "list.collapse",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z c",
+    "command": "-list.collapse",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z m",
+    "command": "list.collapseAll",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z m",
+    "command": "-list.collapseAll",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z shift+m",
+    "command": "list.collapseAll",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z shift+m",
+    "command": "-list.collapseAll",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z shift+c",
+    "command": "list.collapseAllToFocus",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z shift+c",
+    "command": "-list.collapseAllToFocus",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z o",
+    "command": "list.expand",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z o",
+    "command": "-list.expand",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z shift+o",
+    "command": "list.expand",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z shift+o",
+    "command": "-list.expand",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z a",
+    "command": "list.toggleExpand",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z a",
+    "command": "-list.toggleExpand",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "z shift+a",
+    "command": "list.toggleExpand",
+    "when": "!editorTextFocus && !inputFocus && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "z shift+a",
+    "command": "-list.toggleExpand",
+    "when": "!editorTextFocus && !inputFocus"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "vscode-neovim.send",
+    "args": "ggVG",
+    "when": "neovim.init && neovim.mode != 'insert' && !windsurf.cascadePanel.focused"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "editor.action.selectAll",
+    "when": "editorTextFocus && !windsurf.cascadePanel.focused && !neovim.init"
+  }
+]

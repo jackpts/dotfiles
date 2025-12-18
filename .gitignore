@@ -27,6 +27,10 @@ filesystem
 /.config/nvim/lazy-lock.json
 /.config/nvim/lazyvim.json
 
+/.config/Windsurf/User/*
+!/.config/Windsurf/User/keybindings.json
+!/.config/Windsurf/User/settings.json
+
 /.config/nushell/history.*
 
 /.config/mpvlock/themes/*
