@@ -32,6 +32,8 @@ Item {
 
     function buildTooltip() {
         var lines = []
+        var down = (root.downRate && root.downRate.length) ? root.downRate : "—"
+        var up = (root.upRate && root.upRate.length) ? root.upRate : "—"
         if (root.kind === "wifi") {
             lines.push("Network: " + (root.ssid || "Unknown"))
             if (root.signalDbm && root.signalDbm.length && root.signal) {
@@ -43,14 +45,14 @@ Item {
             if (root.iface && root.iface.length) lines.push("Interface: " + root.iface)
             if (root.ip && root.ip.length) lines.push("Local IP: " + root.ip)
             if (root.gateway && root.gateway.length) lines.push("Gateway: " + root.gateway)
-            if (root.downRate && root.downRate.length) lines.push("󰇚: " + root.downRate)
-            if (root.upRate && root.upRate.length) lines.push("󰕒: " + root.upRate)
+            lines.push("󰇚 " + down)
+            lines.push("󰕒 " + up)
         } else if (root.kind === "eth") {
             if (root.iface && root.iface.length) lines.push("Interface: " + root.iface)
             if (root.ip && root.ip.length) lines.push("Local IP: " + root.ip)
             if (root.gateway && root.gateway.length) lines.push("Gateway: " + root.gateway)
-            if (root.downRate && root.downRate.length) lines.push("󰇚: " + root.downRate)
-            if (root.upRate && root.upRate.length) lines.push("󰕒: " + root.upRate)
+            lines.push("󰇚 " + down)
+            lines.push("󰕒 " + up)
         } else {
             lines.push("Disconnected")
         }
@@ -97,7 +99,7 @@ Item {
                         root.rxBytes = parseInt(rt[0])
                         root.txBytes = parseInt(rt[1])
                         var now = Date.now()
-                        if (root._lastSampleMs > 0 && root._lastRxBytes > 0 && root._lastTxBytes > 0) {
+                        if (root._lastSampleMs > 0) {
                             var dt = Math.max(1, now - root._lastSampleMs) / 1000.0
                             var dr = Math.max(0, root.rxBytes - root._lastRxBytes) / dt
                             var dtb = Math.max(0, root.txBytes - root._lastTxBytes) / dt
@@ -125,7 +127,7 @@ Item {
     Timer { interval: 5000; running: true; repeat: true; onTriggered: proc.running = true }
 
     Process { id: run }
-    
+
     MouseArea {
         id: area
         anchors.fill: parent
@@ -151,7 +153,7 @@ Item {
             }
         }
     }
-    
+
     /* Previous implementation showing local IP address
     Text {
         anchors.centerIn: parent
