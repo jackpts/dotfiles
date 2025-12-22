@@ -6,37 +6,7 @@ import "components" as C
 
 Variants {
     id: panels
-    model: {
-        function isUsableScreen(scr) {
-            return scr && scr.name && scr.name.indexOf("HEADLESS") !== 0;
-        }
-
-        var preferred = Quickshell.env("QS_PANEL_OUTPUT");
-        var preferredLower = preferred ? preferred.toLowerCase() : "";
-
-        var allowed = null;
-        if (preferred && preferredLower !== "all" && preferred !== "*") {
-            allowed = {};
-            var parts = preferred.split(/[,\s]+/);
-            for (var i = 0; i < parts.length; ++i) {
-                var p = parts[i].trim();
-                if (p.length)
-                    allowed[p] = true;
-            }
-        }
-
-        var out = [];
-        for (var j = 0; j < Quickshell.screens.length; ++j) {
-            var s = Quickshell.screens[j];
-            if (!isUsableScreen(s))
-                continue;
-            if (allowed && !allowed[s.name])
-                continue;
-            out.push(s);
-        }
-
-        return out;
-    }
+    model: Quickshell.screens
 
     Component.onCompleted: {
         if (Quickshell.env("QS_PANEL_DEBUG")) {
@@ -59,18 +29,36 @@ Variants {
     }
 
     delegate: PanelWindow {
-        id: win
-        property var modelData
+        required property var modelData
+        readonly property bool qsUsableScreen: modelData && modelData.name && modelData.name.indexOf("HEADLESS") !== 0
+        readonly property bool qsAllowedScreen: {
+            var preferred = Quickshell.env("QS_PANEL_OUTPUT");
+            var preferredLower = preferred ? preferred.toLowerCase() : "";
+            if (!preferred || preferredLower === "all" || preferred === "*")
+                return true;
+
+            var parts = preferred.split(/[,\s]+/);
+            for (var i = 0; i < parts.length; ++i) {
+                var p = parts[i].trim();
+                if (p.length && p === modelData.name)
+                    return true;
+            }
+
+            return false;
+        }
+
+        visible: qsUsableScreen && qsAllowedScreen
+
         screen: modelData
         anchors { top: true; left: true; right: true }
         implicitHeight: 40
-        exclusiveZone: implicitHeight
+        exclusiveZone: visible ? implicitHeight : 0
         focusable: false
         color: "transparent"
 
         Component.onCompleted: {
             if (Quickshell.env("QS_PANEL_DEBUG"))
-                console.log("QS panel: created panel on", modelData ? modelData.name : "<null>");
+                console.log("QS panel: created panel on", modelData ? modelData.name : "<null>", "visible=", visible);
         }
 
         Rectangle {
