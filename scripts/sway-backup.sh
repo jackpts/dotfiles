@@ -53,13 +53,15 @@ CORE_BACKUP_ITEMS=(
 	"/etc/systemd/logind.conf"
 	"/etc/profile"
 	"/etc/bluetooth/main.conf"
-    "/etc/wireguard/*.conf"
+    "/etc/wireguard/"
 	"$HOME/.config/wayvnc"
 	"$HOME/.qwen/*.json"
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
 	"$HOME/git/BlazinLock"
 	"$HOME/gitlab/"
+    "$HOME/.ssh/"
+    "$HOME/.pgpass"
 )
 
 # Additional backup items (add more paths here as needed)
