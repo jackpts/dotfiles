@@ -3,6 +3,8 @@
 	email = jackpts1981@gmail.com
 [includeIf "gitdir:~/gitlab/"]
     path = ~/.gitconfig-gitlab
+[includeIf "gitdir:~/bitbucket/"]
+  path = ~/.gitconfig-bitbucket
 [credential "https://github.com"]
 	username = jackpts
 	helper = !/usr/bin/gh auth git-credential
