@@ -14,6 +14,7 @@
 #  - 20-functions.fish    user functions only
 #  - 30-integrations.fish tool integrations (fzf, zoxide, etc.)
 #  - 99-interactive.fish  greeting, keybindings, interactive UX
+#  - innowise.fish         Innowise projects related abbrs
 
 set -x PATH $HOME/.local/bin $PATH
 

@@ -208,3 +208,4 @@ abbr mir_off 'pkill wl-mirror'
 
 # Chrome run in wayland mode
 abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
+
