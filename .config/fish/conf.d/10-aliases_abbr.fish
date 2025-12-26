@@ -191,9 +191,6 @@ abbr inno_vpn_stop systemctl stop wg-quick@wginno.service
 # GitHub login
 abbr gh_login 'gh auth login'
 
-# WayVNC connect
-abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
-
 # Quickshell run
 abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
 abbr q_reload 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar"'
