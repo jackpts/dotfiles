@@ -26,11 +26,14 @@ jobs:
         run: |
           set -euo pipefail
           pacman -S --needed --noconfirm python-yaml
+          python -m venv .lintenv
+          source .lintenv/bin/activate
           pip install --no-cache-dir --upgrade pip
           pip install --no-cache-dir yamllint
 
       - name: Validate YAML files
         run: |
+          . .lintenv/bin/activate
           yamllint . --format parsable --strict || true  # --strict can be too severe
 
       - name: Validate JSON files
