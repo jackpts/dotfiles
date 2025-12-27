@@ -9,6 +9,10 @@ Item {
     property int percent: 0
     property string tip: ""
 
+    function fmtGiBFromKB(kb) {
+        return (kb / 1024 / 1024).toFixed(1) + " GiB"
+    }
+
     C.CircleGauge {
         id: gauge
         anchors.centerIn: parent
@@ -23,17 +27,22 @@ Item {
 
     Process {
         id: proc
-        command: ["bash","-lc","$HOME/dotfiles/scripts/ram_usage_mb.sh"]
+        command: ["bash","-lc","awk '/MemTotal:/ {t=$2} /MemAvailable:/ {a=$2} /MemFree:/ {f=$2} END { if (!a) a=f; print t \":\" a }' /proc/meminfo"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
-                try {
-                    var obj = JSON.parse(this.text)
-                    if (obj && obj.percentage !== undefined) {
-                        root.percent = parseInt(obj.percentage)
-                        root.tip = obj.tooltip || ""
+                var s = this.text.trim()
+                var parts = s.split(":")
+                if (parts.length >= 2) {
+                    var totalKb = parseInt(parts[0])
+                    var availKb = parseInt(parts[1])
+                    if (!isNaN(totalKb) && !isNaN(availKb) && totalKb > 0) {
+                        var usedKb = Math.max(0, totalKb - availKb)
+                        root.percent = Math.max(0, Math.min(100, Math.round(usedKb * 100 / totalKb)))
+                        root.tip = "Used: " + fmtGiBFromKB(usedKb) + " / " + fmtGiBFromKB(totalKb) + "\n" +
+                            "Available: " + fmtGiBFromKB(availKb)
                     }
-                } catch (e) {}
+                }
             }
         }
     }
