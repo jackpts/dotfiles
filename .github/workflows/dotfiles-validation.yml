@@ -16,7 +16,7 @@ jobs:
           pacman -S --needed --noconfirm \
             git stow fish zsh bash \
             nodejs npm python python-pip \
-            neovim lua54 tmux kitty \
+            neovim lua tmux kitty \
             xorg-xwayland
 
       - name: Checkout dotfiles
