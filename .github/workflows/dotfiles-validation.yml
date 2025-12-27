@@ -10,20 +10,23 @@ jobs:
     steps:
       - name: Install system dependencies
         run: |
+          set -euo pipefail
           pacman -Syu --noconfirm
           pacman -S --needed --noconfirm \
             git stow fish zsh bash \
-            nodejs npm python \
+            nodejs npm python python-pip \
             neovim lua54 tmux kitty \
-            xorg-server-xwayland  # for compatibility
+            xorg-server-xwayland
 
       - name: Checkout dotfiles
         uses: actions/checkout@v4
 
-      # Format check: YAML + JSON
+      - name: Install lint dependencies
         run: |
-          pacman -S --noconfirm python-yaml
-          pip install yamllint
+          set -euo pipefail
+          pacman -S --needed --noconfirm python-yaml
+          pip install --no-cache-dir --upgrade pip
+          pip install --no-cache-dir yamllint
 
       - name: Validate YAML files
         run: |
