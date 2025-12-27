@@ -11,12 +11,13 @@ jobs:
       - name: Install system dependencies
         run: |
           set -euo pipefail
+          pacman -Sy --noconfirm archlinux-keyring
           pacman -Syu --noconfirm
           pacman -S --needed --noconfirm \
             git stow fish zsh bash \
             nodejs npm python python-pip \
             neovim lua54 tmux kitty \
-            xorg-server-xwayland
+            xorg-xwayland
 
       - name: Checkout dotfiles
         uses: actions/checkout@v4
