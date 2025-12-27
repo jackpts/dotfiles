@@ -10,23 +10,30 @@ jobs:
     steps:
       - name: Install system dependencies
         run: |
+          set -euo pipefail
+          pacman -Sy --noconfirm archlinux-keyring
           pacman -Syu --noconfirm
           pacman -S --needed --noconfirm \
             git stow fish zsh bash \
-            nodejs npm python \
-            neovim lua54 tmux kitty \
-            xorg-server-xwayland  # for compatibility
+            nodejs npm python python-pip \
+            neovim lua tmux kitty \
+            xorg-xwayland
 
       - name: Checkout dotfiles
         uses: actions/checkout@v4
 
-      # Format check: YAML + JSON
+      - name: Install lint dependencies
         run: |
-          pacman -S --noconfirm python-yaml
-          pip install yamllint
+          set -euo pipefail
+          pacman -S --needed --noconfirm python-yaml
+          python -m venv .lintenv
+          source .lintenv/bin/activate
+          pip install --no-cache-dir --upgrade pip
+          pip install --no-cache-dir yamllint
 
       - name: Validate YAML files
         run: |
+          . .lintenv/bin/activate
           yamllint . --format parsable --strict || true  # --strict can be too severe
 
       - name: Validate JSON files
