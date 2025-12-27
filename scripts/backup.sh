@@ -94,6 +94,9 @@ backup() {
         "$HOME/soft/$mysql_file"
         "$HOME/Monero/"
         "$HOME/.docker/"
+        "$HOME/.pgpass"
+        "$HOME/.gitconfig-gitlab"
+        "$HOME/.gitconfig-bitbucket"
     )
 
     for b in "${backupArr[@]}"; do
