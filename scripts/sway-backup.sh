@@ -22,6 +22,7 @@ EXCLUSION_PATTERNS=(
 	"*.mp*"
     "*/tmp/*"
     "tmp"
+    "*.dump"
 )
 
 # Get current date
@@ -62,6 +63,8 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/gitlab/"
     "$HOME/.ssh/"
     "$HOME/.pgpass"
+    "$HOME/.gitconfig-gitlab"
+    "$HOME/.gitconfig-bitbucket"
 )
 
 # Additional backup items (add more paths here as needed)
