@@ -391,6 +391,10 @@ input * {
     xkb_layout us,ru
     xkb_options grp:alt_shift_toggle
 }
+# Try to fix mouse hangs issue:
+input "046D:C077" {
+    events disabled
+}
 
 # Touchpad gestures for workspace switching
 bindgesture swipe:3:left workspace next_on_output
