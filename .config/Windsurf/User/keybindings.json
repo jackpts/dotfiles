@@ -95,5 +95,14 @@
     "key": "ctrl+a",
     "command": "editor.action.selectAll",
     "when": "editorTextFocus && !windsurf.cascadePanel.focused && !neovim.init"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "windsurf.prioritized.command.open"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "-windsurf.prioritized.command.open",
+    "when": "editorTextFocus && !windsurf.isAgentModeInputBoxFocused"
   }
 ]
