@@ -32,5 +32,6 @@
             ]
         }
     ],
-    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark"
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    "editor.formatOnSave": true
 }
