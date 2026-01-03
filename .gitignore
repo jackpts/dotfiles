@@ -15,7 +15,8 @@ filesystem
 
 /.config/ghostty/shaders/*
 
-/.config/fish/fish_variables*
+/.config/fish/fish_variables
+/.config/fish/conf.d/fish_frozen_*.fish
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
