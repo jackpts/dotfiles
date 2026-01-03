@@ -78,7 +78,7 @@ abbr opera_wayland 'opera --enable-features=UseOzonePlatform --ozone-platform=wa
 abbr obsidian_wayland 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr msty_wayland 'msty --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr term_theme 'sh $HOME/scripts/update_term_theme.sh'
-abbr dot 'cd $HOME/dotfiles'
+abbr dot 'cd $HOME/dotfiles && git status'
 
 # SETS-derived abbr
 abbr TAR 'tar -zcvf'
