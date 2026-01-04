@@ -19,7 +19,11 @@ Item {
             onStreamFinished: {
                 try {
                     var obj = JSON.parse(this.text)
-                    if (obj && obj.text) root.textValue = obj.text
+                    if (obj && obj.pacman !== undefined && obj.aur !== undefined) {
+                        root.textValue = "⟳ " + obj.pacman + "+" + obj.aur
+                    } else if (obj && obj.text) {
+                        root.textValue = obj.text
+                    }
                     if (obj && obj.class) root.statusClass = obj.class
                     if (obj && obj.tooltip) root.tooltipText = obj.tooltip
                 } catch (e) {}

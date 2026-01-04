@@ -1,23 +1,33 @@
 #!/bin/bash
 
-# Check if checkupdates-with-aur command exists
-if ! command -v checkupdates-with-aur &>/dev/null; then
-    echo '{"text": "Error", "tooltip": "checkupdates-with-aur not found", "class": "updates-error"}'
-    exit 1
-fi
+# Check for pacman updates
+pacman_updates=$(checkupdates 2>/dev/null | awk '{print $1}')
+pacman_count=$(echo "$pacman_updates" | awk 'NF' | wc -l)
 
-# Use checkupdates-with-aur to count available updates
-updates=$(checkupdates-with-aur 2>/dev/null)
-updatesCount=$(echo "$updates" | awk 'NF' | wc -l)
+# Check for AUR updates
+aur_updates=$(paru -Qua 2>/dev/null | awk '{print $1}')
+aur_count=$(echo "$aur_updates" | wc -l)
 
+total_updates=$((pacman_count + aur_count))
 icon="⟳"
 
-# Output JSON format for Waybar
-if [ "$updatesCount" -gt 0 ]; then
-    escaped_updates=$(echo "\n$updates" | sed ':a;N;$!ba;s/\n/\\n/g')
-    json_output=$(printf '{"text": "%s", "tooltip": "There are %d update(s) available:%s", "class": "updates-available"}' "$icon $updatesCount" "$updatesCount" "$escaped_updates")
+# Output JSON format for Quickshell
+if [ "$total_updates" -gt 0 ]; then
+    # Build tooltip with package lists
+    tooltip_packages=""
+    if [ "$pacman_count" -gt 0 ]; then
+        tooltip_packages="$tooltip_packages\nPacman updates:\n$pacman_updates"
+    fi
+    if [ "$aur_count" -gt 0 ]; then
+        if [ "$pacman_count" -gt 0 ]; then
+            tooltip_packages="$tooltip_packages\n____________"
+        fi
+            tooltip_packages="$tooltip_packages\nAUR updates:\n$aur_updates"
+    fi
+    escaped_tooltip=$(echo "$tooltip_packages" | sed ':a;N;$!ba;s/\n/\\n/g')
+    json_output=$(printf '{"text": "%s %s+%s", "tooltip": "There are %d update(s) available:%s", "class": "updates-available", "pacman": %d, "aur": %d}' "$icon" "$pacman_count" "$aur_count" "$total_updates" "$escaped_tooltip" "$pacman_count" "$aur_count")
 else
-    json_output=$(printf '{"text": "%s  ", "tooltip": "System is up to date", "class": "updates-none"}' "$icon")
+    json_output=$(printf '{"text": "%s 0+0", "tooltip": "System is up to date", "class": "updates-none", "pacman": 0, "aur": 0}' "$icon")
 fi
 
 echo "$json_output"
