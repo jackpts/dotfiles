@@ -13,7 +13,7 @@ Item {
 
     Process {
         id: proc
-        command: ["bash","-lc","$HOME/scripts/garuda_updates.sh"]
+        command: ["bash","-lc","$HOME/scripts/check_updates.sh"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
