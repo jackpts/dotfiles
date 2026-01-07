@@ -10,6 +10,77 @@ Item {
     width: Math.max(20, row.implicitWidth)
     property string compositor: "unknown"
     property var wins: [] // [{id, app, title, focused, urgent}]
+    property var highlightedWindows: ({}) // Map of window IDs that should be highlighted with green border
+    property var previousWinsMap: ({}) // Map of window ID to {title, focused} for tracking changes
+    property bool initialized: false // Flag to track if initial window list has been loaded
+
+    function detectNotifications(newWins) {
+        var newHighlighted = Object.assign({}, root.highlightedWindows)
+        var hasChanges = false
+        
+        // Build map of current windows
+        var currentWinsMap = {}
+        for (var i = 0; i < newWins.length; i++) {
+            var win = newWins[i]
+            currentWinsMap[win.id] = {
+                title: win.title,
+                focused: win.focused,
+                app: win.app
+            }
+            
+            // Clear highlight if window is now focused
+            if (win.focused && root.highlightedWindows[win.id]) {
+                delete newHighlighted[win.id]
+                hasChanges = true
+            }
+            
+            // Only detect changes after initialization
+            if (root.initialized) {
+                // Check if this is a new window that opened without focus
+                if (!root.previousWinsMap[win.id]) {
+                    // New window detected
+                    if (!win.focused) {
+                        // New window opened in background (e.g., link from messenger)
+                        newHighlighted[win.id] = true
+                        hasChanges = true
+                    }
+                } else {
+                    // Existing window - check for title changes (notification counts)
+                    var prevWin = root.previousWinsMap[win.id]
+                    if (prevWin.title !== win.title && !win.focused) {
+                        // Title changed while not focused - likely a notification
+                        newHighlighted[win.id] = true
+                        hasChanges = true
+                    }
+                    
+                    // Also check urgent flag if available
+                    if (win.urgent && !win.focused) {
+                        newHighlighted[win.id] = true
+                        hasChanges = true
+                    }
+                }
+            }
+        }
+        
+        // Mark as initialized after first run
+        if (!root.initialized) {
+            root.initialized = true
+        }
+        
+        // Clean up highlights for windows that no longer exist
+        for (var winId in root.highlightedWindows) {
+            if (!currentWinsMap[winId]) {
+                delete newHighlighted[winId]
+                hasChanges = true
+            }
+        }
+        
+        if (hasChanges) {
+            root.highlightedWindows = newHighlighted
+        }
+        
+        root.previousWinsMap = currentWinsMap
+    }
 
     function collectWindows(node, list) {
         if (!node) return
@@ -104,7 +175,17 @@ Item {
                 height: 35
                 // color: modelData.focused ? C.Theme.wsActiveBg : C.Theme.wsBg
                 color: C.Theme.wsBg
-                border.color: modelData.focused ? C.Theme.darkRed : (modelData.urgent ? C.Theme.red : C.Theme.wsBorder)
+                border.color: {
+                    if (root.highlightedWindows[modelData.id]) {
+                        return C.Theme.green
+                    } else if (modelData.focused) {
+                        return C.Theme.darkRed
+                    } else if (modelData.urgent) {
+                        return C.Theme.red
+                    } else {
+                        return C.Theme.wsBorder
+                    }
+                }
                 border.width: modelData.focused ? 1 : 1  // for future use
                 width: Math.min(180, Math.max(44, label.implicitWidth + 16))
                 Row {
@@ -123,6 +204,13 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
                     onClicked: {
+                        // Clear highlight when window is clicked
+                        if (root.highlightedWindows[modelData.id]) {
+                            var newHighlighted = Object.assign({}, root.highlightedWindows)
+                            delete newHighlighted[modelData.id]
+                            root.highlightedWindows = newHighlighted
+                        }
+                        
                         if (root.compositor === "hyprland") {
                             run.command = ["bash","-lc", "hyprctl dispatch focuswindow address:0x" + modelData.id.toString(16)]
                             run.running = true
@@ -169,6 +257,7 @@ Item {
                     var tree = JSON.parse(this.text)
                     var list = []
                     root.collectWindows(tree, list)
+                    root.detectNotifications(list)
                     root.wins = list
                 } catch (e) {
                     root.wins = []
@@ -228,6 +317,7 @@ Item {
                                 urgent: isUrgent
                             })
                         }
+                        root.detectNotifications(list)
                         root.wins = list
                     })
                 } catch (e) {
