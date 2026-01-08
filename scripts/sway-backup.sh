@@ -41,6 +41,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/*.kdbx"
 	"$HOME/dotfiles"
 	"$HOME/Documents/bookmarks-*.json"
+	"$HOME/Documents/bookmarks.html"
 	"$HOME/Documents/sfs*.json"
 	"$HOME/Documents/Sala/"
 	"$HOME/Documents/AI.Checks/"
