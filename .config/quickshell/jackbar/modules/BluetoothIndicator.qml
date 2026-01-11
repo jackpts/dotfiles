@@ -5,11 +5,12 @@ import "../components" as C
 
 Item {
     id: root
-    width: 35; height: 50
+    width: Math.max(35, implicitWidth); height: 50
     property bool hasDevices: false
     property int numConnections: 0
     property string displayText: ""
     property string tooltipText: ""
+    property int implicitWidth: textElement.implicitWidth + 20
 
     function icon() {
         return hasDevices ? "" : "󰂲";
@@ -64,7 +65,7 @@ Item {
             "    fi; " +
             "  fi; " +
             "done; " +
-            "IFS='|'; echo \"${num}|${controller}|${parts[*]}|${tips[*]}\""
+            "IFS=','; parts_joined=\"${parts[*]}\"; tips_joined=\"${tips[*]}\"; echo \"${num}|${controller}|${parts_joined}|${tips_joined}\""
         ]
         running: true
         stdout: StdioCollector {
@@ -93,9 +94,9 @@ Item {
                             var tip = tips[i].split("@")
                             if (tip.length === 2) {
                                 if (tip[1] !== "NA") {
-                                    lines.push(tip[0] + "\t  " + tip[1])
+                                    lines.push(tip[0] + " - " + tip[1])
                                 } else {
-                                    lines.push(tip[0])
+                                    lines.push(tip[0] + " - NA")
                                 }
                             }
                         }
@@ -138,6 +139,7 @@ Item {
     }
     
         Text {
+            id: textElement
             anchors.centerIn: parent
             text: root.hasDevices ? root.displayText : "󰂲"
             color: root.hasDevices ? C.Theme.bluetoothActive : C.Theme.bluetoothInactive
