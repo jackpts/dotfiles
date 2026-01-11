@@ -5,6 +5,15 @@ abbr sl_be_start 'cd $HOME/bitbucket/SL/sl_back && npm run start:dev'
 abbr sl_fe_start 'cd $HOME/bitbucket/SL/sl_frontend && npm run dev'
 abbr sl_db_check 'psql -h localhost -p 5432 -U root -d develop -c "\conninfo"'
 
+function sl_db_up --description 'Execute SQL command on SL develop DB using ~/.pgpass'
+    if test (count $argv) -lt 1
+        echo "Usage: sl_db_up 'SQL_COMMAND'"
+        return 1
+    end
+    PGPASSFILE=$HOME/.pgpass psql -h localhost -p 5432 -U root -d develop -c "$argv[1]"
+end
+abbr sl_db_up 'sl_db_up'
+
 function sl_backup --description 'Create SL project archive excluding node_modules and dist while embedding a PG dump'
     set project_dir "$HOME/bitbucket/SL"
     set backup_dir "$HOME/backup"
