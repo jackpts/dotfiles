@@ -5,6 +5,81 @@ abbr sl_be_start 'cd $HOME/bitbucket/SL/sl_back && npm run start:dev'
 abbr sl_fe_start 'cd $HOME/bitbucket/SL/sl_frontend && npm run dev'
 abbr sl_db_check 'psql -h localhost -p 5432 -U root -d develop -c "\conninfo"'
 
+function sl_db_up --description 'Execute SQL command on SL develop DB using ~/.pgpass'
+    if test (count $argv) -lt 1
+        echo "Usage: sl_db_up 'SQL_COMMAND'"
+        return 1
+    end
+    PGPASSFILE=$HOME/.pgpass psql -h localhost -p 5432 -U root -d develop -c "$argv[1]"
+end
+abbr sl_db_up 'sl_db_up'
+abbr _sql 'sl_db_up'
+
+function sl_db_restore --description 'Restore SL develop DB from newest .dmp in current directory'
+    set pgpass "$HOME/.pgpass"
+
+    if not test -f $pgpass
+        echo "PGPASS file missing: $pgpass" >&2
+        return 1
+    end
+
+    set dump_files (ls -t *.dmp ^/dev/null)
+    if test (count $dump_files) -eq 0
+        echo "No .dmp files found in "(pwd)
+        return 1
+    end
+
+    set latest_dump $dump_files[1]
+    echo "Restoring SL database from $latest_dump..."
+    if not env PGPASSFILE=$pgpass pg_restore -U root -d develop --no-owner --no-privileges --clean "$latest_dump"
+        echo "Database restore failed" >&2
+        return 1
+    end
+
+    echo "Restore completed successfully."
+end
+abbr sl_db_restore 'sl_db_restore'
+
+function sl_backup --description 'Create SL project archive excluding node_modules and dist while embedding a PG dump'
+    set project_dir "$HOME/bitbucket/SL"
+    set backup_dir "$HOME/backup"
+    set timestamp (date "+%Y%m%d_%H%M%S")
+    set archive_name "sl_$timestamp.7z"
+    set archive_path "$backup_dir/$archive_name"
+    set dump_path "$backup_dir/sl_develop_$timestamp.dump"
+    set pgpass "$HOME/.pgpass"
+    set current_user (whoami)
+    set tmp_dump (sudo -u postgres mktemp --tmpdir sl_develop_dump_XXXXXXXX.dump)
+
+    mkdir -p $backup_dir
+
+    if not test -f $pgpass
+        echo "PGPASS file missing: $pgpass" >&2
+        return 1
+    end
+
+    if test -z "$tmp_dump"
+        echo "Failed to prepare temporary dump file" >&2
+        return 1
+    end
+
+    set dump_cmd "PGPASSFILE=$pgpass pg_dump -h localhost -p 5432 -U postgres -d develop --format=custom --file='$tmp_dump'"
+    echo "Dumping SL database to temporary file..."
+    if not sudo -u postgres sh -c $dump_cmd
+        echo "Postgres dump failed" >&2
+        rm -f "$tmp_dump"
+        return 1
+    end
+
+    sudo mv "$tmp_dump" "$dump_path"
+    sudo chown $current_user "$dump_path"
+
+    echo "Creating archive $archive_path with project directory and SQL dump..."
+    7z a -xr'!node_modules' -xr'!dist' "$archive_path" "$project_dir/" "$dump_path"
+    rm -f "$dump_path"
+end
+abbr sl_backup 'sl_backup'
+
 # BitBucket check via SSH
 abbr bb_test 'ssh -T git@bitbucket.org'
 
