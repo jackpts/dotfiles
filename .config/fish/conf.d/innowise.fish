@@ -13,6 +13,32 @@ function sl_db_up --description 'Execute SQL command on SL develop DB using ~/.p
     PGPASSFILE=$HOME/.pgpass psql -h localhost -p 5432 -U root -d develop -c "$argv[1]"
 end
 abbr sl_db_up 'sl_db_up'
+abbr _sql 'sl_db_up'
+
+function sl_db_restore --description 'Restore SL develop DB from newest .dmp in current directory'
+    set pgpass "$HOME/.pgpass"
+
+    if not test -f $pgpass
+        echo "PGPASS file missing: $pgpass" >&2
+        return 1
+    end
+
+    set dump_files (ls -t *.dmp ^/dev/null)
+    if test (count $dump_files) -eq 0
+        echo "No .dmp files found in "(pwd)
+        return 1
+    end
+
+    set latest_dump $dump_files[1]
+    echo "Restoring SL database from $latest_dump..."
+    if not env PGPASSFILE=$pgpass pg_restore -U root -d develop --no-owner --no-privileges --clean "$latest_dump"
+        echo "Database restore failed" >&2
+        return 1
+    end
+
+    echo "Restore completed successfully."
+end
+abbr sl_db_restore 'sl_db_restore'
 
 function sl_backup --description 'Create SL project archive excluding node_modules and dist while embedding a PG dump'
     set project_dir "$HOME/bitbucket/SL"
