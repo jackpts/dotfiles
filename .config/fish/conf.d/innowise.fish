@@ -15,7 +15,7 @@ end
 abbr sl_db_up 'sl_db_up'
 abbr _sql 'sl_db_up'
 
-function sl_db_restore --description 'Restore SL develop DB from newest .dmp in current directory'
+function sl_db_restore --description 'Restore SL develop DB from provided dump file'
     set pgpass "$HOME/.pgpass"
 
     if not test -f $pgpass
@@ -23,15 +23,19 @@ function sl_db_restore --description 'Restore SL develop DB from newest .dmp in 
         return 1
     end
 
-    set dump_files (ls -t *.dmp ^/dev/null)
-    if test (count $dump_files) -eq 0
-        echo "No .dmp files found in "(pwd)
+    if test (count $argv) -lt 1
+        echo "Usage: sl_db_restore path/to/backup.dmp"
         return 1
     end
 
-    set latest_dump $dump_files[1]
-    echo "Restoring SL database from $latest_dump..."
-    if not env PGPASSFILE=$pgpass pg_restore -U root -d develop --no-owner --no-privileges --clean "$latest_dump"
+    set dump_file $argv[1]
+    if not test -f $dump_file
+        echo "Dump file not found: $dump_file" >&2
+        return 1
+    end
+
+    echo "Restoring SL database from $dump_file..."
+    if not env PGPASSFILE=$pgpass pg_restore -U root -d develop --no-owner --no-privileges --clean "$dump_file"
         echo "Database restore failed" >&2
         return 1
     end
