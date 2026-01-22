@@ -79,8 +79,21 @@ Variants {
             UpdatesIndicator {}
             Weather {}
 			TaskList {}
-			Item { width: 48; height: 1 }
-            Workspaces {}
+        }
+
+        Item {
+            id: workspaceArea
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: leftRow.right
+            anchors.leftMargin: 12
+            anchors.right: rightRow.left
+            anchors.rightMargin: 12
+            height: parent.height
+
+            Workspaces {
+                id: workspaces
+                anchors.centerIn: parent
+            }
         }
 
         Row {
