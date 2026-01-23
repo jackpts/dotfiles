@@ -54,7 +54,7 @@ Follow the structure in `sl_frontend/src/`:
 
 ### General
 
-1. **TypeScript**: Strict mode is enabled. Always use explicit types and **NEVER use `any`**. Use `unknown` if the type is truly unknown. For frontend code, if a return type truly cannot avoid `any`, use the project custom type `ShamefulAny` instead (and leave a TODO explaining the gap).
+1. **TypeScript**: Strict mode is enabled. Always use explicit types and **NEVER use `any`**. Use `unknown` if the type is truly unknown. For frontend code, if a return type truly cannot avoid `any`, use the project custom type `ShamefulAny` instead (and leave a TODO explaining the gap). Avoid redundant primitive annotations on local `const`/`let` declarations—prefer `const filePath = ...` instead of `const filePath: string = ...` when the type is inferred.
 2. **Enums**: Convert string values to enums where possible for better type safety and maintainability.
 3. **Imports**: Use absolute imports where possible (e.g., `@linksthatrank/...` or `src/...`).
 4. **Naming**:
