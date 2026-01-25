@@ -20,7 +20,7 @@
     "vscode-neovim.neovimInitVimPaths.linux": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
     "vscode-neovim.neovimInitVimPaths.darwin": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
     "vscode-neovim.neovimInitVimPaths.win32": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
-    "workbench.colorTheme": "Cool Cowboy Theme (Colorblind)",
+    "workbench.colorTheme": "Cool Cowboy Theme",
     "multiCommand.commands": [
         {
             "command": "multiCommand.ycDuplicateAndComment",
