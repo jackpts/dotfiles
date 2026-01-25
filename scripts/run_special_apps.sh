@@ -17,7 +17,7 @@ compare_times() {
 # Check if the current time is within the interval
 if compare_times "$START_TIME" "$CURRENT_TIME" && compare_times "$CURRENT_TIME" "$END_TIME"; then
     # Array of special apps
-    special_apps=("telegram-desktop" "viber")
+    special_apps=("Telegram" "viber")
 
     # Iterate over the array and run each app using hyprctl dispatch exec
     for app in "${special_apps[@]}"; do
