@@ -66,12 +66,15 @@ Follow the structure in `sl_frontend/src/`:
 6. **Clarity**: Never use nested ternary expressions. Prefer straightforward conditionals (if/else blocks or extracted helper functions) to keep logic readable.
 7. **Shared constants & types**: When the same literal or union type (e.g., a displayed status that embeds a virtual value) is needed in multiple files, define it once in a shared constants/types module (e.g., `src/modules/.../constants/`) and import it everywhere instead of re-declaring it.
 8. **Casting discipline**: Avoid chained or unclear casts (e.g., `as unknown as string`). If type coercion is required, prefer helper functions or `String(value)`/type guards so the intent and resulting type are obvious.
+9. **Respect existing comments**: Do not delete comments written by other developers unless the entire referenced block of code is being removed or rewritten. If a comment needs clarification, add context rather than removing it.
+10. **Annotate new logic**: Whenever you add a new, non-trivial logic block (conditionals, hooks, helper functions, etc.), include a concise comment directly above it explaining the intent. Skip this only for self-evident one-liners.
 
 ### Frontend Specific
 
 1. **React 19 Hooks**:
    - **Optimization**: Do NOT use `useMemo` for simple logic; rely on React 19's improved compiler/optimization.
    - **Imports**: Use named imports for hooks (e.g., `import { useEffect, useState } from 'react';`). Avoid using `React.useEffect` or `React.useState`.
+   - **Review step**: After any frontend change, explicitly check each modified or newly added block to confirm whether `useMemo`/`useCallback` is actually required. Default to plain functions/expressions unless memoization prevents a real, measured regression.
 2. **Styling**: Use `className` props instead of inline `style` objects in JSX templates whenever possible, especially for common or shared components. Use Tailwind v4 classes.
 3. **State**: Use `Zustand` for global UI state and `TanStack Query` for data fetching.
 4. **Forms**: Always use `TanStack Form` with `Zod` schemas for validation.
