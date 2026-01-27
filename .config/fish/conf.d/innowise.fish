@@ -84,6 +84,8 @@ function sl_backup --description 'Create SL project archive excluding node_modul
 end
 abbr sl_backup 'sl_backup'
 
+abbr sl_be_lint "git diff --name-only --diff-filter=ACMRTUXB origin/master... | grep -E '^(src|apps|libs|test)/.*\\.ts\$' | xargs -r node --max-old-space-size=4096 ./node_modules/.bin/eslint --fix"
+
 # BitBucket check via SSH
 abbr bb_test 'ssh -T git@bitbucket.org'
 
