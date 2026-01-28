@@ -97,6 +97,9 @@ Follow the structure in `sl_frontend/src/`:
 2. **DTOs**: Use `class-validator` for request validation.
 3. **Migrations**: Never modify existing migrations. Always run the package.json scripts (`npm run migration:generate`, `npm run migration:run`, etc.) so TypeORM produces the diff itself—do **not** hand-write migration bodies. After generation, trim the file down to the smallest possible delta: keep only the concrete `up`/`down` statements that add/drop the specific columns, indexes, or enum values you changed (see `1767800101724-add-phone-number-verified-to-user` for reference). Remove helper constants, redundant enum recreations, or other noise so the migration clearly reflects just the schema change. This keeps the DB state aligned and prevents noisy follow-up diffs.
 4. **Lambdas**: Backend includes AWS Lambda functions in `lambdas/`. Follow existing patterns for event handling and logging.
+5. **Cognito + DB sequencing**: When an operation touches both PostgreSQL (via TypeORM) and AWS Cognito (e.g., deleting a user), keep all database work inside a transaction/UnitOfWork and call Cognito only after the DB transaction succeeds. That way a Cognito failure doesn’t block the DB rollback, and a DB failure doesn’t leave Cognito in an inconsistent state. Wrap the Cognito call in its own `try/catch` and surface/log failures so manual cleanup can happen.
+6. **TypeORM performance**: Always design repository/QueryBuilder logic to avoid N+1 queries—eager-load relations, batch fetch, or restructure queries so each request issues the minimal number of SQL statements. When batching is needed, use `In([...])` with Maps for in-memory lookups instead of per-item loops with `findOne`.
+7. **Lambda footprint**: Do **not** bundle NestJS into AWS Lambda handlers. Implement lambdas as lightweight Node/TypeScript functions using the shared helpers/loggers instead of bootstrapping the Nest container, to keep bundle size small and cold starts fast.
 
 ---
 
