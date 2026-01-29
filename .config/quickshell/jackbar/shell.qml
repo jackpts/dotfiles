@@ -53,7 +53,7 @@ Variants {
         anchors { top: true; left: true; right: true }
         implicitHeight: 40
         exclusiveZone: visible ? implicitHeight : 0
-        focusable: false
+        focusable: true
         color: "transparent"
 
         Component.onCompleted: {
@@ -119,6 +119,7 @@ Variants {
             LanguageSwitcher {}
             ScreenRecorder {}
             ScreenshotButton {}
+            HoursNote {}
             Clipboard {}
             NotificationIndicator {}
             // BlueLight {}
