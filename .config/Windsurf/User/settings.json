@@ -1,0 +1,46 @@
+{
+    "git.autofetch": true,
+    "qt-core.additionalQtPaths": [
+        {
+            "name": "Qt-5.15.17-linux-g++_from_PATH",
+            "path": "/usr/bin/qtpaths"
+        }
+    ],
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1,
+        "vscodevim.vim": 2
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "window.customMenuBarAltFocus": false,
+    "windsurf.marketplaceGalleryItemURL": "https://marketplace.visualstudio.com/items",
+    "windsurf.marketplaceExtensionGalleryServiceURL": "https://marketplace.visualstudio.com/_apis/public/gallery",
+    "vscode-neovim.neovimExecutablePaths.linux": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/bin/env/bin/nvim",
+    "vscode-neovim.neovimExecutablePaths.darwin": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/bin/env/bin/nvim",
+    "vscode-neovim.neovimExecutablePaths.win32": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/bin/windows/envs/windows/Library/bin/nvim.exe",
+    "vscode-neovim.neovimInitVimPaths.linux": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
+    "vscode-neovim.neovimInitVimPaths.darwin": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
+    "vscode-neovim.neovimInitVimPaths.win32": "/home/jack/.windsurf/extensions/yeferyv.retronvim-0.4.2-linux-x64/nvim/init.lua",
+    "workbench.colorTheme": "Cool Cowboy Theme (Colorblind)",
+    "multiCommand.commands": [
+        {
+            "command": "multiCommand.ycDuplicateAndComment",
+            "sequence": [
+                "editor.action.copyLinesDownAction",
+                "cursorUp",
+                "editor.action.addCommentLine",
+                "cursorDown"
+            ]
+        }
+    ],
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    "editor.formatOnSave": true,
+    "aws.cloudformation.telemetry.enabled": false,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "vs-code-prettier-eslint.prettierLast": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "windsurf.terminal.cascadeProfile.linux": "managed",
+    "terminal.integrated.shellIntegration.environmentReporting": true,
+    "terminal.integrated.shellIntegration.history": 1000,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.suggest.enabled": true
+}
