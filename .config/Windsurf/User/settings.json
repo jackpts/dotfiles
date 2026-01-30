@@ -37,5 +37,10 @@
     "aws.cloudformation.telemetry.enabled": false,
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "vs-code-prettier-eslint.prettierLast": true,
-    "diffEditor.ignoreTrimWhitespace": false
+    "diffEditor.ignoreTrimWhitespace": false,
+    "windsurf.terminal.cascadeProfile.linux": "managed",
+    "terminal.integrated.shellIntegration.environmentReporting": true,
+    "terminal.integrated.shellIntegration.history": 1000,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.suggest.enabled": true
 }
