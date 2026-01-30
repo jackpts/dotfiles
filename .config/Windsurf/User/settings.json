@@ -32,6 +32,15 @@
             ]
         }
     ],
-    "workbench.iconTheme": "jetbrains-icons",
-    "editor.formatOnSave": true
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    "editor.formatOnSave": true,
+    "aws.cloudformation.telemetry.enabled": false,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "vs-code-prettier-eslint.prettierLast": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "windsurf.terminal.cascadeProfile.linux": "managed",
+    "terminal.integrated.shellIntegration.environmentReporting": true,
+    "terminal.integrated.shellIntegration.history": 1000,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.suggest.enabled": true
 }
