@@ -75,6 +75,7 @@ Follow the structure in `sl_frontend/src/`:
    - **Optimization**: Do NOT use `useMemo` for simple logic; rely on React 19's improved compiler/optimization.
    - **Imports**: Use named imports for hooks (e.g., `import { useEffect, useState } from 'react';`). Avoid using `React.useEffect` or `React.useState`.
    - **Review step**: After any frontend change, explicitly check each modified or newly added block to confirm whether `useMemo`/`useCallback` is actually required. Default to plain functions/expressions unless memoization prevents a real, measured regression.
+   - **TanStack Query first**: When asynchronous data fetching/mutations start accumulating long dependency arrays or manual state flags, refactor into TanStack Query hooks/mutations instead of ad-hoc `useEffect`/`useCallback` logic. Prefer sharing common `useQuery`/`useMutation` helpers over per-component request wiring.
 2. **Styling**: Use `className` props instead of inline `style` objects in JSX templates whenever possible, especially for common or shared components. Use Tailwind v4 classes.
 3. **State**: Use `Zustand` for global UI state and `TanStack Query` for data fetching.
 4. **Forms**: Always use `TanStack Form` with `Zod` schemas for validation.
