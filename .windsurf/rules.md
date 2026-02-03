@@ -67,7 +67,8 @@ Follow the structure in `sl_frontend/src/`:
 7. **Shared constants & types**: When the same literal or union type (e.g., a displayed status that embeds a virtual value) is needed in multiple files, define it once in a shared constants/types module (e.g., `src/modules/.../constants/`) and import it everywhere instead of re-declaring it.
 8. **Casting discipline**: Avoid chained or unclear casts (e.g., `as unknown as string`). If type coercion is required, prefer helper functions or `String(value)`/type guards so the intent and resulting type are obvious.
 9. **Respect existing comments**: Do not delete comments written by other developers unless the entire referenced block of code is being removed or rewritten. If a comment needs clarification, add context rather than removing it.
-10. **Annotate new logic**: Whenever you add a new, non-trivial logic block (conditionals, hooks, helper functions, etc.), include a concise comment directly above it explaining the intent. Skip this only for self-evident one-liners.
+10. **Array length checks**: Prefer concise truthy checks (`if (!items.length)`) over explicit comparisons (`items.length === 0`) unless a specific numeric comparison is required for correctness/clarity.
+11. **Annotate new logic**: Whenever you add a new, non-trivial logic block (conditionals, hooks, helper functions, etc.), include a concise comment directly above it explaining the intent. Skip this only for self-evident one-liners.
 
 ### Frontend Specific
 
