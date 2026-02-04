@@ -75,9 +75,9 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 #
 # swayidle replacing hypridle
 exec_always --no-startup-id swayidle -w \
-         timeout 420 'blazinlock -s' \
+         timeout 420 'hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'blazinlock -s'
+         before-sleep 'hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"'
 
 # Old examples (kept for reference)
 # exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
@@ -148,7 +148,7 @@ exec_always --no-startup-id swayidle -w \
     # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
     # bindsym $mod+l exec "swaylock -f -c 000000"
     # bindsym $mod+l exec "hyprlock"
-    bindsym $mod+l exec "blazinlock -s"
+    bindsym $mod+l exec "hyprlock -c \"$HOME/dotfiles/.config/hypr/hyprlock.conf\""
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
