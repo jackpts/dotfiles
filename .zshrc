@@ -328,6 +328,12 @@ export TERM=tmux-256color
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+if [[ -d "$HOME/dotfiles/.config/zsh/conf.d" ]]; then
+  for f in "$HOME/dotfiles/.config/zsh/conf.d"/*.zsh; do
+    [[ -r "$f" ]] && source "$f"
+  done
+fi
+
 ### Final run
 # catnap
 
