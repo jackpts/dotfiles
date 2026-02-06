@@ -30,6 +30,21 @@ This document outlines the technical standards and rules for the LinksThatRank p
 
 ## 🏗 Project Architecture & Patterns
 
+## 🗂 Workspace Layout & Command Rules
+
+- `sl_back/` — backend (NestJS + TypeORM) services and migrations.
+- `sl_frontend/` — React/Vite frontend application. (No unit-test harness today; only Cypress e2e exists.)
+- `sl_aqa/` — Cypress end-to-end suite (browser automation only).
+- `sl_infra/` — infrastructure-as-code (Terraform + Terragrunt) plus CI/CD assets like `bitbucket-pipelines.yml`.
+
+Each directory is its own Git repository. Always run Git and npm commands from the directory that owns the change (e.g., `sl_back` for backend, `sl_frontend` for frontend). When switching between BE/FE tasks, ensure the terminal `cwd` is the corresponding folder before running any Git/npm command.
+
+Task specs, notes, and screenshots live in `.tasks/` at the repo root. When you see a four-digit task ID, look for the matching files inside `.tasks/`.
+
+---
+
+## 🏗 Project Architecture & Patterns
+
 ### Frontend Structure (FSD-lite)
 
 Follow the structure in `sl_frontend/src/`:
@@ -117,3 +132,13 @@ Follow the structure in `sl_frontend/src/`:
 - **Backend Dev**: `npm run start:dev` in `sl_back`
 - **Formatting**: `npm run format` in respective directories
 - **Linting**: `npm run lint` in respective directories
+
+## 🗄 Database Shortcuts
+
+When applying ad-hoc SQL to the shared `develop` database, use:
+
+```bash
+PGPASSFILE=$HOME/.pgpass psql -h localhost -p 5432 -U root -d develop -c "…SQL…"
+```
+
+The Fish abbreviations `_sql`/`sl_db_up` wrap this command; using them ensures credentials from `~/.pgpass` are respected and everyone targets the same DB.
