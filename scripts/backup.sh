@@ -97,6 +97,8 @@ backup() {
         "$HOME/.pgpass"
         "$HOME/.gitconfig-gitlab"
         "$HOME/.gitconfig-bitbucket"
+        "$HOME/bitbucket/SL/.windsurf/"
+        "$HOME/bitbucket/SL/.warp/"
     )
 
     for b in "${backupArr[@]}"; do
