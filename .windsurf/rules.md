@@ -95,16 +95,33 @@ Follow the structure in `sl_frontend/src/`:
 4. **Forms**: Always use `TanStack Form` with `Zod` schemas for validation.
 5. **Icons**: Use `Lucide React` by default.
 6. **i18n**: When adding/updating UI text, use translations (no hardcoded copy). Translation keys must be CamelCase (e.g., `PublisherCreation.validation.fieldName`), matching the structure in the JSON locale files. Update the locale file alongside the code change.
-7. **React copy rendering**: Do not use `dangerouslySetInnerHTML` to inject translated strings. When a message needs inline markup (e.g., `<strong>`), wrap it in `Trans` from `react-i18next`, pass the supported elements via the `components` prop, and supply `values` for interpolation. Example:
+7. **Tailwind layout utilities (minimalism)**:
+   - Do **not** add "base" utility classes by default (e.g., `min-w-0`, `max-w-full`, `flex-1`, `overflow-hidden`, `truncate`).
+   - First verify whether the necessary width/overflow constraints are already provided by parent nodes (common in our `SLChip`/table cell layouts).
+   - Add **only the minimal set** of classes required to achieve the behavior (ellipsis/overflow/scroll/etc.).
+   - If a non-obvious utility is required for correctness (e.g., `min-w-0` to make `truncate` work inside a flex row), keep it and ensure it is applied at the correct node (usually the flex item that must shrink), avoiding duplicates.
+8. **User-facing error messages (toast/snackbar)**:
+   - Do **not** display raw `error.message` from Axios/JS errors directly to users (especially from global TanStack Query handlers). Prefer a localized/user-friendly message.
+   - For API errors, use the shared mapping utilities (e.g., `buildApiErrorMessage` + `apiErrorCodeToString` + `t(...)`) or an existing centralized message-mapping helper, and show the resulting localized message.
+   - Do **not** parse Axios errors in components to extract backend error codes manually. Extend the centralized mapping (`shared/utils/apiErrorToString.ts` + `locales/*/validationApi.json`) when a new backend error code is introduced.
+   - For endpoints using `responseType: 'blob'`, ensure mutation hooks normalize Axios errors to `IApiError` (including parsing error blobs when necessary) before they reach UI code.
+   - Always respect request-level suppression flags (e.g., `error.details?.config?.silentMode`) so background/expected failures do not trigger global toasts.
+   - Do not show toasts for canceled/aborted requests (e.g., `ERR_CANCELED`).
+   - If a safe localized message cannot be built, show a generic translated fallback instead of leaking technical details.
+   - When logging errors to the console (for debugging/Sentry breadcrumbs), serialize them with `getStringifiedError(error)` instead of passing raw objects so structured logs remain consistent across the app.
+9. **React copy rendering**: Do not use `dangerouslySetInnerHTML` to inject translated strings. When a message needs inline markup (e.g., `<strong>`), wrap it in `Trans` from `react-i18next`, pass the supported elements via the `components` prop, and supply `values` for interpolation. Example:
 
-   ```tsx
-   <Trans
-     components={{ strong: <strong /> }}
-     i18nKey={`${I18_MODULES.ACCOUNT.SUBSCRIPTION_MANAGEMENT}.banner.actionRequiredMessage`}
-     ns={I18_NAMESPACE.ACCOUNT}
-     values={{ days }}
-   />
-   ```
+  ```tsx
+  <Trans
+    components={{ strong: <strong /> }}
+    i18nKey={`${I18_MODULES.ACCOUNT.SUBSCRIPTION_MANAGEMENT}.banner.actionRequiredMessage`}
+    ns={I18_NAMESPACE.ACCOUNT}
+    values={{ days }}
+  />
+  ```
+10. **Category chips/labels**: When rendering category chips/labels (e.g., project/site topics), always derive display data via `groupCategoriesByLabel` from `src/entities/categories/model/utils/groupCategoriesByLabel.ts`. The helper groups by `category.label` and falls back to `category.name`, so use its output instead of rolling custom reducers.
+11. **Conditional classNames**: Prefer `clsx` for composing conditional class names (e.g., `clsx(baseClasses, isActive && 'text-red-600')`) instead of manual string concatenation or nested ternaries. This keeps class logic declarative and prevents stray spaces.
+12. **File download handling**: When implementing file downloads from Blob responses, use the `downloadFileFromResponse` utility from `@/shared/utils`. Do **not** inline-import Axios types in mutation callbacks (e.g., `import('axios').AxiosResponse<Blob>`). Instead, rely on the mutation hook's type inference—the response parameter is already correctly typed by the hook's generic signature. Example: `onSuccess: (response) => { downloadFileFromResponse({ response, filenamePrefix: 'export' }); }`.
 
 ### Backend Specific
 
