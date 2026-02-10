@@ -64,12 +64,14 @@ beep() {
   play -n synth 0.1 sine 880 vol 0.2
 }
 
+(( $+aliases[gcl] )) && unalias gcl
 gcl() {
   local directory
   directory="$(echo "$*" | grep -oE '[^/]+$' | sed 's/.git//')"
   git clone "$@" && cd "$directory"
 }
 
+(( $+aliases[gcld] )) && unalias gcld
 gcld() {
   local directory
   directory="$(echo "$*" | grep -oE '[^/]+$' | sed 's/.git//')"

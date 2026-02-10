@@ -138,15 +138,10 @@ alias lg='ls -l --group-directories-first'
 alias cd..='cd ..'
 
 # git
-alias gcl='git clone --depth 1'
 alias gi='git init'
 alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push origin master'
-
-gclcd() {
-   git clone "$1" && cd "$(basename "$1" .git)"
-}
 
 # Docker
 alias dcu="docker-compose up"
@@ -161,8 +156,8 @@ alias fishedit='nvim ~/.config/fish/config.fish'
 alias dot="cd \"$DOT_DIR\""
 
 # FZF
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
@@ -359,10 +354,10 @@ function zsh_greeting() {
   uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" " }')
 
   # Greeting msg
-  echo -e "  " "$brgreen" "Welcome back, $USER!"                       "$normal"
-  echo -e "  " "$yellow"  " Zsh Open:\t"   "$bryellow$timestamp"     "$normal"
-echo -e "  " "$blue"    " Hostname:\t"   "$brmagenta$my_hostname"  "$normal"
-  echo -e "  " "$magenta" " Uptime  :\t"   "$brblue$uptime"          "$normal"
+  printf "  %bWelcome back, %s!%b\n" "$brgreen" "$USER" "$normal"
+  printf "  %bZsh Open:\t%b\n" "$yellow" "$bryellow$timestamp$normal"
+  printf "  %bHostname:\t%b\n" "$blue" "$brmagenta$my_hostname$normal"
+  printf "  %bUptime  :\t%b\n" "$magenta" "$brblue$uptime$normal"
   echo
 }
 
