@@ -23,6 +23,8 @@ EXCLUSION_PATTERNS=(
     "*/tmp/*"
     "tmp"
     "*.dump"
+    "*/debug/*"
+    "*/build/*"
 )
 
 # Get current date
