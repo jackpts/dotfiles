@@ -65,6 +65,9 @@ CORE_BACKUP_ITEMS=(
     "$HOME/.pgpass"
     "$HOME/.gitconfig-gitlab"
     "$HOME/.gitconfig-bitbucket"
+    "$HOME/bitbucket/SL/.windsurf/"
+    "$HOME/bitbucket/SL/.warp/"
+    "$HOME/github/terminal-HRM-profile/"
 )
 
 # Additional backup items (add more paths here as needed)
