@@ -1,6 +1,6 @@
 import Quickshell
+import Quickshell.Io
 import QtQuick
-import Qt.labs.settings 1.1
 import "../components" as C
 
 Item {
@@ -11,16 +11,27 @@ Item {
     property alias text: noteInput.text
     property string placeholder: "hrs"
     property int maxChars: 4
+    property string settingsPath: Quickshell.env("HOME") + "/.cache/jackbar-hoursnote.txt"
 
     function tooltipMessage() {
         const value = noteInput.text.length ? noteInput.text : root.placeholder
         return value + " hours to log work in JIRA"
     }
 
-    Settings {
-        id: store
-        category: "jackbar.hoursNote"
-        property string value: ""
+    Process {
+        id: loadNote
+        command: ["bash", "-lc", "[ -f \"" + root.settingsPath + "\" ] && cat \"" + root.settingsPath + "\" || true"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                noteInput.text = this.text.trim()
+            }
+        }
+    }
+
+    Process { id: saveNote }
+
+    Component.onCompleted: {
+        loadNote.running = true
     }
 
     MouseArea {
@@ -44,9 +55,14 @@ Item {
         verticalAlignment: Text.AlignVCenter
         cursorVisible: activeFocus
         inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhPreferNumbers
-        text: store.value
+        text: ""
         onTextChanged: {
-            store.value = text
+            var escaped = text
+                .replace(/\\/g, "\\\\")
+                .replace(/\$/g, "\\$")
+                .replace(/\"/g, "\\\"")
+            saveNote.command = ["bash", "-lc", "mkdir -p \"$(dirname \"" + root.settingsPath + "\")\" && printf '%s' \"" + escaped + "\" > \"" + root.settingsPath + "\""]
+            saveNote.running = true
             if (clickCatcher.containsMouse)
                 C.Tooltip.show(root, root.tooltipMessage())
         }
