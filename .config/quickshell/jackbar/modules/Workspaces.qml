@@ -7,7 +7,9 @@ import "../components" as C
 Item {
     id: root
     height: 40
-    width: items.implicitWidth
+    property int minSlots: 8
+    property int slotWidth: 28
+    width: Math.max(items.implicitWidth, minSlots * (slotWidth + items.spacing) - items.spacing)
     property string compositor: "unknown"
     property var spaces: []
 
@@ -18,7 +20,7 @@ Item {
         Repeater {
             model: spaces
             delegate: Item {
-                width: 28
+                width: root.slotWidth
                 height: 28
                 layer.enabled: true
                 layer.smooth: true

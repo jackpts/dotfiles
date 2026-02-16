@@ -85,9 +85,9 @@ Variants {
             id: workspaceArea
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: leftRow.right
-            anchors.leftMargin: 12
+            anchors.leftMargin: 0
             anchors.right: rightRow.left
-            anchors.rightMargin: 12
+            anchors.rightMargin: 40
             height: parent.height
 
             Workspaces {
