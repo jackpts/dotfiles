@@ -97,6 +97,21 @@ Follow the structure in `sl_frontend/src/`:
    - **Imports**: Use named imports for hooks (e.g., `import { useEffect, useState } from 'react';`). Avoid using `React.useEffect` or `React.useState`.
    - **Review step**: After any frontend change, explicitly check each modified or newly added block to confirm whether `useMemo`/`useCallback` is actually required. Default to plain functions/expressions unless memoization prevents a real, measured regression.
    - **TanStack Query first**: When asynchronous data fetching/mutations start accumulating long dependency arrays or manual state flags, refactor into TanStack Query hooks/mutations instead of ad-hoc `useEffect`/`useCallback` logic. Prefer sharing common `useQuery`/`useMutation` helpers over per-component request wiring.
+   - **Mutation callbacks over try/catch**: When using `mutateAsync` from TanStack Query, avoid wrapping it in `try/catch` blocks. Instead, use the built-in `onSuccess` and `onError` callbacks for orchestrating UI behavior (toasts, state updates, modal closing, etc.). This keeps the code cleaner and more idiomatic.
+
+2. **TanStack Query mutations placement**:
+   - Do **not** declare `useMutation(...)` directly inside UI components unless there is a strong reason.
+   - Put server mutations into a reusable hook in the appropriate layer (usually `src/entities/<domain>/model/hooks/*`, sometimes `features/*/model/hooks/*`).
+   - UI components should consume these hooks and only orchestrate UI behavior (trigger mutation, show spinners, call `downloadFileFromResponse`, etc.).
+   - When extracting such a hook, make request parameters configurable (e.g., `include` lists, query filters, payload flags). Hardcoded strings that prevent re-use must be moved into shared constants/presets and accepted as arguments so other screens can tailor the mutation without copying it.
+   - **File location & naming**: If a mutation only wraps direct API calls (no extra orchestration), place it in `src/entities/<domain>/api/<domain>.mutation.ts` next to the corresponding `*.api.ts`. Export individual hooks (e.g., `export const useExportOrders = ...`) instead of a default export.
+3. **TanStack Query error handling (mutations)**:
+   - **Do NOT use `try/catch` blocks inside `mutationFn`**. TanStack Query automatically catches errors and passes them to `onError` callbacks.
+   - **Rely on the centralized error handling**: The project has a `QueryCache.onError` handler in `@/shared/api/tanstack/index.ts` that automatically displays error toasts for all queries/mutations. Axios response interceptors in `@/shared/api/axios/index.ts` handle request/response transformations.
+   - **Backend must return proper error codes**: All API errors must follow the unified format with error codes registered in `@/shared/utils/apiErrorToString.ts` and corresponding i18n keys in `@/shared/locales/*/validationApi.json`. If an error doesn't fit this format, fix it on the backend, not in the mutation hook.
+   - **Keep `mutationFn` simple**: Just return the API call directly (e.g., `mutationFn: (params) => api.someMethod(params)`). No manual error parsing, no Blob-to-JSON conversion, no `buildApiErrorMessage` calls—these belong in interceptors or backend.
+   - **Use mutation callbacks for UI orchestration**: Handle success/error cases with `onSuccess` and `onError` callbacks when calling `mutate`/`mutateAsync`, not with `try/catch`. Example: `mutate(data, { onSuccess: () => toast.success(...), onError: () => navigate(...) })`.
+   - **Special cases belong in interceptors**: If you need to handle `ERR_CANCELED`, parse Blob errors, or transform responses, implement it in the axios response interceptor, not in individual mutation hooks.
 2. **Styling**: Use `className` props instead of inline `style` objects in JSX templates whenever possible, especially for common or shared components. Use Tailwind v4 classes.
 3. **State**: Use `Zustand` for global UI state and `TanStack Query` for data fetching.
 4. **Forms**: Always use `TanStack Form` with `Zod` schemas for validation.
