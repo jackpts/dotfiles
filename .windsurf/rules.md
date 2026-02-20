@@ -116,12 +116,15 @@ Follow the structure in `sl_frontend/src/`:
 3. **State**: Use `Zustand` for global UI state and `TanStack Query` for data fetching.
 4. **Forms**: Always use `TanStack Form` with `Zod` schemas for validation.
 5. **Icons**: Use `Lucide React` by default.
-6. **i18n**: When adding/updating UI text, use translations (no hardcoded copy). Translation keys must be CamelCase (e.g., `PublisherCreation.validation.fieldName`), matching the structure in the JSON locale files. Update the locale file alongside the code change.
+6. **i18n**: When adding/updating UI text, use translations (no hardcoded copy). Translation keys must be CamelCase (e.g., `PublisherCreation.validation.fieldName`), matching the structure in the JSON locale files. Update the locale file alongside the code change. **All toast/snackbar messages must come from i18n as well—never pass a raw English string (even as a fallback) directly to `toast.*`.**
 7. **Tailwind layout utilities (minimalism)**:
    - Do **not** add "base" utility classes by default (e.g., `min-w-0`, `max-w-full`, `flex-1`, `overflow-hidden`, `truncate`).
    - First verify whether the necessary width/overflow constraints are already provided by parent nodes (common in our `SLChip`/table cell layouts).
    - Add **only the minimal set** of classes required to achieve the behavior (ellipsis/overflow/scroll/etc.).
    - If a non-obvious utility is required for correctness (e.g., `min-w-0` to make `truncate` work inside a flex row), keep it and ensure it is applied at the correct node (usually the flex item that must shrink), avoiding duplicates.
+   - Treat `min-w-0` as a precision tool: add it only after confirming the element lives inside a flex container **and** actually needs to shrink for truncation. Apply it to the exact flex child that wraps the truncating text (e.g., inside `OverflowedTooltipText`) and do **not** stack it on ancestor wrappers just in case.
+   - Shared primitives (`OverflowedTooltipText`, `SLChip`, table cells that already truncate) already include the required `min-w-0`. Do not reapply the class in consumers unless you reproduced a visual issue in the browser and verified the shared component truly lacks the constraint.
+   - When you genuinely need an extra `min-w-0` outside a shared component, call it out in the PR description (what layout failed without it and where the class lives) so reviewers understand it is intentional.
 8. **User-facing error messages (toast/snackbar)**:
    - Do **not** display raw `error.message` from Axios/JS errors directly to users (especially from global TanStack Query handlers). Prefer a localized/user-friendly message.
    - For API errors, use the shared mapping utilities (e.g., `buildApiErrorMessage` + `apiErrorCodeToString` + `t(...)`) or an existing centralized message-mapping helper, and show the resulting localized message.
