@@ -204,8 +204,8 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    onClicked: {
-                        if (root.compositor === "sway") {
+                    onClicked: function (mouse) {
+                        if (mouse.button === Qt.LeftButton && root.compositor === "sway") {
                             run.command = ["bash", "-lc", "swaymsg '[con_id=" + modelData.id + "] focus'"];
                             run.running = true;
                         }
