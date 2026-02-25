@@ -41,7 +41,7 @@
     "windsurf.terminal.cascadeProfile.linux": "managed",
     "terminal.integrated.shellIntegration.environmentReporting": true,
     "terminal.integrated.shellIntegration.history": 1000,
-    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.defaultProfile.linux": "fish",
     "terminal.integrated.suggest.enabled": true,
     "git.confirmSync": false
 }
