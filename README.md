@@ -34,6 +34,16 @@
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
+### Sway lock screen (asciiquarium overlay)
+
+Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle locking. Install the ASCII aquarium dependency first:
+
+```bash
+    sudo pacman -S asciiquarium
+```
+
+Kitty is used as the terminal host (already listed above). Without `asciiquarium` the script falls back to plain `hyprlock`, so installing it keeps the animated overlay experience.
+
 <br />
 <details close>
 <summary>Hyprshot GUI Installation</summary>

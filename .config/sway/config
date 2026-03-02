@@ -75,9 +75,9 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 #
 # swayidle replacing hypridle
 exec_always --no-startup-id swayidle -w \
-         timeout 420 'hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"' \
+         timeout 420 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"'
+         before-sleep '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"'
 
 # Old examples (kept for reference)
 # exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
@@ -148,7 +148,7 @@ exec_always --no-startup-id swayidle -w \
     # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
     # bindsym $mod+l exec "swaylock -f -c 000000"
     # bindsym $mod+l exec "hyprlock"
-    bindsym $mod+l exec "hyprlock -c \"$HOME/dotfiles/.config/hypr/hyprlock.conf\""
+    bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -347,6 +347,9 @@ for_window [class=".*"] floating enable
 for_window [app_id="dev.warp.Warp"] floating disable
 for_window [class="dev.warp.Warp"] floating disable
 for_window [title=".*Warp.*"] floating disable
+
+# Ensure kitty/asciiquarium lock overlay covers entire screen
+for_window [app_id="lockaquarium"] floating enable, border none, fullscreen enable global, focus, resize set width 100 ppt height 100 ppt
 
 # Slurp should work as layer-shell overlay
 for_window [app_id="slurp"] border none, floating enable, sticky enable
