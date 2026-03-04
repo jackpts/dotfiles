@@ -1,7 +1,9 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Io
-import QtQuick
-import QtQuick.Layouts
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
 import "../components" as C
 
 Item {
@@ -20,10 +22,129 @@ Item {
         Repeater {
             model: spaces
             delegate: Item {
+                id: workspaceSlot
+                required property var modelData
                 width: root.slotWidth
                 height: 28
                 layer.enabled: true
                 layer.smooth: true
+                transformOrigin: Item.Bottom
+                property bool isFocused: !!modelData.focused
+                property bool isUrgent: !!modelData.urgent
+                property real baseY: 2
+                property real bounceOffset: 0
+
+                scale: isFocused ? 1.05 : 0.92
+                y: baseY + bounceOffset
+
+                Behavior on scale {
+                    SpringAnimation {
+                        spring: 4
+                        damping: 0.28
+                        mass: 0.7
+                    }
+                }
+
+                SequentialAnimation on bounceOffset {
+                    id: focusBounce
+                    running: false
+                    NumberAnimation {
+                        to: -4
+                        duration: 160
+                        easing.type: Easing.OutCubic
+                    }
+                    PauseAnimation { duration: 90 }
+                    NumberAnimation {
+                        to: 0
+                        duration: 220
+                        easing.type: Easing.OutBounce
+                    }
+                    onStopped: workspaceSlot.bounceOffset = 0
+                }
+
+                onModelDataChanged: {
+                    triangleCanvas.requestPaint()
+                    haloCanvas.requestPaint()
+                    if (!isFocused) bounceOffset = 0
+                }
+
+                onIsFocusedChanged: {
+                    triangleCanvas.requestPaint()
+                    haloCanvas.requestPaint()
+                    if (isFocused) {
+                        haloFlash.restart()
+                        focusBounce.restart()
+                    } else {
+                        haloFlash.stop()
+                        focusBounce.stop()
+                        haloLayer.opacity = 0
+                        haloLayer.scale = 0.9
+                        bounceOffset = 0
+                    }
+                }
+
+                onIsUrgentChanged: triangleCanvas.requestPaint()
+
+                Item {
+                    id: haloLayer
+                    anchors.centerIn: parent
+                    width: parent.width
+                    height: parent.height
+                    z: -1
+                    opacity: 0
+                    scale: 0.9
+                    visible: opacity > 0
+                    transformOrigin: Item.Center
+
+                    Canvas {
+                        id: haloCanvas
+                        anchors.fill: parent
+                        antialiasing: true
+                        onPaint: {
+                            var ctx = getContext("2d")
+                            ctx.reset()
+
+                            ctx.beginPath()
+                            ctx.moveTo(width/2, -2)
+                            ctx.lineTo(width + 2, height + 2)
+                            ctx.lineTo(-2, height + 2)
+                            ctx.closePath()
+
+                            var gradient = ctx.createLinearGradient(width/2, 0, width/2, height)
+                            gradient.addColorStop(0, C.Theme.wsActiveBg + "80")
+                            gradient.addColorStop(1, C.Theme.wsActiveBg + "00")
+                            ctx.fillStyle = gradient
+                            ctx.fill()
+                        }
+                    }
+                }
+
+                SequentialAnimation {
+                    id: haloFlash
+                    running: false
+                    PropertyAction { target: haloLayer; property: "scale"; value: 0.85 }
+                    PropertyAction { target: haloLayer; property: "opacity"; value: 0.45 }
+                    ParallelAnimation {
+                        NumberAnimation {
+                            target: haloLayer
+                            property: "scale"
+                            to: 1.35
+                            duration: 340
+                            easing.type: Easing.OutCubic
+                        }
+                        NumberAnimation {
+                            target: haloLayer
+                            property: "opacity"
+                            to: 0
+                            duration: 340
+                            easing.type: Easing.OutQuad
+                        }
+                    }
+                    onStopped: {
+                        haloLayer.opacity = 0
+                        haloLayer.scale = 0.9
+                    }
+                }
 
                 Canvas {
                     id: triangleCanvas
