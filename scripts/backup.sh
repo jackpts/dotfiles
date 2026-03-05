@@ -88,6 +88,7 @@ backup() {
         "$HOME/bitbucket/SL/.windsurf/"
         "$HOME/bitbucket/SL/.warp/"
         "$HOME/bitbucket/SL/.claude/"
+        "$HOME/bitbucket/SL/.rules/"
     )
 
     for b in "${backupArr[@]}"; do
