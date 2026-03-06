@@ -5,7 +5,8 @@ BASE_SCRIPT="$HOME/dotfiles/scripts/screen_record.sh"
 
 exec_detached() {
   # Run the base script detached via sway (preferred), fallback to setsid
-  local cmd="$BASE_SCRIPT $*"
+  # Pass essential environment variables for notifications to work
+  local cmd="DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}' DISPLAY='${DISPLAY:-:0}' $BASE_SCRIPT $*"
   if command -v swaymsg >/dev/null 2>&1; then
     if swaymsg -q exec -- "$cmd"; then
       exit 0
