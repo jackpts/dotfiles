@@ -208,6 +208,14 @@
       "s": ["vim::PushSneak", {}],
       "S": ["vim::PushSneakBackward", {}]
     }
+  },
+  // Move Lines
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual)",
+    "bindings": {
+      "alt-j": ["editor::MoveLineDown", {}],
+      "alt-k": ["editor::MoveLineUp", {}]
+    }
   }
   // Subword motion is not working really nice with `ciw`, disable for now
   // {
