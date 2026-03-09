@@ -357,6 +357,7 @@ for_window [app_id="slurp"] border none, floating enable, sticky enable
 ### Opacity apps
 for_window [app_id="nemo"] opacity 0.95
 for_window [app_id="zen"] opacity 0.95
+for_window [app_id="zed"] opacity 0.95
 for_window [app_id="codium"] opacity 0.95
 for_window [app_id="windsurf"] opacity 0.95
 for_window [app_id="cursor"] opacity 0.95
