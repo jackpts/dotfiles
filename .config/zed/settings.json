@@ -100,7 +100,9 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Ayu Dark"
+    // "dark": "Ayu Dark"
+    // "dark": "Tokyo Night clear"
+    "dark": "Uniform"
   },
   // Indentation, rainbow indentation
   "indent_guides": {
