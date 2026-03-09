@@ -216,6 +216,13 @@
       "alt-j": ["editor::MoveLineDown", {}],
       "alt-k": ["editor::MoveLineUp", {}]
     }
+  },
+  // Duplicate line and comment out the original (yc)
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "y c": ["workspace::SendKeystrokes", "y y g c c p"]
+    }
   }
   // Subword motion is not working really nice with `ciw`, disable for now
   // {
