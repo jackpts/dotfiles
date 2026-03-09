@@ -21,6 +21,26 @@
       "settings": {}
     }
   },
+  "agent_servers": {
+    "Qwen Code": {
+      "type": "custom",
+      "command": "qwen",
+      "args": ["--experimental-acp"],
+      "env": {}
+    },
+    "Gemini CLI": {
+      "type": "custom",
+      "command": "gemini",
+      "args": ["--experimental-acp"],
+      "env": {}
+    },
+    "Kimi CLI": {
+      "type": "custom",
+      "command": "kimi",
+      "args": ["--experimental-acp"],
+      "env": {}
+    }
+  },
   "agent": {
     "tool_permissions": {
       "tools": {
@@ -71,11 +91,6 @@
         "enable_thinking": false
       }
     ],
-    "default_model": {
-      "enable_thinking": true,
-      "provider": "openrouter",
-      "model": "google/gemini-2.5-flash-lite-preview-09-2025"
-    },
     "model_parameters": []
   },
   "icon_theme": "Warm Charmed Icons",
