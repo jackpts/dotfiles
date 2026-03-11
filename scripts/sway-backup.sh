@@ -70,6 +70,7 @@ CORE_BACKUP_ITEMS=(
     "$HOME/bitbucket/SL/.windsurf/"
     "$HOME/bitbucket/SL/.warp/"
     "$HOME/github/terminal-HRM-profile/"
+    "$HOME/github/yt-tg-chat-bot/"
 )
 
 # Additional backup items (add more paths here as needed)
