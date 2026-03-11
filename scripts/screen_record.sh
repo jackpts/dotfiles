@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Ensure notification environment is available (needed when run via swaymsg exec)
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
+export DISPLAY="${DISPLAY:-:0}"
+
 subdirRecord="Screenrecorder"
 dirRecord=$(xdg-user-dir VIDEOS)/${subdirRecord}
 rofiTheme="$HOME/.config/rofi/screenrec.rasi"
@@ -183,6 +187,37 @@ check_gif_colors() {
     fi
 }
 
+send_stats_notification() {
+    # It might take a moment for the file to be fully written and saved
+    sleep 1
+
+    local latest_file
+    latest_file=$(ls -t "${dirRecord}"/*.mp4 2>/dev/null | head -n 1)
+
+    if [ -f "$latest_file" ]; then
+        duration_raw=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$latest_file")
+        # Round to nearest second
+        duration_seconds=$(printf "%.0f" "$duration_raw")
+        minutes=$((duration_seconds / 60))
+        seconds=$((duration_seconds % 60))
+        duration_formatted=$(printf "%d:%02d" "$minutes" "$seconds")
+
+        size_bytes=$(stat -c %s "$latest_file")
+        # Use awk for floating point division for portability over bc
+        size_mb=$(awk -v bytes="$size_bytes" 'BEGIN { printf "%.2f", bytes / 1024 / 1024 }')
+
+        notify-send "Video recorded!" "Duration: ${duration_formatted}\nFile size: ${size_mb}Mb"
+    fi
+}
+
+# Wrapper to run stats notification in background properly
+send_stats_notification_bg() {
+    (
+        cd "${dirRecord}" || exit 1
+        send_stats_notification
+    ) &
+}
+
 toggle_recording() {
     if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
         # Stop whichever recorder is running
@@ -201,6 +236,8 @@ toggle_recording() {
             temp_output="${output%.*}_temp.gif"
             covert_mp4_to_gif "$temp_file" "$temp_output" && optimize_gif "$temp_file" &&
                 notify-send "Saving GIF finished: $output" && rm -f "$temp_file" "$temp_output" "$temp_palette" &
+        else
+            send_stats_notification_bg
         fi
         # Tear down any temporary audio mixing modules
         cleanup_audio_mix
@@ -451,6 +488,8 @@ stop_recording() {
             temp_output="${output%.*}_temp.gif"
             covert_mp4_to_gif "$temp_file" "$temp_output" && optimize_gif "$temp_file" &&
                 notify-send "Saving GIF finished: $output" && rm -f "$temp_file" "$temp_output" "$temp_palette" &
+        else
+            send_stats_notification_bg
         fi
         # Tear down any temporary audio mixing modules
         cleanup_audio_mix
