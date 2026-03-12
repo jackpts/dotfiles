@@ -63,14 +63,13 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.docker/config.json"
 	"$HOME/git/BlazinLock"
 	"$HOME/gitlab/"
+    "$HOME/github/"
     "$HOME/.ssh/"
     "$HOME/.pgpass"
     "$HOME/.gitconfig-gitlab"
     "$HOME/.gitconfig-bitbucket"
     "$HOME/bitbucket/SL/.windsurf/"
     "$HOME/bitbucket/SL/.warp/"
-    "$HOME/github/terminal-HRM-profile/"
-    "$HOME/github/yt-tg-chat-bot/"
 )
 
 # Additional backup items (add more paths here as needed)
