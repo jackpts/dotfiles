@@ -21,7 +21,7 @@ if compare_times "$START_TIME" "$CURRENT_TIME" && compare_times "$CURRENT_TIME" 
 
     # Iterate over the array and run each app using hyprctl dispatch exec
     for app in "${special_apps[@]}"; do
-        hyprctl dispatch exec "$app"
+        hyprctl dispatch exec "[workspace 3 silent] $app"
     done
 else
     msg="Current time is outside the regular interval.\nSome apps will not be run."

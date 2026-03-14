@@ -35,10 +35,10 @@ backup() {
     SFSfile=$(find $HOME/Documents/ -type f -name "sfs*.json" -printf "%T+ %f\n" | sort -r | head -n 1 | awk '{print $2}')
 
     # MySQL DB backup
-    echo "Backin up MySQL base..."
-    mysql_date=$(date +"%Y-%m-%d")
-    mysql_file="mysql_dump_$mysql_date.sql"
-    mariadb-dump --all-databases --host=127.0.0.1 --port=33066 > "$HOME/soft/$mysql_file"
+    # echo "Backin up MySQL base..."
+    # mysql_date=$(date +"%Y-%m-%d")
+    # mysql_file="mysql_dump_$mysql_date.sql"
+    # mariadb-dump --all-databases --host=127.0.0.1 --port=33066 > "$HOME/soft/$mysql_file"
 
     backupArr=(
         # "$HOME/Nextcloud"
@@ -91,7 +91,7 @@ backup() {
         "$HOME/Documents/$SFSfile"
         "$HOME/Documents/browser/"
         "$HOME/.my.cnf" # `chmod 600 ~/.my.cnf`
-        "$HOME/soft/$mysql_file"
+        # "$HOME/soft/$mysql_file"
         "$HOME/Monero/"
         "$HOME/.docker/"
         "$HOME/.pgpass"
@@ -99,6 +99,7 @@ backup() {
         "$HOME/.gitconfig-bitbucket"
         "$HOME/bitbucket/SL/.windsurf/"
         "$HOME/bitbucket/SL/.warp/"
+        "$HOME/.config/warp-terminal/"
     )
 
     for b in "${backupArr[@]}"; do
@@ -108,7 +109,7 @@ backup() {
     done
 
 
-    rm "$HOME/soft/$mysql_file"
+    # rm "$HOME/soft/$mysql_file"
 
     fileSize="$(du -sh $outputFile | awk '{print $1}')"
     echo "Backup finished, size is: $fileSize"
