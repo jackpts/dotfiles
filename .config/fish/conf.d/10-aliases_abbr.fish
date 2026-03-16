@@ -205,3 +205,10 @@ abbr mir_off 'pkill wl-mirror'
 # Chrome run in wayland mode
 abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
 
+# My Projects
+abbr yt_tg_run 'cd $HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot'
+abbr yt_tg_build 'cd $HOME/github/yt-tg-chat-bot && cargo build'
+abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
+
+abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
+abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'
