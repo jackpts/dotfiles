@@ -188,3 +188,30 @@ abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accou
 # Inno VPN start
 abbr inno_vpn_start systemctl start wg-quick@wginno.service
 abbr inno_vpn_stop systemctl stop wg-quick@wginno.service
+# GitHub login
+abbr gh_login 'gh auth login'
+
+# WayVNC connect
+abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
+
+# Quickshell run
+abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
+abbr q_reload 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar"'
+abbr q_reload_dbg 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; QS_PANEL_DEBUG=1 quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar" -vv'
+
+# Mirroring
+abbr mir_list 'swaymsg -t get_outputs'
+abbr mir_on 'wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1'
+abbr mir_scale 'wl-mirror eDP-1 '
+abbr mir_off 'pkill wl-mirror'
+
+# Chrome run in wayland mode
+abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
+
+# My Projects
+abbr yt_tg_run 'cd $HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot'
+abbr yt_tg_build 'cd $HOME/github/yt-tg-chat-bot && cargo build'
+abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
+
+abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
+abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'
