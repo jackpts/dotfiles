@@ -9,7 +9,7 @@
 {
   // check all configs here: https://gist.github.com/search?l=JSON&o=desc&q=Zed+config&s=
 
-  "buffer_line_height": "standard",
+  "enable_language_server": true,
   "colorize_brackets": true,
   "which_key": {
     "enabled": true
@@ -22,6 +22,15 @@
     }
   },
   "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    },
+    "gemini": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    },
     "Qwen Code": {
       "type": "custom",
       "command": "qwen",
@@ -95,8 +104,6 @@
   },
   "icon_theme": "Warm Charmed Icons",
   "vim_mode": true,
-  "ui_font_size": 15,
-  "buffer_font_size": 16,
   "theme": {
     "mode": "dark",
     "light": "One Light",
@@ -124,10 +131,46 @@
   // LSP
   "lsp": {
     "tailwindcss-language-server": {
+      "enabled": true,
       "settings": {
         "classAttributes": ["class", "className", "ngClass", "styles"]
       }
-    }
+    },
+    // Rust-analyzer (install additionally pkgs: `paru -S rust-analyzer rust-src`)
+    "rust-analyzer": {
+      "enabled": true,
+      "binary": {
+        "path": "rust-analyzer"
+      }
+    },
+    // TypeScript/JavaScript
+    "typescript-language-server": {
+      "enabled": true,
+      "binary": {
+        "path": "typescript-language-server",
+        "arguments": ["--stdio"]
+      }
+    },
+    // ESLint
+    "eslint": {
+      "enabled": true,
+      "binary": {
+        "path": "vscode-eslint-language-server",
+        "arguments": ["--stdio"]
+      }
+    },
+
+    // HTML/CSS/JSON (optional, if we need aditional features)
+    "html-language-server": { "enabled": true },
+    "css-language-server": { "enabled": true },
+    "json-language-server": { "enabled": true }
+
+    // For Angular: set path to lang server!
+    // "languages": {
+    //   "TypeScript": {
+    //     "language_servers": ["typescript-language-server", "eslint", "!deno"]
+    //   }
+    // }
   },
   "languages": {
     // Refer https://zed.dev/docs/languages/javascript and https://zed.dev/docs/languages/typescript for more info
@@ -139,13 +182,6 @@
         "show_other_hints": true,
         "show_type_hints": true
       }
-    }
-  },
-  // Use zed commit editor
-  "terminal": {
-    "font_family": "FiraCode Nerd Font Mono",
-    "env": {
-      "EDITOR": "zed --wait"
     }
   },
   // File syntax highlighting
@@ -181,5 +217,34 @@
   "telemetry": {
     "diagnostics": false,
     "metrics": false
-  }
+  },
+
+  // =================================================================
+  // Font Settings
+  // =================================================================
+  // UI Fonts
+  "ui_font_family": ".SystemUIFont",
+  "ui_font_size": 15,
+  "ui_font_weight": 400,
+
+  // Buffer (Editor) Fonts - for opened files
+  "buffer_font_family": "FiraCode Nerd Font Mono",
+  "buffer_font_size": 15,
+  "buffer_font_weight": 400,
+  "buffer_line_height": "standard",
+
+  // Terminal Fonts
+  "terminal": {
+    "font_family": "FiraCode Nerd Font Mono",
+    "font_size": 15,
+    "font_weight": 400,
+    "line_height": "comfortable",
+    "env": {
+      "EDITOR": "zed --wait"
+    }
+  },
+
+  // Agent Panel Fonts
+  "agent_ui_font_size": 15,
+  "agent_buffer_font_size": 12
 }
