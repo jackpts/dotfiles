@@ -40,7 +40,9 @@ set $menu $launcher
 
 include /etc/sway/config-vars.d/*
 
-
+# DBus session, fix for Zen Editor auto Sign-In in Sway/Wayland
+# Install keyring pkg: `paru -S gnome-keyring`
+exec /usr/libexec/gnome-keyring-daemon --start --components=secrets
 
 ### Output configuration
 #
