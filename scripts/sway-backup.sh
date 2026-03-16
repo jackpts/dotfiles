@@ -25,7 +25,8 @@ EXCLUSION_PATTERNS=(
     "*.dump"
     "*/debug/*"
     "*/build/*"
-    "/ai-prompter/models/*"
+    "*/ai-prompter/models/*"
+    "*/target/release/*"
 )
 
 # Get current date
