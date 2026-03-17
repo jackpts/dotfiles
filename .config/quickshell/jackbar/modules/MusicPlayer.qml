@@ -1,23 +1,65 @@
 import Quickshell
 import Quickshell.Io
-import QtQuick
+import QtQuick 2.15
 import "../components" as C
 
 Item {
     id: root
-    width: contentWidth + 20
     height: 40
 
-    property int contentWidth: {
-        if (!artist && !title) {
-            // Calculate width of "No media" text
-            var text = "No media"
-            var tempText = Qt.createQmlObject('import QtQuick 2.0; Text { text: "' + text + '"; font.pixelSize: 12 }', root, 'dynamicText')
-            var width = Math.ceil(tempText.implicitWidth) + 20  // Add some padding
-            tempText.destroy()
-            return width
+    // Dynamic width calculation - expand to fill available space to the left
+    // Calculates space between workspaceArea (right edge) and rightRow (left edge where MusicPlayer sits)
+    width: {
+        // Navigate up to find the panel window
+        var panel = root.parent;
+        while (panel && panel.objectName !== "panels") {
+            panel = panel.parent;
         }
-        return Math.min(textWidth, maxTextLength * 7) + 40  // Approximate width based on character count
+
+        if (panel && panel.workspaceArea && panel.rightRow) {
+            var ws = panel.workspaceArea;
+            var rr = panel.rightRow;
+
+            // Get workspace right edge in panel coordinates
+            var wsRightInPanel = ws.mapToItem(panel, ws.width, 0).x;
+
+            // Get rightRow left edge in panel coordinates
+            var rrLeftInPanel = rr.mapToItem(panel, 0, 0).x;
+
+            // Available space is the gap between them
+            var gap = rrLeftInPanel - wsRightInPanel;
+
+            // MusicPlayer is first in rightRow, so it can use: gap + spacing (8) - some margin for breathing room
+            // But we also need to account for rightRow's own position within panel
+            var maxAvailable = Math.max(0, gap + 8 - 10); // 8 is spacing, 10 is breathing room
+
+            // Calculate minimum content width needed
+            var contentW = calculateContentWidth();
+
+            // Use available space, but at least show the content
+            return Math.max(contentW, maxAvailable);
+        }
+
+        // Fallback to original behavior
+        return calculateContentWidth();
+    }
+
+    // Force width recalculation when window or workspace changes
+    Connections {
+        target: Quickshell
+        onActiveScreenChanged: forceWidthUpdate()
+    }
+
+    Timer {
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: forceWidthUpdate()
+    }
+
+    function forceWidthUpdate() {
+        // Trigger width recalculation - width property binding will automatically update
+        root.width = root.width;
     }
 
     property string artist: ""
@@ -26,77 +68,102 @@ Item {
     property string playerName: ""
     property int textWidth: 220
     property int maxTextLength: 45
-
     property bool useNerdFont: true  // Set to false if icons don't show
+
+    function calculateContentWidth() {
+        if (!artist && !title) {
+            // Calculate width of "No media" text
+            var text = "No media";
+            var tempText = Qt.createQmlObject('import QtQuick 2.0; Text { text: "' + text + '"; font.pixelSize: 12 }', root, 'dynamicText');
+            var width = Math.ceil(tempText.implicitWidth) + 20;  // Add some padding
+            tempText.destroy();
+            return width;
+        }
+        return Math.min(textWidth, maxTextLength * 7) + 40;  // Approximate width based on character count
+    }
 
     function icon() {
         if (useNerdFont) {
-            if (status === "Playing") return "󰐊"
-            if (status === "Paused") return "󰏤"
-            return "󰝚"
+            if (status === "Playing")
+                return "󰏤";  // Pause icon when playing
+            if (status === "Paused")
+                return "󰐊";  // Play icon when paused
+            return "󰝚";
         } else {
             // ASCII fallback
-            if (status === "Playing") return "▶"
-            if (status === "Paused") return "⏸"
-            return "◼"
+            if (status === "Playing")
+                return "⏸";  // Pause icon when playing
+            if (status === "Paused")
+                return "▶";  // Play icon when paused
+            return "◼";
         }
     }
 
     function truncateText(text, maxLen) {
-        if (!text || text.length === 0) return ""
-        if (text.length <= maxLen) return text
-        return text.substring(0, maxLen - 3) + "..."
+        if (!text || text.length === 0)
+            return "";
+        if (text.length <= maxLen)
+            return text;
+        return text.substring(0, maxLen - 3) + "...";
     }
 
     function getDisplayText() {
-        if (!artist && !title) return "No media"
+        if (!artist && !title)
+            return "No media";
 
-        var fullText = ""
-        if (artist) fullText += artist
-        if (artist && title) fullText += " - "
-        if (title) fullText += title
+        var fullText = "";
+        if (artist)
+            fullText += artist;
+        if (artist && title)
+            fullText += " - ";
+        if (title)
+            fullText += title;
 
-        return truncateText(fullText, maxTextLength)
+        return fullText;
     }
 
     function getTooltipText() {
-        if (!artist && !title) return "No media playing"
+        if (!artist && !title)
+            return "No media playing";
 
-        var tooltip = ""
-        if (playerName) tooltip += "Player: " + playerName + "<br>"
-        if (title) tooltip += "Title: " + title + "<br>"
-        if (artist) tooltip += "Artist: " + artist + "<br>"
-        tooltip += "Status: " + status + "<br><br>"
-        tooltip += "Left Click: Play/Pause<br>"
-        tooltip += "Right Click: Stop<br>"
-        tooltip += "Scroll: Next/Previous"
+        var tooltip = "";
+        if (playerName)
+            tooltip += "Player: " + playerName + "<br>";
+        if (title)
+            tooltip += "Title: " + title + "<br>";
+        if (artist)
+            tooltip += "Artist: " + artist + "<br>";
+        tooltip += "Status: " + status + "<br><br>";
+        tooltip += "Left Click: Play/Pause<br>";
+        tooltip += "Right Click: Stop<br>";
+        tooltip += "Scroll: Next/Previous";
 
-        return tooltip
+        return tooltip;
     }
 
     Process {
         id: metadataProc
         stdout: StdioCollector {
             onStreamFinished: {
-                var output = this.text.trim()
-                var lines = output.split('\n')
+                var output = this.text.trim();
+                var lines = output.split('\n');
 
                 // We expect exactly 5 lines (with blanks): title, blank, artist, blank, status
                 // Or if artist is empty: title, blank, blank, blank, status
                 if (lines.length >= 5) {
-                    root.title = lines[0].trim()
-                    root.artist = lines[2].trim()  // Artist is on line 3 (index 2)
-                    root.status = lines[4].trim()  // Status is on line 5 (index 4)
+                    root.title = lines[0].trim();
+                    root.artist = lines[2].trim();  // Artist is on line 3 (index 2)
+                    root.status = lines[4].trim();  // Status is on line 5 (index 4)
                 } else if (lines.length >= 3) {
                     // Fallback: might have fewer lines
-                    root.title = lines[0].trim()
-                    root.artist = lines[1].trim()
-                    root.status = lines[2].trim()
+                    root.title = lines[0].trim();
+                    root.artist = lines[1].trim();
+                    root.status = lines[2].trim();
                 } else {
                     // Minimal fallback
-                    root.title = lines[0] ? lines[0].trim() : ""
-                    root.artist = ""
-                    root.status = "Stopped"
+                    root.title = lines[0] ? lines[0].trim() : "";
+                    root.artist = "";
+                    root.status = "Stopped";
                 }
             }
         }
@@ -106,7 +173,7 @@ Item {
         id: playerProc
         stdout: StdioCollector {
             onStreamFinished: {
-                root.playerName = this.text.trim()
+                root.playerName = this.text.trim();
             }
         }
     }
@@ -118,27 +185,23 @@ Item {
         id: selectPlayerProc
         stdout: StdioCollector {
             onStreamFinished: {
-                var player = this.text.trim()
-                root.selectedPlayer = player
+                var player = this.text.trim();
+                root.selectedPlayer = player;
 
                 // Now fetch metadata for the selected player
                 if (player) {
                     // Use printf to properly handle newlines
-                    var metaCmd = "playerctl -p " + player + " metadata --format '{{title}}' 2>/dev/null; " +
-                                  "printf '\\n'; " +
-                                  "playerctl -p " + player + " metadata --format '{{artist}}' 2>/dev/null; " +
-                                  "printf '\\n'; " +
-                                  "playerctl -p " + player + " status 2>/dev/null || echo 'Stopped'"
-                    metadataProc.command = ["bash", "-c", metaCmd]
-                    metadataProc.running = true
+                    var metaCmd = "playerctl -p " + player + " metadata --format '{{title}}' 2>/dev/null; " + "printf '\\n'; " + "playerctl -p " + player + " metadata --format '{{artist}}' 2>/dev/null; " + "printf '\\n'; " + "playerctl -p " + player + " status 2>/dev/null || echo 'Stopped'";
+                    metadataProc.command = ["bash", "-c", metaCmd];
+                    metadataProc.running = true;
 
-                    playerProc.command = ["bash", "-c", "playerctl -p " + player + " metadata --format '{{playerName}}' 2>/dev/null || echo ''"]
-                    playerProc.running = true
+                    playerProc.command = ["bash", "-c", "playerctl -p " + player + " metadata --format '{{playerName}}' 2>/dev/null || echo ''"];
+                    playerProc.running = true;
                 } else {
-                    root.title = ""
-                    root.artist = ""
-                    root.status = "Stopped"
-                    root.playerName = ""
+                    root.title = "";
+                    root.artist = "";
+                    root.status = "Stopped";
+                    root.playerName = "";
                 }
             }
         }
@@ -151,13 +214,9 @@ Item {
         onTriggered: {
             // If we already have a selected player, just update its metadata directly
             if (root.selectedPlayer) {
-                var metaCmd = "playerctl -p " + root.selectedPlayer + " metadata --format '{{title}}' 2>/dev/null; " +
-                              "printf '\\n'; " +
-                              "playerctl -p " + root.selectedPlayer + " metadata --format '{{artist}}' 2>/dev/null; " +
-                              "printf '\\n'; " +
-                              "playerctl -p " + root.selectedPlayer + " status 2>/dev/null || echo 'Stopped'"
-                metadataProc.command = ["bash", "-c", metaCmd]
-                metadataProc.running = true
+                var metaCmd = "playerctl -p " + root.selectedPlayer + " metadata --format '{{title}}' 2>/dev/null; " + "printf '\\n'; " + "playerctl -p " + root.selectedPlayer + " metadata --format '{{artist}}' 2>/dev/null; " + "printf '\\n'; " + "playerctl -p " + root.selectedPlayer + " status 2>/dev/null || echo 'Stopped'";
+                metadataProc.command = ["bash", "-c", metaCmd];
+                metadataProc.running = true;
             }
 
             // Every few cycles, re-check for player changes
@@ -194,13 +253,13 @@ Item {
 
                     # Finally, use first available player
                     echo "$players" | head -n1
-                `
+                `;
 
-                selectPlayerProc.command = ["bash", "-c", cmd]
-                selectPlayerProc.running = true
+                selectPlayerProc.command = ["bash", "-c", cmd];
+                selectPlayerProc.running = true;
             }
 
-            root.updateCycle++
+            root.updateCycle++;
         }
     }
 
@@ -234,13 +293,15 @@ Item {
 
             # Finally, use first available player
             echo "$players" | head -n1
-        `
+        `;
 
-        selectPlayerProc.command = ["bash", "-c", cmd]
-        selectPlayerProc.running = true
+        selectPlayerProc.command = ["bash", "-c", cmd];
+        selectPlayerProc.running = true;
     }
 
-    Process { id: controlProc }
+    Process {
+        id: controlProc
+    }
 
     Timer {
         id: updateTimer
@@ -276,10 +337,10 @@ Item {
 
                 # Finally, use first available player
                 echo "$players" | head -n1
-            `
+            `;
 
-            selectPlayerProc.command = ["bash", "-c", cmd]
-            selectPlayerProc.running = true
+            selectPlayerProc.command = ["bash", "-c", cmd];
+            selectPlayerProc.running = true;
         }
     }
 
@@ -295,23 +356,68 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             text: root.icon()
             color: {
-                if (status === "Playing") return C.Theme.green
-                if (status === "Paused") return C.Theme.yellow
-                return C.Theme.grayMuted
+                if (status === "Playing")
+                    return C.Theme.green;
+                if (status === "Paused")
+                    return C.Theme.yellow;
+                return C.Theme.grayMuted;
             }
             font.pixelSize: 18
-            font.family: "monospace"  // Ensure font supports icons
+            font.family: "monospace"
             visible: (status !== "Stopped" || title || artist) && (artist || title)
         }
 
-        Text {
+        Item {
+            id: marqueeContainer
             anchors.verticalCenter: parent.verticalCenter
-            text: root.getDisplayText()
-            color: status === "Playing" ? C.Theme.text : C.Theme.textMuted
-            font.pixelSize: 12
-            width: root.artist || root.title ? root.textWidth : implicitWidth
-            horizontalAlignment: (root.artist || root.title) ? Text.AlignLeft : Text.AlignRight
-            elide: Text.ElideRight
+            width: Math.min(root.textWidth, titleText.implicitWidth)
+            height: titleText.implicitHeight
+            clip: true
+            function restart() {
+                marqueeAnim.stop();
+                titleText.x = 0;
+                if (overflow)
+                    marqueeAnim.start();
+            }
+            property bool overflow: titleText.implicitWidth > width
+
+            Text {
+                id: titleText
+                anchors.verticalCenter: parent.verticalCenter
+                text: root.getDisplayText()
+                color: status === "Playing" ? C.Theme.text : C.Theme.textMuted
+                font.pixelSize: 12
+                horizontalAlignment: Text.AlignLeft
+                elide: Text.ElideRight
+                onTextChanged: marqueeContainer.restart()
+                Component.onCompleted: marqueeContainer.restart()
+            }
+
+            onWidthChanged: restart()
+
+            SequentialAnimation {
+                id: marqueeAnim
+                running: false
+                loops: Animation.Infinite
+                PauseAnimation { duration: 800 }
+                NumberAnimation {
+                    target: titleText
+                    property: "x"
+                    from: 0
+                    to: -(titleText.implicitWidth - marqueeContainer.width)
+                    duration: Math.max(3000, (titleText.implicitWidth - marqueeContainer.width) * 25)
+                    easing.type: Easing.Linear
+                }
+                PauseAnimation { duration: 800 }
+                NumberAnimation {
+                    target: titleText
+                    property: "x"
+                    from: -(titleText.implicitWidth - marqueeContainer.width)
+                    to: 0
+                    duration: 500
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
     }
 
@@ -320,36 +426,36 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onClicked: function(mouse) {
+        onClicked: function (mouse) {
             if (mouse.button === Qt.LeftButton) {
-                var player = root.selectedPlayer ? "-p " + root.selectedPlayer : ""
-                controlProc.command = ["bash", "-c", "playerctl " + player + " play-pause"]
-                controlProc.running = true
+                var player = root.selectedPlayer ? "-p " + root.selectedPlayer : "";
+                controlProc.command = ["bash", "-c", "playerctl " + player + " play-pause"];
+                controlProc.running = true;
             } else if (mouse.button === Qt.RightButton) {
-                var player = root.selectedPlayer ? "-p " + root.selectedPlayer : ""
-                controlProc.command = ["bash", "-c", "playerctl " + player + " stop"]
-                controlProc.running = true
+                var player = root.selectedPlayer ? "-p " + root.selectedPlayer : "";
+                controlProc.command = ["bash", "-c", "playerctl " + player + " stop"];
+                controlProc.running = true;
             }
-            updateTimer.restart()
+            updateTimer.restart();
         }
 
-        onWheel: function(wheel) {
-            var player = root.selectedPlayer ? "-p " + root.selectedPlayer : ""
+        onWheel: function (wheel) {
+            var player = root.selectedPlayer ? "-p " + root.selectedPlayer : "";
             if (wheel.angleDelta.y > 0) {
-                controlProc.command = ["bash", "-c", "playerctl " + player + " previous"]
+                controlProc.command = ["bash", "-c", "playerctl " + player + " previous"];
             } else {
-                controlProc.command = ["bash", "-c", "playerctl " + player + " next"]
+                controlProc.command = ["bash", "-c", "playerctl " + player + " next"];
             }
-            controlProc.running = true
-            updateTimer.restart()
+            controlProc.running = true;
+            updateTimer.restart();
         }
 
         onEntered: {
-            C.Tooltip.show(root, root.getTooltipText())
+            C.Tooltip.show(root, root.getTooltipText());
         }
 
         onExited: {
-            C.Tooltip.hide()
+            C.Tooltip.hide();
         }
     }
 }
