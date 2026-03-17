@@ -111,6 +111,8 @@ monitor = eDP-1, 2560x1600@165, auto, 1
         <img src="assets/quickshell_2025-12-03_11-40-23.jpg" />
         <br />
         <img src="assets/lock_screen.jpg" />
+        <br />
+        <img src="assets/sway_quickshell_2026-03-11.jpg" />
     </p>
 </details>
 <br />
@@ -146,4 +148,3 @@ chmod +x installer.sh
 
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
 - make left sidebar with "AI chat integration with external providers (Gemini, OpenAI...)" like in: <https://www.reddit.com/r/unixporn/comments/1im22sn/hyprland_yet_another_hyprland_rice/>
-
