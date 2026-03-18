@@ -22,6 +22,9 @@
     }
   },
   "agent_servers": {
+    "mistral-vibe": {
+      "type": "registry"
+    },
     "claude-acp": {
       "type": "registry"
     },
@@ -100,7 +103,10 @@
         "enable_thinking": false
       }
     ],
-    "model_parameters": []
+    "model_parameters": [],
+    // Notify Options: "primary_screen" (default), "all_screens", "never"
+    "notify_when_agent_waiting": "all_screens",
+    "play_sound_when_agent_done": true
   },
   "icon_theme": "Warm Charmed Icons",
   "vim_mode": true,
@@ -187,7 +193,8 @@
   // File syntax highlighting
   "file_types": {
     "Dockerfile": ["Dockerfile", "Dockerfile.*"],
-    "JSON": ["json", "jsonc", "*.code-snippets"]
+    "JSON": ["json", "jsonc", "*.code-snippets"],
+    "Shell Script": ["**/sway/config", "**/sway/config.d/*"]
   },
   // File scan exclusions, hide on the file explorer and search
   "file_scan_exclusions": [
