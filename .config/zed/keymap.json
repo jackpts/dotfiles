@@ -85,6 +85,7 @@
       "shift-q": "pane::CloseActiveItem",
       "ctrl-q": "pane::CloseActiveItem",
       "space b d": "pane::CloseActiveItem",
+      "q q": "pane::CloseActiveItem",
       // Close other items
       "space b o": "pane::CloseOtherItems",
       // Save file
@@ -140,11 +141,19 @@
       "a": "editor::ToggleCodeActions" // zed specific
     }
   },
-  // Toggle terminal
+  // Pane management
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-\\": "terminal_panel::ToggleFocus"
+      "ctrl-\\": "pane::SplitRight"
+      // "ctrl--": "pane::SplitDown"
+    }
+  },
+  // Terminal
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-t": "terminal_panel::ToggleFocus"
     }
   },
   {
@@ -187,13 +196,6 @@
       "ctrl-w j": "workspace::ActivatePaneDown"
     }
   },
-  {
-    "context": "Workspace",
-    "bindings": {
-      // Map VSCode like keybindings
-      "cmd-b": "workspace::ToggleRightDock"
-    }
-  },
   // Run nearest task
   {
     "context": "EmptyPane || SharedScreen || vim_mode == normal",
@@ -222,6 +224,15 @@
     "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
     "bindings": {
       "y c": ["workspace::SendKeystrokes", "y y g c c p"]
+    }
+  },
+  // Emulate Vim's Telescope via Television; install lib: `pacman -S television`
+  {
+    "bindings": {
+      "ctrl-p": [
+        "task::Spawn",
+        { "task_name": "Television File Finder", "reveal_target": "center" }
+      ]
     }
   }
   // Subword motion is not working really nice with `ciw`, disable for now
