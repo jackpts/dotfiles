@@ -159,6 +159,12 @@ abbr u2 '$aurhelper -Suyy --noconfirm'
 # alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
 # yt-dlp -x --audio-format mp3 --cookies-from-browser chrome "https://www.youtube.com/watch?v=RLPfcG8oVqs"
 alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --cookies-from-browser chrome --embed-metadata --audio-quality 0 -x'
+alias yt-m-mp3 'cd ~/Downloads; and yt-dlp \
+  --extractor-args "youtube:player_client=android" \
+  --no-check-certificate \
+  --sleep-interval 10 \
+  --extract-audio \
+  --audio-format mp3'
 
 # K8s and misc
 alias k 'kubectl'
@@ -213,6 +219,9 @@ abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
 abbr yt_tg_run 'cd $HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot'
 abbr yt_tg_build 'cd $HOME/github/yt-tg-chat-bot && cargo build'
 abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
+abbr yt_tg_backup 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".backup '\''bot_backup_$(date +%Y%m%d_%H%M).db'\''"'
+abbr yt_tg_restore 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".restore"'
+abbr yt_tg_kill 'pkill -f yt-tg-chat-bot'
 
 abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
 abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'
