@@ -9,6 +9,7 @@
 {
   // check all configs here: https://gist.github.com/search?l=JSON&o=desc&q=Zed+config&s=
 
+  "enable_language_server": true,
   "colorize_brackets": true,
   "which_key": {
     "enabled": true
@@ -20,20 +21,53 @@
       "settings": {}
     }
   },
+  "agent_servers": {
+    "mistral-vibe": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    },
+    "gemini": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    },
+    "Qwen Code": {
+      "type": "custom",
+      "command": "qwen",
+      "args": ["--experimental-acp"],
+      "env": {}
+    },
+    "Gemini CLI": {
+      "type": "custom",
+      "command": "gemini",
+      "args": ["--experimental-acp"],
+      "env": {}
+    },
+    "Kimi CLI": {
+      "type": "custom",
+      "command": "kimi",
+      "args": ["--experimental-acp"],
+      "env": {}
+    }
+  },
   "agent": {
     "tool_permissions": {
       "tools": {
-        "mcp:mcp-server-context7:resolve-library-id": {
-          "default": "allow"
+        "terminal": {
+          "always_allow": [
+            {
+              "pattern": "^ps\\s+aux(\\s|$)"
+            }
+          ]
         },
         "edit_file": {
           "default": "allow",
           "always_allow": [
             {
               "pattern": "^\\$HOME/dotfiles/\\.config/zed/"
-            },
-            {
-              "pattern": "^/home/jacky/dotfiles/\\.config/zed/"
             }
           ]
         },
@@ -62,43 +96,25 @@
         "provider": "openrouter",
         "model": "google/gemma-3-27b-it:free",
         "enable_thinking": false
+      },
+      {
+        "provider": "openrouter",
+        "model": "openrouter/free",
+        "enable_thinking": false
       }
     ],
-    "default_model": {
-      "enable_thinking": true,
-      "provider": "openrouter",
-      "model": "stepfun/step-3.5-flash:free"
-    },
-    "model_parameters": []
-  },
-  "agent_servers": {
-    "qoder": {
-      "type": "registry"
-    },
-    "qwen-code": {
-      "type": "registry"
-    },
-    "kimi": {
-      "type": "registry"
-    },
-    "Kimi CLI": {
-      "type": "custom",
-      "command": "kimi",
-      // NOTE: Kimi ACP server has known compatibility issues with Zed's sandbox.
-      // It fails with PermissionError when using asyncio's epoll on stdin.
-      // The server may hang on initialization. Consider using OpenRouter instead.
-      // "args": ["acp"],
-      "args": [],
-      "env": {}
-    }
+    "model_parameters": [],
+    // Notify Options: "primary_screen" (default), "all_screens", "never"
+    "notify_when_agent_waiting": "all_screens",
+    "play_sound_when_agent_done": true
   },
   "icon_theme": "Warm Charmed Icons",
   "vim_mode": true,
-  "ui_font_size": 18,
-  "buffer_font_size": 18,
   "theme": {
     "mode": "dark",
     "light": "One Light",
+    // "dark": "Ayu Dark"
+    // "dark": "Tokyo Night clear"
     "dark": "Uniform"
   },
   // Indentation, rainbow indentation
@@ -121,10 +137,46 @@
   // LSP
   "lsp": {
     "tailwindcss-language-server": {
+      "enabled": true,
       "settings": {
         "classAttributes": ["class", "className", "ngClass", "styles"]
       }
-    }
+    },
+    // Rust-analyzer (install additionally pkgs: `paru -S rust-analyzer rust-src`)
+    "rust-analyzer": {
+      "enabled": true,
+      "binary": {
+        "path": "rust-analyzer"
+      }
+    },
+    // TypeScript/JavaScript
+    "typescript-language-server": {
+      "enabled": true,
+      "binary": {
+        "path": "typescript-language-server",
+        "arguments": ["--stdio"]
+      }
+    },
+    // ESLint
+    "eslint": {
+      "enabled": true,
+      "binary": {
+        "path": "vscode-eslint-language-server",
+        "arguments": ["--stdio"]
+      }
+    },
+
+    // HTML/CSS/JSON (optional, if we need aditional features)
+    "html-language-server": { "enabled": true },
+    "css-language-server": { "enabled": true },
+    "json-language-server": { "enabled": true }
+
+    // For Angular: set path to lang server!
+    // "languages": {
+    //   "TypeScript": {
+    //     "language_servers": ["typescript-language-server", "eslint", "!deno"]
+    //   }
+    // }
   },
   "languages": {
     // Refer https://zed.dev/docs/languages/javascript and https://zed.dev/docs/languages/typescript for more info
@@ -138,17 +190,11 @@
       }
     }
   },
-  // Use zed commit editor
-  "terminal": {
-    "font_family": "FiraCode Nerd Font Mono",
-    "env": {
-      "EDITOR": "zed --wait"
-    }
-  },
   // File syntax highlighting
   "file_types": {
     "Dockerfile": ["Dockerfile", "Dockerfile.*"],
-    "JSON": ["json", "jsonc", "*.code-snippets"]
+    "JSON": ["json", "jsonc", "*.code-snippets"],
+    "Shell Script": ["**/sway/config", "**/sway/config.d/*"]
   },
   // File scan exclusions, hide on the file explorer and search
   "file_scan_exclusions": [
@@ -178,5 +224,34 @@
   "telemetry": {
     "diagnostics": false,
     "metrics": false
-  }
+  },
+
+  // =================================================================
+  // Font Settings
+  // =================================================================
+  // UI Fonts
+  "ui_font_family": ".SystemUIFont",
+  "ui_font_size": 15,
+  "ui_font_weight": 400,
+
+  // Buffer (Editor) Fonts - for opened files
+  "buffer_font_family": "FiraCode Nerd Font Mono",
+  "buffer_font_size": 15,
+  "buffer_font_weight": 400,
+  "buffer_line_height": "standard",
+
+  // Terminal Fonts
+  "terminal": {
+    "font_family": "FiraCode Nerd Font Mono",
+    "font_size": 15,
+    "font_weight": 400,
+    "line_height": "comfortable",
+    "env": {
+      "EDITOR": "zed --wait"
+    }
+  },
+
+  // Agent Panel Fonts
+  "agent_ui_font_size": 15,
+  "agent_buffer_font_size": 12
 }
