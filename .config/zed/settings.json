@@ -231,19 +231,19 @@
   // =================================================================
   // UI Fonts
   "ui_font_family": ".SystemUIFont",
-  "ui_font_size": 15,
+  "ui_font_size": 17,
   "ui_font_weight": 400,
 
   // Buffer (Editor) Fonts - for opened files
   "buffer_font_family": "FiraCode Nerd Font Mono",
-  "buffer_font_size": 15,
+  "buffer_font_size": 17,
   "buffer_font_weight": 400,
   "buffer_line_height": "standard",
 
   // Terminal Fonts
   "terminal": {
     "font_family": "FiraCode Nerd Font Mono",
-    "font_size": 15,
+    "font_size": 16,
     "font_weight": 400,
     "line_height": "comfortable",
     "env": {
@@ -252,6 +252,6 @@
   },
 
   // Agent Panel Fonts
-  "agent_ui_font_size": 15,
-  "agent_buffer_font_size": 12
+  "agent_ui_font_size": 17,
+  "agent_buffer_font_size": 16
 }
