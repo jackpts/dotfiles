@@ -5,24 +5,33 @@ import "../components" as C
 
 Item {
     id: root
-    width: weatherText.implicitWidth + 40
+    width: Math.max(weatherText.implicitWidth + 20, 36)
     height: 50
-    
+    property bool loading: true
     property string textValue: "..."
     property string tooltipText: "Loading weather..."
+    
+    function refreshWeather() {
+        loading = true
+        weatherProc.running = true
+    }
+
+    Component.onCompleted: refreshWeather()
     
     Process {
         id: weatherProc
         command: ["bash", "-c", "python3 $HOME/scripts/weather.py --json"]
-        running: true
+        running: false
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
                     var result = JSON.parse(text)
                     if (result.text) root.textValue = result.text
                     if (result.tooltip) root.tooltipText = result.tooltip
+                    root.loading = false
                 } catch (e) {
                     console.error("Error parsing weather data:", e)
+                    root.loading = false
                 }
             }
         }
@@ -33,11 +42,48 @@ Item {
         interval: 900000
         running: true
         repeat: true
-        onTriggered: weatherProc.running = true
+        onTriggered: refreshWeather()
     }
     
     Process { id: run }
     
+    // Weather spinner
+    Item {
+        id: weatherSpinner
+        anchors.centerIn: parent
+        width: 16
+        height: 16
+        visible: root.loading
+        property color strokeColor: "#ffffff"
+
+        Canvas {
+            id: weatherSpinnerCanvas
+            anchors.fill: parent
+            onPaint: {
+                var ctx = getContext("2d")
+                ctx.clearRect(0, 0, width, height)
+                ctx.lineWidth = 2
+                ctx.lineCap = "round"
+                ctx.strokeStyle = weatherSpinner.strokeColor
+                ctx.beginPath()
+                ctx.arc(width/2, height/2, (width-4)/2, Math.PI * 0.2, Math.PI * 1.7)
+                ctx.stroke()
+            }
+        }
+
+        NumberAnimation on rotation {
+            running: root.loading
+            loops: Animation.Infinite
+            from: 0
+            to: 360
+            duration: 900
+            easing.type: Easing.Linear
+        }
+
+        onStrokeColorChanged: weatherSpinnerCanvas.requestPaint()
+        Component.onCompleted: weatherSpinnerCanvas.requestPaint()
+    }
+
     // Click handler to show detailed weather
     MouseArea {
         anchors.fill: parent
@@ -58,6 +104,7 @@ Item {
         color: C.Theme.text
         font.pixelSize: 18
         enabled: false  // Make text transparent to mouse events
+        visible: !root.loading
     }
     
     // Tooltip with detailed weather info
