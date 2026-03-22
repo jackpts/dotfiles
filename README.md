@@ -99,6 +99,8 @@ monitor = eDP-1, 2560x1600@165, auto, 1
         <img src="assets/2025-04-21-175800_hyprshot.jpg" />
         <br />
         <img src="assets/lock_screen.jpg" />
+        <br />
+        <img src="assets/2026-03-21-154015_hyprshot.png" />
     </p>
 </details>
 <br />
