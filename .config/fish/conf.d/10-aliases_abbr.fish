@@ -212,3 +212,6 @@ abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
 
 abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
 abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'
+
+abbr gecko_reload 'pkill -f "geckodriver --port 4444" 2>/dev/null; sleep 1; geckodriver --port 4444'
+abbr g_drive_start 'cd $HOME/github/google-drive-restricted-video-downloader && ./target/release/gdrive-dl "https://drive.google.com/file/d/1PNBcr8xHQ752Mq66CbpF7Rn20fwVvgqe/view?ts=68dce257" -v -a yauheni.pauliukanets@innowise.com'
