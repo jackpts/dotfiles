@@ -188,6 +188,18 @@ def fetch_open_meteo() -> Optional[Dict[str, Any]]:
         return None
 
 
+def _parse_timestamp(ts: str) -> Optional[datetime]:
+    try:
+        if ts.endswith("Z"):
+            ts = ts.replace("Z", "+00:00")
+        dt = datetime.fromisoformat(ts)
+        if dt.tzinfo:
+            return dt.astimezone().replace(tzinfo=None)
+        return dt
+    except ValueError:
+        return None
+
+
 def format_open_meteo(payload: Dict[str, Any]) -> Optional[Dict[str, str]]:
     current = payload.get('current')
     hourly = payload.get('hourly') or {}
@@ -217,12 +229,22 @@ def format_open_meteo(payload: Dict[str, Any]) -> Optional[Dict[str, str]]:
     feels_list = hourly.get('apparent_temperature', [])
     codes = hourly.get('weather_code', [])
 
-    for idx in range(min(8, len(times))):
+    now_local = datetime.now()
+    start_idx = 0
+    for idx, timestamp in enumerate(times):
+        parsed = _parse_timestamp(timestamp)
+        if parsed and parsed >= now_local:
+            start_idx = idx
+            break
+    else:
+        start_idx = max(0, len(times) - 8)
+
+    end_idx = min(start_idx + 8, len(times))
+
+    for idx in range(start_idx, end_idx):
         timestamp = times[idx]
-        try:
-            hour_label = datetime.fromisoformat(timestamp).strftime("%H:%M")
-        except ValueError:
-            hour_label = timestamp
+        parsed = _parse_timestamp(timestamp)
+        hour_label = parsed.strftime("%H:%M") if parsed else timestamp
         code_hour = int(codes[idx]) if idx < len(codes) else 0
         icon_hour = OPEN_METEO_CODES.get(code_hour, '🌡️')
         temp_hour = temps[idx] if idx < len(temps) else '?'
