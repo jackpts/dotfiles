@@ -103,7 +103,7 @@ exec_always --no-startup-id swayidle -w \
 #
 # Basics:
 #
-#    # Start a terminal
+    # Start a terminal
     bindsym $mod+Return exec $term
     bindsym $mod+t exec warp-terminal
     bindsym $mod+x exec kitty
@@ -167,7 +167,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
+
 # Moving around:
 #
     # Move your focus around
@@ -195,7 +195,7 @@ exec_always --no-startup-id swayidle -w \
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
-#
+
 # Workspaces:
 #
     # Switch to workspace
@@ -227,7 +227,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
-#
+
 # Layout stuff:
 #
     # You can "split" the current object of your focus with
@@ -252,7 +252,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-#
+
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -264,7 +264,6 @@ exec_always --no-startup-id swayidle -w \
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+s scratchpad show
-
 
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
@@ -295,13 +294,13 @@ mode "resize" {
 }
 # bindsym $mod+r mode "resize"
 
-#
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
 
 # Autostart (ported from Hyprland execs)
-exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+# exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec --no-startup-id dbus-update-activation-environment --systemd --all
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id waybar
 # exec --no-startup-id quickshell -c $HOME/.config/quickshell/jackbar/shell.qml
@@ -372,10 +371,9 @@ default_floating_border pixel 2
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
 # client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
 client.focused          #4c789988 #33333388 #bbbbbb #4c789988 #4c789988
-client.unfocused        #333333 #33333388 #888888 #292d2e   #222222
-client.focused_inactive #333333 #33333388 #888888 #484e50   #5f676a
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-
+client.unfocused        #333333 #33333388 #888888 #292d2e #222222
+client.focused_inactive #333333 #33333388 #888888 #484e50 #5f676a
+client.urgent           #2f343a #900000 #ffffff #900000 #900000
 
 # Workspaces list circle
 bindsym --whole-window $mod+button4 workspace prev_on_output
