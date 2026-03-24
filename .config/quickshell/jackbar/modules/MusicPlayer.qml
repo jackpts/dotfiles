@@ -66,8 +66,8 @@ Item {
     property string title: ""
     property string status: "Stopped"
     property string playerName: ""
-    property int textWidth: 220
-    property int maxTextLength: 45
+    property int textWidth: 210
+    property int maxTextLength: 37
     property bool useNerdFont: true  // Set to false if icons don't show
 
     function calculateContentWidth() {
@@ -376,10 +376,11 @@ Item {
             function restart() {
                 marqueeAnim.stop();
                 titleText.x = 0;
-                if (overflow)
+                if (shouldScroll)
                     marqueeAnim.start();
             }
             property bool overflow: titleText.implicitWidth > width
+            property bool shouldScroll: overflow && status === "Playing"
 
             Text {
                 id: titleText
@@ -394,12 +395,15 @@ Item {
             }
 
             onWidthChanged: restart()
+            onShouldScrollChanged: restart()
 
             SequentialAnimation {
                 id: marqueeAnim
                 running: false
                 loops: Animation.Infinite
-                PauseAnimation { duration: 800 }
+                PauseAnimation {
+                    duration: 800
+                }
                 NumberAnimation {
                     target: titleText
                     property: "x"
@@ -408,7 +412,9 @@ Item {
                     duration: Math.max(3000, (titleText.implicitWidth - marqueeContainer.width) * 25)
                     easing.type: Easing.Linear
                 }
-                PauseAnimation { duration: 800 }
+                PauseAnimation {
+                    duration: 800
+                }
                 NumberAnimation {
                     target: titleText
                     property: "x"
