@@ -103,6 +103,17 @@ Follow the structure in `sl_frontend/src/`:
 
 ### Frontend Specific
 
+0. **Null handling + shared helpers**
+   - UI/domain types in `features/*/model/**` and `entities/*/model/**` must not expose `string | null` / `number | null` unions. Prefer optional props (`foo?: string`) and normalize upstream API data (`apiFoo ?? undefined`) before it reaches the view model.
+   - Nullable API responses are allowed only in DTOs that mirror backend contracts. Convert them at the layer boundary (e.g., `mapApiResultToViewModel`).
+   - Reusable score helpers live in `@entities/content-quality/runQA/model/utils/scoreFormatters`. Always reuse `SCORE_MIN`, `SCORE_MAX`, `convertInputToRawScore`, `resolveScoreValue`, etc., instead of duplicating clamp/format logic in components.
+   - When turning API values into score inputs, normalize `null` with `value ?? undefined` before calling `resolveScoreValue` so it never receives `null`.
+
+0.5 **TanStack mutation ergonomics**
+   - `useMutation` hooks must declare generics (`useMutation<Result, Error, Payload>`). Avoid `as SomeType` casts on `response.data`—Types are inferred from these generics.
+   - Components should call `mutateAsync` with `try/catch` for success/error UI orchestration (toasts, closing modals, etc.). Only fall back to `mutate(..., { onSuccess })` when you need per-call overrides in addition to the shared hook defaults.
+   - Add reusable mutations under `entities/*/model/hooks` (or `features/*/model/hooks` when feature-specific) and keep API-specific DTOs in `entities/*/model/types`. UI files should not define DTOs inline.
+
 1. **React 19 Hooks**:
    - **Optimization**: Do NOT use `useMemo` for simple logic; rely on React 19's improved compiler/optimization.
    - **Imports**: Use named imports for hooks (e.g., `import { useEffect, useState } from 'react';`). Avoid using `React.useEffect` or `React.useState`.
@@ -158,23 +169,37 @@ Follow the structure in `sl_frontend/src/`:
 10. **Category chips/labels**: When rendering category chips/labels (e.g., project/site topics), always derive display data via `groupCategoriesByLabel` from `src/entities/categories/model/utils/groupCategoriesByLabel.ts`. The helper groups by `category.label` and falls back to `category.name`, so use its output instead of rolling custom reducers.
 11. **Conditional classNames**: Prefer `clsx` for composing conditional class names (e.g., `clsx(baseClasses, isActive && 'text-red-600')`) instead of manual string concatenation or nested ternaries. This keeps class logic declarative and prevents stray spaces.
 12. **File download handling**: When implementing file downloads from Blob responses, use the `downloadFileFromResponse` utility from `@/shared/utils`. Do **not** inline-import Axios types in mutation callbacks (e.g., `import('axios').AxiosResponse<Blob>`). Instead, rely on the mutation hook's type inference—the response parameter is already correctly typed by the hook's generic signature. Example: `onSuccess: (response) => { downloadFileFromResponse({ response, filenamePrefix: 'export' }); }`.
+13. **Formatter functions**: All formatting logic (including null checks, unit symbols like %, and special cases) should be encapsulated within formatter functions. UI components should not add formatting logic after calling a formatter - the formatter should return the complete, display-ready string. This prevents duplication and ensures consistent formatting across all usage sites.
 
 ### Backend Specific
 
-1. **NestJS**: Follow the standard module-service-controller pattern.
-2. **DTOs & Controllers**:
+1. **Business Logic Separation**: Never keep business logic in controllers. Controllers should only handle HTTP concerns (request/response transformation, validation, authorization). All business operations must be extracted to:
+   - **Commands** (for write operations) when using CQRS pattern
+   - **Services** (for read operations or complex business logic)
+   - **Query handlers** (for read operations in CQRS)
+   
+   When adding a new endpoint, first check if similar business logic already exists in existing commands/services. If the same logic is needed, reuse the existing command/service instead of duplicating it.
+
+2. **CQRS Pattern Usage**: 
+   - Use **Commands** for all write operations (create, update, delete)
+   - Use **Queries** for read operations 
+   - Controllers should dispatch commands or call query handlers, not implement business logic directly
+   - Command handlers contain the actual business logic and work with repositories/services
+
+3. **NestJS**: Follow the standard module-service-controller pattern.
+4. **DTOs & Controllers**:
    - Define request/response contracts as DTO classes and decorate fields with `class-validator` decorators (`@IsString`, `@IsInt`, `@IsOptional`, etc.). Reuse these DTOs in controller method signatures instead of validating inside the controller body.
    - For primitive route/query params use Nest pipes (e.g., `@Param('id', ParseIntPipe)`) rather than manual `parseInt`/`Number` calls. Any authorization/business validation beyond type/shape must live in handlers/services, not controllers.
    - Before creating new transformers/pipes/helpers for basic coercions (numbers, booleans, dates), search the shared `@linkthatrank/common/transformers` and Nest built-in pipes. Prefer reusing existing utilities like `toInt`, `ParseIntPipe`, etc., to avoid duplicate logic and inconsistent behavior.
    - When throwing exceptions, reuse centralized error enums/constants (e.g., `OriginalityAiErrorMessage`, `UsersErrorMessages`) instead of hardcoding strings in handlers or services. If no constant exists, add it once to the relevant enum-like structure.
    - **Authorization decorators are mandatory**: Every controller endpoint must explicitly declare its access controls (e.g., `@UseGuards(AuthGuard)`, `@Roles(...)`, or the existing composite decorators used in the module). When adding or modifying endpoints, mirror the guard/role chain used by sibling handlers—especially for any mutation routes. If an endpoint is intentionally public, add a clear comment explaining why and link to the business requirement so reviewers can confirm the exposure.
-3. **CQRS Commands**: Classes that extend the shared `Command` base already generate a `correlationId`. Do **not** pass `correlationId` manually when instantiating commands unless you have a very specific need (e.g., bulk executor orchestrating many sub-commands). When writing new commands, type the constructor with `CommandProps<YourCommand>` and call `super(props)` to inherit the automatic ID generation.
-4. **Command Handlers**: `CommandHandlerBase` already wraps every `handle()` call in `UnitOfWork.execute`. Never call `_unitOfWork.execute(...)` inside a handler manually—just use the repositories resolved from `_unitOfWork` with the correlationId provided on the command.
-5. **Migrations**: Never modify existing migrations. Always run the package.json scripts (`npm run migration:generate`, `npm run migration:run`, etc.) so TypeORM produces the diff itself—do **not** hand-write migration bodies. After generation, trim the file down to the smallest possible delta: keep only the concrete `up`/`down` statements that add/drop the specific columns, indexes, or enum values you changed (see `1767800101724-add-phone-number-verified-to-user` for reference). Remove helper constants, redundant enum recreations, or other noise so the migration clearly reflects just the schema change. This keeps the DB state aligned and prevents noisy follow-up diffs.
-4. **Lambdas**: Backend includes AWS Lambda functions in `lambdas/`. Follow existing patterns for event handling and logging.
-5. **Cognito + DB sequencing**: When an operation touches both PostgreSQL (via TypeORM) and AWS Cognito (e.g., deleting a user), keep all database work inside a transaction/UnitOfWork and call Cognito only after the DB transaction succeeds. That way a Cognito failure doesn’t block the DB rollback, and a DB failure doesn’t leave Cognito in an inconsistent state. Wrap the Cognito call in its own `try/catch` and surface/log failures so manual cleanup can happen.
-6. **TypeORM performance**: Always design repository/QueryBuilder logic to avoid N+1 queries—eager-load relations, batch fetch, or restructure queries so each request issues the minimal number of SQL statements. When batching is needed, use `In([...])` with Maps for in-memory lookups instead of per-item loops with `findOne`.
-7. **Lambda footprint**: Do **not** bundle NestJS into AWS Lambda handlers. Implement lambdas as lightweight Node/TypeScript functions using the shared helpers/loggers instead of bootstrapping the Nest container, to keep bundle size small and cold starts fast.
+5. **CQRS Commands**: Classes that extend the shared `Command` base already generate a `correlationId`. Do **not** pass `correlationId` manually when instantiating commands unless you have a very specific need (e.g., bulk executor orchestrating many sub-commands). When writing new commands, type the constructor with `CommandProps<YourCommand>` and call `super(props)` to inherit the automatic ID generation.
+6. **Command Handlers**: `CommandHandlerBase` already wraps every `handle()` call in `UnitOfWork.execute`. Never call `_unitOfWork.execute(...)` inside a handler manually—just use the repositories resolved from `_unitOfWork` with the correlationId provided on the command.
+7. **Migrations**: Never modify existing migrations. Always run the package.json scripts (`npm run migration:generate`, `npm run migration:run`, etc.) so TypeORM produces the diff itself—do **not** hand-write migration bodies. After generation, trim the file down to the smallest possible delta: keep only the concrete `up`/`down` statements that add/drop the specific columns, indexes, or enum values you changed (see `1767800101724-add-phone-number-verified-to-user` for reference). Remove helper constants, redundant enum recreations, or other noise so the migration clearly reflects just the schema change. This keeps the DB state aligned and prevents noisy follow-up diffs.
+8. **Lambdas**: Backend includes AWS Lambda functions in `lambdas/`. Follow existing patterns for event handling and logging.
+9. **Cognito + DB sequencing**: When an operation touches both PostgreSQL (via TypeORM) and AWS Cognito (e.g., deleting a user), keep all database work inside a transaction/UnitOfWork and call Cognito only after the DB transaction succeeds. That way a Cognito failure doesn't block the DB rollback, and a DB failure doesn't leave Cognito in an inconsistent state. Wrap the Cognito call in its own `try/catch` and surface/log failures so manual cleanup can happen.
+10. **TypeORM performance**: Always design repository/QueryBuilder logic to avoid N+1 queries—eager-load relations, batch fetch, or restructure queries so each request issues the minimal number of SQL statements. When batching is needed, use `In([...])` with Maps for in-memory lookups instead of per-item loops with `findOne`.
+11. **Lambda footprint**: Do **not** bundle NestJS into AWS Lambda handlers. Implement lambdas as lightweight Node/TypeScript functions using the shared helpers/loggers instead of bootstrapping the Nest container, to keep bundle size small and cold starts fast.
 
 ---
 
