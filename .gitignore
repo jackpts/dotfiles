@@ -17,6 +17,7 @@ filesystem
 
 /.config/fish/fish_variables
 /.config/fish/conf.d/fish_frozen_*.fish
+/.config/fish/conf.d/private.fish
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
@@ -31,6 +32,7 @@ filesystem
 /.config/Windsurf/User/*
 !/.config/Windsurf/User/keybindings.json
 !/.config/Windsurf/User/settings.json
+!/.config/Windsurf/User/hooks.json
 
 /.config/nushell/history.*
 
