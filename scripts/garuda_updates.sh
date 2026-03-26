@@ -36,45 +36,84 @@ fi
 
 total_updates=$((updates_count + aur_count))
 
-# Build simple package list tooltip
+MAX_OFFICIAL_LINES=50
+
+indent_lines() {
+  sed 's/^/  /'
+}
+
+line_count() {
+  if [ -z "$1" ]; then
+    echo 0
+  else
+    printf '%s\n' "$1" | sed '/^$/d' | wc -l | tr -d ' '
+  fi
+}
+
+build_separator() {
+  local combined="$1"$'\n'"$2"
+  local max_len=12
+  while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    local len=${#line}
+    if (( len > max_len )); then
+      max_len=$len
+    fi
+  done <<< "$combined"
+  printf '%*s' "$max_len" '' | tr ' ' '-'
+}
+
+# Build package list tooltip with priority for AUR packages
 tooltip=""
 if [ "$total_updates" -gt 0 ]; then
-  # Get all packages (official + AUR) up to 50 total
-  all_packages=""
-  
-  # Add official repo packages
+  official_pkgs=""
+  aur_pkgs=""
+
   if [ "$updates_count" -gt 0 ]; then
     if command -v checkupdates >/dev/null 2>&1; then
       official_pkgs=$(checkupdates 2>/dev/null | awk '{print $1}')
     else
       official_pkgs=$(pacman -Qu 2>/dev/null | awk '{print $1}')
     fi
-    all_packages="$official_pkgs"
   fi
-  
-  # Add AUR packages
+
   if [ "$aur_count" -gt 0 ]; then
     if command -v paru >/dev/null 2>&1; then
       aur_pkgs=$(paru -Qua 2>/dev/null | awk '{print $1}')
     elif command -v yay >/dev/null 2>&1; then
       aur_pkgs=$(yay -Qua 2>/dev/null | awk '{print $1}')
     fi
-    
-    if [ -n "$all_packages" ] && [ -n "$aur_pkgs" ]; then
-      all_packages="${all_packages}
-${aur_pkgs}"
-    elif [ -n "$aur_pkgs" ]; then
-      all_packages="$aur_pkgs"
+  fi
+
+  official_section=""
+  if [ -n "$official_pkgs" ]; then
+    official_display=$(printf '%s\n' "$official_pkgs" | head -n $MAX_OFFICIAL_LINES)
+    official_section=$(printf '%s\n' "$official_display" | indent_lines)
+    official_total=$(line_count "$official_pkgs")
+    if [ "$official_total" -gt $MAX_OFFICIAL_LINES ]; then
+      official_section="${official_section}
+  ..."
     fi
   fi
-  
-  # Take first 50 packages and add indentation
-  tooltip=$(echo "$all_packages" | head -n 50 | sed 's/^/  /')
-  
-  # Add "..." if there are more than 50 total packages
-  if [ "$total_updates" -gt 50 ]; then
-    tooltip="${tooltip}
-  ..."
+
+  aur_section=""
+  if [ -n "$aur_pkgs" ]; then
+    aur_section=$(printf '%s\n' "$aur_pkgs" | indent_lines)
+  fi
+
+  if [ -n "$official_section" ] && [ -n "$aur_section" ]; then
+    separator=$(build_separator "$official_section" "$aur_section")
+    tooltip="${official_section}
+${separator}
+${aur_section}"
+  elif [ -n "$official_section" ]; then
+    tooltip="$official_section"
+  elif [ -n "$aur_section" ]; then
+    tooltip="$aur_section"
+  fi
+
+  if [ -z "$tooltip" ]; then
+    tooltip="System up to date"
   fi
 else
   tooltip="System up to date"
