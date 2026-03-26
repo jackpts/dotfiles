@@ -14,5 +14,9 @@
 #  - 20-functions.fish    user functions only
 #  - 30-integrations.fish tool integrations (fzf, zoxide, etc.)
 #  - 99-interactive.fish  greeting, keybindings, interactive UX
-#  - innowise.fish         Innowise projects related abbrs
+#  - innowise.fish        Innowise projects related abbrs
+#  - private.fish         Private API keys related sets
 
+set -x PATH $HOME/.local/bin $PATH
+
+# string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
