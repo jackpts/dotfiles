@@ -54,6 +54,11 @@
     }
   },
   "agent": {
+    "default_model": {
+      "provider": "openrouter",
+      "model": "stepfun/step-3.5-flash:free",
+      "enable_thinking": true
+    },
     "tool_permissions": {
       "tools": {
         "terminal": {
