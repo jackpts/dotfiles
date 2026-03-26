@@ -34,5 +34,18 @@
     ],
     "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
     "editor.formatOnSave": true,
-    "aws.cloudformation.telemetry.enabled": false
+    "aws.cloudformation.telemetry.enabled": false,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "vs-code-prettier-eslint.prettierLast": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "windsurf.terminal.cascadeProfile.linux": "managed",
+    "terminal.integrated.shellIntegration.environmentReporting": true,
+    "terminal.integrated.shellIntegration.history": 1000,
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "terminal.integrated.suggest.enabled": true,
+    "git.confirmSync": false,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "gitlens.ai.model": "gitkraken",
+    "gitlens.ai.gitkraken.model": "gemini:gemini-2.5-flash",
+    "git.enableSmartCommit": true
 }

@@ -34,6 +34,16 @@
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
+### Sway lock screen (asciiquarium overlay)
+
+Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle locking. Install the ASCII aquarium dependency first:
+
+```bash
+    sudo pacman -S asciiquarium
+```
+
+Kitty is used as the terminal host (already listed above). Without `asciiquarium` the script falls back to plain `hyprlock`, so installing it keeps the animated overlay experience.
+
 <br />
 <details close>
 <summary>Hyprshot GUI Installation</summary>
@@ -101,6 +111,8 @@ monitor = eDP-1, 2560x1600@165, auto, 1
         <img src="assets/quickshell_2025-12-03_11-40-23.jpg" />
         <br />
         <img src="assets/lock_screen.jpg" />
+        <br />
+        <img src="assets/sway_quickshell_2026-03-11.jpg" />
     </p>
 </details>
 <br />
@@ -136,4 +148,3 @@ chmod +x installer.sh
 
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
 - make left sidebar with "AI chat integration with external providers (Gemini, OpenAI...)" like in: <https://www.reddit.com/r/unixporn/comments/1im22sn/hyprland_yet_another_hyprland_rice/>
-

@@ -63,22 +63,32 @@ Item {
     Process {
         id: proc
         command: ["bash","-lc",
-            "dev=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i==\"dev\") {print $(i+1); exit}}'); " +
-            "ip=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i==\"src\") {print $(i+1); exit}}'); " +
-            "wifidev=$(nmcli -t -f TYPE,DEVICE connection show --active 2>/dev/null | awk -F: '$1==\"802-11-wireless\" {print $2; exit}'); " +
-            "typ=unknown; ssid=; sig=; sigdbm=; freq=; " +
-            "if [ -n \"$wifidev\" ]; then " +
-            "  typ=wifi; " +
-            "  ssid=$(iwgetid -r \"$wifidev\" 2>/dev/null || nmcli -t -f active,ssid dev wifi 2>/dev/null | awk -F: '$1==\"yes\"{print $2}' | head -n1); " +
+            "route=$(ip route get 1.1.1.1 2>/dev/null); " +
+            "route_dev=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"dev\") {print $(i+1); exit}}'); " +
+            "route_ip=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"src\") {print $(i+1); exit}}'); " +
+            "device_info=$(nmcli -t -f DEVICE,TYPE,STATE device status 2>/dev/null || echo); " +
+            "wifi_dev=$(echo \"$device_info\" | awk -F: '$2==\"wifi\" && $3 ~ /^connected/ {print $1; exit}'); " +
+            "eth_dev=$(echo \"$device_info\" | awk -F: '($2==\"ethernet\" || $2==\"bridge\") && $3 ~ /^connected/ {print $1; exit}'); " +
+            "dev=\"$route_dev\"; typ=disc; " +
+            "if [ -n \"$eth_dev\" ]; then dev=\"$eth_dev\"; typ=eth; " +
+            "elif [ -n \"$wifi_dev\" ]; then dev=\"$wifi_dev\"; typ=wifi; " +
+            "elif [[ \"$dev\" == wl* ]]; then typ=wifi; " +
+            "elif [[ \"$dev\" == en* || \"$dev\" == eth* || \"$dev\" == br* ]]; then typ=eth; fi; " +
+            "ip=; if [ -n \"$dev\" ]; then ip=$(ip -4 -o addr show dev \"$dev\" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1); fi; " +
+            "if [ -z \"$ip\" ]; then ip=\"$route_ip\"; fi; " +
+            "gw=$(ip route show default dev \"$dev\" 2>/dev/null | awk 'NR==1 {print $3}'); " +
+            "if [ -z \"$gw\" ]; then gw=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"via\") {print $(i+1); exit}}'); fi; " +
+            "ssid=; sig=; sigdbm=; freq=; wdev=\"$wifi_dev\"; " +
+            "if [ -z \"$wdev\" ]; then wdev=$(echo \"$device_info\" | awk -F: '$2==\"wifi\" {print $1; exit}'); fi; " +
+            "if [ -z \"$wdev\" ]; then wdev=$(nmcli -t -f DEVICE,TYPE device status 2>/dev/null | awk -F: '$2==\"wifi\" {print $1; exit}'); fi; " +
+            "if [ -n \"$wdev\" ]; then " +
+            "  ssid=$(iwgetid -r \"$wdev\" 2>/dev/null || nmcli -t -f active,ssid dev wifi 2>/dev/null | awk -F: '$1==\"yes\"{print $2}' | head -n1); " +
             "  sig=$(nmcli -t -f active,ssid,signal dev wifi 2>/dev/null | awk -F: '$1==\"yes\"{print $3}' | head -n1); " +
-            "  sigdbm=$(iw dev \"$wifidev\" link 2>/dev/null | awk '/signal:/ {print $2}'); " +
-            "  freq=$(iw dev \"$wifidev\" link 2>/dev/null | awk '/freq:/ {gsub(/\\.0$/, \"\", $2); print $2}'); " +
-            "elif [[ \"$dev\" == en* || \"$dev\" == eth* ]]; then typ=ethernet; fi; " +
-            "gw=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i==\"via\") {print $(i+1); exit}}'); " +
-            "if [ -z \"$gw\" ]; then gw=$(ip route 2>/dev/null | awk '/^default/ {print $3; exit}'); fi; " +
-            "if [ -z \"$ip\" ] && [ -n \"$dev\" ]; then ip=$(ip -4 -o addr show dev \"$dev\" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1); fi; " +
-            "kind=disc; if [ -n \"$dev\" ] && [ -n \"$ip\" ]; then if [ \"$typ\" = wifi ]; then kind=wifi; else kind=eth; fi; fi; " +
+            "  sigdbm=$(iw dev \"$wdev\" link 2>/dev/null | awk '/signal:/ {print $2}'); " +
+            "  freq=$(iw dev \"$wdev\" link 2>/dev/null | awk '/freq:/ {gsub(/\\.0$/, \"\", $2); print $2}'); " +
+            "fi; " +
             "rx=0; tx=0; if [ -n \"$dev\" ]; then rx=$(cat /sys/class/net/\"$dev\"/statistics/rx_bytes 2>/dev/null || echo 0); tx=$(cat /sys/class/net/\"$dev\"/statistics/tx_bytes 2>/dev/null || echo 0); fi; " +
+            "kind=disc; if [ -n \"$dev\" ] && [ -n \"$ip\" ] && [ \"$typ\" != disc ]; then kind=\"$typ\"; fi; " +
             "printf '%s|%s|%s|%s|%s|%s|%s|%s|%s\\n' \"$kind\" \"$ssid\" \"$sig\" \"$sigdbm\" \"$freq\" \"$ip\" \"$dev\" \"$gw\" \"$rx:$tx\""
         ]
         running: true

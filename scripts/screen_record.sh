@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
+# Ensure notification environment is available (needed when run via swaymsg exec)
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
+export DISPLAY="${DISPLAY:-:0}"
+
 subdirRecord="Screenrecorder"
 dirRecord=$(xdg-user-dir VIDEOS)/${subdirRecord}
 rofiTheme="$HOME/.config/rofi/screenrec.rasi"
 temp_file="temp_recording.mp4"
 temp_palette="/tmp/palette.png"
+RECORD_MODE_FILE="/tmp/screenrec_mode"
 
 # Temporary mixing sink and state
 AUDIO_NULL_SINK_NAME="screenrec_mix"
@@ -134,6 +139,18 @@ has_gsr() {
     command -v gpu-screen-recorder >/dev/null 2>&1
 }
 
+set_record_mode() {
+    printf '%s\n' "$1" > "$RECORD_MODE_FILE"
+}
+
+is_gif_mode() {
+    [ -f "$RECORD_MODE_FILE" ] && [ "$(cat "$RECORD_MODE_FILE" 2>/dev/null)" = "gif" ]
+}
+
+clear_record_mode() {
+    rm -f "$RECORD_MODE_FILE"
+}
+
 # Wrapper function to start wf-recorder with error handling
 start_wf_recorder() {
     local cmd="$1"
@@ -170,6 +187,37 @@ check_gif_colors() {
     fi
 }
 
+send_stats_notification() {
+    # It might take a moment for the file to be fully written and saved
+    sleep 1
+
+    local latest_file
+    latest_file=$(ls -t "${dirRecord}"/*.mp4 2>/dev/null | head -n 1)
+
+    if [ -f "$latest_file" ]; then
+        duration_raw=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$latest_file")
+        # Round to nearest second
+        duration_seconds=$(printf "%.0f" "$duration_raw")
+        minutes=$((duration_seconds / 60))
+        seconds=$((duration_seconds % 60))
+        duration_formatted=$(printf "%d:%02d" "$minutes" "$seconds")
+
+        size_bytes=$(stat -c %s "$latest_file")
+        # Use awk for floating point division for portability over bc
+        size_mb=$(awk -v bytes="$size_bytes" 'BEGIN { printf "%.2f", bytes / 1024 / 1024 }')
+
+        notify-send "Video recorded!" "Duration: ${duration_formatted}\nFile size: ${size_mb}Mb"
+    fi
+}
+
+# Wrapper to run stats notification in background properly
+send_stats_notification_bg() {
+    (
+        cd "${dirRecord}" || exit 1
+        send_stats_notification
+    ) &
+}
+
 toggle_recording() {
     if pgrep -x "wf-recorder" >/dev/null || pgrep -f "gpu-screen-recorder" >/dev/null; then
         # Stop whichever recorder is running
@@ -183,14 +231,17 @@ toggle_recording() {
         sleep 1
         cd ${dirRecord} || exit 1
 
-        if [ -e $temp_file ]; then
+        if is_gif_mode && [ -e "$temp_file" ]; then
             output="recording_$(getdate).gif"
             temp_output="${output%.*}_temp.gif"
-            covert_mp4_to_gif $temp_file $temp_output && optimize_gif $temp_file &&
-                notify-send "Saving GIF finished: $output" && rm $temp_file $temp_output $temp_palette &
+            covert_mp4_to_gif "$temp_file" "$temp_output" && optimize_gif "$temp_file" &&
+                notify-send "Saving GIF finished: $output" && rm -f "$temp_file" "$temp_output" "$temp_palette" &
+        else
+            send_stats_notification_bg
         fi
         # Tear down any temporary audio mixing modules
         cleanup_audio_mix
+        clear_record_mode
     else
         chosen=$(
             rofi -dmenu -p "Select Recording Option" -theme ${rofiTheme} <<EOF
@@ -208,6 +259,7 @@ EOF
 
         case ${chosen} in
         "Record fullscreen")
+            set_record_mode "video"
             if has_gsr; then
                 gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -o "./recording_$(getdate).mp4" &
             else
@@ -217,6 +269,7 @@ EOF
             disown
             ;;
         "Record fullscreen with sound")
+            set_record_mode "video"
             if has_gsr; then
                 gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
             else
@@ -226,6 +279,7 @@ EOF
             disown
             ;;
         "Record selected area")
+            set_record_mode "video"
             if has_gsr; then
                 gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -o "./recording_$(getdate).mp4" &
             else
@@ -235,6 +289,7 @@ EOF
             disown
             ;;
         "Record selected area with sound")
+            set_record_mode "video"
             if has_gsr; then
                 gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
             else
@@ -244,18 +299,18 @@ EOF
             disown
             ;;
         "Record selected area in GIF")
-            if [ -e $temp_file ]; then
-                rm $temp_file
-            fi
+            set_record_mode "gif"
+            rm -f "$temp_file"
             if has_gsr; then
                 gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 30 -q medium -o "$temp_file" &
             else
-                wf-recorder -f $temp_file --geometry "$(slurp)" &
+                wf-recorder -f "$temp_file" --geometry "$(slurp)" &
             fi
             notify-send "Recording [selected area in GIF] started"
             disown
             ;;
         "Record window")
+            set_record_mode "video"
             if has_gsr; then
                 region="$(get_window_region)"
                 if [ -n "$region" ]; then
@@ -277,6 +332,7 @@ EOF
             fi
             ;;
         "Record window with sound")
+            set_record_mode "video"
             if has_gsr; then
                 region="$(get_window_region)"
                 if [ -n "$region" ]; then
@@ -312,6 +368,7 @@ get_recording_state() {
 # Direct recording functions for parameter support
 start_fullscreen_recording() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -o "./recording_$(getdate).mp4" &
     else
@@ -323,6 +380,7 @@ start_fullscreen_recording() {
 
 start_fullscreen_recording_with_sound() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
     else
@@ -334,6 +392,7 @@ start_fullscreen_recording_with_sound() {
 
 start_area_recording() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -o "./recording_$(getdate).mp4" &
     else
@@ -345,6 +404,7 @@ start_area_recording() {
 
 start_area_recording_with_sound() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         gpu-screen-recorder -w region -region "$(slurp -f "%wx%h+%x+%y")" -f 60 -q high -a "default_output|default_input" -o "./recording_$(getdate).mp4" &
     else
@@ -356,6 +416,7 @@ start_area_recording_with_sound() {
 
 start_window_recording() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         region="$(get_window_region)"
         if [ -n "$region" ]; then
@@ -379,6 +440,7 @@ start_window_recording() {
 
 start_window_recording_with_sound() {
     cd ${dirRecord} || exit 1
+    set_record_mode "video"
     if has_gsr; then
         region="$(get_window_region)"
         if [ -n "$region" ]; then
@@ -402,10 +464,9 @@ start_window_recording_with_sound() {
 
 start_gif_recording() {
     cd ${dirRecord} || exit 1
-    if [ -e $temp_file ]; then
-        rm $temp_file
-    fi
-wf-recorder -f $temp_file --geometry "$(slurp)" &
+    set_record_mode "gif"
+    rm -f "$temp_file"
+    wf-recorder -f "$temp_file" --geometry "$(slurp)" &
     notify-send "Recording [selected area in GIF] started"
     disown
 }
@@ -422,14 +483,17 @@ stop_recording() {
         sleep 1
         cd ${dirRecord} || exit 1
 
-        if [ -e $temp_file ]; then
+        if is_gif_mode && [ -e "$temp_file" ]; then
             output="recording_$(getdate).gif"
             temp_output="${output%.*}_temp.gif"
-            covert_mp4_to_gif $temp_file $temp_output && optimize_gif $temp_file &&
-                notify-send "Saving GIF finished: $output" && rm $temp_file $temp_output $temp_palette &
+            covert_mp4_to_gif "$temp_file" "$temp_output" && optimize_gif "$temp_file" &&
+                notify-send "Saving GIF finished: $output" && rm -f "$temp_file" "$temp_output" "$temp_palette" &
+        else
+            send_stats_notification_bg
         fi
         # Tear down any temporary audio mixing modules
         cleanup_audio_mix
+        clear_record_mode
     fi
 }
 

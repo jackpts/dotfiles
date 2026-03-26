@@ -40,7 +40,9 @@ set $menu $launcher
 
 include /etc/sway/config-vars.d/*
 
-
+# DBus session, fix for Zen Editor auto Sign-In in Sway/Wayland
+# Install keyring pkg: `paru -S gnome-keyring`
+exec /usr/libexec/gnome-keyring-daemon --start --components=secrets
 
 ### Output configuration
 #
@@ -75,9 +77,9 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 #
 # swayidle replacing hypridle
 exec_always --no-startup-id swayidle -w \
-         timeout 420 'blazinlock -s' \
+         timeout 420 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'blazinlock -s'
+         before-sleep '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"'
 
 # Old examples (kept for reference)
 # exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
@@ -101,7 +103,7 @@ exec_always --no-startup-id swayidle -w \
 #
 # Basics:
 #
-#    # Start a terminal
+    # Start a terminal
     bindsym $mod+Return exec $term
     bindsym $mod+t exec warp-terminal
     bindsym $mod+x exec kitty
@@ -148,7 +150,7 @@ exec_always --no-startup-id swayidle -w \
     # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
     # bindsym $mod+l exec "swaylock -f -c 000000"
     # bindsym $mod+l exec "hyprlock"
-    bindsym $mod+l exec "blazinlock -s"
+    bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -165,7 +167,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
+
 # Moving around:
 #
     # Move your focus around
@@ -193,7 +195,7 @@ exec_always --no-startup-id swayidle -w \
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
-#
+
 # Workspaces:
 #
     # Switch to workspace
@@ -225,7 +227,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
-#
+
 # Layout stuff:
 #
     # You can "split" the current object of your focus with
@@ -250,7 +252,7 @@ exec_always --no-startup-id swayidle -w \
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-#
+
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -262,7 +264,6 @@ exec_always --no-startup-id swayidle -w \
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+s scratchpad show
-
 
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
@@ -293,13 +294,13 @@ mode "resize" {
 }
 # bindsym $mod+r mode "resize"
 
-#
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
 
 # Autostart (ported from Hyprland execs)
-exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+# exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec --no-startup-id dbus-update-activation-environment --systemd --all
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id waybar
 # exec --no-startup-id quickshell -c $HOME/.config/quickshell/jackbar/shell.qml
@@ -320,14 +321,6 @@ exec --no-startup-id $HOME/scripts/restore_wallpaper.sh
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
 # for remote connect via rustdesk
 exec xdg-desktop-portal-wlr
-
-# Messengers: place on workspace 3
-for_window [class="TelegramDesktop"] move to workspace 3
-for_window [app_id="telegram-desktop"] move to workspace 3
-for_window [app_id="org.telegram.desktop"] move to workspace 3
-for_window [class="Viber"] move to workspace 3
-for_window [app_id="com.viber.Viber"] move to workspace 3
-for_window [app_id="Viber"] move to workspace 3
 
 # mpv: fixed size window (60% width, 50% height)
 for_window [app_id="mpv"] resize set width 60 ppt height 50 ppt
@@ -356,12 +349,16 @@ for_window [app_id="dev.warp.Warp"] floating disable
 for_window [class="dev.warp.Warp"] floating disable
 for_window [title=".*Warp.*"] floating disable
 
+# Ensure kitty/asciiquarium lock overlay covers entire screen
+for_window [app_id="lockaquarium"] floating enable, border none, fullscreen enable global, focus, resize set width 100 ppt height 100 ppt
+
 # Slurp should work as layer-shell overlay
 for_window [app_id="slurp"] border none, floating enable, sticky enable
 
 ### Opacity apps
 for_window [app_id="nemo"] opacity 0.95
 for_window [app_id="zen"] opacity 0.95
+for_window [app_id="zed"] opacity 0.95
 for_window [app_id="codium"] opacity 0.95
 for_window [app_id="windsurf"] opacity 0.95
 for_window [app_id="cursor"] opacity 0.95
@@ -374,10 +371,9 @@ default_floating_border pixel 2
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
 # client.focused          #4c7899 #551133AA #ffffff #2e9ef4 #285577
 client.focused          #4c789988 #33333388 #bbbbbb #4c789988 #4c789988
-client.unfocused        #333333 #33333388 #888888 #292d2e   #222222
-client.focused_inactive #333333 #33333388 #888888 #484e50   #5f676a
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-
+client.unfocused        #333333 #33333388 #888888 #292d2e #222222
+client.focused_inactive #333333 #33333388 #888888 #484e50 #5f676a
+client.urgent           #2f343a #900000 #ffffff #900000 #900000
 
 # Workspaces list circle
 bindsym --whole-window $mod+button4 workspace prev_on_output

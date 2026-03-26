@@ -23,6 +23,10 @@ EXCLUSION_PATTERNS=(
     "*/tmp/*"
     "tmp"
     "*.dump"
+    "*/debug/*"
+    "*/build/*"
+    "*/ai-prompter/models/*"
+    "*/target/release/*"
 )
 
 # Get current date
@@ -62,10 +66,13 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.docker/config.json"
 	"$HOME/git/BlazinLock"
 	"$HOME/gitlab/"
+    "$HOME/github/"
     "$HOME/.ssh/"
     "$HOME/.pgpass"
     "$HOME/.gitconfig-gitlab"
     "$HOME/.gitconfig-bitbucket"
+    "$HOME/bitbucket/SL/.windsurf/"
+    "$HOME/bitbucket/SL/.warp/"
 )
 
 # Additional backup items (add more paths here as needed)
@@ -288,6 +295,42 @@ show_backup_info() {
 	fi
 }
 
+# Backup yt-tg-chat-bot SQLite database
+backup_yt_tg_db() {
+	print_info "Backing up yt-tg-chat-bot SQLite database..."
+
+	local YT_TG_DIR="$HOME/github/yt-tg-chat-bot"
+	local DB_PATH="$YT_TG_DIR/bot.db"
+	local BACKUP_TIMESTAMP
+	BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M)
+	local BACKUP_NAME="bot_backup_${BACKUP_TIMESTAMP}.db"
+	local BACKUP_DEST="$YT_TG_DIR/$BACKUP_NAME"
+
+	if [[ ! -d "$YT_TG_DIR" ]]; then
+		print_warning "yt-tg-chat-bot directory not found: $YT_TG_DIR"
+		return 0
+	fi
+
+	if [[ ! -f "$DB_PATH" ]]; then
+		print_warning "SQLite database not found: $DB_PATH"
+		return 0
+	fi
+
+	if ! command -v sqlite3 >/dev/null 2>&1; then
+		print_error "sqlite3 not found. Please install: sudo pacman -S sqlite"
+		exit 1
+	fi
+
+	cd "$YT_TG_DIR"
+
+	if sqlite3 "$DB_PATH" ".backup '$BACKUP_DEST'"; then
+		print_success "SQLite database backed up to: $BACKUP_DEST"
+	else
+		print_error "Failed to backup SQLite database"
+		exit 1
+	fi
+}
+
 # Cleanup old backups (optional)
 cleanup_old_backups() {
 	local keep_count=5 # Keep last 5 backups
@@ -323,6 +366,7 @@ main() {
 	# Run all backup steps
 	check_dependencies
 	create_backup_dir
+	backup_yt_tg_db
 	create_backup
 	show_backup_info
 	cleanup_old_backups

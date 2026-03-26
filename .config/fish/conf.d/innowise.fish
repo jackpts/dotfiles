@@ -5,6 +5,45 @@ abbr sl_be_start 'cd $HOME/bitbucket/SL/sl_back && npm run start:dev'
 abbr sl_fe_start 'cd $HOME/bitbucket/SL/sl_frontend && npm run dev'
 abbr sl_db_check 'psql -h localhost -p 5432 -U root -d develop -c "\conninfo"'
 
+function sl_db_up --description 'Execute SQL command on SL develop DB using ~/.pgpass'
+    if test (count $argv) -lt 1
+        echo "Usage: sl_db_up 'SQL_COMMAND'"
+        return 1
+    end
+    PGPASSFILE=$HOME/.pgpass psql -h localhost -p 5432 -U root -d develop -c "$argv[1]"
+end
+abbr sl_db_up 'sl_db_up'
+abbr _sql 'sl_db_up'
+
+function sl_db_restore --description 'Restore SL develop DB from provided dump file'
+    set pgpass "$HOME/.pgpass"
+
+    if not test -f $pgpass
+        echo "PGPASS file missing: $pgpass" >&2
+        return 1
+    end
+
+    if test (count $argv) -lt 1
+        echo "Usage: sl_db_restore path/to/backup.dmp"
+        return 1
+    end
+
+    set dump_file $argv[1]
+    if not test -f $dump_file
+        echo "Dump file not found: $dump_file" >&2
+        return 1
+    end
+
+    echo "Restoring SL database from $dump_file..."
+    if not env PGPASSFILE=$pgpass pg_restore -U root -d develop --no-owner --no-privileges --clean "$dump_file"
+        echo "Database restore failed" >&2
+        return 1
+    end
+
+    echo "Restore completed successfully."
+end
+abbr sl_db_restore 'sl_db_restore'
+
 function sl_backup --description 'Create SL project archive excluding node_modules and dist while embedding a PG dump'
     set project_dir "$HOME/bitbucket/SL"
     set backup_dir "$HOME/backup"
@@ -44,6 +83,9 @@ function sl_backup --description 'Create SL project archive excluding node_modul
     rm -f "$dump_path"
 end
 abbr sl_backup 'sl_backup'
+
+abbr sl_be_lint "git diff --name-only --diff-filter=ACMRTUXB origin/master... | grep -E '^(src|apps|libs|test)/.*\\.ts\$' | xargs -r node --max-old-space-size=4096 ./node_modules/.bin/eslint --fix"
+abbr sl_fe_lint "npm run format && npm run lint:fix && npm run lint:cycles"
 
 # BitBucket check via SSH
 abbr bb_test 'ssh -T git@bitbucket.org'

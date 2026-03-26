@@ -84,6 +84,11 @@ backup() {
         "$HOME/Documents/browser/"
         "$HOME/.my.cnf" # `chmod 600 ~/.my.cnf`
         "$HOME/soft/$mysql_file"
+        "$HOME/.codeium/windsurf/mcp_config.json"
+        "$HOME/bitbucket/SL/.windsurf/"
+        "$HOME/bitbucket/SL/.warp/"
+        "$HOME/bitbucket/SL/.claude/"
+        "$HOME/bitbucket/SL/.rules/"
     )
 
     for b in "${backupArr[@]}"; do
