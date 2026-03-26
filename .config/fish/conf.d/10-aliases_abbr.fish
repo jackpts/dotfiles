@@ -14,6 +14,7 @@ alias cd.. 'cd ..'
 abbr .. 'cd ..'
 abbr ... 'cd ../..'
 abbr .... 'cd ../../..'
+abbr cd 'z'
 abbr mkdir 'mkdir -p'
 alias z.. 'z ..'
 alias logmeout "sudo pkill -u $USER"
@@ -154,7 +155,15 @@ abbr u1 'sudo pacman -Suyy'
 abbr u2 '$aurhelper -Suyy --noconfirm'
 
 # Tools
-alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# yt-dlp -x --audio-format mp3 --cookies-from-browser chrome "https://www.youtube.com/watch?v=RLPfcG8oVqs"
+alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --cookies-from-browser chrome --embed-metadata --audio-quality 0 -x'
+alias yt-m-mp3 'cd ~/Downloads; and yt-dlp \
+  --extractor-args "youtube:player_client=android" \
+  --no-check-certificate \
+  --sleep-interval 10 \
+  --extract-audio \
+  --audio-format mp3'
 
 # K8s and misc
 alias k 'kubectl'
@@ -191,6 +200,9 @@ abbr inno_vpn_stop systemctl stop wg-quick@wginno.service
 # GitHub login
 abbr gh_login 'gh auth login'
 
+# WayVNC connect
+# abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
+
 # Quickshell run
 abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
 abbr q_reload 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar"'
@@ -209,9 +221,12 @@ abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
 abbr yt_tg_run 'cd $HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot'
 abbr yt_tg_build 'cd $HOME/github/yt-tg-chat-bot && cargo build'
 abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
+abbr yt_tg_backup 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".backup '\''bot_backup_$(date +%Y%m%d_%H%M).db'\''"'
+abbr yt_tg_restore 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".restore"'
+abbr yt_tg_kill 'pkill -f yt-tg-chat-bot'
 
 abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
 abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'
 
-abbr gecko_reload 'pkill -f "geckodriver --port 4444" 2>/dev/null; sleep 1; geckodriver --port 4444'
-abbr g_drive_start 'cd $HOME/github/google-drive-restricted-video-downloader && ./target/release/gdrive-dl "https://drive.google.com/file/d/1PNBcr8xHQ752Mq66CbpF7Rn20fwVvgqe/view?ts=68dce257" -v -a yauheni.pauliukanets@innowise.com'
+abbr g_drive_gecko 'pkill -f "geckodriver --port 4444" 2>/dev/null; sleep 1; geckodriver --port 4444'
+abbr g_drive_start 'cd $HOME/github/google-drive-restricted-video-downloader && ./target/release/gdrive-dl -a yauheni.pauliukanets@innowise.com'
