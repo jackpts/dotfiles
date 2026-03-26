@@ -6,6 +6,7 @@ import "components" as C
 
 Variants {
     id: panels
+    objectName: "panels"
     model: Quickshell.screens
 
     Component.onCompleted: {
@@ -50,7 +51,11 @@ Variants {
         visible: qsUsableScreen && qsAllowedScreen
 
         screen: modelData
-        anchors { top: true; left: true; right: true }
+        anchors {
+            top: true
+            left: true
+            right: true
+        }
         implicitHeight: 40
         exclusiveZone: visible ? implicitHeight : 0
         focusable: true
@@ -71,23 +76,23 @@ Variants {
 
         Row {
             id: leftRow
-            spacing: 8
+            spacing: 2
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 8
             AppMenu {}
             UpdatesIndicator {}
             Weather {}
-			TaskList {}
+            TaskList {}
         }
 
         Item {
             id: workspaceArea
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: leftRow.right
-            anchors.leftMargin: 0
+            anchors.leftMargin: 2
             anchors.right: rightRow.left
-            anchors.rightMargin: 40
+            anchors.rightMargin: 2
             height: parent.height
 
             Workspaces {
