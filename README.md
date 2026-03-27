@@ -34,15 +34,15 @@
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
-### Sway lock screen (asciiquarium overlay)
+### Sway screensaver (asciiquarium overlay)
 
-Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle locking. Install the ASCII aquarium dependency first:
+Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle triggers. Install the ASCII aquarium dependency first (kitty is already covered in the terminal section, but is required):
 
 ```bash
     sudo pacman -S asciiquarium
 ```
 
-Kitty is used as the terminal host (already listed above). Without `asciiquarium` the script falls back to plain `hyprlock`, so installing it keeps the animated overlay experience.
+When either dependency is missing, the shortcut simply notifies you and exits—no traditional lock screen is launched.
 
 <br />
 <details close>
@@ -135,14 +135,6 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 OR:
     b) run fish function: `w_styles`
 
-
-### BlazinLock installing
-```sh
-git clone https://github.com/Thunder-Blaze/BlazinLock/ ~/BlazinLock
-cd ~/BlazinLock
-chmod +x installer.sh
-./installer.sh
-```
 
 ### TODO
 

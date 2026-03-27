@@ -1,9 +1,15 @@
 #!/bin/bash
 
-run_matrix="kitty --start-as=fullscreen -e sh -c 'sleep 0.2 && cmatrix -u 10 -b -s -C cyan'"
+# Run cmatrix in kitty fullscreen
+kitty --start-as=fullscreen -e sh -c 'cmatrix -u 10 -b -s -C cyan' &
+MATRIX_PID=$!
 
-if ! (pgrep -x cmatrix >/dev/null); then
-    eval $run_matrix
-    hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"
-    kill -9 $(pgrep -f "$run_matrix")
-fi
+# Wait a moment for cmatrix to start
+sleep 0.3
+
+# Lock the screen
+hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"
+
+# Kill cmatrix after unlock
+kill $MATRIX_PID 2>/dev/null
+wait $MATRIX_PID 2>/dev/null

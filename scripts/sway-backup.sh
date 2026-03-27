@@ -64,7 +64,6 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.qwen/*.json"
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
-	"$HOME/git/BlazinLock"
 	"$HOME/gitlab/"
     "$HOME/github/"
     "$HOME/.ssh/"

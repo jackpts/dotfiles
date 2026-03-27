@@ -3,7 +3,6 @@ set -euo pipefail
 
 KITTY_BIN=${KITTY_BIN:-kitty}
 LOCK_APP_ID=${LOCK_APP_ID:-lockaquarium}
-LOCK_CMD=${LOCK_CMD:-hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"}
 SWAYMSG_BIN=${SWAYMSG_BIN:-swaymsg}
 LOCK_GUARD_FILE=${LOCK_GUARD_FILE:-/tmp/asciiquarium_lock_running}
 
@@ -17,13 +16,8 @@ cleanup_guard() {
 }
 trap cleanup_guard EXIT
 
-run_lock() {
-    eval "$LOCK_CMD"
-}
-
 if ! command -v "$KITTY_BIN" >/dev/null 2>&1; then
-    notify-send "Aquarium lock" "kitty not found, falling back to lock screen" >/dev/null 2>&1 || true
-    run_lock
+    notify-send "ASCII screensaver" "kitty is required for asciiquarium" >/dev/null 2>&1 || true
     exit 0
 fi
 
@@ -40,7 +34,7 @@ trap cleanup EXIT
 
 if ! command -v asciiquarium >/dev/null 2>&1; then
     echo "asciiquarium is not installed."
-    echo "Press any key to continue to the lock screen..."
+    echo "Press any key to exit..."
     read -rsn1
     exit 0
 fi
@@ -60,5 +54,3 @@ sleep 0.2
 "$SWAYMSG_BIN" "[app_id=$LOCK_APP_ID] fullscreen enable global" >/dev/null 2>&1 || true
 
 wait "$KITTY_PID"
-
-run_lock
