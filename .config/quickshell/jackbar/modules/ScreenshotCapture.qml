@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 30; height: 40
+    width: 30; height: C.Theme.panelHeight
 
     Process { id: run }
     
@@ -22,7 +22,7 @@ Item {
         anchors.centerIn: parent
         text: "󰹑"
         color: C.Theme.screenshotIcon
-        font.pixelSize: 18
+        font.pixelSize: 20
         // Make text transparent to mouse events so clicks pass through to MouseArea
         enabled: false
     }
