@@ -1,3 +1,4 @@
+
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
@@ -13,7 +14,7 @@ set $left h
 set $down j
 set $up k
 set $right l
-font pango:JetBrainsMono Nerd Font 10
+font pango:JetBrainsMono Nerd Font 12
 set $term kitty
 # Common apps and scripts (ported from Hyprland)
 set $explorer nemo
@@ -42,12 +43,13 @@ include /etc/sway/config-vars.d/*
 
 # DBus session, fix for Zen Editor auto Sign-In in Sway/Wayland
 # Install keyring pkg: `paru -S gnome-keyring`
-exec /usr/libexec/gnome-keyring-daemon --start --components=secrets
+# exec /usr/libexec/gnome-keyring-daemon --start --components=secrets
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /usr/share/backgrounds/arcolinux-wayfire/wayfire-2.jpg fill
 
 # Environment (ported from Hyprland envs) for Wayland apps on Ubuntu
 # setenv XCURSOR_SIZE 24
@@ -66,6 +68,9 @@ exec /usr/libexec/gnome-keyring-daemon --start --components=secrets
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
+# Configure primary output for 2K 160Hz display (adjust mode/refresh as needed)
+# output * mode 2560x1440@160 position 0,0
+
 
 # Mirror eDP-1 to HDMI-A-1 fullscreen
 bindsym $mod+m exec wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1
@@ -77,13 +82,11 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 #
 # swayidle replacing hypridle
 exec_always --no-startup-id swayidle -w \
-         timeout 420 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 600 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
+         timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"'
 
-# Old examples (kept for reference)
-# exec_always --no-startup-id swayidle -w timeout 300 'swaylock -f -c 000000'
-# If you don't have the lock script, install swaylock and swap the command above with: swaylock -f -c 000000'
+exec --no-startup-id mako
 
 ### Input configuration
 #
@@ -122,7 +125,7 @@ exec_always --no-startup-id swayidle -w \
 
     # File manager, browser, editor
     bindsym $mod+e exec $explorer
-    bindsym $mod+b exec $google-chrome
+    # bindsym $mod+b exec $google-chrome
     # bindsym $mod+n exec $editor
     bindsym $mod+z exec zen-browser
 
@@ -146,10 +149,7 @@ exec_always --no-startup-id swayidle -w \
     # Color picker (replacement for hyprpicker)
     bindsym $mod+Shift+p exec wl-color-picker -f hex -a
 
-    # Lock screen
-    # bindsym $mod+l exec "$scripts/lock_with_matrix.sh"
-    # bindsym $mod+l exec "swaylock -f -c 000000"
-    # bindsym $mod+l exec "hyprlock"
+    # Screensaver shortcut (press any key to dismiss)
     bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
 
     # Drag floating windows by holding down $mod and left mouse button.
@@ -300,11 +300,16 @@ mode "resize" {
 
 # Autostart (ported from Hyprland execs)
 # exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec --no-startup-id export XDG_CURRENT_DESKTOP=sway
+exec --no-startup-id export XDG_SESSION_TYPE=wayland
+exec --no-startup-id export XDG_SESSION_DESKTOP=sway
 exec --no-startup-id dbus-update-activation-environment --systemd --all
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id waybar
 # exec --no-startup-id quickshell -c $HOME/.config/quickshell/jackbar/shell.qml
 exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
+exec --no-startup-id deluge
+exec --no-startup-id nemo
 exec --no-startup-id swaync
 # exec_always --no-startup-id dunst
 # Clipboard history
@@ -354,14 +359,12 @@ for_window [app_id="lockaquarium"] floating enable, border none, fullscreen enab
 
 # Slurp should work as layer-shell overlay
 for_window [app_id="slurp"] border none, floating enable, sticky enable
+for_window [app_id="deluge"] move container to workspace number 3
+for_window [app_id="nemo"] move container to workspace number 2
 
 ### Opacity apps
-for_window [app_id="nemo"] opacity 0.95
-for_window [app_id="zen"] opacity 0.95
-for_window [app_id="zed"] opacity 0.95
-for_window [app_id="codium"] opacity 0.95
-for_window [app_id="windsurf"] opacity 0.95
-for_window [app_id="cursor"] opacity 0.95
+for_window [app_id=".*"] opacity 0.95
+for_window [app_id="zen"] opacity 0.98
 
 # Border settings (required for client colors to work)
 default_border pixel 2
