@@ -6,7 +6,7 @@ import "../components" as C
 Item {
     id: root
     // Width follows content (icon/text) instead of being fixed
-    width: Math.max(indicatorText.implicitWidth + 8, 24)
+    width: Math.max(indicatorText.implicitWidth + 8, 40)
     height: 40
     property string kind: "disc" // wifi | eth | disc
     property string ssid: ""
@@ -16,6 +16,7 @@ Item {
     property string ip: "—"
     property string iface: ""
     property string gateway: ""
+    property string publicIp: ""
     property int rxBytes: 0
     property int txBytes: 0
     property int _lastRxBytes: 0
@@ -45,12 +46,14 @@ Item {
             if (root.iface && root.iface.length) lines.push("Interface: " + root.iface)
             if (root.ip && root.ip.length) lines.push("Local IP: " + root.ip)
             if (root.gateway && root.gateway.length) lines.push("Gateway: " + root.gateway)
+            if (root.publicIp && root.publicIp.length) lines.push("Public IP: " + root.publicIp)
             lines.push("󰇚 " + down)
             lines.push("󰕒 " + up)
         } else if (root.kind === "eth") {
             if (root.iface && root.iface.length) lines.push("Interface: " + root.iface)
             if (root.ip && root.ip.length) lines.push("Local IP: " + root.ip)
             if (root.gateway && root.gateway.length) lines.push("Gateway: " + root.gateway)
+            if (root.publicIp && root.publicIp.length) lines.push("Public IP: " + root.publicIp)
             lines.push("󰇚 " + down)
             lines.push("󰕒 " + up)
         } else {
@@ -62,40 +65,12 @@ Item {
 
     Process {
         id: proc
-        command: ["bash","-lc",
-            "route=$(ip route get 1.1.1.1 2>/dev/null); " +
-            "route_dev=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"dev\") {print $(i+1); exit}}'); " +
-            "route_ip=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"src\") {print $(i+1); exit}}'); " +
-            "device_info=$(nmcli -t -f DEVICE,TYPE,STATE device status 2>/dev/null || echo); " +
-            "wifi_dev=$(echo \"$device_info\" | awk -F: '$2==\"wifi\" && $3 ~ /^connected/ {print $1; exit}'); " +
-            "eth_dev=$(echo \"$device_info\" | awk -F: '($2==\"ethernet\" || $2==\"bridge\") && $3 ~ /^connected/ {print $1; exit}'); " +
-            "dev=\"$route_dev\"; typ=disc; " +
-            "if [ -n \"$eth_dev\" ]; then dev=\"$eth_dev\"; typ=eth; " +
-            "elif [ -n \"$wifi_dev\" ]; then dev=\"$wifi_dev\"; typ=wifi; " +
-            "elif [[ \"$dev\" == wl* ]]; then typ=wifi; " +
-            "elif [[ \"$dev\" == en* || \"$dev\" == eth* || \"$dev\" == br* ]]; then typ=eth; fi; " +
-            "ip=; if [ -n \"$dev\" ]; then ip=$(ip -4 -o addr show dev \"$dev\" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1); fi; " +
-            "if [ -z \"$ip\" ]; then ip=\"$route_ip\"; fi; " +
-            "gw=$(ip route show default dev \"$dev\" 2>/dev/null | awk 'NR==1 {print $3}'); " +
-            "if [ -z \"$gw\" ]; then gw=$(echo \"$route\" | awk '{for(i=1;i<=NF;i++) if($i==\"via\") {print $(i+1); exit}}'); fi; " +
-            "ssid=; sig=; sigdbm=; freq=; wdev=\"$wifi_dev\"; " +
-            "if [ -z \"$wdev\" ]; then wdev=$(echo \"$device_info\" | awk -F: '$2==\"wifi\" {print $1; exit}'); fi; " +
-            "if [ -z \"$wdev\" ]; then wdev=$(nmcli -t -f DEVICE,TYPE device status 2>/dev/null | awk -F: '$2==\"wifi\" {print $1; exit}'); fi; " +
-            "if [ -n \"$wdev\" ]; then " +
-            "  ssid=$(iwgetid -r \"$wdev\" 2>/dev/null || nmcli -t -f active,ssid dev wifi 2>/dev/null | awk -F: '$1==\"yes\"{print $2}' | head -n1); " +
-            "  sig=$(nmcli -t -f active,ssid,signal dev wifi 2>/dev/null | awk -F: '$1==\"yes\"{print $3}' | head -n1); " +
-            "  sigdbm=$(iw dev \"$wdev\" link 2>/dev/null | awk '/signal:/ {print $2}'); " +
-            "  freq=$(iw dev \"$wdev\" link 2>/dev/null | awk '/freq:/ {gsub(/\\.0$/, \"\", $2); print $2}'); " +
-            "fi; " +
-            "rx=0; tx=0; if [ -n \"$dev\" ]; then rx=$(cat /sys/class/net/\"$dev\"/statistics/rx_bytes 2>/dev/null || echo 0); tx=$(cat /sys/class/net/\"$dev\"/statistics/tx_bytes 2>/dev/null || echo 0); fi; " +
-            "kind=disc; if [ -n \"$dev\" ] && [ -n \"$ip\" ] && [ \"$typ\" != disc ]; then kind=\"$typ\"; fi; " +
-            "printf '%s|%s|%s|%s|%s|%s|%s|%s|%s\\n' \"$kind\" \"$ssid\" \"$sig\" \"$sigdbm\" \"$freq\" \"$ip\" \"$dev\" \"$gw\" \"$rx:$tx\""
-        ]
+        command: ["/home/jacky/dotfiles/.config/quickshell/jackbar/modules/network-detect.sh"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
                 var parts = this.text.trim().split("|")
-                if (parts.length >= 1) root.kind = parts[0]
+                if (parts.length >= 1 && parts[0].length) root.kind = parts[0]
                 if (parts.length >= 2) root.ssid = parts[1]
                 if (parts.length >= 3 && parts[2].length) root.signal = parseInt(parts[2])
                 if (parts.length >= 4) root.signalDbm = parts[3]
@@ -128,6 +103,11 @@ Item {
                         root._lastSampleMs = Date.now()
                     }
                 }
+                if (root.kind !== "disc") {
+                    refreshPublicIp()
+                } else {
+                    root.publicIp = ""
+                }
                 if (area.containsMouse) {
                     C.Tooltip.show(root, root.buildTooltip())
                 }
@@ -135,6 +115,48 @@ Item {
         }
     }
     Timer { interval: 5000; running: true; repeat: true; onTriggered: proc.running = true }
+
+    function refreshPublicIp() {
+        if (publicIpProc.running)
+            return
+        publicIpProc.running = true
+    }
+
+    Process {
+        id: publicIpProc
+        command: ["bash", "-lc", "curl -s --max-time 2 https://ifconfig.me || echo ''"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                var value = this.text.trim()
+                if (value.length && value.indexOf("<") === -1) {
+                    root.publicIp = value
+                } else {
+                    root.publicIp = ""
+                }
+                if (!area.containsMouse)
+                    return
+                C.Tooltip.show(root, root.buildTooltip())
+            }
+        }
+        onRunningChanged: {
+            if (!running && publicIpRefresh.running && root.kind === "disc")
+                publicIpRefresh.stop()
+        }
+    }
+
+    Timer {
+        id: publicIpRefresh
+        interval: 60000
+        running: true
+        repeat: true
+        onTriggered: {
+            if (root.kind !== "disc") {
+                refreshPublicIp()
+            } else {
+                root.publicIp = ""
+            }
+        }
+    }
 
     Process { id: run }
 
