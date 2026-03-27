@@ -124,7 +124,7 @@ Variants {
             LanguageSwitcher {}
             ScreenRecorder {}
             ScreenshotButton {}
-            HoursNote {}
+            // HoursNote {}
             Clipboard {}
             NotificationIndicator {}
             // BlueLight {}

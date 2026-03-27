@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 30
+    width: 50
     height: 40
 
     // Dedicated processes
@@ -86,7 +86,7 @@ Item {
         anchors.centerIn: parent
         text: "󰣇"
         color: root.getIconColor()
-        font.pixelSize: 16
+        font.pixelSize: 22
         enabled: false  // Make text transparent to mouse events
     }
 

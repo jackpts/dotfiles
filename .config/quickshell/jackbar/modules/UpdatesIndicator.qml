@@ -8,7 +8,7 @@ import QtQuick.Window
 
 Item {
     id: root
-    width: 50; height: 40
+    width: 70; height: 40
     property string textValue: "0 󰚰"
     property string statusClass: "ok" // "ok" or "updates"
     property string tooltipText: "System is up to date"
@@ -42,7 +42,7 @@ Item {
     Component.onCompleted: refreshUpdates()
 
     Process { id: run }
-    
+
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
@@ -51,7 +51,7 @@ Item {
             run.running = true
         }
     }
-    
+
     Item {
         id: updatesSpinner
         anchors.centerIn: parent

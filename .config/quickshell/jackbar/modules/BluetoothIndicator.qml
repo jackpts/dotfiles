@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 15
+    width: 35
     height: 40
     property bool hasDevices: false
     property int numConnections: 0

@@ -18,7 +18,7 @@ Item {
     }
 
     Component.onCompleted: refreshWeather()
-    
+
     Process {
         id: weatherProc
         command: ["bash", "-c", "python3 $HOME/scripts/weather.py --json"]
@@ -37,7 +37,7 @@ Item {
             }
         }
     }
-    
+
     // Update every 15 minutes (900000 ms)
     Timer {
         interval: 900000
@@ -45,21 +45,21 @@ Item {
         repeat: true
         onTriggered: refreshWeather()
     }
-    
+
     Process { id: run }
-    
+
     // Click handler to show detailed weather
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            run.command = ["bash", "-c", 
+            run.command = ["bash", "-c",
                 "alacritty --class weather-display --option window.dimensions.columns=85 " +
                 "--option window.dimensions.lines=30 --option font.size=12 -e sh -c \"curl -s 'https://wttr.in/?2n'; " +
                 "echo; echo 'Press any key to exit...'; read -n 1 -s key\""]
             run.running = true
         }
     }
-    
+
     // Weather text display
     Item {
         id: weatherSpinner
@@ -68,7 +68,7 @@ Item {
         width: 16
         height: 16
         visible: root.loading
-        property color strokeColor: "#ffffff"
+        property color strokeColor: C.Theme.text
 
         Canvas {
             id: weatherSpinnerCanvas
@@ -90,7 +90,7 @@ Item {
             loops: Animation.Infinite
             from: 0
             to: 360
-            duration: 900
+            duration: 800
             easing.type: Easing.Linear
         }
 
@@ -108,7 +108,7 @@ Item {
         enabled: false  // Make text transparent to mouse events
         visible: !root.loading
     }
-    
+
     // Tooltip with detailed weather info
     MouseArea {
         anchors.fill: parent
