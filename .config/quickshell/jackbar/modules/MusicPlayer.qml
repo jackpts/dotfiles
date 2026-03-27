@@ -7,60 +7,8 @@ Item {
     id: root
     height: 40
 
-    // Dynamic width calculation - expand to fill available space to the left
-    // Calculates space between workspaceArea (right edge) and rightRow (left edge where MusicPlayer sits)
-    width: {
-        // Navigate up to find the panel window
-        var panel = root.parent;
-        while (panel && panel.objectName !== "panels") {
-            panel = panel.parent;
-        }
-
-        if (panel && panel.workspaceArea && panel.rightRow) {
-            var ws = panel.workspaceArea;
-            var rr = panel.rightRow;
-
-            // Get workspace right edge in panel coordinates
-            var wsRightInPanel = ws.mapToItem(panel, ws.width, 0).x;
-
-            // Get rightRow left edge in panel coordinates
-            var rrLeftInPanel = rr.mapToItem(panel, 0, 0).x;
-
-            // Available space is the gap between them
-            var gap = rrLeftInPanel - wsRightInPanel;
-
-            // MusicPlayer is first in rightRow, so it can use: gap + spacing (8) - some margin for breathing room
-            // But we also need to account for rightRow's own position within panel
-            var maxAvailable = Math.max(0, gap + 8 - 10); // 8 is spacing, 10 is breathing room
-
-            // Calculate minimum content width needed
-            var contentW = calculateContentWidth();
-
-            // Use available space, but at least show the content
-            return Math.max(contentW, maxAvailable);
-        }
-
-        // Fallback to original behavior
-        return calculateContentWidth();
-    }
-
-    // Force width recalculation when window or workspace changes
-    Connections {
-        target: Quickshell
-        onActiveScreenChanged: forceWidthUpdate()
-    }
-
-    Timer {
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: forceWidthUpdate()
-    }
-
-    function forceWidthUpdate() {
-        // Trigger width recalculation - width property binding will automatically update
-        root.width = root.width;
-    }
+    // Dynamic width calculation - keep logic in one place for easier future tweaks
+    width: calculateDynamicWidth()
 
     property string artist: ""
     property string title: ""
@@ -69,6 +17,10 @@ Item {
     property int textWidth: 210
     property int maxTextLength: 37
     property bool useNerdFont: true  // Set to false if icons don't show
+
+    function calculateDynamicWidth() {
+        return calculateContentWidth();
+    }
 
     function calculateContentWidth() {
         if (!artist && !title) {
