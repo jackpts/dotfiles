@@ -1,0 +1,7 @@
+# Принудительно указываем Sway использовать NVIDIA (card1/renderD128)
+WLR_DRM_DEVICES=/dev/dri/renderD128
+
+# Переменные для стабильности драйвера Nvidia в Wayland
+GBM_BACKEND=nvidia-drm
+__GLX_VENDOR_LIBRARY_NAME=nvidia
+WLR_RENDERER_ALLOW_SOFTWARE=1
