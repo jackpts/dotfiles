@@ -69,7 +69,7 @@ output * bg /usr/share/backgrounds/arcolinux-wayfire/wayfire-2.jpg fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 # Configure primary output for 2K 160Hz display (adjust mode/refresh as needed)
-# output * mode 2560x1440@160 position 0,0
+# output * mode 2560x16000@165 position 0,0
 
 
 # Mirror eDP-1 to HDMI-A-1 fullscreen
@@ -81,12 +81,20 @@ bindsym $mod+Shift+m exec pkill wl-mirror
 ### Idle configuration
 #
 # swayidle replacing hypridle
-exec_always --no-startup-id swayidle -w \
-         timeout 600 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
-         timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"'
+# exec_always --no-startup-id swayidle -w \
+#          timeout 600 '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"' \
+#          timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep '"$HOME/dotfiles/scripts/asciiquarium_lock.sh"'
 
-exec --no-startup-id mako
+
+exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
+    -d 10 \
+    -f off \
+    --indicator-radius 50 \
+    --indicator-thickness 2 \
+    --ring-color '#4c7899'
+
+# exec --no-startup-id mako
 
 ### Input configuration
 #
@@ -150,7 +158,8 @@ exec --no-startup-id mako
     bindsym $mod+Shift+p exec wl-color-picker -f hex -a
 
     # Screensaver shortcut (press any key to dismiss)
-    bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
+    # bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
+    bindsym $mod+l exec swaymsg "output * bg black opacity 0.5"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -310,7 +319,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 exec --no-startup-id deluge
 exec --no-startup-id nemo
-exec --no-startup-id swaync
+# exec --no-startup-id swaync
 # exec_always --no-startup-id dunst
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
