@@ -39,7 +39,7 @@ Singleton {
             anchors.centerIn: parent
             text: tip.text
             color: C.Theme.tooltipText
-            font.pixelSize: 12
+            font.pixelSize: 16
             // Use monospace when requested (helps align calendar columns)
             font.family: tip.monospace ? "JetBrainsMono Nerd Font" : font.family
             textFormat: Text.RichText
