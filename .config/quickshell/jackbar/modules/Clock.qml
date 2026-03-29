@@ -7,8 +7,8 @@ import "../components" as C
 
 Item {
     id: root
-    width: 90
-    height: 40
+    width: 120
+    height: C.Theme.panelHeight
 
     property int calendarOffset: 0
 
@@ -34,9 +34,10 @@ Item {
         let isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month)
         let todayDate = today.getDate()
         
-        let calendar = `<pre>`
-        calendar += `<span style=\"color: ${C.Theme.calendarHeader}; font-weight: bold; font-size: 14px;\">${monthNames[month]} ${year}</span>\n\n`
-        calendar += `<span style=\"color: ${C.Theme.calendarDow}; font-weight: bold;\">Mo Tu We Th Fr Sa Su</span>\n`
+        const mono = "font-family: 'JetBrainsMono Nerd Font', monospace;"
+        let calendar = `<pre style="${mono} font-size: 14px;">`
+        calendar += `<span style="color: ${C.Theme.calendarHeader}; font-weight: bold; ${mono}">${monthNames[month]} ${year}</span>\n\n`
+        calendar += `<span style="color: ${C.Theme.calendarDow}; font-weight: bold; ${mono}">Mo Tu We Th Fr Sa Su</span>\n`
         
         let dayStr = ""
         for (let i = 0; i < firstDay; i++) {
@@ -47,8 +48,8 @@ Item {
             let isToday = (isCurrentMonth && day === todayDate)
             let color = isToday ? C.Theme.calendarToday : C.Theme.text
             let weight = isToday ? "bold" : "normal"
-            
-            dayStr += `<span style="color: ${color}; font-weight: ${weight};">${day.toString().padStart(2, ' ')}</span> `
+
+            dayStr += `<span style="color: ${color}; font-weight: ${weight}; ${mono}">${day.toString().padStart(2, ' ')}</span> `
             
             if ((firstDay + day) % 7 === 0) {
                 calendar += dayStr + "\n"
@@ -69,7 +70,7 @@ Item {
         anchors.centerIn: parent
         text: Qt.formatDateTime(clock.date, "HH:mm, dd MMM")
         color: C.Theme.clock
-        font.pixelSize: 14
+        font.pixelSize: C.Theme.fontLg
     }
 
     Process { id: run }

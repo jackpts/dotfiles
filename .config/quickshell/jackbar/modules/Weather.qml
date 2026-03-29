@@ -7,8 +7,8 @@ import "../components" as C
 
 Item {
     id: root
-    width: Math.max(weatherText.implicitWidth + 20, 36)
-    height: 40
+    width: Math.max(weatherText.implicitWidth + 40, 36)
+    height: C.Theme.panelHeight
     property bool loading: true
     property string textValue: "..."
     property string tooltipText: "Loading weather..."
@@ -64,7 +64,7 @@ Item {
     Item {
         id: weatherSpinner
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: 2
+        anchors.verticalCenter: parent.verticalCenter
         width: 16
         height: 16
         visible: root.loading
@@ -101,10 +101,10 @@ Item {
     Text {
         id: weatherText
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: 2
+        anchors.verticalCenter: parent.verticalCenter
         text: textValue
         color: C.Theme.text
-        font.pixelSize: 14
+        font.pixelSize: C.Theme.fontLg
         enabled: false  // Make text transparent to mouse events
         visible: !root.loading
     }

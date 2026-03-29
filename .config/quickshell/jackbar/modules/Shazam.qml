@@ -10,7 +10,7 @@ import "../components" as C
 Item {
     id: root
     width: 32
-    height: 40
+    height: C.Theme.panelHeight
     
     // True while we are recording + recognizing
     property bool searching: false

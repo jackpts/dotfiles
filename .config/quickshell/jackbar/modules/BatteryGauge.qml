@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
+    width: 40; height: C.Theme.panelHeight
     property int percent: 0
     property string status: "Unknown"
     property int health: 0
@@ -15,8 +15,8 @@ Item {
     C.CircleGauge {
         id: gauge
         anchors.centerIn: parent
-        size: 28
-        thickness: 4
+        size: C.Theme.scale(28)
+        thickness: C.Theme.scale(4)
         color: status.indexOf("Charging") !== -1 ? C.Theme.batteryCharging : (percent <= 15 ? C.Theme.batteryCritical : C.Theme.batteryOk)
         trackColor: C.Theme.track
         value: percent/100

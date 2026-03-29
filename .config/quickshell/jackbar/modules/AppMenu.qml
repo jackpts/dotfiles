@@ -5,8 +5,8 @@ import "../components" as C
 
 Item {
     id: root
-    width: 50
-    height: 40
+    width: 60
+    height: C.Theme.panelHeight
 
     // Dedicated processes
     Process {
@@ -83,10 +83,16 @@ Item {
 
     // Garuda logo/icon
     Text {
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.margins: C.Theme.panelPadding
         text: "󰣇"
         color: root.getIconColor()
-        font.pixelSize: 22
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: Math.max(
+            C.Theme.fontIcon,
+            Math.round((C.Theme.panelHeight - C.Theme.scale(10)) * 0.5)
+        )
         enabled: false  // Make text transparent to mouse events
     }
 

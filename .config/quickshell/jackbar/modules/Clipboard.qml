@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 24; height: 40
+    width: 24; height: C.Theme.panelHeight
 
     Process { id: showCopyq }
     Process { id: checkCopyq }
@@ -37,7 +37,7 @@ Item {
         anchors.centerIn: parent
         text: "  "
         color: C.Theme.text
-        font.pixelSize: 16
+        font.pixelSize: 18
         enabled: false // Let MouseArea handle clicks
     }
 }

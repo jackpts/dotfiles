@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 32; height: 40
+    width: 32; height: C.Theme.panelHeight
 
     property string textValue: "--"
     property string tooltipText: "Layout: --"
@@ -66,7 +66,7 @@ Item {
             if (textValue === "US") return C.Theme.languageUs
             return C.Theme.text
         }
-        font.pixelSize: 14
+        font.pixelSize: 16
         enabled: false
     }
 }

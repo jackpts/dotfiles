@@ -56,7 +56,7 @@ Variants {
             left: true
             right: true
         }
-        implicitHeight: 40
+        implicitHeight: C.Theme.panelHeight
         exclusiveZone: visible ? implicitHeight : 0
         focusable: true
         color: "transparent"
@@ -123,7 +123,7 @@ Variants {
             BluetoothIndicator {}
             LanguageSwitcher {}
             ScreenRecorder {}
-            ScreenshotButton {}
+            ScreenshotCapture {}
             // HoursNote {}
             Clipboard {}
             NotificationIndicator {}

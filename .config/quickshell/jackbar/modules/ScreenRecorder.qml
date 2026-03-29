@@ -6,7 +6,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 30; height: 40
+    width: 30; height: C.Theme.panelHeight
     property bool isRecording: false
 
     // Update the recording state every 1 second
@@ -86,7 +86,7 @@ Item {
         text: isRecording ? "" : ""
         // color: isRecording ? C.Theme.recorderOn : C.Theme.recorderOff
         color: C.Theme.recorderOff
-        font.pixelSize: 18
+        font.pixelSize: 20
         enabled: false  // Make text transparent to mouse events
     }
 

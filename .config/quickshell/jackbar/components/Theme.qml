@@ -3,6 +3,20 @@ import Quickshell
 import QtQuick
 
 Singleton {
+    // Global scale factor to adapt panel/fonts for higher DPI screens
+    property real scaleFactor: 1.15
+    function scale(px) { return Math.round(px * scaleFactor) }
+    property int panelHeight: scale(40)
+    property int fontXs: scale(10)
+    property int fontSm: scale(12)
+    property int fontMd: scale(14)
+    property int fontLg: scale(16)
+    property int fontXl: scale(18)
+    property int fontIcon: scale(20)
+    property int fontIconLg: scale(22)
+    property int fontIconXl: scale(24)
+    property int panelPadding: scale(4)
+
     // Backgrounds and text (from Waybar style.css)
     property color bg: "#000000B3"                    // rgba(0, 0, 0, 0.7) - translucent dark background
     property color text: "#cdd6f4"                    // light text

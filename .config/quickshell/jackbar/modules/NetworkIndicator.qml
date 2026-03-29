@@ -7,7 +7,7 @@ Item {
     id: root
     // Width follows content (icon/text) instead of being fixed
     width: Math.max(indicatorText.implicitWidth + 8, 40)
-    height: 40
+    height: C.Theme.panelHeight
     property string kind: "disc" // wifi | eth | disc
     property string ssid: ""
     property int signal: 0
@@ -200,9 +200,9 @@ Item {
     Text {
         id: indicatorText
         anchors.centerIn: parent
-        text: root.icon()
+        text: root.displayIcon()
         color: kind === "disc" ? C.Theme.networkDisconnected : (kind === "wifi" ? C.Theme.networkWifi : C.Theme.networkEthernet)
-        font.pixelSize: 16
+        font.pixelSize: C.Theme.fontIcon
         enabled: false  // Make text transparent to mouse events
     }
 }

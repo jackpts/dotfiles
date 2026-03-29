@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
+    width: 40; height: C.Theme.panelHeight
     property string bellIcon: ""
     property string countText: "0"
 
@@ -51,7 +51,7 @@ Item {
         Text {
             text: root.countText
             color: C.Theme.text
-            font.pixelSize: 13
+            font.pixelSize: 15
             font.bold: true
             enabled: false
             anchors.verticalCenter: parent.verticalCenter
@@ -60,7 +60,7 @@ Item {
         Text {
             text: root.bellIcon
             color: C.Theme.text
-            font.pixelSize: 16
+            font.pixelSize: 18
             enabled: false
             anchors.verticalCenter: parent.verticalCenter
         }

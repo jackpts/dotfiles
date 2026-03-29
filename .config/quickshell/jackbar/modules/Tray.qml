@@ -10,8 +10,8 @@ import "../components" as C
 
 Row {
     id: root
-    height: 40
-    spacing: 6
+    height: C.Theme.panelHeight
+    spacing: C.Theme.scale(6)
     
     Repeater {
         model: SystemTray.items.values
@@ -19,8 +19,8 @@ Row {
             id: systemTrayItem
             required property var modelData
             
-            width: 16
-            height: 16
+            width: C.Theme.scale(18)
+            height: C.Theme.scale(18)
             anchors.verticalCenter: parent.verticalCenter
             
             Image {

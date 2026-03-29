@@ -5,8 +5,8 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
-    // Percentage of free space
+    width: 40; height: C.Theme.panelHeight
+    // Percentage of free space (home)
     property int freePercent: 0
     // Percentage of used/occupied space (for chart display)
     property int usedPercent: 0

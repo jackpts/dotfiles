@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    height: 40
+    height: C.Theme.panelHeight
 
     // Dynamic width calculation - keep logic in one place for easier future tweaks
     width: calculateDynamicWidth()
@@ -14,8 +14,8 @@ Item {
     property string title: ""
     property string status: "Stopped"
     property string playerName: ""
-    property int textWidth: 210
-    property int maxTextLength: 37
+    property int textWidth: 500
+    property int maxTextLength: 100
     property bool useNerdFont: true  // Set to false if icons don't show
 
     function calculateDynamicWidth() {
@@ -339,7 +339,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.getDisplayText()
                 color: status === "Playing" ? C.Theme.text : C.Theme.textMuted
-                font.pixelSize: 12
+                font.pixelSize: C.Theme.fontMd
                 horizontalAlignment: Text.AlignLeft
                 elide: Text.ElideRight
                 onTextChanged: marqueeContainer.restart()

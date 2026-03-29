@@ -6,7 +6,7 @@ import "../components" as C
 
 Item {
     id: root
-    height: 40
+    height: C.Theme.panelHeight
     width: Math.max(20, calculateTotalWidth())
     property string compositor: "unknown"
     property var wins: [] // [{id, app, title, focused, urgent}]
@@ -127,7 +127,7 @@ Item {
         // Placeholder so the module is visible when there are no windows
         Canvas {
             visible: wins.length === 0
-            height: 28
+            height: C.Theme.scale(28)
             width: 20
             onPaint: {
                 var ctx = getContext("2d");
@@ -153,13 +153,13 @@ Item {
                 anchors.centerIn: parent
                 text: "–"
                 color: C.Theme.wsText
-                font.pixelSize: 12
+                font.pixelSize: C.Theme.fontSm
             }
         }
         Repeater {
             model: wins
             delegate: Canvas {
-                height: 28
+                height: C.Theme.scale(28)
                 width: label.implicitWidth + 2 + Math.tan(30 * Math.PI / 180) * height
                 property bool focused: modelData.focused
                 property bool urgent: modelData.urgent
@@ -196,7 +196,7 @@ Item {
                         id: label
                         text: root.shortLabel(modelData.app, modelData.title)
                         color: modelData.focused ? C.Theme.wsTextActive : C.Theme.wsText
-                        font.pixelSize: 12
+                        font.pixelSize: C.Theme.fontSm
                         elide: Text.ElideRight
                         horizontalAlignment: Text.AlignHCenter
                     }

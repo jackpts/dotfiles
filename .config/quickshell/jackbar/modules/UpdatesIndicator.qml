@@ -8,7 +8,7 @@ import QtQuick.Window
 
 Item {
     id: root
-    width: 70; height: 40
+    width: 90; height: C.Theme.panelHeight
     property string textValue: "0 󰚰"
     property string statusClass: "ok" // "ok" or "updates"
     property string tooltipText: "System is up to date"
@@ -55,7 +55,7 @@ Item {
     Item {
         id: updatesSpinner
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: 2
+        anchors.verticalCenter: parent.verticalCenter
         width: 16
         height: 16
         visible: root.loading
@@ -91,10 +91,10 @@ Item {
 
     Text {
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: 2
+        anchors.verticalCenter: parent.verticalCenter
         text: textValue
         color: statusClass === "updates" ? C.Theme.updatesAvailable : C.Theme.updatesNone
-        font.pixelSize: 14
+        font.pixelSize: C.Theme.fontLg
         enabled: false  // Make text transparent to mouse events
         visible: !root.loading
     }

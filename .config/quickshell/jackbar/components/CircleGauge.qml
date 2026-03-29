@@ -3,9 +3,9 @@ import "." as C
 
 Item {
     id: root
-    property int size: 28
+    property int size: C.Theme.scale(28)
     property real value: 0.0
-    property int thickness: 4
+    property int thickness: C.Theme.scale(4)
     property color color: "#69a"
     property color trackColor: C.Theme.track
     property string label: ""
@@ -46,7 +46,7 @@ Item {
         anchors.centerIn: parent
         text: root.label
         color: C.Theme.text
-        font.pixelSize: Math.round(root.size * 0.42) - 4
+        font.pixelSize: Math.max(10, Math.round(root.size * 0.42) - 2)
     }
 
     MouseArea {

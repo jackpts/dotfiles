@@ -8,9 +8,9 @@ import "../components" as C
 
 Item {
     id: root
-    height: 40
+    height: C.Theme.panelHeight
     property int minSlots: 8
-    property int slotWidth: 28
+    property int slotWidth: C.Theme.scale(28)
     width: Math.max(items.implicitWidth, minSlots * (slotWidth + items.spacing) - items.spacing)
     property string compositor: "unknown"
     property var spaces: []
@@ -18,20 +18,20 @@ Item {
     Row {
         id: items
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 4
+        spacing: C.Theme.scale(4)
         Repeater {
             model: spaces
             delegate: Item {
                 id: workspaceSlot
                 required property var modelData
                 width: root.slotWidth
-                height: 28
+                height: C.Theme.scale(28)
                 layer.enabled: true
                 layer.smooth: true
                 transformOrigin: Item.Bottom
                 property bool isFocused: !!modelData.focused
                 property bool isUrgent: !!modelData.urgent
-                property real baseY: 2
+                property real baseY: C.Theme.scale(2)
                 property real bounceOffset: 0
 
                 scale: isFocused ? 1.05 : 0.92
@@ -49,7 +49,7 @@ Item {
                     id: focusBounce
                     running: false
                     NumberAnimation {
-                        to: -4
+                        to: -C.Theme.scale(4)
                         duration: 160
                         easing.type: Easing.OutCubic
                     }
@@ -187,10 +187,10 @@ Item {
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 1
+                    anchors.bottomMargin: C.Theme.scale(1)
                     text: modelData.num
                     color: modelData.focused ? C.Theme.wsTextActive : C.Theme.wsText
-                    font.pixelSize: 13
+                    font.pixelSize: C.Theme.fontSm
                 }
                 MouseArea {
                     anchors.fill: parent

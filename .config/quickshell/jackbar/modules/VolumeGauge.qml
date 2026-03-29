@@ -5,7 +5,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 40; height: 40
+    width: 40; height: C.Theme.panelHeight
     property int volume: 0
     property bool muted: false
     property int inputVolume: 0

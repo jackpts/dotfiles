@@ -7,7 +7,7 @@ import QtQuick
 Rectangle {
     id: root
     width: 2
-    height: 40  // Fixed height instead of GlobalVariables
+    height: C.Theme.panelHeight  // Match panel height for proper alignment
     color: "#6c7086"  // Light gray
     opacity: 0.2
 
