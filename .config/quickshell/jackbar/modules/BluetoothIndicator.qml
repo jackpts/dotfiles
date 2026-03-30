@@ -5,16 +5,34 @@ import "../components" as C
 
 Item {
     id: root
-    width: 35
-    height: 40
+    width: Math.max(contentRow.implicitWidth + C.Theme.scale(8), C.Theme.scale(50))
+    height: C.Theme.panelHeight
     property bool hasDevices: false
     property int numConnections: 0
     property string displayText: ""
     property string tooltipText: ""
+    property bool bluetoothPowered: false
+    property var batteryValues: []
+    property var panelSegments: []
 
     function icon() {
         return hasDevices ? "" : "󰂲";
     }
+
+    function updatePanelSegments() {
+        var iconChar = root.bluetoothPowered ? "󰂯" : "󰂲"
+        var segments = [iconChar]
+        if (root.batteryValues && root.batteryValues.length) {
+            for (var i = 0; i < root.batteryValues.length; i++) {
+                segments.push(root.batteryValues[i] + "%")
+            }
+        }
+        root.panelSegments = segments
+    }
+
+    onBatteryValuesChanged: updatePanelSegments()
+    onBluetoothPoweredChanged: updatePanelSegments()
+    Component.onCompleted: updatePanelSegments()
 
     Process {
         id: proc
@@ -28,6 +46,7 @@ Item {
                     root.numConnections = 0;
                     root.displayText = "";
                     root.tooltipText = "No Bluetooth devices connected or Bluetooth is off";
+                    root.batteryValues = [];
                 } else {
                     var parts = out.split("|");
                     if (parts.length >= 4) {
@@ -38,6 +57,7 @@ Item {
 
                         root.hasDevices = root.numConnections > 0;
                         root.displayText = displays.join(" | ");
+                        var batteryList = []
 
                         var lines = [];
                         if (controller && controller.length)
@@ -49,12 +69,14 @@ Item {
                             if (tip.length === 2) {
                                 if (tip[1] !== "NA") {
                                     lines.push(tip[0] + "\t" + tip[1] + "%");
+                                    batteryList.push(tip[1]);
                                 } else {
                                     lines.push(tip[0] + "\tN/A");
                                 }
                             }
                         }
                         root.tooltipText = lines.join("\n");
+                        root.batteryValues = batteryList;
                     }
                 }
                 if (area.containsMouse) {
@@ -63,11 +85,24 @@ Item {
             }
         }
     }
+    Process {
+        id: poweredProc
+        command: ["bash", "-lc", "bluetoothctl show | awk -F': ' '/Powered:/ {print tolower($2)}'"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.bluetoothPowered = this.text.indexOf("yes") !== -1
+            }
+        }
+    }
     Timer {
         interval: 5000
         running: true
         repeat: true
-        onTriggered: proc.running = true
+        onTriggered: {
+            proc.running = true
+            poweredProc.running = true
+        }
     }
 
     Process {
@@ -104,12 +139,19 @@ Item {
         }
     }
 
-    Text {
+    Row {
+        id: contentRow
         anchors.centerIn: parent
-        text: root.hasDevices ? root.displayText : "󰂲"
-        color: root.hasDevices ? C.Theme.bluetoothActive : C.Theme.bluetoothInactive
-        font.pixelSize: 14
-        anchors.margins: 4
-        enabled: false  // Make text transparent to mouse events
+        spacing: 0
+        Repeater {
+            model: root.panelSegments
+            delegate: Text {
+                text: index === 0 ? modelData : "|" + modelData
+                color: index === 0 ? (root.bluetoothPowered ? C.Theme.bluetoothActive : C.Theme.bluetoothInactive) : C.Theme.bluetoothActive
+                font.pixelSize: index === 0 ? C.Theme.fontIcon : C.Theme.fontSm
+                font.bold: index !== 0
+                enabled: false
+            }
+        }
     }
 }
