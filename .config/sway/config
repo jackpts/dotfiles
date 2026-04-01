@@ -48,8 +48,7 @@ include /etc/sway/config-vars.d/*
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /usr/share/backgrounds/arcolinux-wayfire/wayfire-2.jpg fill
+# output * bg /usr/share/backgrounds/arcolinux-wayfire/wayfire-2.jpg fill
 
 # Environment (ported from Hyprland envs) for Wayland apps on Ubuntu
 # setenv XCURSOR_SIZE 24
@@ -146,7 +145,8 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # bindsym $mod+u exec "$scripts/bluelight.sh --toggle"
     # bindsym $mod+Ctrl+w exec waypaper
     # bindsym $mod+Ctrl+w exec bash -lc waypaper
-    bindsym $mod+w exec bash -lc waypaper
+    # bindsym $mod+w exec bash -lc waypaper
+    bindsym $mod+w exec kitty --title wallpaper ~/dotfiles/scripts/wallpaper.sh
     bindsym $mod+r exec "$scripts/radio.sh"
 
     # Screenshots (grim/slurp replacement for hyprshot)
@@ -317,8 +317,9 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 # exec --no-startup-id waybar
 # exec --no-startup-id quickshell -c $HOME/.config/quickshell/jackbar/shell.qml
 exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
-exec --no-startup-id deluge
-exec --no-startup-id nemo
+# Start apps on specific workspaces at startup only
+exec --no-startup-id sh -c 'sleep 1; swaymsg "workspace number 3"; deluge; sleep 1; swaymsg "workspace number 1"'
+exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 2"; $explorer; sleep 1; swaymsg "workspace number 1"'
 # exec --no-startup-id swaync
 # exec_always --no-startup-id dunst
 # Clipboard history
@@ -330,7 +331,7 @@ exec --no-startup-id swaymsg 'workspace number 1; workspace number 2; workspace 
 # KDE Connect indicator
 # exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
 # Wallpaper
-exec --no-startup-id $HOME/scripts/restore_wallpaper.sh
+exec_always --no-startup-id $HOME/dotfiles/scripts/wallpaper_save.sh --restore
 # User scripts
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
 # for remote connect via rustdesk
@@ -339,6 +340,9 @@ exec xdg-desktop-portal-wlr
 # mpv: fixed size window (60% width, 50% height)
 for_window [app_id="mpv"] resize set width 60 ppt height 50 ppt
 for_window [class="mpv"] resize set width 60 ppt height 50 ppt
+
+# Wallpaper selector: 60% size
+for_window [title="wallpaper"] resize set width 60 ppt height 60 ppt, center
 
 # Multimedia keys
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
@@ -368,8 +372,6 @@ for_window [app_id="lockaquarium"] floating enable, border none, fullscreen enab
 
 # Slurp should work as layer-shell overlay
 for_window [app_id="slurp"] border none, floating enable, sticky enable
-for_window [app_id="deluge"] move container to workspace number 3
-for_window [app_id="nemo"] move container to workspace number 2
 
 ### Opacity apps
 for_window [app_id=".*"] opacity 0.95
