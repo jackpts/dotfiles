@@ -24,11 +24,19 @@ Item {
     property double _lastSampleMs: 0
     property string downRate: ""
     property string upRate: ""
+    property bool vpnActive: false
+    property string vpnIcon: "󰖂"
 
     function icon() {
         if (kind === "wifi") return "󰤨";
         if (kind === "eth") return "󰈀";
         return "󰤭";
+    }
+
+    function displayIcon() {
+        if (vpnActive)
+            return vpnIcon
+        return icon()
     }
 
     function buildTooltip() {
@@ -59,6 +67,7 @@ Item {
         } else {
             lines.push("Disconnected")
         }
+        lines.push("VPN: " + (vpnActive ? "Active" : "Off"))
         // Use HTML line breaks so tooltip renders each entry on its own line
         return lines.join("<br/>")
     }
@@ -114,7 +123,7 @@ Item {
             }
         }
     }
-    Timer { interval: 5000; running: true; repeat: true; onTriggered: proc.running = true }
+    Timer { interval: 5000; running: true; repeat: true; onTriggered: { proc.running = true; vpnProc.running = true } }
 
     function refreshPublicIp() {
         if (publicIpProc.running)
@@ -182,6 +191,24 @@ Item {
                 C.Tooltip.show(root, root.buildTooltip())
             } else {
                 hoverRefresh.stop()
+            }
+        }
+    }
+
+    Process {
+        id: vpnProc
+        command: ["bash","-lc",
+            "if ip link show tun0 >/dev/null 2>&1; then " +
+            "state=$(ip -o link show tun0 2>/dev/null | awk '{print toupper($9)}'); " +
+            "if [ -z \"$state\" ] || [ \"$state\" = \"DOWN\" ]; then echo down; else echo active; fi; " +
+            "else echo down; fi"
+        ]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.vpnActive = (this.text.indexOf("active") !== -1)
+                if (area.containsMouse)
+                    C.Tooltip.show(root, root.buildTooltip())
             }
         }
     }
