@@ -41,6 +41,9 @@ year=$(date +%Y)
 # Archive name
 ARCHIVE_NAME="backup_${day}_${month}_${year}.7z"
 ARCHIVE_PATH="${BACKUP_DIR}/${ARCHIVE_NAME}"
+ZEN_ARCHIVE_NAME="backup_zen_${day}_${month}_${year}.7z"
+ZEN_ARCHIVE_PATH="${BACKUP_DIR}/${ZEN_ARCHIVE_NAME}"
+ZEN_ARCHIVE_CREATED=0
 
 # Core backup items (always included)
 CORE_BACKUP_ITEMS=(
@@ -102,11 +105,6 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/bitbucket/SL/.windsurf/"
 	"$HOME/bitbucket/SL/.warp/"
 
-	# Zen browser profile (default profile only + config files)
-	# Note: Export of extensions/bookmarks/session is done above to $HOME/soft/
-	# The *.txt and *.jsonlz4 files are covered by the glob patterns below
-	"$HOME/.zen/"*.default
-
 	# Package lists (generated during backup)
 	"$HOME/soft/*.txt"
 	"$HOME/soft/*.jsonlz4"
@@ -127,9 +125,61 @@ ADDITIONAL_BACKUP_ITEMS=(
 	# "$HOME/.config/some-app/"
 )
 
+# Zen backup items (stored in separate archive)
+ZEN_BACKUP_ITEMS=(
+	"$HOME/.zen/"*.default
+	"$HOME/.zen/profiles.ini"
+	"$HOME/.zen/installs.ini"
+)
+
 # Color output functions
 print_info() {
 	echo -e "\033[1;34m[INFO]\033[0m $1"
+}
+
+# Create separate Zen archive to keep main backup smaller
+create_zen_backup() {
+	ZEN_ARCHIVE_CREATED=0
+	print_info "Collecting Zen backup items..."
+	collect_backup_items ZEN_BACKUP_ITEMS
+	local zen_items=("${VALID_ITEMS[@]}")
+
+	if [[ ${#zen_items[@]} -eq 0 ]]; then
+		print_warning "No Zen items found; skipping separate Zen archive"
+		return 0
+	fi
+
+	if [[ -f "$ZEN_ARCHIVE_PATH" ]]; then
+		print_warning "Existing Zen backup found, removing: $ZEN_ARCHIVE_NAME"
+		rm "$ZEN_ARCHIVE_PATH"
+	fi
+
+	local temp_log="/tmp/7z_zen_backup_$$.log"
+	print_info "Creating Zen backup archive: $ZEN_ARCHIVE_NAME"
+
+	if LANG=C 7z a -t7z -mx=9 -mhe=on -snl -spf -p"$BACKUP_PASSWORD" "$ZEN_ARCHIVE_PATH" "${zen_items[@]}" >"$temp_log" 2>&1; then
+		print_success "Zen backup created successfully!"
+		rm -f "$temp_log"
+		ZEN_ARCHIVE_CREATED=1
+		return 0
+	else
+		print_error "Failed to create Zen backup archive"
+		print_error "7zip output:"
+		cat "$temp_log"
+		rm -f "$temp_log"
+		return 1
+	fi
+}
+
+show_zen_backup_info() {
+	if [[ "$ZEN_ARCHIVE_CREATED" -eq 1 ]] && [[ -f "$ZEN_ARCHIVE_PATH" ]]; then
+		local size
+		size=$(du -h "$ZEN_ARCHIVE_PATH" | cut -f1)
+		print_success "Zen Backup Details:"
+		echo "  Location: $ZEN_ARCHIVE_PATH"
+		echo "  Size: $size"
+		echo "  Date: $(date '+%Y-%m-%d %H:%M:%S')"
+	fi
 }
 
 print_success() {
@@ -266,48 +316,6 @@ create_backup() {
 	print_info "Exporting Zed extensions..."
 	if [[ -d "$HOME/.local/share/zed/extensions/installed/" ]]; then
 		ls "$HOME/.local/share/zed/extensions/installed/" >"$HOME/soft/zed_ext_list.txt"
-	fi
-
-	# Zen browser extensions backup (default profile only)
-	print_info "Exporting Zen browser data (default profile only)..."
-	if [[ -d "$HOME/.zen/" ]]; then
-		# Find the default profile (ends with .default)
-		zen_profile=$(ls -d "$HOME/.zen/"*.default 2>/dev/null | head -1 || echo "")
-		if [[ -n "$zen_profile" ]]; then
-			zen_profile_name=$(basename "$zen_profile")
-			print_info "Found default profile: $zen_profile_name"
-
-			# Extract extension IDs from XPI filenames
-			if [[ -d "$zen_profile/extensions/" ]]; then
-				ls "$zen_profile/extensions/"/*.xpi 2>/dev/null | \
-					xargs -n1 basename | \
-					sed 's/@.*$//' | \
-					sort >"$HOME/soft/zen_ext_list.txt" || true
-			fi
-
-			# Backup latest bookmark JSON
-			if [[ -d "$zen_profile/bookmarkbackups/" ]]; then
-				latest_bookmark=$(ls -t "$zen_profile/bookmarkbackups/"*.jsonlz4 2>/dev/null | head -1 || echo "")
-				if [[ -n "$latest_bookmark" ]]; then
-					cp "$latest_bookmark" "$HOME/soft/zen_bookmarks.jsonlz4"
-				fi
-			fi
-
-			# Backup session (tabs, workspaces, opened pages)
-			if [[ -f "$zen_profile/sessionstore.jsonlz4" ]]; then
-				cp "$zen_profile/sessionstore.jsonlz4" "$HOME/soft/zen_session.jsonlz4"
-			fi
-		else
-			print_warning "No default Zen profile found (*.default)"
-		fi
-
-		# Backup profiles.ini and installs.ini (profile configuration)
-		if [[ -f "$HOME/.zen/profiles.ini" ]]; then
-			cp "$HOME/.zen/profiles.ini" "$HOME/soft/zen_profiles.ini"
-		fi
-		if [[ -f "$HOME/.zen/installs.ini" ]]; then
-			cp "$HOME/.zen/installs.ini" "$HOME/soft/zen_installs.ini"
-		fi
 	fi
 
 	# dconf backup for Nemo
@@ -496,16 +504,34 @@ main() {
 	if create_backup; then
 		show_backup_info
 
+		if ! create_zen_backup; then
+			print_error "Zen backup process failed!"
+			notify-send -u critical -i dialog-error \
+				"✗ Zen Backup Failed" \
+				"Check the logs for details"
+			exit 1
+		fi
+		show_zen_backup_info
+
 		# Success notification
 		local backupFileName
 		backupFileName=$(basename "$ARCHIVE_PATH")
 		local fileSize
 		fileSize=$(du -sh "$ARCHIVE_PATH" | awk '{print $1}')
+		local message
+		message="Main: $backupFileName ($fileSize)"
+		if [[ "$ZEN_ARCHIVE_CREATED" -eq 1 ]] && [[ -f "$ZEN_ARCHIVE_PATH" ]]; then
+			local zenBackupFileName
+			zenBackupFileName=$(basename "$ZEN_ARCHIVE_PATH")
+			local zenFileSize
+			zenFileSize=$(du -sh "$ZEN_ARCHIVE_PATH" | awk '{print $1}')
+			message+="\nZen: $zenBackupFileName ($zenFileSize)"
+		fi
 		print_success "Backup process completed successfully!"
 		print_success "Backup size: $fileSize"
 		notify-send -u normal -i dialog-information \
 			"✓ Backup Complete" \
-			"File: $backupFileName\nSize: $fileSize"
+			"$message"
 	else
 		# Failure notification
 		print_error "Backup process failed!"
