@@ -8,7 +8,7 @@ set -euo pipefail
 
 # Configuration
 BACKUP_PASSWORD="t2"
-BACKUP_DIR="$HOME/backup"
+BACKUP_DIR="/run/media/jacky/media/backup/regular"
 
 # Exclusion patterns (directories/files to exclude from backup)
 EXCLUSION_PATTERNS=(
@@ -25,8 +25,12 @@ EXCLUSION_PATTERNS=(
     "*.dump"
     "*/debug/*"
     "*/build/*"
-    "*/ai-prompter/models/*"
+    "*/ai*/models/*"
     "*/target/release/*"
+    # Rust/Cargo exclusions (large cache files)
+    ".cargo"
+    # Fish variable symlinks (point to dotfiles, avoid duplicates)
+    "fish_variables.*"
 )
 
 # Get current date
@@ -35,43 +39,84 @@ month=$(date +%m)
 year=$(date +%Y)
 
 # Archive name
-ARCHIVE_NAME="inno_backup_${day}_${month}_${year}.7z"
+ARCHIVE_NAME="backup_${day}_${month}_${year}.7z"
 ARCHIVE_PATH="${BACKUP_DIR}/${ARCHIVE_NAME}"
 
 # Core backup items (always included)
 CORE_BACKUP_ITEMS=(
-	"$HOME/obsidian/"
-	"$HOME/Projects/"
-	"$HOME/*.kdbx"
-	"$HOME/dotfiles"
-	"$HOME/Documents/bookmarks-*.json"
-	"$HOME/Documents/bookmarks.html"
-	"$HOME/Documents/sfs*.json"
-	"$HOME/Documents/Sala/"
-	"$HOME/Documents/AI.Checks/"
-	"$HOME/Documents/Checks/"
-	"$HOME/Documents/pplCVs"
-	"/etc/systemd/logind.conf.d/ignore-lid.conf"
+	# System configs
 	"/etc/hosts"
 	"/etc/resolv.conf"
 	"/etc/systemd/resolved.conf"
 	"/etc/systemd/system.conf"
-	"/etc/systemd/logind.conf"
+	"/etc/systemd/logind.conf"  # KillUserProcesses=yes
 	"/etc/profile"
+	"/etc/nsswitch.conf"
+	"/etc/fstab"
+	"/etc/locale.conf"
+	"/etc/vconsole.conf"
+	"/etc/pacman.conf"
+	"/etc/pacman.d/mirrorlist"
+	"/etc/sddm.conf"
+	"/etc/pam.d/sddm*"
+	"/etc/plymouth/plymouthd.conf"
+	"/etc/mkinitcpio.conf"
+	"/etc/default/grub"
+	"/etc/security/faillock.conf"
 	"/etc/bluetooth/main.conf"
-    "/etc/wireguard/"
-	"$HOME/.config/wayvnc"
+	# "/boot/refind_linux.conf"
+	# "/boot/EFI/refind/refind.conf"
+	# "/etc/wireguard/"
+
+	# User configs and dotfiles
+	"$HOME/.config/fish"
+	"$HOME/.gnupg"
+	"$HOME/.password-store/"
+	"$HOME/.ssh"
+	"$HOME/.git*"
+	"$HOME/vpn"
+	"$HOME/.config/kdeconnect"
+	"$HOME/dotfiles"
 	"$HOME/.qwen/*.json"
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
-	"$HOME/gitlab/"
-    "$HOME/github/"
-    "$HOME/.ssh/"
-    "$HOME/.pgpass"
-    "$HOME/.gitconfig-gitlab"
-    "$HOME/.gitconfig-bitbucket"
-    "$HOME/bitbucket/SL/.windsurf/"
-    "$HOME/bitbucket/SL/.warp/"
+	"$HOME/.my.cnf"  # chmod 600 ~/.my.cnf
+
+	# Data and documents
+	"$HOME/obsidian/"
+	"$HOME/*.kdbx"
+	"$HOME/Documents/browser/"
+	"$HOME/Documents/sfs*.json"
+
+	# Wayland/Sway configs
+	"/usr/share/wayland-sessions/hyprland.desktop"
+	"/usr/share/rofi/themes/"
+	"/usr/share/applications/"
+
+	# GTK configs (Nemo bookmarks)
+	"$HOME/.config/gtk-3.0/"
+	"$HOME/.config/gtk-4.0/"
+
+	# AI/IDE configs
+	"$HOME/.codeium/windsurf/mcp_config.json"
+	"$HOME/bitbucket/SL/.windsurf/"
+	"$HOME/bitbucket/SL/.warp/"
+
+	# Zen browser profile (default profile only + config files)
+	# Note: Export of extensions/bookmarks/session is done above to $HOME/soft/
+	# The *.txt and *.jsonlz4 files are covered by the glob patterns below
+	"$HOME/.zen/"*.default
+
+	# Package lists (generated during backup)
+	"$HOME/soft/*.txt"
+	"$HOME/soft/*.jsonlz4"
+
+	# MySQL dump (when enabled)
+	# "$HOME/soft/mysql_dump_*.sql"
+
+	# Git configs (already covered by $HOME/.git* above)
+	# "$HOME/.gitconfig-gitlab"  # duplicate - removed
+	# "$HOME/.gitconfig-bitbucket"  # duplicate - removed
 )
 
 # Additional backup items (add more paths here as needed)
@@ -204,6 +249,83 @@ collect_backup_items() {
 create_backup() {
 	local all_items=()
 
+	# Create soft directory
+	if [[ ! -d "$HOME/soft/" ]]; then
+		mkdir -p "$HOME/soft/"
+	fi
+
+	# Export package lists
+	print_info "Exporting package lists..."
+	pacman -Qqen >"$HOME/soft/pkglist_pacman.txt"
+	pacman -Qqem >"$HOME/soft/pkglist_aur.txt"
+	flatpak list >"$HOME/soft/pkglist_flatpak.txt"
+	# GNOME extensions (commented out - not using GNOME currently)
+	# ls -1 ~/.local/share/gnome-shell/extensions/ >"$HOME/soft/gnome_ext_list.txt"
+
+	# Zed extensions backup
+	print_info "Exporting Zed extensions..."
+	if [[ -d "$HOME/.local/share/zed/extensions/installed/" ]]; then
+		ls "$HOME/.local/share/zed/extensions/installed/" >"$HOME/soft/zed_ext_list.txt"
+	fi
+
+	# Zen browser extensions backup (default profile only)
+	print_info "Exporting Zen browser data (default profile only)..."
+	if [[ -d "$HOME/.zen/" ]]; then
+		# Find the default profile (ends with .default)
+		zen_profile=$(ls -d "$HOME/.zen/"*.default 2>/dev/null | head -1 || echo "")
+		if [[ -n "$zen_profile" ]]; then
+			zen_profile_name=$(basename "$zen_profile")
+			print_info "Found default profile: $zen_profile_name"
+
+			# Extract extension IDs from XPI filenames
+			if [[ -d "$zen_profile/extensions/" ]]; then
+				ls "$zen_profile/extensions/"/*.xpi 2>/dev/null | \
+					xargs -n1 basename | \
+					sed 's/@.*$//' | \
+					sort >"$HOME/soft/zen_ext_list.txt" || true
+			fi
+
+			# Backup latest bookmark JSON
+			if [[ -d "$zen_profile/bookmarkbackups/" ]]; then
+				latest_bookmark=$(ls -t "$zen_profile/bookmarkbackups/"*.jsonlz4 2>/dev/null | head -1 || echo "")
+				if [[ -n "$latest_bookmark" ]]; then
+					cp "$latest_bookmark" "$HOME/soft/zen_bookmarks.jsonlz4"
+				fi
+			fi
+
+			# Backup session (tabs, workspaces, opened pages)
+			if [[ -f "$zen_profile/sessionstore.jsonlz4" ]]; then
+				cp "$zen_profile/sessionstore.jsonlz4" "$HOME/soft/zen_session.jsonlz4"
+			fi
+		else
+			print_warning "No default Zen profile found (*.default)"
+		fi
+
+		# Backup profiles.ini and installs.ini (profile configuration)
+		if [[ -f "$HOME/.zen/profiles.ini" ]]; then
+			cp "$HOME/.zen/profiles.ini" "$HOME/soft/zen_profiles.ini"
+		fi
+		if [[ -f "$HOME/.zen/installs.ini" ]]; then
+			cp "$HOME/.zen/installs.ini" "$HOME/soft/zen_installs.ini"
+		fi
+	fi
+
+	# dconf backup for Nemo
+	print_info "Exporting Nemo dconf settings..."
+	dconf dump /org/nemo/ >"$HOME/dotfiles/nemo-dconf-settings" 2>/dev/null || true
+
+	# MySQL DB backup (commented out temporarily)
+	# print_info "Backing up MySQL database..."
+	# mysql_date=$(date +"%Y-%m-%d")
+	# mysql_file="mysql_dump_$mysql_date.sql"
+	# mariadb-dump --all-databases --host=127.0.0.1 --port=33066 > "$HOME/soft/$mysql_file"
+
+	# rsync themes (commented out temporarily)
+	# print_info "Syncing themes to backup location..."
+	# rsync -avh --progress /usr/share/themes/ /run/media/jacky/back2up/once/themes/
+	# rsync -avh --progress /usr/share/sddm/themes/ /run/media/jacky/back2up/once/sddm_themes/
+	# rsync -avh --progress /usr/share/plymouth/themes/ /run/media/jacky/back2up/once/plymouth_themes/
+
 	# Collect core backup items
 	print_info "Collecting core backup items..."
 	collect_backup_items CORE_BACKUP_ITEMS
@@ -260,15 +382,15 @@ create_backup() {
 			print_warning "Backup completed with warnings:"
 			grep "WARNING" "$temp_log" | head -5
 		fi
+		rm -f "$temp_log"
+		return 0
 	else
 		print_error "Failed to create backup archive"
 		print_error "7zip output:"
 		cat "$temp_log"
 		rm -f "$temp_log"
-		exit 1
+		return 1
 	fi
-
-	rm -f "$temp_log"
 }
 
 # Display backup information
@@ -284,10 +406,10 @@ show_backup_info() {
 
 		# Show archive contents (without extracting)
 		print_info "Archive contents:"
-		7z l "$ARCHIVE_PATH" -p"$BACKUP_PASSWORD" 2>/dev/null | grep -E "^[0-9]" | head -20
+		7z l "$ARCHIVE_PATH" -p"$BACKUP_PASSWORD" 2>/dev/null | grep -E "^[0-9]" | head -20 || true
 
 		local total_files
-		total_files=$(7z l "$ARCHIVE_PATH" -p"$BACKUP_PASSWORD" 2>/dev/null | grep "files" | tail -1 | awk '{print $1}')
+		total_files=$(7z l "$ARCHIVE_PATH" -p"$BACKUP_PASSWORD" 2>/dev/null | grep "files" | tail -1 | awk '{print $1}' || true)
 		if [[ -n "$total_files" ]]; then
 			echo "  Total files: $total_files"
 		fi
@@ -316,17 +438,20 @@ backup_yt_tg_db() {
 	fi
 
 	if ! command -v sqlite3 >/dev/null 2>&1; then
-		print_error "sqlite3 not found. Please install: sudo pacman -S sqlite"
-		exit 1
+		print_warning "sqlite3 not found, skipping DB backup"
+		return 0
 	fi
 
-	cd "$YT_TG_DIR"
-
-	if sqlite3 "$DB_PATH" ".backup '$BACKUP_DEST'"; then
-		print_success "SQLite database backed up to: $BACKUP_DEST"
+	# Check if database is locked (bot is running)
+	if sqlite3 "$DB_PATH" "SELECT 1;" >/dev/null 2>&1; then
+		cd "$YT_TG_DIR"
+		if sqlite3 "$DB_PATH" ".backup '$BACKUP_DEST'"; then
+			print_success "SQLite database backed up to: $BACKUP_DEST"
+		else
+			print_warning "Failed to backup SQLite database (may be in use)"
+		fi
 	else
-		print_error "Failed to backup SQLite database"
-		exit 1
+		print_warning "Database is locked (bot is running), skipping backup"
 	fi
 }
 
@@ -338,7 +463,7 @@ cleanup_old_backups() {
 
 	# Find and sort backup files by modification time
 	local old_backups
-	mapfile -t old_backups < <(find "$BACKUP_DIR" -name "inno_backup_*.7z" -type f -printf '%T@ %p\n' | sort -nr | tail -n +$((keep_count + 1)) | cut -d' ' -f2-)
+	mapfile -t old_backups < <(find "$BACKUP_DIR" -name "backup_*.7z" -type f -printf '%T@ %p\n' | sort -nr | tail -n +$((keep_count + 1)) | cut -d' ' -f2-)
 
 	if [[ ${#old_backups[@]} -gt 0 ]]; then
 		print_info "Removing ${#old_backups[@]} old backup(s)..."
@@ -366,12 +491,29 @@ main() {
 	check_dependencies
 	create_backup_dir
 	backup_yt_tg_db
-	create_backup
-	show_backup_info
-	cleanup_old_backups
 
-	print_success "Backup process completed successfully!"
-	print_info "Archive location: $ARCHIVE_PATH"
+	# Create backup and check result
+	if create_backup; then
+		show_backup_info
+
+		# Success notification
+		local backupFileName
+		backupFileName=$(basename "$ARCHIVE_PATH")
+		local fileSize
+		fileSize=$(du -sh "$ARCHIVE_PATH" | awk '{print $1}')
+		print_success "Backup process completed successfully!"
+		print_success "Backup size: $fileSize"
+		notify-send -u normal -i dialog-information \
+			"✓ Backup Complete" \
+			"File: $backupFileName\nSize: $fileSize"
+	else
+		# Failure notification
+		print_error "Backup process failed!"
+		notify-send -u critical -i dialog-error \
+			"✗ Backup Failed" \
+			"Check the logs for details"
+		exit 1
+	fi
 }
 
 # Handle script interruption
