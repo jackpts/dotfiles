@@ -6,6 +6,7 @@
 - neovim config (based on LazyVim)
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
+- Zed editor config (+ extensions)
 
 <br />
 <details close>
@@ -117,9 +118,54 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 </details>
 <br />
 
+### Zed Editor
+
+Install Zed extensions and MCP servers from dotfiles:
+
+```bash
+    ./scripts/install-zed-extensions.sh
+```
+
+Configuration files:
+- `.config/zed/extensions.json` - Installed extensions (syntax highlighting, languages)
+- `.config/zed/servers.json` - MCP context servers and AI agent servers
+
 ### Terminals Themify
 
 - use the fish `term_theme` abbr in your current terminal or type `wal -i <wallpaper_path>` directly
+
+### Backup
+
+Run the backup script manually or wait for auto-start on Sway login:
+
+```bash
+    ./scripts/sway-backup.sh
+```
+
+**Auto-start:** The backup runs automatically 20 seconds after Sway starts (configured in `.config/sway/config`).
+
+**Notification:** After completion, a desktop notification shows:
+- Backup file name
+- Archive size
+
+**yt-tg-chat-bot:** Auto-starts in kitty terminal on workspace 2 (25 second delay).
+
+This creates backups of:
+- Pacman packages (official + AUR)
+- Flatpak packages
+- GNOME extensions (commented out - not using GNOME)
+- **Zed editor extensions**
+- **Zen browser**: extensions, bookmarks, session (tabs/workspaces)
+- Nemo dconf settings
+- System configs (/etc/, dotfiles, SSH, GPG, etc.)
+- MySQL dump (commented out temporarily)
+- System themes rsync (commented out temporarily)
+
+**Configuration:**
+- Output: `/run/media/jacky/back2up/regular/`
+- Password: (see `scripts/sway-backup.sh`, `BACKUP_PASSWORD` variable)
+- Compression: Maximum (7z -mx=9)
+- Archive format: Encrypted 7zip
 
 
 ### Waybar styling
