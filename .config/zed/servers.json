@@ -1,0 +1,47 @@
+{
+  // MCP Context Servers - provide context to AI agents
+  "context_servers": [
+    {
+      "name": "mcp-server-context7",
+      "enabled": true,
+      "remote": false,
+      "settings": {}
+    }
+  ],
+
+  // Agent Servers - AI coding assistants
+  "agent_servers": {
+    "from_registry": [
+      "mistral-vibe",
+      "claude-acp",
+      "gemini",
+      "codex-acp"
+    ],
+    "custom": [
+      {
+        "name": "Qwen Code",
+        "command": "qwen",
+        "args": ["--experimental-acp"],
+        "env": {}
+      },
+      {
+        "name": "Gemini CLI",
+        "command": "gemini",
+        "args": ["--experimental-acp"],
+        "env": {}
+      },
+      {
+        "name": "Kimi CLI",
+        "command": "kimi",
+        "args": ["--experimental-acp"],
+        "env": {}
+      }
+    ]
+  },
+
+  // Installation notes:
+  // - mcp-server-context7: Install via `npm install -g @context7/mcp-server`
+  // - qwen: Install via `npm install -g @anthropic/qwen-code`
+  // - gemini: Install via `npm install -g @google/gemini-cli`
+  // - kimi: Install via pip or from https://github.com/MoonshotAI/Kimi
+}

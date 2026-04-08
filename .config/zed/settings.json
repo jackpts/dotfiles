@@ -56,8 +56,8 @@
   "agent": {
     "default_model": {
       "provider": "openrouter",
-      "model": "stepfun/step-3.5-flash:free",
-      "enable_thinking": true
+      "model": "qwen/qwen3-coder:free",
+      "enable_thinking": false
     },
     "tool_permissions": {
       "tools": {
@@ -112,7 +112,7 @@
     // Notify Options: "primary_screen" (default), "all_screens", "never"
     "notify_when_agent_waiting": "all_screens",
     // Disable notification sound - Zed doesn't support volume control, only on/off
-    "play_sound_when_agent_done": false
+    "play_sound_when_agent_done": true
   },
   "icon_theme": "Warm Charmed Icons",
   "vim_mode": true,
@@ -200,7 +200,8 @@
   "file_types": {
     "Dockerfile": ["Dockerfile", "Dockerfile.*"],
     "JSON": ["json", "jsonc", "*.code-snippets"],
-    "Shell Script": ["**/sway/config", "**/sway/config.d/*"]
+    "Shell Script": ["**/sway/config", "**/sway/config.d/*"],
+    "QML": ["*.qml"]
   },
   // File scan exclusions, hide on the file explorer and search
   "file_scan_exclusions": [
