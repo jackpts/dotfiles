@@ -321,14 +321,16 @@ exec --no-startup-id dbus-update-activation-environment --systemd --all
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 
-# Assign apps to specific workspaces (use `swaymsg -t get_tree` to find app_id)
-assign [app_id="kitty"] → "2"
-assign [app_id="deluge"] → "3"
-assign [app_id="nemo"] → "2"
-
-# Start apps (they will auto-place on assigned workspaces)
-exec --no-startup-id sh -c 'sleep 1; deluge'
-exec --no-startup-id sh -c 'sleep 2; $explorer'
+# Start apps on specific workspaces at startup only (no permanent assign rules)
+# Apps will open on current workspace when launched manually later
+exec --no-startup-id sh -c 'sleep 1; swaymsg "workspace number 3" && deluge'
+exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 2" && $explorer'
+# Kitty with tmux + yt-tg-chat-bot on workspace 2 at startup
+exec --no-startup-id sh -c 'sleep 4; swaymsg "workspace number 2" && kitty -e tmux new-session -A -s yt_tg fish -c "cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot"'
+# Obsidian: start and move to scratchpad (toggle with $mod+S)
+exec --no-startup-id sh -c 'sleep 6; $notes && sleep 2 && swaymsg "[app_id=obsidian] move to scratchpad"'
+# Return to workspace 1 after all startup apps
+exec --no-startup-id sh -c 'sleep 8; swaymsg "workspace number 1"'
 
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
@@ -342,8 +344,6 @@ exec --no-startup-id swaymsg 'workspace number 1; workspace number 2; workspace 
 exec_always --no-startup-id $HOME/dotfiles/scripts/wallpaper_save.sh --restore
 # Backup script (run on startup with 10 second delay)
 exec --no-startup-id sh -c 'sleep 10 && "$HOME"/dotfiles/scripts/sway-backup.sh'
-# Kitty terminal with tmux + yt-tg-chat-bot (workspace 2, 15 second delay)
-exec --no-startup-id sh -c 'sleep 15 && kitty -e tmux new-session -A -s yt_tg fish -c "cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot"'
 # User scripts
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
 # for remote connect via rustdesk
