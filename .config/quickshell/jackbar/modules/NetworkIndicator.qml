@@ -26,6 +26,8 @@ Item {
     property string upRate: ""
     property bool vpnActive: false
     property string vpnIcon: "󰖂"
+    property double vpnRxMb: 0
+    property double vpnTxMb: 0
 
     function icon() {
         if (kind === "wifi") return "󰤨";
@@ -67,7 +69,11 @@ Item {
         } else {
             lines.push("Disconnected")
         }
-        lines.push("VPN: " + (vpnActive ? "Active" : "Off"))
+        if (vpnActive) {
+            lines.push("VPN: Active  󰇚 " + root.vpnRxMb.toFixed(1) + " MB  󰕒 " + root.vpnTxMb.toFixed(1) + " MB")
+        } else {
+            lines.push("VPN: Off")
+        }
         // Use HTML line breaks so tooltip renders each entry on its own line
         return lines.join("<br/>")
     }
@@ -198,15 +204,25 @@ Item {
     Process {
         id: vpnProc
         command: ["bash","-lc",
-            "if ip link show tun0 >/dev/null 2>&1; then " +
-            "state=$(ip -o link show tun0 2>/dev/null | awk '{print toupper($9)}'); " +
-            "if [ -z \"$state\" ] || [ \"$state\" = \"DOWN\" ]; then echo down; else echo active; fi; " +
+            "iface=$(ip -o link show 2>/dev/null | grep -E ' (tun|utun)[^ ]+' | grep UP | head -1 | awk '{print $2}' | cut -d: -f1); " +
+            "if [ -n \"$iface\" ]; then " +
+            "rx=$(cat /sys/class/net/$iface/statistics/rx_bytes 2>/dev/null || echo 0); " +
+            "tx=$(cat /sys/class/net/$iface/statistics/tx_bytes 2>/dev/null || echo 0); " +
+            "echo \"active|$rx|$tx\"; " +
             "else echo down; fi"
         ]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
-                root.vpnActive = (this.text.indexOf("active") !== -1)
+                var vparts = this.text.trim().split("|")
+                root.vpnActive = (vparts[0] === "active")
+                if (root.vpnActive && vparts.length >= 3) {
+                    root.vpnRxMb = parseInt(vparts[1]) / (1024.0 * 1024.0)
+                    root.vpnTxMb = parseInt(vparts[2]) / (1024.0 * 1024.0)
+                } else {
+                    root.vpnRxMb = 0
+                    root.vpnTxMb = 0
+                }
                 if (area.containsMouse)
                     C.Tooltip.show(root, root.buildTooltip())
             }
