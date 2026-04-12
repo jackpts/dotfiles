@@ -323,25 +323,23 @@ exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 
 # Start apps on specific workspaces at startup only (no permanent assign rules)
 # Apps will open on current workspace when launched manually later
-exec --no-startup-id sh -c 'sleep 1; swaymsg "workspace number 3" && deluge'
-exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 2" && $explorer'
-# Kitty with tmux + yt-tg-chat-bot on workspace 2 at startup
-exec --no-startup-id sh -c 'sleep 3; swaymsg "workspace number 2" && kitty -e tmux new-session -A -s yt_tg fish -c "cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot"'
+# Staggered delays to avoid workspace conflicts
+exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 3, exec deluge"'
+exec --no-startup-id sh -c 'sleep 5; swaymsg "workspace number 2, exec $explorer"'
+# Kitty with tmux + yt-tg-chat-bot on workspace 2 at startup (window 0) + backup script (window 1)
+exec --no-startup-id sh -c 'sleep 8; swaymsg "workspace number 2, exec kitty -e tmux new-session -A -s yt_tg -d fish -c \"cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot\" \\; new-window -t yt_tg:1 fish -c \"sleep 2 && \$HOME/dotfiles/scripts/sway-backup.sh; fish\" \\; select-window -t yt_tg:0 \\; attach-session -t yt_tg"'
 # Return to workspace 1 after all startup apps
-exec --no-startup-id sh -c 'sleep 5; swaymsg "workspace number 1"'
+exec --no-startup-id sh -c 'sleep 15; swaymsg "workspace number 1"'
 
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
 exec --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
 exec --no-startup-id copyq
-# Ensure workspaces 1..5 exist at startup for Waybar
-exec --no-startup-id swaymsg 'workspace number 1; workspace number 2; workspace number 3; workspace number 4; workspace number 5; workspace number 1'
 # KDE Connect indicator
-# exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
+exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
 # Wallpaper
 exec_always --no-startup-id $HOME/dotfiles/scripts/wallpaper_save.sh --restore
-# Backup script (run on startup with 10 second delay)
-exec --no-startup-id sh -c 'sleep 10 && "$HOME"/dotfiles/scripts/sway-backup.sh'
+# Backup script now runs in tmux window 1 (see line 330)
 # User scripts
 # exec_always --no-startup-id sh -c 'sleep 15 && "$HOME"/scripts/backup.sh'
 # for remote connect via rustdesk
