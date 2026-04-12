@@ -194,6 +194,20 @@ print_warning() {
 	echo -e "\033[1;33m[WARNING]\033[0m $1"
 }
 
+# Safe notification function (fails silently if D-Bus unavailable)
+safe_notify() {
+	local urgency="$1"
+	local icon="$2"
+	local title="$3"
+	local message="$4"
+	
+	# Check if notification service is available
+	if command -v notify-send >/dev/null 2>&1 && \
+	   busctl --user status org.freedesktop.Notifications >/dev/null 2>&1; then
+		notify-send -u "$urgency" -i "$icon" "$title" "$message" 2>/dev/null || true
+	fi
+}
+
 # Check dependencies
 check_dependencies() {
 	local deps=("7z" "find")
@@ -506,7 +520,7 @@ main() {
 
 		if ! create_zen_backup; then
 			print_error "Zen backup process failed!"
-			notify-send -u critical -i dialog-error \
+			safe_notify critical dialog-error \
 				"✗ Zen Backup Failed" \
 				"Check the logs for details"
 			exit 1
@@ -529,13 +543,13 @@ main() {
 		fi
 		print_success "Backup process completed successfully!"
 		print_success "Backup size: $fileSize"
-		notify-send -u normal -i dialog-information \
+		safe_notify normal dialog-information \
 			"Backup Complete" \
 			"$message"
 	else
 		# Failure notification
 		print_error "Backup process failed!"
-		notify-send -u critical -i dialog-error \
+		safe_notify critical dialog-error \
 			"✗ Backup Failed" \
 			"Check the logs for details"
 		exit 1
