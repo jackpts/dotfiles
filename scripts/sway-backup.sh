@@ -530,7 +530,7 @@ main() {
 		print_success "Backup process completed successfully!"
 		print_success "Backup size: $fileSize"
 		notify-send -u normal -i dialog-information \
-			"✓ Backup Complete" \
+			"Backup Complete" \
 			"$message"
 	else
 		# Failure notification
