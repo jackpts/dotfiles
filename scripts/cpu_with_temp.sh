@@ -3,8 +3,21 @@
 # Get CPU usage (rounded to integer)
 cpu_usage=$(top -bn1 | awk '/Cpu\(s\)/ {print $2}' | sed 's/%us,//' | awk '{printf "%.0f", $1}')
 
-# Get CPU temperature
-temp_raw=$(cat /sys/class/hwmon/hwmon6/temp1_input 2>/dev/null)
+# Get CPU temperature - try multiple hwmon paths for different hardware
+# AMD CPUs typically use k10temp (hwmon4 on this system)
+temp_raw=""
+for hwmon_path in /sys/class/hwmon/hwmon{0..9}; do
+    if [ -f "$hwmon_path/name" ]; then
+        sensor_name=$(cat "$hwmon_path/name" 2>/dev/null)
+        # Check for CPU temperature sensors: k10temp (AMD), coretemp (Intel), zenpower
+        if [[ "$sensor_name" =~ ^(k10temp|coretemp|zenpower)$ ]]; then
+            temp_raw=$(cat "$hwmon_path/temp1_input" 2>/dev/null)
+            if [ -n "$temp_raw" ]; then
+                break
+            fi
+        fi
+    fi
+done
 
 if [ -n "$temp_raw" ]; then
     temp_celsius=$((temp_raw / 1000))
