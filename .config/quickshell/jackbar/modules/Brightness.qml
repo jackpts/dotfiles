@@ -9,7 +9,7 @@ import "../components" as C
 
 Item {
     id: root
-    width: 32; height: 40
+    width: 32; height: C.Theme.panelHeight
     property int maxBrightness: 100
     property int currentBrightness: 0
     readonly property real brightness: maxBrightness > 0 ? currentBrightness / maxBrightness : 0
@@ -99,11 +99,58 @@ Item {
         }
     }
 
-    Text {
+    Item {
+        id: brightnessGauge
         anchors.centerIn: parent
-        text: root.icon()
-        color: C.Theme.text
-        font.pixelSize: 18
-        enabled: false  // Make text transparent to mouse events
+        width: C.Theme.scale(24)
+        height: width
+        property real percent: root.brightness
+
+        Canvas {
+            id: donutCanvas
+            anchors.fill: parent
+            onPaint: {
+                var ctx = getContext("2d")
+                var w = width
+                var h = height
+                ctx.reset()
+                ctx.clearRect(0, 0, w, h)
+
+                var cx = w / 2
+                var cy = h / 2
+                var outer = Math.min(w, h) / 2
+                var inner = outer * 0.35
+                var trackThickness = C.Theme.scale(3)
+                var segments = Math.max(1, Math.round(brightnessGauge.percent * 48))
+
+                // Draw outer ring background
+                ctx.strokeStyle = C.Theme.track
+                ctx.lineWidth = trackThickness
+                ctx.beginPath()
+                ctx.arc(cx, cy, (inner + outer) / 2, 0, Math.PI * 2)
+                ctx.stroke()
+
+                if (segments <= 0)
+                    return
+
+                ctx.lineWidth = C.Theme.scale(2)
+                ctx.strokeStyle = C.Theme.text
+                var startAngle = -Math.PI / 2
+                var sweep = Math.PI * 2 * brightnessGauge.percent
+                var step = sweep / segments
+                for (var i = 0; i < segments; i++) {
+                    var angle = startAngle + i * step
+                    var cos = Math.cos(angle)
+                    var sin = Math.sin(angle)
+                    ctx.beginPath()
+                    ctx.moveTo(cx, cy)
+                    ctx.lineTo(cx + cos * outer, cy + sin * outer)
+                    ctx.stroke()
+                }
+            }
+        }
+
+        onPercentChanged: donutCanvas.requestPaint()
+        Component.onCompleted: donutCanvas.requestPaint()
     }
 }
