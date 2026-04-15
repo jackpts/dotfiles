@@ -103,7 +103,7 @@ Item {
             top: true
             left: true
         }
-        margins.top: C.Theme.panelHeight + 6
+        margins.top: 0
         margins.left: 4
         implicitWidth: 500
         implicitHeight: searchInput.text !== "" ? 560 : appMenuContent.implicitHeight + 32
@@ -126,7 +126,7 @@ Item {
             color: "#1e1e2e"
             border.color: "#4DD0E1"
             border.width: 2
-            radius: 12
+            radius: 0
 
             ColumnLayout {
                 id: appMenuContent
@@ -192,7 +192,7 @@ Item {
                                     if (!model.exec) return;
                                     appLauncher.launch(model.exec);
                                     recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
-                                    root.isAppMenuOpen = false;
+                                    root.closeMenus();
                                 }
                             }
                         }
@@ -230,7 +230,7 @@ Item {
                                 if (!model.exec) return;
                                 appLauncher.launch(model.exec);
                                 recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
-                                root.isAppMenuOpen = false;
+                                root.closeMenus();
                             }
                         }
 
@@ -283,7 +283,7 @@ Item {
             top: true
             left: true
         }
-        margins.top: C.Theme.panelHeight + 6
+        margins.top: 0
         margins.left: 4
         implicitWidth: 420
         implicitHeight: 360
@@ -307,7 +307,7 @@ Item {
             color: "#1e1e2e"
             border.color: "#f38ba8"
             border.width: 2
-            radius: 12
+            radius: 0
 
             ColumnLayout {
                 anchors.fill: parent
