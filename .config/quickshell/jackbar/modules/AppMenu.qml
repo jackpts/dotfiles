@@ -190,9 +190,9 @@ Item {
                                 appName: model.name || ""
                                 onClicked: {
                                     if (!model.exec) return;
+                                    root.isAppMenuOpen = false;
                                     appLauncher.launch(model.exec);
                                     recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
-                                    root.closeMenus();
                                 }
                             }
                         }
@@ -228,9 +228,9 @@ Item {
                             hoverEnabled: true
                             onClicked: {
                                 if (!model.exec) return;
+                                root.isAppMenuOpen = false;
                                 appLauncher.launch(model.exec);
                                 recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
-                                root.closeMenus();
                             }
                         }
 
