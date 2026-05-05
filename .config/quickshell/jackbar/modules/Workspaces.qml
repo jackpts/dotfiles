@@ -198,9 +198,6 @@ Item {
                         if (root.compositor === "sway") {
                             run.command = ["bash", "-lc", "swaymsg workspace number " + modelData.num];
                             run.running = true;
-                        } else if (root.compositor === "niri") {
-                            run.command = ["bash", "-lc", "niri msg action focus-workspace " + modelData.num];
-                            run.running = true;
                         }
                     }
                 }
@@ -217,9 +214,6 @@ Item {
             if (root.compositor === "sway") {
                 run.command = ["bash", "-lc", wheel.angleDelta.y > 0 ? "swaymsg workspace next" : "swaymsg workspace prev"];
                 run.running = true;
-            } else if (root.compositor === "niri") {
-                run.command = ["bash", "-lc", wheel.angleDelta.y > 0 ? "niri msg action focus-workspace-up" : "niri msg action focus-workspace-down"];
-                run.running = true;
             }
         }
     }
@@ -230,7 +224,7 @@ Item {
 
     Process {
         id: detect
-        command: ["bash", "-lc", "pgrep -x niri >/dev/null && echo niri || (pgrep -x sway >/dev/null && echo sway || echo unknown)"]
+        command: ["bash", "-lc", "pgrep -x sway >/dev/null && echo sway || echo unknown"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: root.compositor = this.text.trim()
@@ -254,28 +248,19 @@ Item {
                     mapped.sort(function (a, b) {
                         return a.num - b.num;
                     });
+
+                    // Ensure Workspace 1 is always present
+                    var hasW1 = mapped.some(ws => ws.num === 1);
+                    if (!hasW1) {
+                        mapped.unshift({
+                            num: 1,
+                            name: "1",
+                            focused: false,
+                            urgent: false
+                        });
+                    }
                     root.spaces = mapped;
                 } catch (e) {}
-            }
-        }
-    }
-
-    Process {
-        id: niriWs
-        stdout: StdioCollector {
-            onStreamFinished: {
-                var t = this.text;
-                var m = t.match(/\*\s*([0-9]+)/);
-                var focused = m ? parseInt(m[1]) : -1;
-                var out = [];
-                for (var n = 1; n <= 9; n++)
-                    out.push({
-                        num: n,
-                        name: "" + n,
-                        focused: n === focused,
-                        urgent: false
-                    });
-                root.spaces = out;
             }
         }
     }
@@ -288,9 +273,6 @@ Item {
             if (root.compositor === "sway") {
                 swayWs.command = ["bash", "-lc", "swaymsg -r -t get_workspaces"];
                 swayWs.running = true;
-            } else if (root.compositor === "niri") {
-                niriWs.command = ["bash", "-lc", "niri msg workspaces"];
-                niriWs.running = true;
             }
         }
     }
