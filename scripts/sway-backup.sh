@@ -200,7 +200,7 @@ safe_notify() {
 	local icon="$2"
 	local title="$3"
 	local message="$4"
-	
+
 	# Check if notification service is available
 	if command -v notify-send >/dev/null 2>&1 && \
 	   busctl --user status org.freedesktop.Notifications >/dev/null 2>&1; then
@@ -512,7 +512,7 @@ main() {
 	# Run all backup steps
 	check_dependencies
 	create_backup_dir
-	backup_yt_tg_db
+	# backup_yt_tg_db
 
 	# Create backup and check result
 	if create_backup; then
