@@ -348,7 +348,7 @@ Item {
                     rowSpacing: 12
 
                     C.PowerButton {
-                        iconChar: ""
+                        iconChar: "󰌾"
                         label: "Lock"
                         onClicked: {
                             lockProcess.running = true;
@@ -384,7 +384,7 @@ Item {
                     }
 
                     C.PowerButton {
-                        iconChar: ""
+                        iconChar: "󰐥"
                         label: "Shutdown"
                         Layout.columnSpan: 2
                         onClicked: {
