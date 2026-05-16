@@ -327,18 +327,19 @@ exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 3, exec deluge"'
 exec --no-startup-id sh -c 'sleep 5; swaymsg "workspace number 2, exec $explorer"'
 # Kitty with tmux + yt-tg-chat-bot on workspace 2 at startup (window 0) + backup script (window 1)
-exec --no-startup-id sh -c 'sleep 8; swaymsg "workspace number 2, exec kitty -e tmux new-session -A -s yt_tg -d fish -c \"cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot\" \\; new-window -t yt_tg:1 fish -c \"sleep 2 && \$HOME/dotfiles/scripts/sway-backup.sh; fish\" \\; select-window -t yt_tg:0 \\; attach-session -t yt_tg"'
+exec --no-startup-id sh -c 'sleep 8; swaymsg "workspace number 2, exec kitty -e tmux new-session -A -s yt_tg -d fish -c \"cd \$HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot\" \\; new-window -t yt_tg:1 fish -l -c \"\$HOME/dotfiles/scripts/sway-backup.sh; sudo pacman -Suyy --noconfirm; exec fish -l\" \\; attach-session -t yt_tg"'
 # Return to workspace 1 after all startup apps
 exec --no-startup-id sh -c 'sleep 15; swaymsg "workspace number 1"'
-
 # Viber and Telegram auto-start on workspace 4 at system boot
 exec --no-startup-id sh -c 'sleep 3; swaymsg "workspace number 4, exec viber"'
 exec --no-startup-id sh -c 'sleep 4; swaymsg "workspace number 4, exec Telegram"'
-
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
 exec --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
 exec --no-startup-id copyq
+# Sway debug: journalctl --user -u sway
+# SDDM logs: journalctl -u sddm -b
+exec_always --no-startup-id journalctl --user -u sway
 # KDE Connect indicator
 exec_always --no-startup-id sh -c 'sleep 5 && nohup kdeconnect-indicator >/dev/null 2>&1 &'
 # Wallpaper
