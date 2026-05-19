@@ -72,7 +72,6 @@ CORE_BACKUP_ITEMS=(
 	# "/etc/wireguard/"
 
 	# User configs and dotfiles
-	"$HOME/.config/fish"
 	"$HOME/.gnupg"
 	"$HOME/.password-store/"
 	"$HOME/.ssh"
@@ -92,7 +91,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/Documents/sfs*.json"
 
 	# Wayland/Sway configs
-	"/usr/share/wayland-sessions/hyprland.desktop"
+	"/usr/share/wayland-sessions/"
 	"/usr/share/rofi/themes/"
 	"/usr/share/applications/"
 
@@ -137,9 +136,27 @@ print_info() {
 	echo -e "\033[1;34m[INFO]\033[0m $1"
 }
 
+# Check if Zen backup was performed within last 7 days
+check_zen_backup_recent() {
+	local zen_file
+	zen_file=$(find "$BACKUP_DIR" -name "backup_zen_*.7z" -type f -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
+	if [[ -n "$zen_file" ]] && [[ -f "$zen_file" ]]; then
+		local file_age_days
+		file_age_days=$((($(date +%s) - $(stat -c %Y "$zen_file" 2>/dev/null || echo 0)) / 86400))
+		if [[ "$file_age_days" -le 7 ]]; then
+			print_info "Zen backup already performed $file_age_days day(s) ago, skipping"
+			return 1
+		fi
+	fi
+	return 0
+}
+
 # Create separate Zen archive to keep main backup smaller
 create_zen_backup() {
 	ZEN_ARCHIVE_CREATED=0
+	if ! check_zen_backup_recent; then
+		return 0
+	fi
 	print_info "Collecting Zen backup items..."
 	collect_backup_items ZEN_BACKUP_ITEMS
 	local zen_items=("${VALID_ITEMS[@]}")
