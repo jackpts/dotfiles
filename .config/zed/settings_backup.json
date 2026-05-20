@@ -9,13 +9,8 @@
 {
   // check all configs here: https://gist.github.com/search?l=JSON&o=desc&q=Zed+config&s=
 
-  "language_models": {
-    "opencode": {
-      "show_free_models": true
-    }
-  },
   "project_panel": {
-    "dock": "left"
+    "dock": "right"
   },
   "outline_panel": {
     "dock": "right"
@@ -24,7 +19,7 @@
     "dock": "right"
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "right"
   },
   "enable_language_server": true,
   "colorize_brackets": true,
@@ -68,34 +63,24 @@
       "command": "kimi",
       "args": ["--experimental-acp"],
       "env": {}
-    },
-    "DeepSeek": {
-      "type": "custom",
-      "command": "deepseek",
-      "args": ["serve", "--acp"],
-      "env": {}
     }
   },
   "agent": {
-    "dock": "right",
+    "dock": "left",
     "default_model": {
-      "provider": "opencode",
-      "model": "free/minimax-m2.5-free",
+      "provider": "openrouter",
+      "model": "qwen/qwen3-coder:free",
       "enable_thinking": false
     },
-"tool_permissions": {
-          "tools": {
-            "terminal": {
-              "default": "allow",
-              "always_allow": [
-                {
-                  "pattern": "^ps\\s+aux(\\s|$)"
-                },
-                {
-                  "pattern": "^opencode\\s"
-                }
-              ]
-            },
+    "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "always_allow": [
+            {
+              "pattern": "^ps\\s+aux(\\s|$)"
+            }
+          ]
+        },
         "edit_file": {
           "default": "allow",
           "always_allow": [
@@ -140,7 +125,7 @@
     // Notify Options: "primary_screen" (default), "all_screens", "never"
     "notify_when_agent_waiting": "all_screens",
     // Disable notification sound - Zed doesn't support volume control, only on/off
-    "play_sound_when_agent_done": "always"
+    "play_sound_when_agent_done": true
   },
   "icon_theme": "Warm Charmed Icons",
   "vim_mode": true,
