@@ -3,9 +3,11 @@
 	email = jackpts1981@gmail.com
 [credential "https://github.com"]
 	username = jackpts
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-    helper = !/usr/bin/gh auth git-credential
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
 [credential]
 	helper = cache
 [core]
@@ -238,3 +240,10 @@
 	prune = true
 [init]
 	defaultBranch = main
+
+[includeIf "gitdir:~/gitlab/"]
+    path = ~/.gitconfig-gitlab
+[includeIf "gitdir:~/bitbucket/"]
+  path = ~/.gitconfig-bitbucket
+[includeIf "gitdir:~/github/cleverlabs/"]
+  path = ~/.gitconfig-cleverlabs
