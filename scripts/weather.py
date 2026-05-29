@@ -60,9 +60,10 @@ WEATHER_CODES = {
     '395': '❄️'
 }
 
-WTTR_URL = "https://wttr.in/?format=j1"
 DEFAULT_LAT = float(os.environ.get("WEATHER_LAT", "53.9"))
 DEFAULT_LON = float(os.environ.get("WEATHER_LON", "27.5667"))
+
+WTTR_URL = f"https://wttr.in/{DEFAULT_LAT},{DEFAULT_LON}?format=j1"
 
 OPEN_METEO_URL = (
     "https://api.open-meteo.com/v1/forecast"
