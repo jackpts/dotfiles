@@ -117,7 +117,7 @@ Item {
         onEntered: {
             // Preserve line breaks in tooltip while keeping normal wrapping
             const html = tooltipText.replace(/\r?\n/g, '<br/>')
-            C.Tooltip.show(root, html)
+            C.Tooltip.show(root, html, false, { maxWidth: 400 })
         }
         onExited: C.Tooltip.hide()
     }
