@@ -1,15 +1,13 @@
 [user]
 	name = Jack Pts
 	email = jackpts1981@gmail.com
-[includeIf "gitdir:~/gitlab/"]
-    path = ~/.gitconfig-gitlab
-[includeIf "gitdir:~/bitbucket/"]
-  path = ~/.gitconfig-bitbucket
 [credential "https://github.com"]
 	username = jackpts
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-    helper = !/usr/bin/gh auth git-credential
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
 [core]
 	autocrlf = input
 	editor = nvim
@@ -240,3 +238,10 @@
 	prune = true
 [init]
 	defaultBranch = main
+
+[includeIf "gitdir:~/gitlab/"]
+    path = ~/.gitconfig-gitlab
+[includeIf "gitdir:~/bitbucket/"]
+  path = ~/.gitconfig-bitbucket
+[includeIf "gitdir:~/github/cleverlabs/"]
+  path = ~/.gitconfig-cleverlabs
