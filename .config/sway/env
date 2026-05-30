@@ -1,7 +1,7 @@
-# Принудительно указываем Sway использовать NVIDIA (card1/renderD128)
-WLR_DRM_DEVICES=/dev/dri/renderD128
-
-# Переменные для стабильности драйвера Nvidia в Wayland
+# Sway starts before fish conf.d is loaded when launched by a display manager.
+# Keep NVIDIA/wlroots startup variables here and source them from the launcher.
+WLR_RENDERER_ALLOW_SOFTWARE=1
+WLR_DRM_DEVICES=/dev/dri/by-path/pci-0000:01:00.0-card
+WLR_NO_HARDWARE_CURSORS=1
 GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia
-WLR_RENDERER_ALLOW_SOFTWARE=1
