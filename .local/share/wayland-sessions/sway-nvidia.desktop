@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Sway (NVIDIA)
+Comment=Launch Sway with wlroots NVIDIA compatibility flags
+Exec=/home/jacky/.config/sway/startup.sh
+Type=Application
+DesktopNames=sway;wlroots

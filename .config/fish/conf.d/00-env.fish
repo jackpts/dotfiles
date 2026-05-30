@@ -30,7 +30,7 @@ end
 # Sway/NVIDIA: used when Sway is started manually from fish.
 # Display-manager sessions use ~/.config/sway/startup.sh instead.
 set -gx WLR_RENDERER_ALLOW_SOFTWARE 1
-set -gx WLR_DRM_DEVICES /dev/dri/by-path/pci-0000:01:00.0-card
+set -gx WLR_DRM_DEVICES /dev/dri/card1
 set -gx WLR_NO_HARDWARE_CURSORS 1
 set -gx GBM_BACKEND nvidia-drm
 set -gx __GLX_VENDOR_LIBRARY_NAME nvidia

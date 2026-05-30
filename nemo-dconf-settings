@@ -23,7 +23,7 @@ search-visible-columns=['name', 'where', 'date_modified', 'size']
 show-only-directories=false
 
 [window-state]
-geometry='1158x463+0+0'
+geometry='1371x864+0+0'
 maximized=false
 sidebar-bookmark-breakpoint=6
 sidebar-width=328
