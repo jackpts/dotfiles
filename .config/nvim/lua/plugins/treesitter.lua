@@ -41,6 +41,7 @@ return {
                 "graphql",
                 "dockerfile",
                 "gitignore",
+                "ssh_config",
             })
             
             -- Configure additional treesitter options
