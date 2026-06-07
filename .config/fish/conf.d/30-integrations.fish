@@ -55,3 +55,12 @@ else if type -q paru
     set aurhelper paru
 end
 
+# SSH
+## ssh-agent auto start
+if not set -q SSH_AUTH_SOCK
+    ssh-agent -c | source
+end
+
+## auto adding keys
+ssh-add ~/.ssh/id_personal 2>/dev/null
+ssh-add ~/.ssh/id_cleverlabs 2>/dev/null

@@ -107,3 +107,6 @@ function gcb_backup --description 'Archive Google Chat Bot project excluding nod
     7z a -xr'!node_modules' -xr'!dist' "$archive_path" "$project_dir/"
 end
 abbr gcb_backup 'gcb_backup'
+
+
+abbr exceed_db_reset 'npm run db:reset-schema && npm run db:migrate:local && npm run db:seed -- --reset && npm run dev'
