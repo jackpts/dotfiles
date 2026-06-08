@@ -1,0 +1,68 @@
+[
+  {
+    "id": "london",
+    "name": "London, Great Britain",
+    "lat": 51.5074,
+    "lon": -0.1278
+  },
+  {
+    "id": "minsk",
+    "name": "Minsk, Belarus",
+    "lat": 53.9006,
+    "lon": 27.5590
+  },
+  {
+    "id": "tallinn",
+    "name": "Tallinn, Estonia",
+    "lat": 59.4370,
+    "lon": 24.7536
+  },
+  {
+    "id": "warsaw",
+    "name": "Warsaw, Poland",
+    "lat": 52.2297,
+    "lon": 21.0122
+  },
+  {
+    "id": "malaga",
+    "name": "Malaga, Spain",
+    "lat": 36.7213,
+    "lon": -4.4214
+  },
+  {
+    "id": "stavanger",
+    "name": "Stavanger, Norway",
+    "lat": 58.9700,
+    "lon": 5.7331
+  },
+  {
+    "id": "porto",
+    "name": "Porto, Portugal",
+    "lat": 41.1579,
+    "lon": -8.6291
+  },
+  {
+    "id": "amsterdam",
+    "name": "Amsterdam, Netherlands",
+    "lat": 52.3676,
+    "lon": 4.9041
+  },
+  {
+    "id": "thessaloniki",
+    "name": "Thessaloniki, Greece",
+    "lat": 40.6401,
+    "lon": 22.9444
+  },
+  {
+    "id": "rio",
+    "name": "Rio de Janeiro, Brazil",
+    "lat": -22.9068,
+    "lon": -43.1729
+  },
+  {
+    "id": "montevideo",
+    "name": "Montevideo, Uruguay",
+    "lat": -34.9011,
+    "lon": -56.1645
+  }
+]
