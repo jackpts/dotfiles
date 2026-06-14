@@ -40,7 +40,20 @@ Item {
             macs=\$(bluetoothctl devices Connected | grep -oP 'Device\\s+([0-9A-F:]{17})' | awk '{print \$2}' | sort -u)
             if [ -z "\$macs" ]; then
                 echo "COUNT=0"
-                echo "CONTROLLER=none"
+                svc=\$(systemctl is-active bluetooth.service 2>/dev/null)
+                if [ "\$svc" != "active" ]; then
+                    echo "DIAG:• bluetooth.service is \$svc"
+                fi
+                if command -v rfkill &>/dev/null; then
+                    rf=\$(rfkill list bluetooth 2>/dev/null | grep -oP 'Soft blocked:\s+\K\S+')
+                    if [ "\$rf" = "yes" ]; then
+                        echo "DIAG:• Bluetooth is soft-blocked by rfkill"
+                    fi
+                fi
+                ctrl=\$(bluetoothctl list 2>/dev/null | head -1)
+                if [ -z "\$ctrl" ]; then
+                    echo "DIAG:• No Bluetooth controller found"
+                fi
                 exit 0
             fi
 
@@ -127,8 +140,23 @@ Item {
 
                 if (count === 0) {
                     root.displayText = "";
-                    root.tooltipText = root.bluetoothPowered ? "No Bluetooth devices connected" : "Bluetooth is off";
                     root.batteryValues = [];
+
+                    var diags = [];
+                    for (var i = 0; i < lines.length; i++) {
+                        var line = lines[i].trim();
+                        if (line.startsWith("DIAG:")) {
+                            diags.push(line.substring(5));
+                        }
+                    }
+
+                    if (diags.length > 0) {
+                        root.tooltipText = "<b>Bluetooth Status</b><br><br>" + diags.join("<br>");
+                    } else if (root.bluetoothPowered) {
+                        root.tooltipText = "No Bluetooth devices connected";
+                    } else {
+                        root.tooltipText = "Bluetooth is off";
+                    }
                 } else {
                     var displays = [];
                     for (var j = 0; j < devices.length; j++) {
