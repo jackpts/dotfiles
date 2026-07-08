@@ -21,5 +21,48 @@
       }
     }
   },
-  "model": "opencode/deepseek-v4-flash-free"
+  "model": "opencode/deepseek-v4-flash-free",
+  "mcp": {
+    "lmstudio": {
+      "type": "remote",
+      "url": "http://localhost:1234/v1",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "enabled": true
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "enabled": true
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"],
+      "enabled": true
+    },
+    "docker": {
+      "type": "local",
+      "command": ["uvx", "mcp-docker-server"],
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "environment": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "enabled": true
+    },
+    "fetch": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-fetch"],
+      "enabled": true
+    },
+    "shell": {
+      "type": "local",
+      "command": ["npx", "-y", "@wonderwhy-er/desktop-commander"],
+      "enabled": true
+    }
+  }
 }

@@ -2,18 +2,6 @@
   "data": {
     "directory": ".opencode"
   },
-  "mcpServers": {
-    "lmstudio": {
-      "command": "",
-      "env": null,
-      "args": null,
-      "type": "http",
-      "url": "http://localhost:1234/v1",
-      "headers": {
-        "Content-Type": "application/json"
-      }
-    }
-  },
   "lsp": {
     "go": {
       "enabled": false,
