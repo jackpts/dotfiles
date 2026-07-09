@@ -11,9 +11,13 @@ Item {
     
     MouseArea {
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
-        onClicked: {
-            run.command = ["sh", "-c", "WAYLAND_DISPLAY=${WAYLAND_DISPLAY} setsid -f sh -c 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; filename=\"$dir/$(date +\"%F_%H-%M-%S\").png\"; grim -g \"$(slurp)\" \"$filename\" && wl-copy < \"$filename\"'"]
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: (mouse) => {
+            if (mouse.button === Qt.RightButton) {
+                run.command = ["sh", "-c", "xdg-open \"${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots\""]
+            } else {
+                run.command = ["sh", "-c", "WAYLAND_DISPLAY=${WAYLAND_DISPLAY} setsid -f sh -c 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; filename=\"$dir/$(date +\"%F_%H-%M-%S\").png\"; grim -g \"$(slurp)\" \"$filename\" && wl-copy < \"$filename\"'"]
+            }
             run.running = true
         }
     }
