@@ -15,6 +15,7 @@ EXCLUSION_PATTERNS=(
 	".git"
 	"node_modules"
 	".cache"
+	".next"
 	"__pycache__"
 	"*.tmp"
 	"*.log"
@@ -114,6 +115,12 @@ CORE_BACKUP_ITEMS=(
 	# Git configs (already covered by $HOME/.git* above)
 	# "$HOME/.gitconfig-gitlab"  # duplicate - removed
 	# "$HOME/.gitconfig-bitbucket"  # duplicate - removed
+    
+    # Exceed project files
+    "$HOME/github/cleverlabs/exceed-guest-management/.env*"
+    "$HOME/github/cleverlabs/exceed-guest-management/*.json"
+    "$HOME/github/cleverlabs/exceed-guest-management/.cursor/"
+    "$HOME/github/cleverlabs/exceed-guest-management/task*.md"
 )
 
 # Additional backup items (add more paths here as needed)
