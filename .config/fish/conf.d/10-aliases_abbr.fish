@@ -203,8 +203,8 @@ abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
 
 # Quickshell
 abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
-abbr q_reload 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar"'
-abbr q_reload_dbg 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; QS_PANEL_DEBUG=1 quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar" -vv'
+abbr q_reload '$HOME/dotfiles/scripts/quickshell_reload.sh'
+abbr q_reload_dbg 'QS_PANEL_DEBUG=1 $HOME/dotfiles/scripts/quickshell_reload.sh -vv'
 ## In case of pacman update errors like: `Querying Quickshell compatibility after Qt6 update... COMPATIBILITY WARNING: Quickshell was built against Qt 6.11.0 but the system has updated to Qt 6.11.1 without rebuilding the package. This is likely to cause crashes, so you must rebuild the quickshell package.`
 abbr q_rebuild 'paru -S quickshell-git --rebuild=yes --cleanafter'
 

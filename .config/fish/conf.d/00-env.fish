@@ -47,6 +47,7 @@ set -U XDG_DATA_HOME $HOME/.local/share
 # AI / Aider
 set -gx OLLAMA_API_BASE http://127.0.0.1:11434
 set -gx AIDER_DARK_MODE true
+# CEREBRAS_API_KEY moved to private.fish (gitignored)
 
 # Editors and apps
 set -gx VISUAL nvim
