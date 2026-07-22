@@ -14,7 +14,9 @@ return {
     -- comment w/ gcc & gbc
     {
         "numToStr/Comment.nvim",
-        opts = {},
+        config = function()
+            require("Comment").setup({})
+        end,
     },
 
     -- function usage
