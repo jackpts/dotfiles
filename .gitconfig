@@ -245,3 +245,5 @@
   path = ~/.gitconfig-bitbucket
 [includeIf "gitdir:~/github/cleverlabs/"]
   path = ~/.gitconfig-cleverlabs
+[credential "https://git.heroku.com"]
+	helper = !heroku git:credentials
