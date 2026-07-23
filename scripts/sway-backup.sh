@@ -10,6 +10,9 @@ set -euo pipefail
 BACKUP_PASSWORD="t2"
 BACKUP_DIR="/run/media/jacky/media/backup/regular"
 
+# Once-daily mode: skip if today's backup already exists
+ONCE_DAILY=0
+
 # Exclusion patterns (directories/files to exclude from backup)
 EXCLUSION_PATTERNS=(
 	".git"
@@ -522,8 +525,26 @@ cleanup_old_backups() {
 	fi
 }
 
+# Check if today's backup already exists (for once-daily mode)
+check_once_daily() {
+	local today_archive="${BACKUP_DIR}/backup_$(date +%d)_$(date +%m)_$(date +%Y).7z"
+	if [[ -f "$today_archive" ]]; then
+		print_info "Today's backup already exists: $(basename "$today_archive")"
+		print_info "Skipping backup (once-daily mode)"
+		return 0
+	fi
+	return 1
+}
+
 # Main execution
 main() {
+	# Once-daily mode: skip if today's backup exists
+	if [[ "$ONCE_DAILY" -eq 1 ]]; then
+		if check_once_daily; then
+			return 0
+		fi
+	fi
+
 	print_info "Starting Sway backup process..."
 	print_info "Date: $(date '+%Y-%m-%d %H:%M:%S')"
 
@@ -585,5 +606,13 @@ trap 'print_error "Backup interrupted!"; exit 130' INT TERM
 
 # Run main function if script is executed directly
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	# Parse arguments
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+			--once-daily) ONCE_DAILY=1 ;;
+			*) print_error "Unknown option: $1"; exit 1 ;;
+		esac
+		shift
+	done
 	main "$@"
 fi
