@@ -81,8 +81,8 @@
     "dock": "right",
     "default_model": {
       "provider": "openrouter",
-      "model": "deepseek/deepseek-v4-flash",
-      "enable_thinking": true
+      "model": "openrouter/free",
+      "enable_thinking": false
     },
 "tool_permissions": {
           "tools": {
@@ -161,6 +161,11 @@
         "model": "free/nemotron-3-ultra-free",
         "enable_thinking": true,
         "effort": "high"
+      },
+      {
+        "provider": "openrouter",
+        "model": "poolside/laguna-m.1:free",
+        "enable_thinking": true
       }
     ],
     "model_parameters": [],
