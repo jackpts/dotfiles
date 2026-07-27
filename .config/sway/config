@@ -138,7 +138,7 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # File manager, browser, editor
     bindsym $mod+e exec $explorer
     # bindsym $mod+b exec $google-chrome
-    # bindsym $mod+n exec $editor
+    bindsym $mod+n exec $scripts/toggle_neovim.sh
     bindsym $mod+z exec zen-browser
 
     # Toggle floating / fullscreen
@@ -267,17 +267,8 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # Move focus to the parent container
     bindsym $mod+a focus parent
 
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
-
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+s move scratchpad
-
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+s scratchpad show
+# Obsidian toggle (launch if not running, focus if running)
+    bindsym $mod+s exec $scripts/toggle_obsidian.sh
 
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
