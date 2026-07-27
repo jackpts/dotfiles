@@ -123,7 +123,7 @@ CORE_BACKUP_ITEMS=(
     "$HOME/github/cleverlabs/exceed-guest-management/.env*"
     "$HOME/github/cleverlabs/exceed-guest-management/*.json"
     "$HOME/github/cleverlabs/exceed-guest-management/.cursor/"
-    "$HOME/github/cleverlabs/exceed-guest-management/task*.md"
+    "$HOME/github/cleverlabs/exceed-guest-management/*.md"
 )
 
 # Additional backup items (add more paths here as needed)
