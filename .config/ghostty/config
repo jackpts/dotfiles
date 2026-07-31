@@ -1,5 +1,5 @@
 # theme = UltraDark
-theme = ayu
+theme = Ayu
 window-theme=ghostty
 
 # font-family = "JetBrains Mono"
@@ -11,7 +11,7 @@ background-opacity = 0.9
 gtk-titlebar = false
 
 # custom-shader = bloom.glsl
-command = sh -c "tmux"
+# command = sh -c "herdr"
 
 # background = #1b191b
 # foreground = #d6deeb

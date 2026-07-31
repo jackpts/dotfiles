@@ -1,0 +1,50 @@
+onboarding = false
+[theme]
+name = "dracula"
+
+auto_switch = false
+[terminal]
+shell_mode = "login"
+
+[keys]
+prefix = "ctrl+b"
+
+reload_config = "prefix+r"
+resize_mode = ""
+
+split_horizontal = "prefix+|"
+split_vertical = "prefix+minus"
+
+zoom = "prefix+m"
+
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+previous_tab = "shift+left"
+next_tab = "shift+right"
+close_tab = "ctrl+w"
+
+previous_workspace = ""
+next_workspace = "prefix+n"
+
+edit_scrollback = "prefix+e"
+toggle_sidebar = "prefix+b"
+
+# Paste from clipboard (matches tmux prefix+p)
+[[keys.command]]
+key = "prefix+p"
+type = "popup"
+command = "wl-paste"
+width = "60%"
+height = "20%"
+
+[ui]
+sidebar_width = 26
+mouse_capture = true
+copy_on_select = true
+pane_borders = true
+pane_gaps = true

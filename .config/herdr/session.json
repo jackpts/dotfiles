@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "workspaces": [
+    {
+      "id": "wDH",
+      "custom_name": null,
+      "identity_cwd": "/home/jacky/github/yt-tg-chat-bot",
+      "public_pane_numbers": {
+        "5": 11,
+        "4": 8,
+        "3": 7,
+        "1": 1,
+        "2": 6
+      },
+      "next_public_pane_number": 12,
+      "public_tab_numbers": [
+        1,
+        6,
+        7,
+        8,
+        11
+      ],
+      "next_public_tab_number": 12,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 1
+          },
+          "panes": {
+            "1": {
+              "cwd": "/home/jacky/github/yt-tg-chat-bot"
+            }
+          },
+          "zoomed": false,
+          "focused": 1,
+          "root_pane": 1
+        },
+        {
+          "custom_name": "ex-1",
+          "layout": {
+            "Pane": 2
+          },
+          "panes": {
+            "2": {
+              "cwd": "/home/jacky/github/cleverlabs/exceed-guest-management"
+            }
+          },
+          "zoomed": false,
+          "focused": 2,
+          "root_pane": 2
+        },
+        {
+          "custom_name": "ex2",
+          "layout": {
+            "Pane": 3
+          },
+          "panes": {
+            "3": {
+              "cwd": "/home/jacky/github/cleverlabs/exceed-guest-management",
+              "agent_session": {
+                "source": "herdr:cursor",
+                "agent": "cursor",
+                "kind": "id",
+                "value": "c7e54e08-6424-4433-b1ef-b0abd5f094b4"
+              }
+            }
+          },
+          "zoomed": false,
+          "focused": 3,
+          "root_pane": 3
+        },
+        {
+          "custom_name": "ex3",
+          "layout": {
+            "Pane": 4
+          },
+          "panes": {
+            "4": {
+              "cwd": "/home/jacky/github/cleverlabs/exceed-guest-management",
+              "agent_session": {
+                "source": "herdr:cursor",
+                "agent": "cursor",
+                "kind": "id",
+                "value": "7bf3b618-59a0-40b5-81af-a7867251bd9f"
+              }
+            }
+          },
+          "zoomed": false,
+          "focused": 4,
+          "root_pane": 4
+        },
+        {
+          "custom_name": "ex4",
+          "layout": {
+            "Pane": 5
+          },
+          "panes": {
+            "5": {
+              "cwd": "/home/jacky/dotfiles"
+            }
+          },
+          "zoomed": false,
+          "focused": 5,
+          "root_pane": 5
+        }
+      ],
+      "active_tab": 4
+    }
+  ],
+  "active": 0,
+  "selected": 0,
+  "sidebar_width": 26,
+  "sidebar_section_split": 0.5,
+  "collapsed_space_keys": []
+}
