@@ -64,6 +64,7 @@ CORE_BACKUP_ITEMS=(
 	"/etc/vconsole.conf"
 	"/etc/pacman.conf"
 	"/etc/pacman.d/mirrorlist"
+	"/etc/makepkg.conf"
 	"/etc/sddm.conf"
 	"/etc/pam.d/sddm*"
 	"/etc/plymouth/plymouthd.conf"
@@ -87,6 +88,7 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
 	"$HOME/.my.cnf"  # chmod 600 ~/.my.cnf
+    "$HOME/.netrc "
 
 	# Data and documents
 	"$HOME/obsidian/"
@@ -98,6 +100,7 @@ CORE_BACKUP_ITEMS=(
 	"/usr/share/wayland-sessions/"
 	"/usr/share/rofi/themes/"
 	"/usr/share/applications/"
+	"$HOME/.local/share/applications/mongodb-compass.desktop"  # Custom override: XDG_CURRENT_DESKTOP=GNOME for password save fix
 
 	# GTK configs (Nemo bookmarks)
 	"$HOME/.config/gtk-3.0/"
@@ -424,7 +427,11 @@ create_backup() {
 
 	print_info "Exclusion patterns: ${EXCLUSION_PATTERNS[*]}"
 
-	if LANG=C 7z a -t7z -mx=9 -mhe=on -snl -spf "${exclusion_args[@]}" -p"$BACKUP_PASSWORD" "$ARCHIVE_PATH" "${all_items[@]}" >"$temp_log" 2>&1; then
+	local list_file="/tmp/7z_backup_list_$$.txt"
+	printf '%s\n' "${all_items[@]}" >"$list_file"
+
+	if LANG=C 7z a -t7z -mx=9 -mhe=on -snl -spf "${exclusion_args[@]}" -p"$BACKUP_PASSWORD" "$ARCHIVE_PATH" @"$list_file" >"$temp_log" 2>&1; then
+		rm -f "$list_file"
 		print_success "Backup created successfully!"
 		# Show warnings if any
 		if grep -q "WARNING" "$temp_log"; then
@@ -434,6 +441,7 @@ create_backup() {
 		rm -f "$temp_log"
 		return 0
 	else
+		rm -f "$list_file"
 		print_error "Failed to create backup archive"
 		print_error "7zip output:"
 		cat "$temp_log"
