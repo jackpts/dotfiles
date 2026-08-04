@@ -59,6 +59,7 @@ if not contains /opt/nvim-linux64/bin $PATH
     fish_add_path /opt/nvim-linux64/bin
 end
 fish_add_path ~/.volta/bin
+fish_add_path ~/.grok/bin
 
 # Locale and TTY
 set -gx LANG en_US.UTF-8

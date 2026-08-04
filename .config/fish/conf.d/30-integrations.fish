@@ -64,3 +64,11 @@ end
 ## auto adding keys
 ssh-add ~/.ssh/id_personal 2>/dev/null
 ssh-add ~/.ssh/id_cleverlabs 2>/dev/null
+
+# Auto-start herdr in the first interactive shell (not inside existing herdr)
+if not set -q HERDR_PANE_ID
+    and not set -q SSH_TTY
+    and isatty 1
+    and type -q herdr
+    exec herdr
+end
