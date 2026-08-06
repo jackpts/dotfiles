@@ -11,10 +11,30 @@ return {
     -- add jsonls and schemastore ans setup treesitter for json, json5 and jsonc
     { import = "lazyvim.plugins.extras.lang.json" },
 
+    -- disable LazyVim's default ts-comments.nvim (conflicts with Comment.nvim)
+    {
+        "folke/ts-comments.nvim",
+        enabled = false,
+    },
+
     -- comment w/ gcc & gbc
     {
         "numToStr/Comment.nvim",
         config = function()
+            local ft = require("Comment.ft")
+            local orig_calculate = ft.calculate
+            ft.calculate = function(ctx)
+                local ok, parser = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+                if not ok or not parser then
+                    return ft.get(vim.bo.filetype, ctx.ctype)
+                end
+                return orig_calculate(ctx)
+            end
+
+            ft.set("swayconfig", "#%s")
+            ft.set("i3config", "#%s")
+            ft.set("hyprlang", "#%s")
+
             require("Comment").setup({})
         end,
     },
