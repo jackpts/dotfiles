@@ -48,3 +48,10 @@ dbui
 
 output:tasks
 .comments
+
+/.config/herdr/*.log
+/.config/herdr/*.sock
+/.config/herdr/.plugins.lock
+/.config/herdr/session.json
+/.config/herdr/release-notes.json
+/.config/herdr/*.log.*
