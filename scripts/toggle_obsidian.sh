@@ -1,18 +1,32 @@
 #!/bin/bash
 APP="obsidian"
 
-cnt=$(swaymsg -t get_tree | jq '[.. | objects | select(.app_id != null) | select(.app_id | ascii_downcase == "'"$APP"'")] | length')
+win_id=$(swaymsg -t get_tree | jq -r --arg app "$APP" '
+  [.. | objects
+   | select(.pid != null)
+   | select(
+       (((.app_id // "") | ascii_downcase) | contains($app)) or
+       (((.window_properties.class // "") | ascii_downcase) | contains($app))
+     )
+   | .id][0] // empty')
 
-if [ "$cnt" -eq 0 ]; then
+if [ -z "$win_id" ]; then
     "$APP" &
     exit 0
 fi
 
-focused=$(swaymsg -t get_tree | jq '[.. | objects | select(.focused == true and .app_id != null) | select(.app_id | ascii_downcase == "'"$APP"'")] | length')
+focused=$(swaymsg -t get_tree | jq -r --arg app "$APP" '
+  [.. | objects
+   | select(.focused == true)
+   | select(
+       (((.app_id // "") | ascii_downcase) | contains($app)) or
+       (((.window_properties.class // "") | ascii_downcase) | contains($app))
+     )
+  ] | length')
 
 if [ "$focused" -gt 0 ]; then
-    swaymsg "[app_id=$APP] move scratchpad"
+    swaymsg "[con_id=$win_id] move scratchpad"
 else
-    swaymsg "[app_id=$APP] scratchpad show"
-    swaymsg "[app_id=$APP] focus"
+    swaymsg "[con_id=$win_id] scratchpad show"
+    swaymsg "[con_id=$win_id] focus"
 fi
