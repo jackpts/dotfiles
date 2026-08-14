@@ -65,7 +65,13 @@ fish_add_path ~/.grok/bin
 set -gx LANG en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 set -gx TERM_EMULATOR kitty
-set -gx TERM xterm-kitty
+# Cursor/VS Code need their own TERM for shell-integration OSC sequences.
+# Forcing xterm-kitty here makes their probe time out and sendText a bash/zsh
+# integration script into whatever PTY is focused (often herdr).
+if not string match -q -- "$TERM_PROGRAM" vscode
+    and not set -q CURSOR_AGENT
+    set -gx TERM xterm-kitty
+end
 
 # Wayland (commented out for safety; set per-app if needed)
 # set -gx MOZ_ENABLE_WAYLAND 1

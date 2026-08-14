@@ -318,7 +318,10 @@ fi
 
 # source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-export TERM=tmux-256color
+# Cursor/VS Code need their own TERM for shell-integration OSC sequences.
+if [[ "$TERM_PROGRAM" != "vscode" && -z "$CURSOR_AGENT" ]]; then
+  export TERM=tmux-256color
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -364,7 +367,9 @@ function zsh_greeting() {
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 zsh_greeting
 
-# Auto-start herdr in the first interactive shell (not inside existing herdr)
-if [[ -z "$HERDR_PANE_ID" && -z "$SSH_TTY" && "$(tty)" != "not a tty" ]] && command -v herdr &>/dev/null; then
+# Auto-start herdr in the first interactive shell (not inside existing herdr).
+# Skip Cursor/VS Code: their agent shell probe execs into the shared herdr
+# socket, then sendText-s zsh/bash integration into the focused pane.
+if [[ -z "$HERDR_PANE_ID" && -z "$SSH_TTY" && -z "$CURSOR_AGENT" && -z "$VSCODE_INJECTION" && "$TERM_PROGRAM" != "vscode" && "$(tty)" != "not a tty" ]] && command -v herdr &>/dev/null; then
     exec herdr
 fi
