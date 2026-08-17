@@ -11,6 +11,7 @@ Rectangle {
 
     property string iconChar: ""
     property string appName: ""
+    property string iconSource: ""
     signal clicked()
 
     MouseArea {
@@ -25,11 +26,30 @@ Rectangle {
         anchors.margins: 8
         spacing: 4
 
-        Text {
-            text: iconChar
-            color: "#cdd6f4"
-            font.pixelSize: 24
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 32
             Layout.alignment: Qt.AlignHCenter
+
+            Image {
+                id: iconImage
+                anchors.centerIn: parent
+                width: 32
+                height: 32
+                source: root.iconSource || ""
+                fillMode: Image.PreserveAspectFit
+                sourceSize.width: 64
+                sourceSize.height: 64
+                visible: root.iconSource !== ""
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: root.iconChar
+                color: "#cdd6f4"
+                font.pixelSize: 24
+                visible: root.iconSource === ""
+            }
         }
 
         Text {

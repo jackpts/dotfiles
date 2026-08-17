@@ -5,7 +5,7 @@ import QtQuick
 Item {
     id: root
     property string recentFile: Quickshell.env("HOME") + "/.config/quickshell/jackbar/recent.conf"
-    property int maxItems: 16
+    property int maxItems: 999999
     property alias count: listModel.count
     
     // Expose the internal model for use in Repeater/ListView
@@ -82,7 +82,11 @@ Item {
             if (parts.length >= 2) {
                 var name = parts[0];
                 var exec = parts[1];
-                var icon = parts[2] || "󰣆";
+                var rawIcon = parts[2] || "";
+
+                // Detect if parts[2] is a file path (starts with /) or an old-style Nerd Font glyph
+                var iconPath = rawIcon.charAt(0) === "/" ? rawIcon : "";
+                var iconChar = iconPath ? "" : (rawIcon || "󰣆");
 
                 // Skip duplicates by name
                 if (seenNames[name]) continue;
@@ -91,7 +95,8 @@ Item {
                 append({
                     name: name,
                     exec: exec,
-                    icon: icon
+                    icon: iconChar,
+                    iconPath: iconPath
                 });
             }
         }
@@ -100,11 +105,11 @@ Item {
 
     function saveRecent() {
         var content = "# QuickShell Recent Applications\n";
-        content += "# Format: name|exec|icon\n\n";
+        content += "# Format: name|exec|iconPath\n\n";
 
         for (var i = 0; i < count; i++) {
             var item = get(i);
-            content += item.name + "|" + item.exec + "|" + item.icon + "\n";
+            content += item.name + "|" + item.exec + "|" + (item.iconPath || "") + "\n";
         }
 
         writeFileProc.command = ["bash", "-c", "echo '" + escapeShell(content) + "' > " + recentFile];
@@ -115,7 +120,7 @@ Item {
         return str.replace(/'/g, "'\"'\"'");
     }
 
-    function addRecent(name, exec, icon) {
+    function addRecent(name, exec, iconPath) {
         // Remove duplicates by name OR exec (to move to top and avoid dupes)
         for (var i = count - 1; i >= 0; i--) {
             var item = get(i);
@@ -128,7 +133,8 @@ Item {
         insert(0, {
             name: name,
             exec: exec,
-            icon: icon || "󰣆"
+            icon: iconPath ? "" : "󰣆",
+            iconPath: iconPath || ""
         });
 
         // Trim to max items
@@ -142,5 +148,22 @@ Item {
     function clearRecent() {
         clear();
         saveRecent();
+    }
+
+    // Fill in missing iconPath for entries loaded before icon cache was ready
+    function resolveIconPaths(resolver) {
+        var changed = false;
+        for (var i = 0; i < count; i++) {
+            var item = get(i);
+            if (!item.iconPath && resolver) {
+                var path = resolver(item.exec, item.name);
+                if (path) {
+                    listModel.setProperty(i, "iconPath", path);
+                    listModel.setProperty(i, "icon", "");
+                    changed = true;
+                }
+            }
+        }
+        if (changed) saveRecent();
     }
 }

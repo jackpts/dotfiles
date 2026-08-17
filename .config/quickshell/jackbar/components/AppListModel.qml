@@ -12,6 +12,11 @@ Item {
     readonly property var model: listModel
 
     signal loaded()
+    signal iconPathsResolved()
+
+    // Cache of icon name -> absolute file path
+    property var iconCache: ({})
+    property bool iconCacheLoaded: false
 
     ListModel {
         id: listModel
@@ -34,7 +39,18 @@ Item {
         }
     }
 
-    Component.onCompleted: loadApps()
+    // Batch-resolve all icons found in .desktop files to actual file paths
+    Process {
+        id: resolveIconsProc
+        stdout: StdioCollector {
+            onStreamFinished: onIconsResolved(this.text)
+        }
+    }
+
+    Component.onCompleted: {
+        loadApps();
+        buildIconCache();
+    }
 
     function get(index) {
         return listModel.get(index);
@@ -66,14 +82,16 @@ Item {
             if (parts.length >= 2) {
                 var name = parts[0];
                 var exec = parts[1].replace(/%[fFuUdDnNickvm]/g, "").trim();
-                var icon = parts[2] || "";
+                var rawIcon = parts[2] || "";
 
-                var iconChar = getIconForApp(icon, exec, name);
+                var iconChar = getIconForApp(rawIcon, exec, name);
 
                 var app = {
                     name: name,
                     exec: exec,
-                    icon: iconChar
+                    icon: iconChar,
+                    rawIcon: rawIcon,
+                    iconPath: ""
                 };
 
                 tempApps.push(app);
@@ -82,7 +100,99 @@ Item {
         }
         // Reassign entire array so QML detects the change
         allApps = tempApps;
+        applyIconCache();
         loaded();
+    }
+
+    // Run a single find to build a name → path mapping for all app icons
+    function buildIconCache() {
+        var cmd = [
+            "bash", "-c",
+            "find \"$HOME/.local/share/icons\" /usr/share/icons /usr/share/pixmaps" +
+            " '(' -path '*/apps/*' -o -path '/usr/share/pixmaps/*' ')'" +
+            " '(' -name '*.svg' -o -name '*.png' ')' -type f 2>/dev/null" +
+            " | awk -F/ '{n=$NF; sub(/\\.[^.]+$/, \"\", n); if(!a[n]++) print n \"|\" $0}'"
+        ];
+        resolveIconsProc.command = cmd;
+        resolveIconsProc.running = true;
+    }
+
+    function onIconsResolved(output) {
+        if (!output) {
+            iconCacheLoaded = true;
+            return;
+        }
+
+        var lines = output.split("\n");
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line) continue;
+            var parts = line.split("|");
+            if (parts.length >= 2) {
+                iconCache[parts[0].toLowerCase()] = parts[1];
+            }
+        }
+
+        iconCacheLoaded = true;
+        applyIconCache();
+    }
+
+    // Walk all apps and fill iconPath from the cache
+    function applyIconCache() {
+        var updated = false;
+        for (var i = 0; i < allApps.length; i++) {
+            var app = allApps[i];
+            var path = resolveIconPath(app.rawIcon, app.exec, app.name);
+            if (path && path !== app.iconPath) {
+                app.iconPath = path;
+                listModel.setProperty(i, "iconPath", path);
+                updated = true;
+            }
+        }
+        if (updated) iconPathsResolved();
+    }
+
+    // Resolve a single icon name to a file path (cache + absolute path lookup)
+    function resolveIconPath(rawIcon, exec, name) {
+        if (!rawIcon) return "";
+
+        // Absolute path from .desktop file
+        if (rawIcon.charAt(0) === "/") return rawIcon;
+
+        // Lookup in cache
+        var cached = iconCache[rawIcon.toLowerCase()];
+        if (cached) return cached;
+
+        return "";
+    }
+
+    // Public helper: look up a cached icon path by app exec or name
+    function getIconPath(exec, name) {
+        // 1. Try exact exec match
+        for (var i = 0; i < allApps.length; i++) {
+            if (allApps[i].exec === exec && allApps[i].iconPath) {
+                return allApps[i].iconPath;
+            }
+        }
+        // 2. Try exact name match
+        for (var i = 0; i < allApps.length; i++) {
+            if (allApps[i].name === name && allApps[i].iconPath) {
+                return allApps[i].iconPath;
+            }
+        }
+        // 3. Try exec basename match
+        var execBase = exec.split("/").pop().split(" ")[0].toLowerCase();
+        for (var i = 0; i < allApps.length; i++) {
+            var appBase = allApps[i].exec.split("/").pop().split(" ")[0].toLowerCase();
+            if (appBase === execBase && allApps[i].iconPath) {
+                return allApps[i].iconPath;
+            }
+        }
+        // 4. Try iconCache by exec basename
+        if (execBase && iconCache[execBase]) {
+            return iconCache[execBase];
+        }
+        return "";
     }
 
     function getIconForApp(iconName, execCmd, appName) {
