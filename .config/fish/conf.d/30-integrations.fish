@@ -64,17 +64,3 @@ end
 ## auto adding keys
 ssh-add ~/.ssh/id_personal 2>/dev/null
 ssh-add ~/.ssh/id_cleverlabs 2>/dev/null
-
-# Auto-start herdr in the first interactive shell (not inside existing herdr).
-# Skip Cursor/VS Code: their agent shell probe (CURSOR_AGENT + forceShellIntegration)
-# execs into the shared herdr socket, then sendText-s bash/zsh integration into
-# the focused pane.
-if not set -q HERDR_PANE_ID
-    and not set -q SSH_TTY
-    and not set -q CURSOR_AGENT
-    and not set -q VSCODE_INJECTION
-    and not string match -q -- "$TERM_PROGRAM" vscode
-    and isatty 1
-    and type -q herdr
-    exec herdr
-end

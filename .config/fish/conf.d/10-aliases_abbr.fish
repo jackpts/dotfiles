@@ -153,7 +153,7 @@ abbr rec_selection '$HOME/scripts/screen_record.sh'
 # Update helpers
 abbr un '$aurhelper -Rns'
 abbr u1 'sudo pacman -Suyy'
-abbr u2 '$aurhelper -Suyy --noconfirm'
+abbr u2 '$HOME/dotfiles/scripts/update_system.sh'
 
 # Tools
 # alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'

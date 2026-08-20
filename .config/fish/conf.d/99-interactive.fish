@@ -9,14 +9,19 @@ set -U fish_greeting "Welcome, "(whoami)", to Fish Shell on "(uname -n)" running
 # Key bindings
 fish_vi_key_bindings
 
-# One-time fastfetch per session (with 1s timeout)
+# One-time fetch per session
 if status is-interactive
-    if not set -q __FASTFETCH_STARTED
-        set -gx __FASTFETCH_STARTED 1
-        if type -q fastfetch
-            timeout 1 fastfetch 2>/dev/null
+    if not set -q __NEOFETCH_STARTED
+        set -gx __NEOFETCH_STARTED 1
+        if set -q HERDR_PANE_ID
+            # Inside herdr: use capyfetch (pure ASCII, no kitty graphics needed)
+            if type -q capyfetch
+                capyfetch
+            else if type -q neofetch
+                neofetch
+            end
         else if type -q neofetch
-            timeout 1 neofetch 2>/dev/null
+            neofetch
         end
     end
 end
