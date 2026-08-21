@@ -27,7 +27,7 @@ fi
 
 if [[ -n "${aurhelper:-}" ]]; then
   alias un='${aurhelper} -Rns'
-  alias u2='${aurhelper} -Suyy --noconfirm'
+  alias u2='$HOME/dotfiles/scripts/update_system.sh'
 fi
 
 alias q_start='quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
