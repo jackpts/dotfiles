@@ -91,8 +91,18 @@ Item {
     }
 
     // Data models
-    C.RecentAppsModel { id: recentModel }
-    C.AppListModel { id: appListModel }
+    C.RecentAppsModel {
+        id: recentModel
+        onLoaded: recentModel.resolveIconPaths(function(exec, name) {
+            return appListModel.getIconPath(exec, name);
+        })
+    }
+    C.AppListModel {
+        id: appListModel
+        onIconPathsResolved: recentModel.resolveIconPaths(function(exec, name) {
+            return appListModel.getIconPath(exec, name);
+        })
+    }
 
     // ==================== App Menu (PanelWindow) ====================
     PanelWindow {
@@ -187,12 +197,14 @@ Item {
                             C.AppButton {
                                 width: (appMenuContent.width - 24) / 4
                                 iconChar: model.icon || "󰣆"
+                                iconSource: model.iconPath || ""
                                 appName: model.name || ""
                                 onClicked: {
                                     if (!model.exec) return;
                                     root.isAppMenuOpen = false;
                                     appLauncher.launch(model.exec);
-                                    recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
+                                    var path = model.iconPath || appListModel.getIconPath(model.exec, model.name);
+                                    recentModel.addRecent(model.name || "", model.exec, path);
                                 }
                             }
                         }
@@ -230,7 +242,7 @@ Item {
                                 if (!model.exec) return;
                                 root.isAppMenuOpen = false;
                                 appLauncher.launch(model.exec);
-                                recentModel.addRecent(model.name || "", model.exec, model.icon || "󰣆");
+                                recentModel.addRecent(model.name || "", model.exec, model.iconPath || "");
                             }
                         }
 
@@ -239,11 +251,26 @@ Item {
                             anchors.margins: 8
                             spacing: 12
 
-                            Text {
-                                text: model.icon || "󰣆"
-                                color: "#cdd6f4"
-                                font.pixelSize: C.Theme.fontIcon
+                            Item {
                                 Layout.preferredWidth: 28
+                                Layout.preferredHeight: 28
+
+                                Image {
+                                    anchors.fill: parent
+                                    source: model.iconPath || ""
+                                    fillMode: Image.PreserveAspectFit
+                                    sourceSize.width: 28
+                                    sourceSize.height: 28
+                                    visible: model.iconPath && model.iconPath !== ""
+                                }
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: model.icon || "󰣆"
+                                    color: "#cdd6f4"
+                                    font.pixelSize: C.Theme.fontIcon
+                                    visible: !model.iconPath || model.iconPath === ""
+                                }
                             }
 
                             Text {
