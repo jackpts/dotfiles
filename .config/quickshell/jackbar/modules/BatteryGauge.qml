@@ -23,8 +23,40 @@ Item {
         label: percent + "%"
     }
 
+    property bool _initialized: false
+    property bool _notified20: false
+    property bool _notified15: false
+    property bool _notified10: false
+    property bool _wasCharging: false
+
+    Process { id: batNotify }
+    function checkBattery() {
+        if (!_initialized) return
+        var isCharging = status.indexOf("Charging") !== -1
+
+        if (isCharging && !_wasCharging) {
+            _notified20 = false; _notified15 = false; _notified10 = false
+        }
+        _wasCharging = isCharging
+
+        if (isCharging) return
+        if (percent <= 10 && !_notified10) {
+            _notified10 = true
+            batNotify.command = ["notify-send", "-u", "critical", "-i", "battery-low", "Battery Critical", "Battery at " + percent + "%! Plug in now."]
+            batNotify.running = true
+        } else if (percent <= 15 && !_notified15) {
+            _notified15 = true
+            batNotify.command = ["notify-send", "-u", "critical", "-i", "battery-low", "Battery Low", "Battery at " + percent + "%! Charge soon."]
+            batNotify.running = true
+        } else if (percent <= 20 && !_notified20) {
+            _notified20 = true
+            batNotify.command = ["notify-send", "-u", "normal", "-i", "battery", "Battery Warning", "Battery at " + percent + "%"]
+            batNotify.running = true
+        }
+    }
+
     // Read from sysfs first for efficiency
-    Process { id: cap; stdout: StdioCollector { onStreamFinished: { var v = parseInt(this.text); root.percent = isNaN(v) ? root.percent : v } } }
+    Process { id: cap; stdout: StdioCollector { onStreamFinished: { var v = parseInt(this.text); if (!isNaN(v)) { root.percent = v; root._initialized = true } } } }
     Process { id: stat; stdout: StdioCollector { onStreamFinished: { root.status = this.text.trim() || root.status } } }
     Process { id: healthProc; stdout: StdioCollector { onStreamFinished: { var v = parseInt(this.text); root.health = isNaN(v) ? root.health : v } } }
     Process { id: capacityProc; stdout: StdioCollector { onStreamFinished: { root.capacity = this.text.trim() || root.capacity } } }
@@ -40,7 +72,7 @@ Item {
                     var line = lines[i]
                     if (line.indexOf("percentage:") !== -1) {
                         var m = /([0-9]+)%/.exec(line)
-                        if (m) root.percent = parseInt(m[1])
+                        if (m) { root.percent = parseInt(m[1]); root._initialized = true }
                     } else if (line.indexOf("state:") !== -1) {
                         root.status = line.split(":").pop().trim()
                     }
@@ -56,6 +88,7 @@ Item {
         capacityProc.command = ["bash","-lc","cat /sys/class/power_supply/BAT*/capacity_level 2>/dev/null | head -n1"]; capacityProc.running = true
         powerModeProc.command = ["bash","-lc","mode=$(cat /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference 2>/dev/null | head -n1); if [ -n \"$mode\" ]; then echo $mode; elif [ -f /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ]; then cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor 2>/dev/null | head -n1; fi"]; powerModeProc.running = true
         upowerProc.command = ["bash","-lc","dev=$(upower -e 2>/dev/null | grep -m1 BAT || true); if [ -n \"$dev\" ]; then upower -i \"$dev\"; fi"]; upowerProc.running = true
+        checkBattery()
     }
 
     Timer { interval: 30000; running: true; repeat: true; onTriggered: update() }
