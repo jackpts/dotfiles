@@ -121,6 +121,7 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # Start a terminal
     bindsym $mod+Return exec $term
     bindsym $mod+t exec ghostty
+    bindsym $mod+x exec kitty
 
     # Kill focused window (ported from Hyprland $mod+q)
     bindsym $mod+q kill
@@ -322,7 +323,7 @@ exec --no-startup-id sh -c 'sleep 3; swaymsg "workspace number 2, exec ghostty"'
 # Return to workspace 1 after all startup apps
 # exec --no-startup-id sh -c 'sleep 7; swaymsg "workspace number 1"'
 # Telegram auto-start on workspace 3 at system boot
-exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 3, exec Telegram"'
+# exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 3, exec Telegram"'
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
 exec --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
