@@ -6,23 +6,25 @@ import "../components" as C
 Item {
     id: root
     width: 40; height: C.Theme.panelHeight
-    // Percentage of free space (home)
     property int freePercent: 0
-    // Percentage of used/occupied space (for chart display)
     property int usedPercent: 0
     property string tip: ""
-    // Store all mount info for tooltip
     property var mounts: []
+
+    property bool _notifiedRootLow: false
+    property bool _notifiedHomeLow: false
+
+    readonly property var _LOW_BYTES: 1073741824
+
+    Process { id: diskNotify }
 
     C.CircleGauge {
         id: gauge
         anchors.centerIn: parent
         size: 28
         thickness: 4
-        // Keep color logic based on free space remaining
         color: freePercent < 10 ? C.Theme.freeLow : C.Theme.freeOk
         trackColor: C.Theme.track
-        // Show occupied percentage in the gauge
         value: usedPercent/100
         label: usedPercent + "%"
     }
@@ -47,6 +49,29 @@ Item {
         for (var i = 0; i < filled; i++) bar += "█"
         for (var i = 0; i < empty; i++) bar += "░"
         return bar
+    }
+
+    function checkDiskSpace() {
+        for (var i = 0; i < root.mounts.length; i++) {
+            var m = root.mounts[i]
+            if (m.mount === "/") {
+                if (m.avail < _LOW_BYTES && !_notifiedRootLow) {
+                    _notifiedRootLow = true
+                    diskNotify.command = ["notify-send", "-u", "critical", "-i", "drive-harddisk", "Disk Space Critical", "Root (/) has only " + fmtGB(m.avail) + " free!"]
+                    diskNotify.running = true
+                } else if (m.avail >= _LOW_BYTES) {
+                    _notifiedRootLow = false
+                }
+            } else if (m.mount === "/home") {
+                if (m.avail < _LOW_BYTES && !_notifiedHomeLow) {
+                    _notifiedHomeLow = true
+                    diskNotify.command = ["notify-send", "-u", "critical", "-i", "drive-harddisk", "Disk Space Critical", "/home has only " + fmtGB(m.avail) + " free!"]
+                    diskNotify.running = true
+                } else if (m.avail >= _LOW_BYTES) {
+                    _notifiedHomeLow = false
+                }
+            }
+        }
     }
 
     Process {
@@ -94,12 +119,10 @@ Item {
                         }
                         root.mounts.push(mountInfo)
 
-                        // Track home specifically for main gauge
                         if (mount === "/home") {
                             homeInfo = mountInfo
                         }
 
-                        // Track lowest free space for gauge color
                         if (freePercent < lowestFree && mount !== "/") {
                             lowestFree = freePercent
                             criticalMount = mountInfo
@@ -107,13 +130,14 @@ Item {
                     }
                 }
 
-                // Use home if available, otherwise use most critical mount
                 var displayInfo = homeInfo || criticalMount
                 if (displayInfo) {
                     root.freePercent = displayInfo.freePercent
                     root.usedPercent = displayInfo.usedPercent
                     root.tip = displayInfo.mount + " free: " + fmtGB(displayInfo.avail) + " / " + fmtGB(displayInfo.total)
                 }
+
+                checkDiskSpace()
             }
         }
     }
@@ -139,52 +163,20 @@ Item {
         if (root.mounts.length === 0) return "Loading..."
 
         var lines = []
-        var maxMountLen = 10
-        var maxFsLen = 8
-
-        // Find max lengths for alignment
-        for (var i = 0; i < root.mounts.length; i++) {
-            var m = root.mounts[i]
-            if (m.mount.length > maxMountLen) maxMountLen = m.mount.length
-            if (m.filesystem.length > maxFsLen) maxFsLen = m.filesystem.length
-        }
-
-        // Header
         lines.push("<b>💾 Disk Usage</b>")
         lines.push("")
 
-        // Table header
-        var header = "<b>Mount Point".padEnd(maxMountLen + 2) +
-                     "Size".padStart(10) +
-                     "Used".padStart(10) +
-                     "Available".padStart(10) +
-                     "Use%".padStart(8) +
-                     "  Filesystem</b>"
-        lines.push(header)
-        lines.push("─".repeat(maxMountLen + 50))
-
-        // Rows
         for (var i = 0; i < root.mounts.length; i++) {
             var m = root.mounts[i]
             var barWidth = 10
             var bar = buildProgressBar(m.usePercent, barWidth)
             var color = m.freePercent < 10 ? "#ff6b6b" : (m.freePercent < 25 ? "#feca57" : "#48dbfb")
 
-            var row = m.mount.padEnd(maxMountLen + 2) +
-                      fmtGB(m.total).padStart(10) +
-                      fmtGB(m.used).padStart(10) +
-                      fmtGB(m.avail).padStart(10) +
-                      (m.usePercent + "%").padStart(8) +
-                      "  <font color='" + color + "'>" + bar + "</font>"
-            lines.push(row)
-
-            // Add filesystem on next line for clarity
-            var fsLine = "<font color='#888888'>" +
-                         " ".repeat(maxMountLen + 2) +
-                         m.filesystem +
-                         (m.fstype ? " (" + m.fstype + ")" : "") +
-                         "</font>"
-            lines.push(fsLine)
+            lines.push("<b>" + m.mount + "</b>  " + fmtGB(m.total))
+            lines.push(fmtGB(m.avail) + " free · " + m.freePercent + "%  <font color='" + color + "'>" + bar + "</font>")
+            lines.push("<font color='#888888'>" + m.filesystem + (m.fstype ? " (" + m.fstype + ")" : "") + "</font>")
+            if (i < root.mounts.length - 1)
+                lines.push("")
         }
 
         return lines.join("<br/>")
