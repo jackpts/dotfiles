@@ -8,17 +8,30 @@ Item {
     width: 40; height: C.Theme.panelHeight
     property int percent: 0
     property string tip: ""
+    property int _lastNotified: -1
 
     C.CircleGauge {
         id: gauge
         anchors.centerIn: parent
         size: 28
         thickness: 4
-        // color: C.Theme.memory
         color: C.Theme.memoryGauge
         trackColor: C.Theme.track
         value: percent/100
         label: percent + "%"
+    }
+
+    Process {
+        id: notifyProc
+    }
+    function checkRam() {
+        if (percent >= 90 && _lastNotified < 90) {
+            _lastNotified = percent
+            notifyProc.command = ["notify-send", "-u", "critical", "-i", "memory", "RAM Usage Warning", "Memory usage at " + percent + "%!"]
+            notifyProc.running = true
+        } else if (percent < 80) {
+            _lastNotified = -1
+        }
     }
 
     Process {
@@ -37,7 +50,7 @@ Item {
             }
         }
     }
-    Timer { interval: 2000; running: true; repeat: true; onTriggered: proc.running = true }
+    Timer { interval: 2000; running: true; repeat: true; onTriggered: { proc.running = true; checkRam() } }
 
     Process { id: run }
     MouseArea {
