@@ -49,7 +49,8 @@ copy_on_select = true
 pane_borders = true
 pane_gaps = true
 
-show_agent_labels_on_pane_borders = false
+show_agent_labels_on_pane_borders = true
+status_indicators = "dots"
 [ui.toast]
 delivery = "system"
 
@@ -57,3 +58,9 @@ delivery = "system"
 # Local Kitty graphics rendering (neofetch image backend, icat, etc.)
 # Disabled: causes herdr to hang/freeze.
 # kitty_graphics = true
+
+[ui.sound]
+enabled = true
+path = "sounds/alright-bring-it-on.mp3"   # common sound for all notifications 
+done_path = "sounds/make-it-happen.mp3"   # task is done sound 
+request_path = "sounds/commander.mp3"     # request input sound 
