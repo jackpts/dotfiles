@@ -366,10 +366,3 @@ function zsh_greeting() {
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 zsh_greeting
-
-# Auto-start herdr in the first interactive shell (not inside existing herdr).
-# Skip Cursor/VS Code: their agent shell probe execs into the shared herdr
-# socket, then sendText-s zsh/bash integration into the focused pane.
-if [[ -z "$HERDR_PANE_ID" && -z "$SSH_TTY" && -z "$CURSOR_AGENT" && -z "$VSCODE_INJECTION" && "$TERM_PROGRAM" != "vscode" && "$(tty)" != "not a tty" ]] && command -v herdr &>/dev/null; then
-    exec herdr
-fi
