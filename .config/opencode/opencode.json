@@ -63,6 +63,27 @@
       "type": "local",
       "command": ["npx", "-y", "@wonderwhy-er/desktop-commander"],
       "enabled": true
+    },
+    "neon": {
+      "type": "remote",
+      "url": "https://mcp.neon.tech/mcp",
+      "oauth": {},
+      "enabled": true
+    },
+    "stripe": {
+      "type": "remote",
+      "url": "https://mcp.stripe.com",
+      "oauth": {},
+      "enabled": true
+    },
+    "axiom": {
+      "type": "local",
+      "command": ["npx", "-y", "@axiomhq/mcp-server-axiom"],
+      "enabled": true,
+      "environment": {
+        "AXIOM_TOKEN": "{env:AXIOM_TOKEN}",
+        "AXIOM_URL": "https://api.axiom.co"
+      }
     }
   }
 }
