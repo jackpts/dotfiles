@@ -37,7 +37,7 @@ Singleton {
         Text {
             id: content
             anchors.centerIn: parent
-            text: tip.text
+            text: tip.text.replace(/<br\/>$/, "")
             color: C.Theme.tooltipText
             font.pixelSize: 16
             // Use monospace when requested (helps align calendar columns)
