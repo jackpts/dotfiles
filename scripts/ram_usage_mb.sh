@@ -84,6 +84,56 @@ get_status_info() {
     echo "$icon $class"
 }
 
+# GPU temperature - nvidia-smi first, then hwmon fallbacks (amdgpu, nouveau, etc.)
+get_gpu_temperature() {
+    local temp_raw="" temp_celsius=""
+
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        temp_celsius=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null | head -n1 | tr -d ' ')
+        if [[ -n "$temp_celsius" && "$temp_celsius" =~ ^[0-9]+$ ]]; then
+            echo "GPU Temperature: ${temp_celsius}°C"
+            return
+        fi
+    fi
+
+    for hwmon_path in /sys/class/hwmon/hwmon{0..9}; do
+        if [ -f "$hwmon_path/name" ]; then
+            local sensor_name
+            sensor_name=$(cat "$hwmon_path/name" 2>/dev/null)
+            if [[ "$sensor_name" =~ ^(amdgpu|nouveau|radeon|nvidia)$ ]]; then
+                temp_raw=$(cat "$hwmon_path/temp1_input" 2>/dev/null)
+                if [ -n "$temp_raw" ]; then
+                    temp_celsius=$((temp_raw / 1000))
+                    echo "GPU Temperature: ${temp_celsius}°C"
+                    return
+                fi
+            fi
+        fi
+    done
+
+    echo "GPU Temperature: N/A"
+}
+
+# Top memory consumers: aggregate by app name, max 10, hide below 1% RAM
+get_top_memory_procs() {
+    ps -eo comm,%mem --sort=-%mem --no-headers |
+        awk '
+            {
+                mem[$1] += $2 + 0
+            }
+            END {
+                for (name in mem)
+                    printf "%s %f\n", name, mem[name]
+            }
+        ' | sort -k2 -nr |
+        awk '
+            $2 + 0 >= 1.0 {
+                printf "%s: %.1f%%<br/>", $1, $2 + 0
+                if (++n >= 10) exit
+            }
+        '
+}
+
 # Main function
 main() {
     check_meminfo
@@ -99,10 +149,16 @@ main() {
     local status_info
     status_info=$(get_status_info "$usage_percent")
     read -r icon class <<< "$status_info"
+
+    local top_procs gpu_temp_line
+    top_procs=$(get_top_memory_procs)
+    gpu_temp_line=$(get_gpu_temperature)
+
+    local tooltip="${gpu_temp_line}<br/>RAM Usage: ${used_gb}/${total_gb} Gb (${usage_percent}%)<br/>Available: ${available_gb} Gb<hr/>${top_procs}"
     
-    # Output JSON for Waybar
-    printf '{"text": "%s %d/%d Gb", "tooltip": "RAM Usage: %d/%d Gb (%d%%)\\nAvailable: %d Gb", "class": "%s", "percentage": %d}\n' \
-        "$icon" "$used_gb" "$total_gb" "$used_gb" "$total_gb" "$usage_percent" "$available_gb" "$class" "$usage_percent"
+    # Output JSON for Quickshell/Waybar
+    printf '{"text": "%s %d/%d Gb", "tooltip": "%s", "class": "%s", "percentage": %d}\n' \
+        "$icon" "$used_gb" "$total_gb" "$tooltip" "$class" "$usage_percent"
 }
 
 # Run main function
