@@ -51,16 +51,7 @@ line_count() {
 }
 
 build_separator() {
-  local combined="$1"$'\n'"$2"
-  local max_len=12
-  while IFS= read -r line; do
-    [ -z "$line" ] && continue
-    local len=${#line}
-    if (( len > max_len )); then
-      max_len=$len
-    fi
-  done <<< "$combined"
-  printf '%*s' "$max_len" '' | tr ' ' '-'
+  echo "<hr/>"
 }
 
 # Build package list tooltip with priority for AUR packages
@@ -102,14 +93,15 @@ if [ "$total_updates" -gt 0 ]; then
   fi
 
   if [ -n "$official_section" ] && [ -n "$aur_section" ]; then
-    separator=$(build_separator "$official_section" "$aur_section")
+    official_section="${official_section%$'\n'}"
+    aur_section="${aur_section%$'\n'}"
     tooltip="${official_section}
-${separator}
+<hr/>
 ${aur_section}"
   elif [ -n "$official_section" ]; then
-    tooltip="$official_section"
+    tooltip="${official_section%$'\n'}"
   elif [ -n "$aur_section" ]; then
-    tooltip="$aur_section"
+    tooltip="${aur_section%$'\n'}"
   fi
 
   if [ -z "$tooltip" ]; then

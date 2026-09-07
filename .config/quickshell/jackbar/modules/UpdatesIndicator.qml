@@ -105,12 +105,9 @@ Item {
         acceptedButtons: Qt.NoButton
         hoverEnabled: true
         onEntered: {
-            // Convert newlines to HTML line breaks for per-package lines without affecting other modules
             var html = root.tooltipText
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
                 .replace(/\n/g, "<br/>")
+                .replace(/<br\/><hr\/><br\/>/g, "<hr/>")
             // Set tooltip height to 90% of screen height
             var screenHeight = Screen.height
             C.Tooltip.show(root, html, false, { maxHeight: screenHeight })
