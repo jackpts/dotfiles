@@ -11,6 +11,7 @@ Item {
     property int inputVolume: 0
     property string sinkName: "Output"
     property string sourceName: "Input"
+    property string appsTip: ""
 
     C.CircleGauge {
         id: gauge
@@ -48,6 +49,22 @@ Item {
             root.inputVolume = m ? Math.round(parseFloat(m[1]) * 100) : 0
         }
     }}
+
+    // Per-app playback volumes, refreshed in background (like Cpu/Memory tips)
+    Process {
+        id: updateApps
+        command: ["bash","-lc","$HOME/dotfiles/scripts/volume_apps.sh"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.appsTip = this.text.trim()
+            }
+        }
+    }
+    Timer {
+        interval: 2000; running: true; repeat: true
+        onTriggered: { updateApps.running = true }
+    }
 
     // Refresh default device names periodically
     Process { id: names; stdout: StdioCollector {
@@ -87,7 +104,10 @@ Item {
         onEntered: {
             var line1 = root.sinkName + ": " + volume + "%" + (muted ? " (muted)" : "")
             var line2 = root.sourceName + ": " + inputVolume + "%"
-            C.Tooltip.show(root, line1 + "<br>" + line2)
+            var tip = line1 + "<br/>" + line2
+            if (root.appsTip !== "")
+                tip += "<hr/>" + root.appsTip
+            C.Tooltip.show(root, tip)
         }
         onExited: C.Tooltip.hide()
     }
