@@ -9,11 +9,42 @@ import "../components" as C
 Item {
     id: root
     height: C.Theme.panelHeight
-    property int minSlots: 8
+    property int minVisible: 4
+    property int minSlots: minVisible
     property int slotWidth: C.Theme.scale(28)
     width: Math.max(items.implicitWidth, minSlots * (slotWidth + items.spacing) - items.spacing)
     property string compositor: "unknown"
     property var spaces: []
+
+    function emptySlot(num) {
+        return {
+            num: num,
+            name: String(num),
+            focused: false,
+            urgent: false
+        };
+    }
+
+    function fillWorkspaceSlots(existing) {
+        var byNum = {};
+        var highest = 0;
+        for (var i = 0; i < existing.length; i++) {
+            var n = Number(existing[i].num);
+            if (!isFinite(n) || n < 1)
+                continue;
+            byNum[n] = existing[i];
+            if (n > highest)
+                highest = n;
+        }
+
+        // Always show at least minVisible slots, plus one empty slot after the
+        // last existing workspace so a window can be moved further.
+        var count = Math.max(root.minVisible, highest + 1);
+        var filled = [];
+        for (var num = 1; num <= count; num++)
+            filled.push(byNum[num] ? byNum[num] : emptySlot(num));
+        return filled;
+    }
 
     Row {
         id: items
@@ -238,28 +269,18 @@ Item {
                 try {
                     var arr = JSON.parse(this.text);
                     var mapped = [];
-                    for (var i = 0; i < arr.length; i++)
+                    for (var i = 0; i < arr.length; i++) {
+                        var n = Number(arr[i].num);
+                        if (!isFinite(n) || n < 1)
+                            continue;
                         mapped.push({
-                            num: arr[i].num,
-                            name: arr[i].name,
+                            num: n,
+                            name: arr[i].name || String(n),
                             focused: !!arr[i].focused,
                             urgent: !!arr[i].urgent
                         });
-                    mapped.sort(function (a, b) {
-                        return a.num - b.num;
-                    });
-
-                    // Ensure Workspace 1 is always present
-                    var hasW1 = mapped.some(ws => ws.num === 1);
-                    if (!hasW1) {
-                        mapped.unshift({
-                            num: 1,
-                            name: "1",
-                            focused: false,
-                            urgent: false
-                        });
                     }
-                    root.spaces = mapped;
+                    root.spaces = root.fillWorkspaceSlots(mapped);
                 } catch (e) {}
             }
         }
