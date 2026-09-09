@@ -8,30 +8,30 @@ This directory contains various utility scripts for the dotfiles configuration, 
 
 #### `ram_usage_mb.sh`
 - **Purpose**: Displays RAM usage with visual indicators
-- **Output**: JSON format for Waybar integration
+- **Output**: JSON format for Quickshell integration
 - **Features**: 
   - Configurable thresholds (70% warning, 90% critical)
   - Detailed tooltips with available memory
   - Error handling and validation
-- **Usage**: Called by Waybar every 2 seconds
+- **Usage**: Called by Quickshell every 2 seconds
 
 #### `home_free_space.sh`
 - **Purpose**: Monitors home directory free space
-- **Output**: JSON format for Waybar integration
+- **Output**: JSON format for Quickshell integration
 - **Features**:
   - Low space warning (configurable threshold)
   - Multiple df output format support
   - Error handling for missing filesystems
-- **Usage**: Called by Waybar every 5 minutes
+- **Usage**: Called by Quickshell every 5 minutes
 
 #### `system_info.sh`
 - **Purpose**: Provides comprehensive system information
-- **Output**: JSON format for Waybar integration
+- **Output**: JSON format for Quickshell integration
 - **Features**:
   - Caching system for performance
   - Uptime, CPU temperature, CPU usage, memory usage
   - 30-second cache duration
-- **Usage**: Can be integrated into Waybar for system overview
+- **Usage**: Can be integrated into Quickshell for system overview
 
 ### Application Launchers
 
@@ -40,9 +40,8 @@ This directory contains various utility scripts for the dotfiles configuration, 
 - **Features**:
   - Primary: Rofi with Catppuccin theme
   - Fallback: Rofi with alternative theme
-  - Last resort: Walker launcher
   - Theme validation and error handling
-- **Usage**: Called by Waybar app menu button
+- **Usage**: Bound to `$mod+d` in Sway
 
 #### `launch_btop.sh`
 - **Purpose**: Launches system monitor with optimal terminal configuration
@@ -50,27 +49,18 @@ This directory contains various utility scripts for the dotfiles configuration, 
   - Multiple terminal emulator support (Kitty, Alacritty, GNOME Terminal)
   - Optimized window sizing for each terminal
   - Dependency checking
-- **Usage**: Called by Waybar CPU/memory modules
+- **Usage**: Called by Quickshell gauge modules (click action)
 
 ### Window Management Scripts
 
 #### `keyboard_layout.sh`
 - **Purpose**: Detects and displays current keyboard layout
-- **Output**: Short format (EN/RU) for Waybar
+- **Output**: Short format (EN/RU) for Quickshell
 - **Features**:
   - Multiple fallback methods
   - Error handling for missing dependencies
   - Support for various layout names
-- **Usage**: Called by Waybar language module
-
-#### `waybar-taskbar-sorted.sh`
-- **Purpose**: Provides sorted window information for taskbar
-- **Output**: JSON format with window details
-- **Features**:
-  - Workspace-based sorting
-  - Focus order preservation
-  - Error handling for Sway communication
-- **Usage**: Can be integrated into Waybar taskbar module
+- **Usage**: Called by Quickshell LanguageSwitcher module
 
 ### System Utilities
 
@@ -95,7 +85,7 @@ This directory contains various utility scripts for the dotfiles configuration, 
 - Graceful fallbacks where applicable
 
 ### Resource Management
-- Optimized intervals for Waybar modules
+- Optimized intervals for Quickshell modules
 - Reduced system call frequency
 - Efficient data parsing
 
@@ -112,8 +102,8 @@ This directory contains various utility scripts for the dotfiles configuration, 
 
 ## Integration
 
-### Waybar Integration
-- All monitoring scripts output JSON format compatible with Waybar
+### Quickshell Integration
+- All monitoring scripts output JSON format compatible with Quickshell
 - Consistent tooltip formatting
 - CSS class support for styling
 
@@ -139,7 +129,7 @@ This directory contains various utility scripts for the dotfiles configuration, 
 ### Common Issues
 1. **Permission errors**: Ensure all scripts are executable (`chmod +x`)
 2. **Missing dependencies**: Check error messages for required tools
-3. **Waybar integration**: Verify JSON output format
+3. **Quickshell/JSON integration**: Verify JSON output format
 4. **Sway communication**: Ensure running in Wayland session
 
 ### Debug Mode

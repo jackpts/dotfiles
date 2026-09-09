@@ -1,22 +1,6 @@
 # 20-functions.fish
 # User functions only. Avoid global state; read env set in 00-env.
 
-# Waybar helpers
-function w_toggle
-    if pgrep -x waybar >/dev/null
-        pkill waybar
-    else
-        WAYBAR_LOG_LEVEL=trace waybar
-    end
-end
-
-function w_styles
-    cd "$HOME/dotfiles/.config/waybar"
-    sass style.scss style.css
-
-    sed '/@charset "UTF-8";/d' style.css >/tmp/style.css; and mv /tmp/style.css style.css
-end
-
 # Archive extractor
 function ex
     set -l f $argv[1]

@@ -7,8 +7,8 @@ MATRIX_PID=$!
 # Wait a moment for cmatrix to start
 sleep 0.3
 
-# Lock the screen
-hyprlock -c "$HOME/dotfiles/.config/hypr/hyprlock.conf"
+# Lock the screen (sway-native)
+swaylock -f
 
 # Kill cmatrix after unlock
 kill $MATRIX_PID 2>/dev/null

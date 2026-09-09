@@ -21,9 +21,9 @@ ln -s "$HOME/dotfiles/.config/quickshell/jackbar" ~/.config/quickshell/jackbar
 quickshell -c jackbar
 ```
 
-## Run alongside Waybar
+## Run on Sway
 
-- Sway: add another exec (keep Waybar line):
+- Sway: add another exec:
 
 ```conf
 exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"

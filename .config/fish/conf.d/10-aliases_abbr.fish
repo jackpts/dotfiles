@@ -48,19 +48,8 @@ abbr gnome_ver 'gnome-shell --version'
 # z ~/github; and rm gnome.ext.song.title.zip; and zip -r gnome.ext.song.title.zip ./gnome.ext.song.title -x "*.git*"; and \
 # gnome-extensions install ./gnome.ext.song.title.zip --force'
 
-# Hyprland and Waybar
-abbr h_clients 'hyprctl clients'
-abbr h_edit 'nvim ~/.config/hypr/hyprland.conf'
-abbr h_waybar 'nvim ~/.config/waybar/config.jsonc'
-abbr h_reload 'hyprctl reload'
-abbr w_kill 'killall -SIGUSR2 waybar'
-abbr w_start 'waybar &'
-abbr w_trace 'WAYBAR_LOG_LEVEL=trace waybar'
-abbr h_60Hz 'hyprctl keyword monitor eDP-1, 2560x1600@60, auto, 1'
-abbr h_165Hz 'hyprctl keyword monitor eDP-1, 2560x1600@165, auto, 1'
-abbr h_plugins 'hyprpm list'
+# System
 abbr h_mons 'ls /sys/class/hwmon/'
-abbr h_active_monitor "hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'"
 abbr h_default_audio "pactl list sources | grep 'Name' | grep -v 'monitor' | cut -d ' ' -f2"
 
 # Network

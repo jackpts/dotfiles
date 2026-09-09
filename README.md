@@ -5,7 +5,7 @@
 - popular terminals config (kitty, alacritty, ghostty)
 - neovim config (based on LazyVim)
 - fish config (+ a bit of zsh customization)
-- sway/quickshell/waybar config
+- sway/quickshell config
 - Zed editor config (+ extensions)
 
 <br />
@@ -24,8 +24,8 @@
 ### Install `Sway` packages
 
 ```bash
-    sudo pacman -S --needed sway swayidle swaylock swaybg swayimg waybar rofi swaync obs-studio jq wl-clipboard wl-mirror cliphist copyq figlet gum xdg-desktop-portal xdg-desktop-portal-wlr polkit-gnome brightnessctl playerctl grim slurp wf-recorder mpvpaper
-    paru -S --needed quickshell arch-update scrot xclip swayshot brightnessctl swww waypaper walker-bin songrec
+    sudo pacman -S --needed sway swayidle swaylock swaybg swayimg rofi swaync obs-studio jq wl-clipboard wl-mirror cliphist copyq figlet gum xdg-desktop-portal xdg-desktop-portal-wlr polkit-gnome brightnessctl playerctl grim slurp wf-recorder mpvpaper
+    paru -S --needed quickshell arch-update scrot xclip swayshot brightnessctl swww waypaper songrec
 ```
 
 ### Install related packages
@@ -155,20 +155,6 @@ This creates backups of:
 - Password: (see `scripts/sway-backup.sh`, `BACKUP_PASSWORD` variable)
 - Compression: Maximum (7z -mx=9)
 - Archive format: Encrypted 7zip
-
-
-### Waybar styling
-
-1) use ./.config/waybar/style.scss file
-2)  after making changes:
-    a)
-- convert it to CSS file:
-```
-    sass style.scss style.css
-```
-- then go to new CSS file and remove the 1st line: `@charset "UTF-8"`
-OR:
-    b) run fish function: `w_styles`
 
 
 ### TODO

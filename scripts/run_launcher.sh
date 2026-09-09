@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Enhanced Application Launcher Script
-# Launches applications using rofi with fallback options
+# Launches applications using rofi
 
 set -euo pipefail
 
@@ -46,22 +46,11 @@ launch_rofi() {
     exec rofi -show drun -theme "$theme_file" -click-to-exit enabled
 }
 
-# Launch with walker as fallback
-launch_walker() {
-    if command -v walker >/dev/null 2>&1; then
-        log_info "Launching walker as fallback"
-        exec walker --modules applications,ssh
-    else
-        log_error "No suitable launcher found"
-        exit 1
-    fi
-}
-
 # Main function
 main() {
     if ! check_rofi; then
-        launch_walker
-        return
+        log_error "rofi not found"
+        exit 1
     fi
     
     # Try primary theme first
@@ -70,10 +59,9 @@ main() {
     # Try fallback theme
     elif check_theme "$ROFI_FALLBACK_THEME"; then
         launch_rofi "$ROFI_FALLBACK_THEME"
-    # Use walker as last resort
     else
         log_error "No valid rofi theme found"
-        launch_walker
+        exit 1
     fi
 }
 

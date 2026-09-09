@@ -32,7 +32,7 @@ set $scripts $HOME/scripts
 set $launcher $scripts/run_launcher.sh
 set $power $scripts/powermenu.sh
 set $swaync swaync-client
-# Define workspaces for Waybar to show
+# Define workspaces for Quickshell to show
 workspace 1
 workspace 2
 workspace 3
@@ -146,7 +146,6 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+Ctrl+f fullscreen toggle global
 
     # Custom scripts
-    # bindsym $mod+u exec "$scripts/bluelight.sh --toggle"
     # bindsym $mod+Ctrl+w exec waypaper
     # bindsym $mod+Ctrl+w exec bash -lc waypaper
     # bindsym $mod+w exec bash -lc waypaper
@@ -175,8 +174,6 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # Reload the configuration file
     bindsym $mod+Shift+c reload
     bindsym $mod+Shift+r reload
-    # Restart Waybar
-    # bindsym $mod+Shift+w exec sh -lc 'pkill waybar && waybar &'
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
