@@ -3,7 +3,7 @@
   "position": "top",
   "height": 40,
   // "spacing": 4,
-  "style": "Everforest-Dark",
+  "style": "style.css",
   "reload_style_on_change": true,
   "debug": true,
   "modules-left": [
@@ -11,13 +11,17 @@
     "custom/updates",
     "custom/weather",
     "wlr/taskbar",
-    "hyprland/workspaces"
+    "sway/workspaces"
   ],
   // "modules-center": ["hyprland/workspaces", "clock"],
   "modules-right": [
-    "group/expand",
-    "custom/bluelight",
-    "group/group-vitals",
+    // "group/expand",
+    // "custom/bluelight",
+    // "group/group-vitals",
+    // "temperature",
+    "backlight",
+    "custom/cpu",
+    "memory",
     "custom/home-free-space",
     "pulseaudio",
     "network",
@@ -27,18 +31,18 @@
     "custom/hypershot",
     "battery",
     "custom/clipboard",
-    "hyprland/language",
+    "sway/language",
     "custom/notification",
     "tray",
     "clock"
   ],
   "custom/appmenu": {
-    "format": "󰣇 ",
-    "tooltip-format": "Menu/Power",
-    // "on-click": "$HOME/scripts/run_launcher.sh",
-    "on-click": "kitty --class launcher -e /usr/bin/otter-launcher",
-    "on-double-click": "hyprsysteminfo",
-    "on-click-right": "$HOME/scripts/powermenu.sh"
+    "format": "",
+    "tooltip-format": "Garuda Menu/Power",
+    "on-click": "$HOME/scripts/run_launcher.sh",
+    "on-double-click": "swaymsg reload",
+    "on-click-right": "$HOME/scripts/powermenu.sh",
+    "tooltip": false
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -50,49 +54,23 @@
     "ignore-list": ["htop"],
     "all-outputs": true
   },
-  "hyprland/workspaces": {
+  "sway/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "default": "",
-      "active": "󰮯",
-      "empty": "ᗣ",
+      // "default": "ᗣ",
+      "default": "",
+      "focused": "󰮯",
       "urgent": ""
     },
-    "exec-if": "waybar-hyprland-workspaces",
     "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
+      "outputs": {"*": [1, 2, 3, 4, 5]}
     },
-    "on-scroll-up": "hyprctl dispatch workspace m+1",
-    "on-scroll-down": "hyprctl dispatch workspace m-1",
+    "on-scroll-up": "swaymsg workspace next",
+    "on-scroll-down": "swaymsg workspace prev",
     "on-click": "activate",
-    "on-double-click": "hyprctl dispatch togglespecialworkspace magic",
-    "show-special": false,
-    "ignore-workspaces": ["special:magic", "special:magic2"],
+    // "on-click": "swaymsg workspace {instance}",
+    // "on-click-right": "swaymsg move container to workspace {instance}",
     "font": "JetBrainsMono Nerd Font"
-  },
-  "custom/expand": {
-    "format": "",
-    "tooltip": false
-  },
-  "custom/endpoint": {
-    "format": "",
-    "tooltip": false
-  },
-  "group/expand": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 600,
-      "transition-to-left": true,
-      "click-to-reveal": true
-    },
-    "modules": [
-      "custom/expand",
-      // "custom/screen_recorder",
-      // "backlight",
-      // "bluetooth",
-      "mpd",
-      "custom/endpoint"
-    ]
   },
   "clock": {
     "format": "{:%H:%M, %d %b}",
@@ -115,18 +93,12 @@
       "on-scroll-down": "shift_down"
     }
   },
-  "group/group-vitals": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": false
-    },
-    "modules": ["temperature", "backlight", "temperature#gpu", "cpu", "memory"]
-  },
-  "cpu": {
+  "custom/cpu": {
+    "exec": "$HOME/dotfiles/scripts/cpu_with_temp.sh",
     "interval": 2,
-    "format": "  {usage}%",
-    "tooltip": "{icon0} {icon1} {icon2} {icon3}",
+    "format": "{}",
+    "return-type": "json",
+    "tooltip": true,
     "on-click": "kitty -e htop"
   },
   "memory": {
@@ -138,7 +110,7 @@
   },
   "custom/home-free-space": {
     "exec": "$HOME/scripts/home_free_space.sh",
-    "interval": 180,
+    "interval": 300,
     "return-type": "json",
     "tooltip-format": "<tt>Home free space: {}</tt>",
     "on-click": "kitty --class disk-info -e sh -c 'dysk; read -p \"Press Enter\"'"
@@ -149,95 +121,47 @@
     "tooltip": true,
     "exec-if": "exit 0",
     "exec": "$HOME/scripts/screen_record.sh",
-    "on-click": "$HOME/scripts/screen_record.sh --toggle"
+    "on-click": "$HOME/scripts/screen_record.sh --toggle",
+    "on-click-right": "nemo $(xdg-user-dir VIDEOS)/Screenrecorder"
   },
   "temperature": {
-    // "thermal-zone": 2,
-    "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+    "hwmon-path": "/sys/class/hwmon/hwmon0/temp1_input",
     "critical-threshold": 80,
-    // "format-critical": "{temperatureC}°C {icon}",
     "format": "  {temperatureC}°",
-    // "format-icons": ["", "", ""],
     "tooltip": "CPU Temp",
     "on-click": "kitty -e btop"
   },
-  "temperature#gpu": {
-    // "thermal-zone": 2,
-    "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
-    "critical-threshold": 80,
-    // "format-critical": "{temperatureC}°C {icon}",
-    "format": "󰸸  {temperatureC}°C {icon}",
-    // "format-icons": ["", "\udb80\udf79", ""],
-    "tooltip": "GPU Temp",
-    "on-click": "gpustat"
-  },
   "backlight": {
     // "device": "acpi_video1",
-    "format": "{percent}% {icon}",
-    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "format": " {icon} {percent}%",
+    "format-icons": ["○", "◑", "◑", "◐", "◐", "●", "●", "☀", "☀"],
     "tooltip": false
   },
   "network": {
     "tooltip": true,
-    "rotate": 0,
-    "format-ethernet": "{ipaddr}/{cidr} ",
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: {ipaddr}\n<span foreground='#9fd'>  {bandwidthDownBytes}</span> <span foreground='#fc6'>  {bandwidthUpBytes}</span>",
-    "format-linked": " {ifname} (No IP)",
-    "format-disconnected": "󰖪 ",
+    "format-wifi": "󰤨  {icon}",
+    "format-ethernet": "󰈀  {icon}", 
+    "format-disconnected": "󰤭  Disconnected",
+    "format-icons": [""],
+    "tooltip-format-wifi": "Network: <big><b>{essid}</b></big>\nSignal: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nLocal IP: <b>{ipaddr}</b>\nGateway: <b>{gwaddr}</b>\n󰇚: <b>{bandwidthDownBytes}</b>   󰕒: <b>{bandwidthUpBytes}</b>",
+    "tooltip-format-ethernet": "Interface: <b>{ifname}</b>\nLocal IP: <b>{ipaddr}</b>\nGateway: <b>{gwaddr}</b>\n󰇚: <b>{bandwidthDownBytes}</b>   󰕒: <b>{bandwidthUpBytes}</b>",
     "tooltip-format-disconnected": "Disconnected ⚠",
-    "format-alt": "{ipaddr}",
     "interval": 5,
-    "on-click": "kitty -e nmtui",
-    "on-click-right": "networkmanager_dmenu"
+    "on-click": "networkmanager_dmenu",
+    "on-click-right": "kitty -e nmtui"
   },
   "custom/public-ip": {
-    "exec": "$HOME/scripts/get_public_ip.sh",
-    "return-type": "json",
-    "interval": 60,
     "format": "{}",
-    "on-click": "kitty -e nmtui",
-    "on-click-right": "networkmanager_dmenu"
+    "exec": "$HOME/dotfiles/scripts/get_public_ip.sh --json",
+    "interval": 60,
+    "return-type": "json",
+    "tooltip": true,
+    "on-click": "$HOME/dotfiles/scripts/get_public_ip.sh | wl-copy && notify-send 'IP Copied' 'Public IP copied to clipboard'"
   },
   "custom/hypershot": {
     "format": "󰹑",
     "tooltip-format": "Screenshot",
-    // "exec-if": "which hyprshot-gui",
-    "on-click": "hyprshot-gui -o $HOME/Pictures/Screenshots"
-  },
-  "mpd": {
-    // "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-    "format": "{stateIcon}  {consumeIcon}{repeatIcon}{singleIcon}{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) [{songPosition}|{queueLength}] {volume}%",
-    "format-disconnected": "Disconnected ",
-    // "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-    "format-stopped": "{consumeIcon}{singleIcon}Stopped ",
-    "unknown-tag": "N/A",
-    "interval": 5,
-    "consume-icons": {
-      "on": " "
-    },
-    "random-icons": {
-      "off": "<span color=\"#f53c3c\"></span> ",
-      "on": " "
-    },
-    "repeat-icons": {
-      "on": " "
-    },
-    "single-icons": {
-      "on": "1 "
-    },
-    "state-icons": {
-      "paused": "",
-      "playing": ""
-    },
-    "tooltip-format": "{stateIcon}  {artist} - {title}\n{elapsedTime:%M:%S} / {totalTime:%M:%S}\t[{songPosition} | {queueLength}]\t{volume}%\nMPD (connected)",
-    "tooltip-format-disconnected": "MPD (disconnected)",
-    "on-click": "mpc toggle",
-    "on-click-right": "kitty -e ncmpcpp",
-    "on-scroll-up": "mpc next",
-    "on-scroll-down": "mpc prev",
-    "max-length": 70,
-    "ellipsize": "end"
+    "on-click": "bash -lc 'dir=${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots; mkdir -p \"$dir\"; filename=\"$dir/$(date +\"%F_%H-%M-%S\").png\"; grim -g \"$(slurp)\" \"$filename\" && wl-copy < \"$filename\"'"
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
@@ -257,7 +181,6 @@
       "default": ["", "", ""]
     },
     "on-click": "pavucontrol"
-    // "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle"
   },
   "battery": {
     "states": {
@@ -272,7 +195,7 @@
     "format-alt": "{time} {icon}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
-    "format-icons": ["󰁺", "󰁼", "󰁾", "󰁿", "󰁹"]
+    "format-icons": ["▁", "▂", "▄", "▆", "█"]
   },
   "tray": {
     "icon-size": 18,
@@ -287,11 +210,12 @@
   //   "tooltip": false
   // },
   "custom/updates": {
-    "exec": "$HOME/scripts/check_updates.sh",
+    "exec": "$HOME/scripts/garuda_updates.sh",
     "return-type": "json",
+    "format": "{}",
     "interval": 300,
-    // "on-click": "kitty -e arch-update"
-    "on-click": "[ $(checkupdates-with-aur | wc -l) -ne 0 ] && kitty -e paru -Suyy --noconfirm && notify-send 'Update complete' && pkill waybar && waybar"
+    "tooltip": true,
+    "on-click": "kitty -e bash -lc 'sudo pacman -Syu && paru -Sua --noconfirm; notify-send \"Update complete\"; read -n 1 -s -p \"Press any key to close\"'"
   },
   "custom/notification": {
     "tooltip": false,
@@ -324,15 +248,18 @@
   },
   "custom/clipboard": {
     "format": "  ",
+    // "exec": "copyq ",
     "on-click": "copyq show",
     "interval": 1,
     "tooltip": false
   },
-  "hyprland/language": {
-    "format": "{}",
+  "sway/language": {
+    "format": "{short}",
     "format-en": "EN",
     "format-ru": "RU",
-    "keyboard-name": "ite-tech.-inc.-ite-device(8910)-keyboard"
+    "tooltip": true,
+    "tooltip-format": "{long}",
+    "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
   },
   "custom/bluetooth-battery": {
     "exec": "$HOME/scripts/bluetooth-battery.sh",
@@ -346,8 +273,8 @@
     // "exec": "$HOME/scripts/weather.sh",
     "exec": "python3 $HOME/scripts/weather.py",
     "return-type": "json",
-    "interval": 600,
-    "on-click": "sleep 0.5s; kitty --class dotfiles-floating -e sh -c 'curl -s \"https://wttr.in/\"; read -n 1 -s -p \"Press any key to exit\" key'"
+    "interval": 900,
+    "on-click": "sleep 0.5s; alacritty --class weather-display --option window.dimensions.columns=85 --option window.dimensions.lines=30 --option font.size=12 -e sh -c 'curl -s \"https://wttr.in/?2n\"; echo; echo \"Press any key to exit...\"; read -n 1 -s key'"
   },
   "custom/bluelight": {
     "exec": "$HOME/scripts/bluelight.sh",

@@ -9,11 +9,18 @@ set -U fish_greeting "Welcome, "(whoami)", to Fish Shell on "(uname -n)" running
 # Key bindings
 fish_vi_key_bindings
 
-# One-time neofetch per session
+# One-time fetch per session
 if status is-interactive
     if not set -q __NEOFETCH_STARTED
         set -gx __NEOFETCH_STARTED 1
-        if type -q neofetch
+        if set -q HERDR_PANE_ID
+            # Inside herdr: use capyfetch (pure ASCII, no kitty graphics needed)
+            if type -q capyfetch
+                capyfetch
+            else if type -q neofetch
+                neofetch
+            end
+        else if type -q neofetch
             neofetch
         end
     end

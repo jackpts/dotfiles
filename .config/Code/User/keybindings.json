@@ -1,0 +1,31 @@
+[
+    {
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "left",
+        "command": "cursorMove",
+        "args": {
+            "to": "left",
+            "by": "character",
+            "value": 2
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "right",
+        "command": "cursorMove",
+        "args": {
+            "to": "right",
+            "by": "character",
+            "value": 1
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "y c",
+        "command": "multiCommand.ycDuplicateAndComment",
+        "when": "editorTextFocus && !editorReadonly"
+    }
+]

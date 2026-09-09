@@ -27,7 +27,7 @@ rofi_cmd() {
 
 # Confirmation CMD
 confirm_cmd() {
-    current_workspace=$(hyprctl activeworkspace -j | jq -r '.id')
+    current_workspace=$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused==true).name')
     rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
         -theme-str 'mainbox {children: [ "message", "listview" ];}' \
         -theme-str 'listview {columns: 2; lines: 1;}' \
@@ -39,7 +39,7 @@ confirm_cmd() {
         -theme ${dir}/${theme}.rasi \
         -display-drv wayland &
     rofi_pid=$!
-    hyprctl dispatch movetoworkspace $current_workspace,pid:$rofi_pid
+    swaymsg "[app_id=\"rofi\"]" move to workspace "$current_workspace"
 }
 
 # Pass variables to rofi dmenu
@@ -61,13 +61,13 @@ $lock)
     $HOME/scripts/lock_with_matrix.sh
     ;;
 $suspend)
-    mpc -q pause
+    # mpc -q pause
     amixer set Master mute
     systemctl suspend
     # $HOME/scripts/lock_n_play.sh
     $HOME/scripts/lock_w_matrix.sh
     ;;
 $logout)
-    hyprctl dispatch exit
+    swaymsg exit
     ;;
 esac

@@ -15,7 +15,9 @@ filesystem
 
 /.config/ghostty/shaders/*
 
-/.config/fish/fish_variables
+/.config/fish/fish_variables*
+/.config/fish/conf.d/fish_frozen_*.fish
+/.config/fish/conf.d/private.fish
 
 /.config/mpd/*
 !/.config/mpd/mpd.conf
@@ -27,6 +29,11 @@ filesystem
 /.config/nvim/lazy-lock.json
 /.config/nvim/lazyvim.json
 
+/.config/Windsurf/User/*
+!/.config/Windsurf/User/keybindings.json
+!/.config/Windsurf/User/settings.json
+!/.config/Windsurf/User/hooks.json
+
 /.config/nushell/history.*
 
 /.config/mpvlock/themes/*
@@ -34,8 +41,17 @@ filesystem
 .opencode/
 dbui
 
+
 .sass-cache
 
 .agents
 
 output:tasks
+.comments
+
+/.config/herdr/*.log
+/.config/herdr/*.sock
+/.config/herdr/.plugins.lock
+/.config/herdr/session.json
+/.config/herdr/release-notes.json
+/.config/herdr/*.log.*

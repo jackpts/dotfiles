@@ -14,6 +14,7 @@ alias cd.. 'cd ..'
 abbr .. 'cd ..'
 abbr ... 'cd ../..'
 abbr .... 'cd ../../..'
+abbr cd 'z'
 abbr mkdir 'mkdir -p'
 alias z.. 'z ..'
 alias logmeout "sudo pkill -u $USER"
@@ -68,8 +69,8 @@ abbr wifi_off 'nmcli r wifi off'
 abbr wifi_restart 'sudo systemctl restart NetworkManager'
 abbr wifi_list 'nmcli dev wifi list'
 abbr wifi_status 'nmcli dev status'
-abbr wifi_2G 'nmcli dev wifi connect "Andromeda2" --ask'
-abbr wifi_5G 'nmcli dev wifi connect "Andromeda5" --ask'
+abbr wifi__2G 'nmcli dev wifi connect "Andromeda2" --ask'
+abbr wifi__5G 'nmcli dev wifi connect "Andromeda5" --ask'
 abbr list_x_sessions 'ls /usr/share/xsessions/'
 abbr list_w_sessions 'ls /usr/share/wayland-sessions/'
 abbr cpu_usage "vmstat 1 2 | tail -1 | awk '{print 100 - \$15\"%\"}'"
@@ -77,7 +78,7 @@ abbr opera_wayland 'opera --enable-features=UseOzonePlatform --ozone-platform=wa
 abbr obsidian_wayland 'obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr msty_wayland 'msty --enable-features=UseOzonePlatform --ozone-platform=wayland'
 abbr term_theme 'sh $HOME/scripts/update_term_theme.sh'
-abbr dot 'cd $HOME/dotfiles'
+abbr dot 'cd $HOME/dotfiles && git status'
 
 # SETS-derived abbr
 abbr TAR 'tar -zcvf'
@@ -117,7 +118,8 @@ alias docker_mem_usage 'docker stats --no-stream'
 alias established 'netstat -anp | grep ESTABLISHED'
 
 # Misc abbr
-abbr backup $HOME/scripts/backup.sh
+# abbr backup $HOME/scripts/backup.sh
+abbr backup $HOME/dotfiles/scripts/sway-backup.sh
 abbr ipinfo 'curl ipinfo.io'
 abbr ip 'ip -c'
 abbr ipe 'curl ifconfig.co'
@@ -151,10 +153,18 @@ abbr rec_selection '$HOME/scripts/screen_record.sh'
 # Update helpers
 abbr un '$aurhelper -Rns'
 abbr u1 'sudo pacman -Suyy'
-abbr u2 '$aurhelper -Suyy --noconfirm'
+abbr u2 '$HOME/dotfiles/scripts/update_system.sh'
 
 # Tools
-alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --embed-metadata --audio-quality 0 -x'
+# yt-dlp -x --audio-format mp3 --cookies-from-browser chrome "https://www.youtube.com/watch?v=RLPfcG8oVqs"
+alias yt-mp3 'cd ~/Downloads; and yt-dlp --audio-format mp3 --cookies-from-browser chrome --embed-metadata --audio-quality 0 -x'
+alias yt-m-mp3 'cd ~/Downloads; and yt-dlp \
+  --extractor-args "youtube:player_client=android" \
+  --no-check-certificate \
+  --sleep-interval 10 \
+  --extract-audio \
+  --audio-format mp3'
 
 # K8s and misc
 alias k 'kubectl'
@@ -185,19 +195,18 @@ abbr gss 'clear; and git log --stat --color -p'
 # Gnome accounts settings run
 abbr gnome_accounts 'XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accounts'
 
-# Inno VPN start
-abbr inno_vpn_start systemctl start wg-quick@wginno.service
-abbr inno_vpn_stop systemctl stop wg-quick@wginno.service
 # GitHub login
 abbr gh_login 'gh auth login'
 
 # WayVNC connect
 abbr way_connect 'wayvnc -C ~/.config/wayvnc/config 0.0.0.0 5900'
 
-# Quickshell run
+# Quickshell
 abbr q_start 'quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"'
-abbr q_reload 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar"'
-abbr q_reload_dbg 'quickshell kill -p "$HOME/dotfiles/.config/quickshell/jackbar"; or true; for i in (seq 1 50); quickshell list -p "$HOME/dotfiles/.config/quickshell/jackbar" >/dev/null 2>&1; or break; sleep 0.1; end; QS_PANEL_DEBUG=1 quickshell -d -n -p "$HOME/dotfiles/.config/quickshell/jackbar" -vv'
+abbr q_reload '$HOME/dotfiles/scripts/quickshell_reload.sh'
+abbr q_reload_dbg 'QS_PANEL_DEBUG=1 $HOME/dotfiles/scripts/quickshell_reload.sh -vv'
+## In case of pacman update errors like: `Querying Quickshell compatibility after Qt6 update... COMPATIBILITY WARNING: Quickshell was built against Qt 6.11.0 but the system has updated to Qt 6.11.1 without rebuilding the package. This is likely to cause crashes, so you must rebuild the quickshell package.`
+abbr q_rebuild 'paru -S quickshell-git --rebuild=yes --cleanafter'
 
 # Mirroring
 abbr mir_list 'swaymsg -t get_outputs'
@@ -211,7 +220,10 @@ abbr chrome_w 'google-chrome-stable --ozone-platform=wayland'
 # My Projects
 abbr yt_tg_run 'cd $HOME/github/yt-tg-chat-bot && RUST_LOG=info cargo run --bin yt-tg-chat-bot'
 abbr yt_tg_build 'cd $HOME/github/yt-tg-chat-bot && cargo build'
+abbr yt_tg_kill 'pkill -f yt-tg-chat-bot'
 abbr yt_tg_migrate 'cargo run --bin backfill_durations -- 100'
+abbr yt_tg__backup 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".backup '\''bot_backup_$(date +%Y%m%d_%H%M).db'\''"'
+abbr yt_tg__restore 'cd $HOME/github/yt-tg-chat-bot && sqlite3 bot.db ".restore"'
 
 abbr ai_prompter_run 'cd $HOME/github/ai-prompter && cargo run --release'
 abbr ai_prompter_build 'cd $HOME/github/ai-prompter && cargo build --release'

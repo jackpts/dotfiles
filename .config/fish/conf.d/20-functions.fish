@@ -191,16 +191,19 @@ function mkcd
     mkdir -p $argv; and cd $argv
 end
 
-# Custom cd wrapping zoxide (see 30-integrations for zoxide init)
+# Custom cd that auto-runs ls after changing directories
 function cd
     if type -q z
         z $argv
+        # z function already calls ls, so no need to call it again
     else
         builtin cd $argv
+        # Auto-run ls after successful builtin cd
+        ls
     end
-    l
 end
 
+# bash sudo !! analog
 function plz
     # If arguments are provided, just run sudo with them
     if test (count $argv) -gt 0

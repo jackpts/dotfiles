@@ -24,8 +24,8 @@ return {
                 autostart = false,
                 package_manager = "npm",
                 hide_up_to_date = true,
-                colors = {
-                    outdated = "#db4b4b",
+                highlights = {
+                    outdated = { fg = "#db4b4b" },
                 },
             })
         end,

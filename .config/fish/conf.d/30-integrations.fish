@@ -2,9 +2,9 @@
 # Tool integrations and dynamic detections.
 
 # FZF integration (guarded)
-if type -q fzf
-    fzf --fish | source
-end
+# if type -q fzf
+    # fzf --fish | source
+# end
 
 # FZF environment and previews
 set -gx FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"
@@ -35,6 +35,12 @@ end
 # zoxide
 if type -q zoxide
     zoxide init fish | source
+    # Override zoxide's z function to add auto-ls
+    function z --wraps __zoxide_z --description 'zoxide with auto-ls'
+        __zoxide_z $argv
+        # Auto-run ls after successful z
+        ls
+    end
 end
 
 # Prompt (kept commented)
@@ -49,3 +55,12 @@ else if type -q paru
     set aurhelper paru
 end
 
+# SSH
+## ssh-agent auto start
+if not set -q SSH_AUTH_SOCK
+    ssh-agent -c | source
+end
+
+## auto adding keys
+ssh-add ~/.ssh/id_personal 2>/dev/null
+ssh-add ~/.ssh/id_cleverlabs 2>/dev/null

@@ -15,10 +15,10 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="archcraft"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME="archcraft"
+# Setting this variable when ZSH_THEME="robbyrussell"
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -138,15 +138,10 @@ alias lg='ls -l --group-directories-first'
 alias cd..='cd ..'
 
 # git
-alias gcl='git clone --depth 1'
 alias gi='git init'
 alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push origin master'
-
-gclcd() {
-   git clone "$1" && cd "$(basename "$1" .git)"
-}
 
 # Docker
 alias dcu="docker-compose up"
@@ -161,7 +156,8 @@ alias fishedit='nvim ~/.config/fish/config.fish'
 alias dot="cd \"$DOT_DIR\""
 
 # FZF
-eval "$(fzf --zsh)"
+[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
@@ -320,7 +316,12 @@ fi
 
 
 
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+# source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# Cursor/VS Code need their own TERM for shell-integration OSC sequences.
+if [[ "$TERM_PROGRAM" != "vscode" && -z "$CURSOR_AGENT" ]]; then
+  export TERM=tmux-256color
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -356,10 +357,10 @@ function zsh_greeting() {
   uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" " }')
 
   # Greeting msg
-  echo -e "  " "$brgreen" "Welcome back, $USER!"                       "$normal"
-  echo -e "  " "$yellow"  " Zsh Open:\t"   "$bryellow$timestamp"     "$normal"
-  echo -e "  " "$blue"    " Hostname:\t"   "$brmagenta$my_hostname"  "$normal"
-  echo -e "  " "$magenta" " Uptime  :\t"   "$brblue$uptime"          "$normal"
+  printf "  %bWelcome back, %s!%b\n" "$brgreen" "$USER" "$normal"
+  printf "  %bZsh Open:\t%b\n" "$yellow" "$bryellow$timestamp$normal"
+  printf "  %bHostname:\t%b\n" "$blue" "$brmagenta$my_hostname$normal"
+  printf "  %bUptime  :\t%b\n" "$magenta" "$brblue$uptime$normal"
   echo
 }
 

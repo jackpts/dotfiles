@@ -5,7 +5,7 @@
 local opt = vim.opt
 
 vim.o.swapfile = false -- disable swapfiles because they are fucking garbage
-vim.o.shell = "/usr/bin/zsh"
+vim.o.shell = "/usr/bin/fish"
 opt.relativenumber = false
 opt.clipboard = "unnamedplus" -- Use system clipboard
 opt.tabstop = 4

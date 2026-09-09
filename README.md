@@ -6,6 +6,7 @@
 - neovim config (based on LazyVim)
 - fish config (+ a bit of zsh customization)
 - hyprland/waybar config
+- Zed editor config (+ extensions)
 
 <br />
 <details close>
@@ -33,6 +34,16 @@
     sudo pacman -S ttf-font-awesome ttf-fira-sans ttf-fira-code ttf-firacode-nerd ttf-droid ttf-jetbrains-mono ttf-jetbrains-mono-nerd gnome-calendar mpd ncmpcpp networkmanager-dmenu brightnessctl ttf-firacode-nerd kdeconnect fastfetch neofetch curl nushell starship tmux cmatrix cowfortune power-profiles-daemon mpv sass dysk
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
+
+### Sway screensaver (asciiquarium overlay)
+
+Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle triggers. Install the ASCII aquarium dependency first (kitty is already covered in the terminal section, but is required):
+
+```bash
+    sudo pacman -S asciiquarium
+```
+
+When either dependency is missing, the shortcut simply notifies you and exits—no traditional lock screen is launched.
 
 <br />
 <details close>
@@ -96,16 +107,65 @@ monitor = eDP-1, 2560x1600@165, auto, 1
 <details close>
 <summary>Screenshots</summary>
     <p align="center">
-        <img src="assets/2025-04-21-175800_hyprshot.jpg" />
+        <img src="assets/quickshell_2025-11-21_15-54-53.jpg" />
+        <br />
+        <img src="assets/quickshell_2025-12-03_11-40-23.jpg" />
         <br />
         <img src="assets/lock_screen.jpg" />
+        <br />
+        <img src="assets/sway_quickshell_2026-03-11.jpg" />
     </p>
 </details>
 <br />
 
+### Zed Editor
+
+Install Zed extensions and MCP servers from dotfiles:
+
+```bash
+    ./scripts/install-zed-extensions.sh
+```
+
+Configuration files:
+- `.config/zed/extensions.json` - Installed extensions (syntax highlighting, languages)
+- `.config/zed/servers.json` - MCP context servers and AI agent servers
+
 ### Terminals Themify
 
 - use the fish `term_theme` abbr in your current terminal or type `wal -i <wallpaper_path>` directly
+
+### Backup
+
+Run the backup script manually or wait for auto-start on Sway login:
+
+```bash
+    ./scripts/sway-backup.sh
+```
+
+**Auto-start:** The backup runs automatically 20 seconds after Sway starts (configured in `.config/sway/config`).
+
+**Notification:** After completion, a desktop notification shows:
+- Backup file name
+- Archive size
+
+**yt-tg-chat-bot:** Auto-starts in kitty terminal on workspace 2 (25 second delay).
+
+This creates backups of:
+- Pacman packages (official + AUR)
+- Flatpak packages
+- GNOME extensions (commented out - not using GNOME)
+- **Zed editor extensions**
+- **Zen browser**: extensions, bookmarks, session (tabs/workspaces)
+- Nemo dconf settings
+- System configs (/etc/, dotfiles, SSH, GPG, etc.)
+- MySQL dump (commented out temporarily)
+- System themes rsync (commented out temporarily)
+
+**Configuration:**
+- Output: `/run/media/jacky/back2up/regular/`
+- Password: (see `scripts/sway-backup.sh`, `BACKUP_PASSWORD` variable)
+- Compression: Maximum (7z -mx=9)
+- Archive format: Encrypted 7zip
 
 
 ### Waybar styling
@@ -124,9 +184,5 @@ OR:
 
 ### TODO
 
-- kbd switcher doesn't work by clicking on waybar icon
 - dropdown menus like in mechabar ( <https://github.com/sejjy/mechabar?tab=readme-ov-file> ) for WiFi, BT, Power
-- set bar & widgets by `fabric` framework (best python replacement of eww/ags tools). Examples: <https://github.com/Fabric-Development/fabric/tree/main/examples>
 - make left sidebar with "AI chat integration with external providers (Gemini, OpenAI...)" like in: <https://www.reddit.com/r/unixporn/comments/1im22sn/hyprland_yet_another_hyprland_rice/>
-- move from `systemd` to `runit` ? (like here: <https://www.reddit.com/r/unixporn/comments/1j0w0id/swayfx_my_first_rice/#lightbox>)
-

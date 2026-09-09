@@ -11,10 +11,32 @@ return {
     -- add jsonls and schemastore ans setup treesitter for json, json5 and jsonc
     { import = "lazyvim.plugins.extras.lang.json" },
 
+    -- disable LazyVim's default ts-comments.nvim (conflicts with Comment.nvim)
+    {
+        "folke/ts-comments.nvim",
+        enabled = false,
+    },
+
     -- comment w/ gcc & gbc
     {
         "numToStr/Comment.nvim",
-        opts = {},
+        config = function()
+            local ft = require("Comment.ft")
+            local orig_calculate = ft.calculate
+            ft.calculate = function(ctx)
+                local ok, parser = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+                if not ok or not parser then
+                    return ft.get(vim.bo.filetype, ctx.ctype)
+                end
+                return orig_calculate(ctx)
+            end
+
+            ft.set("swayconfig", "#%s")
+            ft.set("i3config", "#%s")
+            ft.set("hyprlang", "#%s")
+
+            require("Comment").setup({})
+        end,
     },
 
     -- function usage
@@ -69,7 +91,7 @@ return {
     },
 
     {
-        "romgrk/nvim-treesitter-context",
+        "nvim-treesitter/nvim-treesitter-context",
         config = function()
             require("treesitter-context").setup({
                 enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -86,37 +108,38 @@ return {
         end,
     },
 
-    -- :Telescope media_files
-    {
-        "nvim-telescope/telescope-media-files.nvim",
-        dependencies = {
-            { "nvim-telescope/telescope.nvim" },
-            { "nvim-lua/popup.nvim" },
-            { "nvim-lua/plenary.nvim" },
-        },
-        config = function()
-            local telescope = require("telescope")
-
-            telescope.setup({
-                extensions = {
-                    media_files = {
-                        -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-                        filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
-                        -- find command (defaults to `fd`)
-                        find_cmd = "rg",
-                    },
-                },
-            })
-
-            telescope.load_extension("media_files")
-        end,
-    },
 
     -- Show a diff using Vim its sign columns
     { "mhinz/vim-signify" },
 
     -- Brackets set colored by rainbow
-    { "HiPhish/nvim-ts-rainbow2" },
+    {
+        "HiPhish/rainbow-delimiters.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            local rainbow_delimiters = require("rainbow-delimiters")
+            vim.g.rainbow_delimiters = {
+                strategy = {
+                    [""] = rainbow_delimiters.strategy["global"],
+                    vim = rainbow_delimiters.strategy["local"],
+                },
+                query = {
+                    [""] = "rainbow-delimiters",
+                    lua = "rainbow-blocks",
+                },
+                highlight = {
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterYellow",
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterOrange",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterViolet",
+                    "RainbowDelimiterCyan",
+                },
+            }
+        end,
+    },
 
     -- navigate and highlight matching words
     { "andymass/vim-matchup" },

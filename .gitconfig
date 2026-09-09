@@ -8,8 +8,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
-[credential]
-	helper = cache
 [core]
 	autocrlf = input
 	editor = nvim
@@ -247,3 +245,5 @@
   path = ~/.gitconfig-bitbucket
 [includeIf "gitdir:~/github/cleverlabs/"]
   path = ~/.gitconfig-cleverlabs
+[credential "https://git.heroku.com"]
+	helper = !heroku git:credentials

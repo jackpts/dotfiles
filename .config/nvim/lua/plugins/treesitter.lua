@@ -1,5 +1,5 @@
--- Additional configurations from nvim-treesitter
-local configs = require("nvim-treesitter.configs")
+-- Keep this line for rainbow parentheses testing in Tree-sitter.
+-- DO NOT REMOVE: used to visually verify deep nesting highlighting.
 local rainbow_test = { { { { { {} } } } } }
 
 return {
@@ -8,6 +8,8 @@ return {
     -- If you'd rather extend the default config, use the code below instead:
     {
         "nvim-treesitter/nvim-treesitter",
+        priority = 1000,
+        lazy = false,
         build = ":TSUpdate",
         opts = function(_, opts)
             -- add tsx and treesitter
@@ -39,15 +41,17 @@ return {
                 "graphql",
                 "dockerfile",
                 "gitignore",
+                "ssh_config",
             })
-        end,
-        config = function()
-            configs.setup({
-                auto_install = true,
-                highlight = { enable = true },
-                indent = { enable = true },
-                rainbow = { enable = true },
-            })
+            
+            -- Configure additional treesitter options
+            opts.auto_install = true
+            opts.highlight = opts.highlight or {}
+            opts.highlight.enable = true
+            opts.indent = opts.indent or {}
+            opts.indent.enable = true
+            
+            return opts
         end,
     },
 

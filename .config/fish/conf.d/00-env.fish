@@ -27,6 +27,14 @@ end
 # set -gx VK_ICD_FILENAMES /usr/share/vulkan/icd.d/nvidia_icd.json
 # set -gx MESA_LOADER_DRIVER_OVERRIDE zink
 
+# Sway/NVIDIA: used when Sway is started manually from fish.
+# Display-manager sessions use ~/.config/sway/startup.sh instead.
+set -gx WLR_RENDERER_ALLOW_SOFTWARE 1
+set -gx WLR_DRM_DEVICES /dev/dri/card1
+set -gx WLR_NO_HARDWARE_CURSORS 1
+set -gx GBM_BACKEND nvidia-drm
+set -gx __GLX_VENDOR_LIBRARY_NAME nvidia
+
 # History and general settings
 set HISTSIZE -1
 set HISTFILESIZE -1
@@ -39,6 +47,7 @@ set -U XDG_DATA_HOME $HOME/.local/share
 # AI / Aider
 set -gx OLLAMA_API_BASE http://127.0.0.1:11434
 set -gx AIDER_DARK_MODE true
+# CEREBRAS_API_KEY moved to private.fish (gitignored)
 
 # Editors and apps
 set -gx VISUAL nvim
@@ -50,12 +59,19 @@ if not contains /opt/nvim-linux64/bin $PATH
     fish_add_path /opt/nvim-linux64/bin
 end
 fish_add_path ~/.volta/bin
+fish_add_path ~/.grok/bin
 
 # Locale and TTY
 set -gx LANG en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 set -gx TERM_EMULATOR kitty
-set -gx TERM xterm-kitty
+# Cursor/VS Code need their own TERM for shell-integration OSC sequences.
+# Forcing xterm-kitty here makes their probe time out and sendText a bash/zsh
+# integration script into whatever PTY is focused (often herdr).
+if not string match -q -- "$TERM_PROGRAM" vscode
+    and not set -q CURSOR_AGENT
+    set -gx TERM xterm-kitty
+end
 
 # Wayland (commented out for safety; set per-app if needed)
 # set -gx MOZ_ENABLE_WAYLAND 1
