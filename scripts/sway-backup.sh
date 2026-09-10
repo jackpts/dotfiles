@@ -88,12 +88,13 @@ CORE_BACKUP_ITEMS=(
 	"$HOME/.gemini/*.json"
 	"$HOME/.docker/config.json"
 	"$HOME/.my.cnf"  # chmod 600 ~/.my.cnf
-    "$HOME/.netrc "
+    "$HOME/.netrc"
 
 	# Data and documents
 	"$HOME/obsidian/"
 	"$HOME/*.kdbx"
 	"$HOME/Documents/browser/"
+	"$HOME/Documents/CV/2026/FullStack/"
 	"$HOME/Documents/sfs*.json"
 
 	# Wayland/Sway configs
