@@ -5,7 +5,11 @@ import "../components" as C
 
 Item {
     id: root
-    width: Math.max(contentRow.implicitWidth + C.Theme.scale(8), C.Theme.scale(50))
+    // Icon-only (no devices) matches sibling icon modules (~32px).
+    // Connected devices keep a wider floor so battery % text is not cramped.
+    width: hasDevices
+        ? Math.max(contentRow.implicitWidth + C.Theme.scale(8), C.Theme.scale(50))
+        : Math.max(contentRow.implicitWidth + 8, 32)
     height: C.Theme.panelHeight
     property bool hasDevices: false
     property int numConnections: 0
