@@ -264,7 +264,9 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+a focus parent
 
 # Obsidian toggle (launch if not running, focus if running)
-    bindsym $mod+s exec $scripts/toggle_obsidian.sh
+# mod+s | mod+ы
+# check key code command: `xev -event keyboard | grep -A2 KeyPress`
+    bindcode $mod+39 exec $scripts/toggle_obsidian.sh
 
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
