@@ -322,12 +322,17 @@ Item {
         WlrLayershell.namespace: "quickshell-powermenu"
 
         onVisibleChanged: {
-            if (visible) {
-                powerMenuWindow.forceActiveFocus();
-            }
+            if (visible)
+                powerMenuKeys.forceActiveFocus();
         }
 
-        Keys.onEscapePressed: root.isPowerMenuOpen = false
+        // PanelWindow is not an Item, so Keys must live on a child.
+        Item {
+            id: powerMenuKeys
+            anchors.fill: parent
+            focus: true
+            Keys.onEscapePressed: root.isPowerMenuOpen = false
+        }
 
         Rectangle {
             anchors.fill: parent
