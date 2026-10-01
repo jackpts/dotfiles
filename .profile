@@ -6,3 +6,5 @@ if [ -r "$env_file" ]; then
     . "$env_file"
     set +a
 fi
+
+export GTK_CSD=0
