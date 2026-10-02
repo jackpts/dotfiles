@@ -6,33 +6,14 @@ import "../components" as C
 Item {
     id: root
     height: C.Theme.panelHeight
-
-    // Dynamic width calculation - keep logic in one place for easier future tweaks
-    width: calculateDynamicWidth()
+    width: contentRow.implicitWidth + 10
 
     property string artist: ""
     property string title: ""
     property string status: "Stopped"
     property string playerName: ""
     property int textWidth: 500
-    property int maxTextLength: 100
     property bool useNerdFont: true  // Set to false if icons don't show
-
-    function calculateDynamicWidth() {
-        return calculateContentWidth();
-    }
-
-    function calculateContentWidth() {
-        if (!artist && !title) {
-            // Calculate width of "No media" text
-            var text = "No media";
-            var tempText = Qt.createQmlObject('import QtQuick 2.0; Text { text: "' + text + '"; font.pixelSize: 12 }', root, 'dynamicText');
-            var width = Math.ceil(tempText.implicitWidth) + 20;  // Add some padding
-            tempText.destroy();
-            return width;
-        }
-        return Math.min(textWidth, maxTextLength * 7) + 40;  // Approximate width based on character count
-    }
 
     function icon() {
         if (useNerdFont) {
@@ -297,6 +278,7 @@ Item {
     }
 
     Row {
+        id: contentRow
         anchors {
             right: parent.right
             rightMargin: 10
