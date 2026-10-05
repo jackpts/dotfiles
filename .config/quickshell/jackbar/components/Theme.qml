@@ -51,6 +51,10 @@ Singleton {
     property color networkWifi: "#cc88ff"             // #c8f
     property color networkEthernet: "#6699aa"         // #69a
     property color networkDisconnected: red           // #f53c3c
+    // AI billing indicator
+    property color billingOk: green                    // #51a37a
+    property color billingWarn: yellow                 // #ffcc00
+    property color billingCrit: red                    // #f53c3c
     // Bluetooth Indicator accents
     property color bluetoothActive: "#89b4fa"
     property color bluetoothInactive: "#6c7086"

@@ -1,0 +1,61 @@
+{
+  "poll_seconds": 300,
+  "warn_percent": 70,
+  "critical_percent": 90,
+  "providers": [
+    {
+      "id": "opencode",
+      "name": "OpenCode",
+      "enabled": true,
+      "plugin": "opencode",
+      "dashboard_url": "https://opencode.ai/console/wrk_01KRE29FVEN1GMZ4PHNYWS7Q4R/settings/billing",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "enabled": true,
+      "plugin": "openrouter",
+      "dashboard_url": "https://openrouter.ai/settings/credits",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "enabled": true,
+      "plugin": "cursor",
+      "dashboard_url": "https://cursor.com/dashboard/spending",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    },
+    {
+      "id": "warp",
+      "name": "Warp",
+      "enabled": false,
+      "plugin": "todo",
+      "dashboard_url": "https://app.warp.dev",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    },
+    {
+      "id": "zed",
+      "name": "Zed",
+      "enabled": false,
+      "plugin": "todo",
+      "dashboard_url": "https://zed.dev",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    },
+    {
+      "id": "freebuf",
+      "name": "Freebuf",
+      "enabled": false,
+      "plugin": "todo",
+      "dashboard_url": "",
+      "daily_limit_usd": null,
+      "weekly_limit_usd": null
+    }
+  ]
+}
