@@ -1,5 +1,6 @@
 .git
 .env
+/.config/quickshell/jackbar/modules/billing/secrets.env
 *.bak*
 *.old*
 *.map*
@@ -55,3 +56,6 @@ output:tasks
 /.config/herdr/session.json
 /.config/herdr/release-notes.json
 /.config/herdr/*.log.*
+
+/.tasks/
+/.config/herdr/session-snapshots/
