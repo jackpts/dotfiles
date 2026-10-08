@@ -157,8 +157,16 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+Print exec bash -lc 'mkdir -p "$shots"; grim "$shots/$(date +"%F_%H-%M-%S").png"'
     bindsym Print exec bash -lc 'mkdir -p "$shots"; grim -g "$(slurp)" "$shots/$(date +"%F_%H-%M-%S")_sel.png"'
 
-    # Color picker (replacement for hyprpicker)
-    bindsym $mod+Shift+p exec wl-color-picker -f hex -a
+    # Color picker (wlroots-friendly; hyprpicker is unreliable on Sway)
+    bindsym $mod+Shift+p exec wl-color-picker clipboard
+    # bindsym $mod+Shift+p exec hyprpicker -a -n -f hex
+
+    # Voxtype push-to-talk (Whisper) — hold to record, release to transcribe
+    # Requires: paru -S voxtype-bin wtype && voxtype setup model && voxtype setup systemd
+    bindsym --no-repeat $mod+v exec voxtype record start
+    bindsym --release $mod+v exec voxtype record stop
+    # Fallback toggle (tap) if release binding is awkward on some keyboards
+    # bindsym $mod+Shift+v exec voxtype record toggle
 
     # Screensaver shortcut (press any key to dismiss)
     # bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
@@ -390,7 +398,8 @@ for_window [class="dbeaver"] opacity 1
 for_window [class="DBeaver"] opacity 1
 
 # Border settings (required for client colors to work)
-default_border pixel 2
+# default_border pixel 2
+default_border normal 1
 default_floating_border pixel 2
 
 # Colors: border, bg, text, indicator, child_border
