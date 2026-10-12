@@ -207,10 +207,16 @@ Item {
 
         onVisibleChanged: {
             if (visible)
-                locationMenuLayer.forceActiveFocus();
+                locationMenuKeys.forceActiveFocus();
         }
 
-        Keys.onEscapePressed: root.closeLocationMenu()
+        // PanelWindow is not an Item, so Keys must live on a child.
+        Item {
+            id: locationMenuKeys
+            anchors.fill: parent
+            focus: true
+            Keys.onEscapePressed: root.closeLocationMenu()
+        }
 
         MouseArea {
             anchors.fill: parent
