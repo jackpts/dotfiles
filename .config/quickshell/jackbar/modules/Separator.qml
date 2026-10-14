@@ -3,6 +3,7 @@
 -----------------------------*/
 
 import QtQuick
+import "../components" as C
 
 Rectangle {
     id: root
