@@ -11,8 +11,9 @@ Item {
     property string compositor: "unknown"
     property var wins: [] // [{id, app, title, focused, urgent, workspace}]
     property int minWorkspace: 1
-    property int panelMaxWorkspace: 4
-    property int maxMoveWorkspace: panelMaxWorkspace + 1
+    property int minVisible: 4
+    property int lastOccupiedWorkspace: 0
+    property int maxMoveWorkspace: Math.max(minVisible, lastOccupiedWorkspace + 1)
     property bool menuOpen: false
     property var contextWindow: null
     property var moveTargets: []
@@ -289,10 +290,16 @@ Item {
 
         onVisibleChanged: {
             if (visible)
-                contextMenuLayer.forceActiveFocus();
+                contextMenuKeys.forceActiveFocus();
         }
 
-        Keys.onEscapePressed: root.closeContextMenu()
+        // PanelWindow is not an Item, so Keys must live on a child.
+        Item {
+            id: contextMenuKeys
+            anchors.fill: parent
+            focus: true
+            Keys.onEscapePressed: root.closeContextMenu()
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -442,8 +449,16 @@ Item {
                     var list = [];
                     root.collectWindows(tree, list, null);
                     root.wins = list;
+                    var highest = 0;
+                    for (var i = 0; i < list.length; i++) {
+                        var n = Number(list[i].workspace);
+                        if (isFinite(n) && n > highest)
+                            highest = n;
+                    }
+                    root.lastOccupiedWorkspace = highest;
                 } catch (e) {
                     root.wins = [];
+                    root.lastOccupiedWorkspace = 0;
                 }
             }
         }
