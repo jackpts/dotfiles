@@ -1,11 +1,9 @@
 # Jackbar (Quickshell)
 
 - Location: `~/dotfiles/.config/quickshell/jackbar`
-- Purpose: Quickshell port of your Waybar modules with graphical circle gauges.
+- Full docs (modules, clicks, packages, billing keys/cookies): [`../../../quickshell.md`](../../../quickshell.md)
 
 ## Run
-
-- Directly from this folder (keeps it inside dotfiles):
 
 ```bash
 quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
@@ -13,7 +11,15 @@ quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
 qs -p "$HOME/dotfiles/.config/quickshell/jackbar"
 ```
 
-- Optional: symlink into XDG config and run by name:
+Sway already starts it:
+
+```conf
+exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
+```
+
+Reload: `~/dotfiles/scripts/quickshell_reload.sh`
+
+Optional XDG name:
 
 ```bash
 mkdir -p ~/.config/quickshell
@@ -21,38 +27,17 @@ ln -s "$HOME/dotfiles/.config/quickshell/jackbar" ~/.config/quickshell/jackbar
 quickshell -c jackbar
 ```
 
-## Run on Sway
+## Voxtype / Whisper (optional)
 
-- Sway: add another exec:
+Controls live in the **Settings** panel.
 
-```conf
-exec --no-startup-id quickshell -p "$HOME/dotfiles/.config/quickshell/jackbar"
+```bash
+paru -S voxtype-bin wtype
+# optional
+paru -S voxtype-tui
+voxtype setup model
+voxtype setup systemd
+systemctl --user enable --now voxtype
 ```
 
-- Niri: add in `binds` section or startup:
-
-```kdl
-spawn-sh-at-startup "quickshell -p $HOME/dotfiles/.config/quickshell/jackbar"
-```
-
-## Modules
-
-- **CPU, Memory, Free space, Volume, Battery** - Circular gauges (hover shows value; click/scroll actions preserved where applicable).
-- **Network indicator** - Click: `networkmanager_dmenu`, Right-click: `nmtui`.
-- **Screenshot button** - Click to capture (slurp + grim -> file + clipboard).
-- **Screen recorder** - Uses your `scripts/screen_record.sh` with toggle and status polling.
-- **Updates indicator** - Uses your `scripts/garuda_updates.sh`.
-- **MusicPlayer** - MPRIS media player control via `playerctl`:
-  - Displays current track (artist - title) with play/pause/stop icon
-  - Left click: Play/Pause
-  - Right click: Stop
-  - Scroll up: Previous track
-  - Scroll down: Next track
-  - Hover: Shows full metadata tooltip
-  - Auto-updates every 2 seconds
-  - Works with any MPRIS-compatible player (Spotify, VLC, Firefox, Chrome, etc.)
-
-## Notes
-
-- You can fine-tune colors and sizes in `components/CircleGauge.qml` and module files.
-- Tray, language, and taskbar are not included in this first pass; can be added later using Quickshell services.
+Push-to-talk: hold `Super+v` (Sway).
