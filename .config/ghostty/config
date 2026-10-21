@@ -11,7 +11,11 @@ background-opacity = 0.9
 gtk-titlebar = false
 
 # custom-shader = bloom.glsl
-# command = sh -c "herdr"
+
+# Autostart herdr, the ghostty twin of kitty's `shell /usr/bin/tmux`.
+# Absolute path so it does not depend on the session PATH; use
+# `ghostty -e fish` when a bare shell is needed.
+command = /home/jacky/.local/bin/herdr
 
 # background = #1b191b
 # foreground = #d6deeb

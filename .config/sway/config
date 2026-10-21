@@ -120,7 +120,9 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     #
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym $mod+t exec ghostty
+    # Ghostty + herdr: prepare the yt-tg/dotfiles tabs, then attach
+    bindsym $mod+t exec $scripts/herdr_yt_tg.sh
+    # kitty + tmux fallback (kitty.conf: shell /usr/bin/tmux)
     bindsym $mod+x exec kitty
 
     # Kill focused window (ported from Hyprland $mod+q)

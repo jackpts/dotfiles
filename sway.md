@@ -64,8 +64,8 @@ output eDP-1 mode 2560x1600@165Hz position 0,0
 | Binding | Action |
 |---|---|
 | `$mod+Return` | kitty |
-| `$mod+x` | kitty (again) |
-| `$mod+t` | ghostty |
+| `$mod+x` | kitty + tmux fallback (`kitty.conf: shell /usr/bin/tmux`) |
+| `$mod+t` | ghostty + herdr (`scripts/herdr_yt_tg.sh`; tabs `yt-tg` + `dotfiles`) |
 | `$mod+d` | App launcher (`scripts/run_launcher.sh` → rofi drun) |
 | `$mod+e` | nemo |
 | `$mod+z` | zen-browser |
@@ -194,6 +194,7 @@ Bound or exec’d by Sway (jackbar-only scripts live in [`quickshell.md`](quicks
 | `lock_with_matrix.sh` | powermenu lock | fullscreen `cmatrix` in kitty, then `swaylock` |
 | `toggle_neovim.sh` | `$mod+n` | kitty `--class nvim` or scratchpad show/hide |
 | `toggle_obsidian.sh` | `$mod+s` | launch / scratchpad Obsidian |
+| `herdr_yt_tg.sh` | `$mod+t` | herdr tabs `yt-tg` (bot, only if not running) + `dotfiles`, then ghostty |
 | `wallpaper.sh` | `$mod+w` | fzf + chafa thumbs from `~/Pictures/walls` |
 | `set_wallpaper.sh` | from picker | `swaymsg output * bg … fill\|fit` |
 | `wallpaper_save.sh` | picker + autostart | save/restore `wallpaper.conf` |
