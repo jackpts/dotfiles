@@ -5,19 +5,51 @@ on: [push, pull_request]
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     container: archlinux:latest
 
     steps:
       - name: Install system dependencies
         run: |
           set -euo pipefail
-          pacman -Sy --noconfirm archlinux-keyring
-          pacman -Syu --noconfirm
-          pacman -S --needed --noconfirm \
+
+          # The official archlinux container image ships a mirrorlist with a
+          # single server. A single flaky mirror (e.g. fastly) then aborts the
+          # whole transaction, so add fallbacks and put the most reliable first.
+          cat > /etc/pacman.d/mirrorlist <<'MIRRORS'
+          Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch
+          Server = https://fastly.mirror.pkgbuild.com/$repo/os/$arch
+          Server = https://mirrors.edge.kernel.org/archlinux/$repo/os/$arch
+          Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+          MIRRORS
+
+          # Parallel downloads reduce the wall clock time (and thus the window
+          # in which a connection can be reset) of the ~180 MiB download.
+          if grep -q '^#\?ParallelDownloads' /etc/pacman.conf; then
+            sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
+          else
+            sed -i '/^\[options\]/a ParallelDownloads = 5' /etc/pacman.conf
+          fi
+
+          retry() {
+            local attempt=1 max=3
+            until "$@"; do
+              if ((attempt >= max)); then
+                echo "::error::'$*' failed after ${max} attempts"
+                return 1
+              fi
+              echo "::warning::attempt ${attempt} for '$*' failed, retrying in 10s"
+              attempt=$((attempt + 1))
+              sleep 10
+            done
+          }
+
+          retry pacman -Sy --noconfirm --disable-download-timeout archlinux-keyring
+          retry pacman -Syu --noconfirm --disable-download-timeout --needed \
             git stow fish zsh bash \
             nodejs npm python python-pip \
             neovim lua tmux kitty \
-            xorg-xwayland
+            xorg-xwayland python-yaml
 
       - name: Checkout dotfiles
         uses: actions/checkout@v4
@@ -25,11 +57,12 @@ jobs:
       - name: Install lint dependencies
         run: |
           set -euo pipefail
-          pacman -S --needed --noconfirm python-yaml
           python -m venv .lintenv
-          source .lintenv/bin/activate
-          pip install --no-cache-dir --upgrade pip
-          pip install --no-cache-dir yamllint
+          . .lintenv/bin/activate
+          pip install --no-cache-dir --upgrade \
+            --retries 5 --timeout 60 pip
+          pip install --no-cache-dir \
+            --retries 5 --timeout 60 yamllint
 
       - name: Validate YAML files
         run: |
@@ -45,4 +78,3 @@ jobs:
           if [ -d "scripts" ]; then
             find scripts -type f -name "*.sh" -exec bash -n {} \;
           fi
-
