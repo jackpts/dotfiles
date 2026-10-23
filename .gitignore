@@ -64,6 +64,7 @@ output:tasks
 /.config/herdr/*.log.*
 
 /.config/opencode/herdr-opencode/
+/.config/opencode/service.json
 
 /.tasks/
 /.config/herdr/session-backups/
