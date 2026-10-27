@@ -69,6 +69,7 @@ output eDP-1 mode 2560x1600@165Hz position 0,0
 | `$mod+d` | App launcher (`scripts/run_launcher.sh` → rofi drun) |
 | `$mod+e` | nemo |
 | `$mod+z` | zen-browser |
+| `$mod+g` / `$mod+п` | Steam (`bindcode 42` → `steam`) |
 | `$mod+n` | Toggle nvim scratchpad (`scripts/toggle_neovim.sh`) |
 | `$mod+s` / `$mod+ы` | Toggle Obsidian scratchpad (`bindcode 39` → `toggle_obsidian.sh`) |
 | `$mod+w` | Wallpaper picker in kitty (`scripts/wallpaper.sh`) |
@@ -133,12 +134,16 @@ Keyboard layouts: `us,ru` with `grp:alt_shift_toggle` (Alt+Shift). Numlock on.
 
 Almost **everything floats** (`for_window [app_id=".*"] floating enable` and the Xwayland `class` equivalent). Warp tiling overrides are commented out.
 
+Sway keeps a floating view's geometry only for the lifetime of that view; it does **not** persist window size/position across restarts or session exits. Ghostty (herdr) and Transmission therefore get explicit fixed sizes instead of relying on "last used".
+
 | Rule | Apps |
 |---|---|
 | Opacity 0.95 | default |
 | 0.98 | zen, Opera |
 | 1.0 (opaque) | Chrome, eog, DBeaver |
-| Size 60%×50%, | mpv |
+| Size 60%×50% | mpv |
+| Size 70% wide × full height, top-left | ghostty (`com.mitchellh.ghostty`; autostart + `$mod+t`) |
+| Size 50%×100%, top-right | Transmission (`com.transmissionbt.transmission_*`; app_id has a version/build suffix, matched by prefix) |
 | Size 60%×60%, centered | window title `wallpaper` |
 | No border, sticky | slurp |
 
@@ -148,18 +153,19 @@ Borders: 2px; focused `#4c789988`.
 
 ## Autostart
 
-From `config` (order matters for workspace 2):
+From `config` (order matters for workspaces 2 and 3):
 
 1. `XDG_*` + `dbus-update-activation-environment --systemd --all`
 2. `polkit-gnome-authentication-agent-1`
 3. **jackbar:** `quickshell -p $HOME/dotfiles/.config/quickshell/jackbar`
-4. After 3s: workspace 2 + **ghostty**
-5. `wl-paste --watch cliphist store` (text + image)
-6. `copyq`
-7. `journalctl --user -u sway` (`exec_always`)
-8. `kdeconnect-indicator` after 5s
-9. Wallpaper restore: `scripts/wallpaper_save.sh --restore`
-10. `xdg-desktop-portal-wlr`
+4. After 3s: workspace 2 + **ghostty** → herdr via `scripts/herdr_yt_tg.sh` (`yt-tg` tab with the bot, `dotfiles` tab; window opens 70% wide, full height, top-left)
+5. After 6s: workspace 3 + **Steam** (Xwayland, `sleep 6` to avoid competing with the herdr bot startup)
+6. `wl-paste --watch cliphist store` (text + image)
+7. `copyq`
+8. `journalctl --user -u sway` (`exec_always`)
+9. `kdeconnect-indicator` after 5s
+10. Wallpaper restore: `scripts/wallpaper_save.sh --restore`
+11. `xdg-desktop-portal-wlr`
 
 Commented (re-enable as needed): delayed Deluge / Nemo / Telegram, tmux `yt-tg-chat-bot` + daily `sway-backup.sh`, gnome-keyring daemon.
 
@@ -213,6 +219,7 @@ Radio: second `$mod+r` kills the existing `radio-mpv` instance (toggle-off).
 - **Floating-first:** new windows float; tile with `$mod+Shift+space` if you want i3-like tiling.
 - **`$scripts` vs `dotfiles/scripts`:** binds use `$HOME/scripts`. Keep that directory (or symlink) after clone.
 - **Obsidian bindcode 39** is physical key `S` (works on US and RU). Do not change to `$mod+s` only — it breaks on the Russian layout.
+- **Steam bindcode 42** is physical key `G` (mnemonic: Game). Keeps working when the layout is switched to RU (`$mod+п`).
 - **`$mod+r` is radio**, not resize mode.
 - **`$mod+l` is not a lock** right now — it only darkens the wallpaper. Real lock is powermenu → lock (`swaylock` + cmatrix).
 - **Mouse hang workaround:** device `046D:C077` has `events disabled` (Logitech receiver that was locking input). Remove if you need that device.
