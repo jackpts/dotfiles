@@ -63,7 +63,10 @@ output:tasks
 /.config/herdr/release-notes.json
 /.config/herdr/*.log.*
 
+# herdr-managed opencode integration (regenerate with `herdr integration install opencode`)
 /.config/opencode/herdr-opencode/
+/.config/opencode/herdr-tui-session.js
+/.config/opencode/plugins/herdr-agent-state.js
 /.config/opencode/service.json
 
 /.tasks/
