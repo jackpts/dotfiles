@@ -19,18 +19,19 @@
           "name": "Z.AI GLM-4.7 (Cerebras Free Tier)"
         }
       }
+    },
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio",
+      "options": {
+        "baseURL": "http://127.0.0.1:1234/v1",
+        "apiKey": "{env:LMSTUDIO_API_KEY}",
+        "timeout": 120000
+      }
     }
   },
   "model": "opencode/deepseek-v4-flash-free",
   "mcp": {
-    "lmstudio": {
-      "type": "remote",
-      "url": "http://localhost:1234/v1",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "enabled": true
-    },
     "sequential-thinking": {
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
@@ -54,16 +55,6 @@
       },
       "enabled": true
     },
-    "fetch": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-fetch"],
-      "enabled": true
-    },
-    "shell": {
-      "type": "local",
-      "command": ["npx", "-y", "@wonderwhy-er/desktop-commander"],
-      "enabled": true
-    },
     "neon": {
       "type": "remote",
       "url": "https://mcp.neon.tech/mcp",
@@ -77,12 +68,18 @@
       "enabled": true
     },
     "axiom": {
-      "type": "local",
-      "command": ["npx", "-y", "@axiomhq/mcp-server-axiom"],
-      "enabled": true,
-      "environment": {
-        "AXIOM_TOKEN": "{env:AXIOM_TOKEN}",
-        "AXIOM_URL": "https://api.axiom.co"
+      "type": "remote",
+      "url": "https://mcp.axiom.co/mcp",
+      "oauth": {},
+      "enabled": true
+    },
+    "servers": {
+      "fetch": {
+        "type": "local",
+        "command": [
+          "uvx",
+          "mcp-server-fetch"
+        ]
       }
     }
   }
