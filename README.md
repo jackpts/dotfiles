@@ -35,15 +35,25 @@
     paru -S ttf-cascadia-code-nerd mission-center resources checkupdates-with-aur warp-terminal-bin rxfetch ttf-material-design-icons ttf-maple-beta chafa wf-recorder python-pywal
 ```
 
-### Sway screensaver (asciiquarium overlay)
+### Quickshell (jackbar)
 
-Sway uses `~/dotfiles/scripts/asciiquarium_lock.sh` for both manual (`$mod+L`) and idle triggers. Install the ASCII aquarium dependency first (kitty is already covered in the terminal section, but is required):
+Status bar lives in `.config/quickshell/jackbar` (Sway starts it with `quickshell -p …/jackbar`). Full module/click/package reference: [`quickshell.md`](quickshell.md).
 
-```bash
-    sudo pacman -S asciiquarium
-```
+**AI billing** (robot icon): hover shows remaining credits, Daily/Weekly/Monthly spent, Cursor on-demand and days until auto-pay. Copy `modules/billing/secrets.env.example` → `secrets.env` (gitignored). Full tooltip example: [`quickshell.md`](quickshell.md#ai-billing).
 
-When either dependency is missing, the shortcut simply notifies you and exits—no traditional lock screen is launched.
+| Provider | What to set | Extra session |
+|---|---|---|
+| OpenRouter | `OPENROUTER_API_KEY` (`sk-or-v1-…`). Optional `OPENROUTER_MGMT_KEY` for token totals | — |
+| OpenCode | `OPENCODE_CONSOLE_KEY` (`oc_sk_…`, **All** permissions) + `ZEN_API_KEY` (`sk-…`) | Wallet $ uses Zen/Firefox cookie `__Host-console_session` on `opencode.ai` (or `OPENCODE_CONSOLE_SESSION`) |
+| Cursor | none if Cursor IDE is signed in (`state.vscdb`); optional `CURSOR_API_KEY` | if IDE is closed: Zen/Firefox cookie `WorkosCursorSessionToken` on `cursor.com`; `N days until next auto-pay`; `(no auto-pay)` if auto-renew is off |
+
+Left click copies the tooltip; right click refreshes. Put your OpenCode workspace id (`wrk_…`) in `modules/billing/providers.json` → `dashboard_url`.
+
+### Sway
+
+Compositor config: `.config/sway/config`. Keybindings, autostart, NVIDIA session, idle, and wallpaper scripts: [`sway.md`](sway.md).
+
+Idle lock via `asciiquarium` is **commented out**; `$mod+l` currently dims the wallpaper. Re-enable `scripts/asciiquarium_lock.sh` if you want the aquarium overlay (`sudo pacman -S asciiquarium`).
 
 <br />
 
