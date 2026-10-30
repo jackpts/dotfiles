@@ -77,18 +77,47 @@ pane_cwd() {
 }
 
 # True when the shell itself owns the pane, so typing a command is safe.
-pane_idle() {
-    local procs name
-    procs=$(h pane process-info --pane "$1" \
-        | jq -r '[.result.process_info.foreground_processes[]?.name] | join(" ")')
-    [ -z "$procs" ] && return 0
-    for name in $procs; do
+pane_foreground() {
+    h pane process-info --pane "$1" \
+        | jq -r '[.result.process_info.foreground_processes[]?.name] | join(" ")'
+}
+
+shell_only() {
+    local name
+    for name in $1; do
         case "$SHELL_NAMES" in
             *" $name "*) ;;
             *) return 1 ;;
         esac
     done
     return 0
+}
+
+# Wait until the pane's shell (and nothing else) owns the foreground, e.g. while
+# restored panes spawn fish and render their greeting. `tries` is in 100ms steps;
+# a still-busy pane makes this give up instead of typing into a running program.
+wait_for_shell() {
+    local pane="$1" tries="${2:-30}" procs _
+    for _ in $(seq 1 "$tries"); do
+        procs=$(pane_foreground "$pane")
+        [ -n "$procs" ] && shell_only "$procs" && return 0
+        sleep 0.1
+    done
+    return 1
+}
+
+# Retry pane lookup: restored panes can appear a moment after the server starts.
+wait_for_pane() {
+    local tab="$1" pane _
+    for _ in $(seq 1 50); do
+        pane=$(pane_of_tab "$tab")
+        if [ -n "$pane" ]; then
+            printf '%s' "$pane"
+            return 0
+        fi
+        sleep 0.1
+    done
+    return 1
 }
 
 bot_running() {
@@ -140,8 +169,8 @@ DOT_TAB=$(ensure_tab "$DOT_TAB_LABEL" 2 "$DOTFILES")
 # Bot: skip when an instance already runs anywhere (including the kitty/tmux
 # fallback), so two pollers never share the same bot.db.
 if [ -n "$BOT_TAB" ] && ! bot_running; then
-    BOT_PANE=$(pane_of_tab "$BOT_TAB")
-    if [ -n "$BOT_PANE" ] && pane_idle "$BOT_PANE"; then
+    BOT_PANE=$(wait_for_pane "$BOT_TAB")
+    if [ -n "$BOT_PANE" ] && wait_for_shell "$BOT_PANE" 50; then
         log "starting yt-tg-chat-bot in $BOT_PANE"
         h pane run "$BOT_PANE" "$BOT_CMD" >/dev/null
     else
@@ -151,8 +180,8 @@ fi
 
 # dotfiles: park the shell in ~/dotfiles, nothing else.
 if [ -n "$DOT_TAB" ]; then
-    DOT_PANE=$(pane_of_tab "$DOT_TAB")
-    if [ -n "$DOT_PANE" ] && pane_idle "$DOT_PANE"; then
+    DOT_PANE=$(wait_for_pane "$DOT_TAB")
+    if [ -n "$DOT_PANE" ] && wait_for_shell "$DOT_PANE" 10; then
         case "$(pane_cwd "$DOT_PANE")" in
             "$DOTFILES" | "$DOTFILES"/*) ;;
             *)
