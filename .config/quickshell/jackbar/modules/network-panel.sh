@@ -136,16 +136,25 @@ cmd_wifi_connect() {
         exit 2
     fi
 
-    if [ "$saved" = "1" ]; then
-        if nmcli -w 25 connection up id "$ssid" >/dev/null 2>&1; then
-            exit 0
-        fi
-        # Saved profile name may differ; fall through to wifi connect.
+    # Only expect a password on stdin for new (unsaved) secured networks.
+    # For saved profiles QML sends no stdin, so reading here used to block
+    # forever and leave the panel stuck on "Connecting…".
+    local pass=""
+    if [ "$saved" != "1" ] && [ -n "$security" ]; then
+        IFS= read -r -t 15 pass || pass=""
     fi
 
-    local pass=""
-    if [ -n "$security" ]; then
-        IFS= read -r pass || true
+    if [ "$saved" = "1" ]; then
+        if nmcli -w 25 connection up id "$ssid" </dev/null >/dev/null 2>&1; then
+            exit 0
+        fi
+        # Saved profile failed (missing/expired credentials). Tell the UI so it
+        # can show the password prompt instead of falling through and blocking.
+        if [ -n "$security" ]; then
+            echo "saved profile failed; password required" >&2
+            exit 3
+        fi
+        # Open network: fall through to device wifi connect below.
     fi
 
     local args=(nmcli -w 25 device wifi connect "$ssid")
@@ -159,7 +168,7 @@ cmd_wifi_connect() {
         fi
         args+=(password "$pass")
     fi
-    "${args[@]}"
+    "${args[@]}" </dev/null
 }
 
 cmd_wifi_radio() {

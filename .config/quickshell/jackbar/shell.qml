@@ -30,6 +30,7 @@ Variants {
     }
 
     delegate: PanelWindow {
+        id: barWindow
         required property var modelData
         readonly property bool qsUsableScreen: modelData && modelData.name && modelData.name.indexOf("HEADLESS") !== 0
         readonly property bool qsAllowedScreen: {
@@ -48,6 +49,11 @@ Variants {
             return false;
         }
 
+        property bool barHovered: false
+        readonly property bool barAutohide: C.SettingsStore.barAutohide
+        readonly property bool barForceShow: settingsInd.menuOpen
+        readonly property bool barExpanded: !barAutohide || barHovered || barForceShow
+
         visible: qsUsableScreen && qsAllowedScreen
 
         screen: modelData
@@ -56,81 +62,136 @@ Variants {
             left: true
             right: true
         }
-        implicitHeight: C.Theme.panelHeight
-        exclusiveZone: visible ? implicitHeight : 0
+        implicitHeight: barExpanded ? C.Theme.panelHeight : 3
+        exclusiveZone: barExpanded ? C.Theme.panelHeight : 0
         focusable: true
         color: "transparent"
+
+        Behavior on implicitHeight {
+            NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
+        }
 
         Component.onCompleted: {
             if (Quickshell.env("QS_PANEL_DEBUG"))
                 console.log("QS panel: created panel on", modelData ? modelData.name : "<null>", "visible=", visible);
         }
 
-        Rectangle {
-            anchors.fill: parent
-            // color: C.Theme.bg // translucent dark background
-            // color: Qt.rgba(0,0,0,0)
-            color: "#111111"
-            opacity: 0.7
-        }
-
-        Row {
-            id: leftRow
-            spacing: 2
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 8
-            AppMenu {}
-            UpdatesIndicator {}
-            Weather {}
-            TaskList {}
-        }
-
-        Item {
-            id: workspaceArea
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: leftRow.right
-            anchors.leftMargin: 2
-            anchors.right: rightRow.left
-            anchors.rightMargin: 2
-            height: parent.height
-
-            Workspaces {
-                id: workspaces
-                anchors.centerIn: parent
+        Timer {
+            id: hideTimer
+            interval: 500
+            onTriggered: {
+                if (!barWindow.barForceShow)
+                    barWindow.barHovered = false
             }
         }
 
-        Row {
-            id: rightRow
-            spacing: 8
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 20
-            // RedShift {}
-            // Separator {}
-            MusicPlayer {}
-            Separator {}
-            Shazam {}
-            Separator {}
-            CpuGauge {}
-            MemoryGauge {}
-            FreeSpaceGauge {}
-            VolumeGauge {}
-            Separator {}
-            Brightness {}
-            NetworkIndicator {}
-            BluetoothIndicator {}
-            LanguageSwitcher {}
-            ScreenRecorder {}
-            ScreenshotCapture {}
-            // HoursNote {}
-            Clipboard {}
-            NotificationIndicator {}
-            // BlueLight {}
-            BatteryGauge {}
-            // Tray {}
-            Clock {}
+        function keepBar() {
+            hideTimer.stop()
+            barWindow.barHovered = true
+        }
+
+        function maybeHideBar() {
+            if (!barWindow.barAutohide)
+                return
+            if (barWindow.barForceShow)
+                return
+            hideTimer.restart()
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "#111111"
+            opacity: barWindow.barExpanded ? 0.7 : 0.35
+            Behavior on opacity {
+                NumberAnimation { duration: 120 }
+            }
+        }
+
+        Item {
+            anchors.fill: parent
+
+            // HoverHandler stays active while the cursor is over the bar or any child module
+            HoverHandler {
+                id: barHover
+                onHoveredChanged: {
+                    if (hovered)
+                        barWindow.keepBar()
+                    else
+                        barWindow.maybeHideBar()
+                }
+            }
+
+            Item {
+                anchors.fill: parent
+                opacity: barWindow.barExpanded ? 1 : 0
+                visible: opacity > 0.01
+                clip: true
+                Behavior on opacity {
+                    NumberAnimation { duration: 100 }
+                }
+
+                Row {
+                    id: leftRow
+                    spacing: 2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 8
+                    AppMenu {}
+                    UpdatesIndicator {}
+                    Weather {}
+                    TaskList {}
+                }
+
+                Item {
+                    id: workspaceArea
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: leftRow.right
+                    anchors.leftMargin: 2
+                    anchors.right: rightRow.left
+                    anchors.rightMargin: 2
+                    height: parent.height
+
+                    Workspaces {
+                        id: workspaces
+                        anchors.centerIn: parent
+                    }
+                }
+
+                Row {
+                    id: rightRow
+                    spacing: 8
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    // RedShift {}
+                    // Separator {}
+                    MusicPlayer {}
+                    Separator {}
+                    Shazam {}
+                    Separator {}
+                    CpuGauge {}
+                    MemoryGauge {}
+                    FreeSpaceGauge {}
+                    VolumeGauge {}
+                    Separator {}
+                    SettingsIndicator {
+                        id: settingsInd
+                    }
+                    NetworkIndicator {}
+                    BluetoothIndicator {}
+                    BillingIndicator {}
+                    LanguageSwitcher {}
+                    ScreenRecorder {}
+                    ScreenshotCapture {}
+                    // HoursNote {}
+                    Clipboard {}
+                    NotificationIndicator {}
+                    // BlueLight {}
+                    BatteryGauge {}
+                    // Tray {}
+                    Clock {}
+                }
+            }
         }
     }
 }

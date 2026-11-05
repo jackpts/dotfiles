@@ -37,6 +37,10 @@ PopupWindow {
     property string _listRaw: ""
     property var pingSamples: []
     property string _pendingPass: ""
+    property string _lastConnectSsid: ""
+    property string _lastConnectBssid: ""
+    property string _lastConnectSecurity: ""
+    readonly property int promptReserve: passwordSsid.length > 0 ? 66 : 0
 
     signal dismissed()
 
@@ -50,7 +54,8 @@ PopupWindow {
     anchor.margins.top: 6
     implicitWidth: 400
     // Keep this short so it always fits under the bar. Networks scroll inside.
-    implicitHeight: Math.min(480, Math.max(360, maxHeight))
+    // Grow a bit while the password prompt is shown so the input is not clipped.
+    implicitHeight: Math.min(passwordSsid.length > 0 ? 560 : 480, Math.max(360, maxHeight))
 
     onVisibleChanged: {
         if (visible) {
@@ -183,16 +188,20 @@ PopupWindow {
         restartProc(dnsSetProc)
     }
 
+    function promptPassword(ssid, bssid, security) {
+        passwordSsid = ssid || ""
+        passwordBssid = bssid || ""
+        passwordSecurity = security || ""
+        passwordDraft = ""
+    }
+
     function connectNet(row) {
         if (!row || !row.ssid || connectingSsid.length)
             return
         if (row.inUse)
             return
         if (!row.saved && row.security && row.security.length) {
-            passwordSsid = row.ssid
-            passwordBssid = row.bssid || ""
-            passwordSecurity = row.security
-            passwordDraft = ""
+            promptPassword(row.ssid, row.bssid, row.security)
             return
         }
         startConnect(row.ssid, row.saved ? "1" : "0", row.security || "", row.bssid || "", "")
@@ -200,6 +209,9 @@ PopupWindow {
 
     function startConnect(ssid, saved, security, bssid, pass) {
         connectingSsid = ssid
+        _lastConnectSsid = ssid
+        _lastConnectBssid = bssid || ""
+        _lastConnectSecurity = security || ""
         _pendingPass = pass || ""
         connectProc.stdinEnabled = !!(pass && pass.length)
         var args = [root.script, "wifi-connect", ssid, saved, security]
@@ -208,6 +220,7 @@ PopupWindow {
         connectProc.command = args
         connectProc.running = false
         connectProc.running = true
+        connectTimeout.restart()
     }
 
     function submitPassword() {
@@ -331,14 +344,23 @@ PopupWindow {
             }
         }
         onExited: function(code) {
+            connectTimeout.stop()
             var ssid = root.connectingSsid
             root.connectingSsid = ""
             root._pendingPass = ""
+            if (!ssid.length)
+                return
             if (code === 0) {
                 root.refreshList(true)
                 return
             }
-            notify.command = ["notify-send", "-u", "normal", "Network", "Failed to connect to " + ssid]
+            if (root._lastConnectSecurity.length) {
+                // Saved profile may be missing its password; ask for it.
+                root.promptPassword(root._lastConnectSsid || ssid, root._lastConnectBssid, root._lastConnectSecurity)
+                notify.command = ["notify-send", "-u", "normal", "Network", "Enter the password for " + ssid]
+            } else {
+                notify.command = ["notify-send", "-u", "normal", "Network", "Failed to connect to " + ssid]
+            }
             notify.running = true
         }
     }
@@ -361,6 +383,25 @@ PopupWindow {
         running: false
         repeat: true
         onTriggered: root.refreshList(false)
+    }
+    Timer {
+        id: connectTimeout
+        interval: 50000
+        running: false
+        repeat: false
+        onTriggered: {
+            if (!root.connectingSsid.length)
+                return
+            var ssid = root.connectingSsid
+            if (connectProc.running) {
+                connectProc.signal(15)
+                connectProc.running = false
+            }
+            root.connectingSsid = ""
+            root._pendingPass = ""
+            notify.command = ["notify-send", "-u", "normal", "Network", "Timed out connecting to " + ssid]
+            notify.running = true
+        }
     }
 
     Rectangle {
@@ -646,7 +687,7 @@ PopupWindow {
             Flickable {
                 id: netsFlick
                 width: parent.width
-                height: Math.max(120, col.height - y - (root.passwordSsid.length > 0 ? 70 : 0))
+                height: Math.max(100, col.height - y - root.promptReserve)
                 clip: true
                 contentWidth: width
                 contentHeight: netsCol.implicitHeight
@@ -705,7 +746,7 @@ PopupWindow {
                 spacing: 6
                 onVisibleChanged: {
                     if (visible)
-                        passInput.forceActiveFocus()
+                        Qt.callLater(function() { passInput.forceActiveFocus() })
                 }
                 Text {
                     text: "Password for " + root.passwordSsid
