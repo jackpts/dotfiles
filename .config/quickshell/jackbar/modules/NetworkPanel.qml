@@ -34,13 +34,15 @@ PopupWindow {
     property string passwordBssid: ""
     property string passwordSecurity: ""
     property string passwordDraft: ""
+    property string passwordError: ""
     property string _listRaw: ""
     property var pingSamples: []
     property string _pendingPass: ""
     property string _lastConnectSsid: ""
     property string _lastConnectBssid: ""
     property string _lastConnectSecurity: ""
-    readonly property int promptReserve: passwordSsid.length > 0 ? 66 : 0
+    property bool _lastConnectUsedPassword: false
+    readonly property int promptReserve: passwordSsid.length > 0 ? (passwordError.length > 0 ? 88 : 66) : 0
 
     signal dismissed()
 
@@ -62,6 +64,7 @@ PopupWindow {
             pingSamples = []
             passwordSsid = ""
             passwordDraft = ""
+            passwordError = ""
             refreshAll(true)
             pingTimer.start()
             listTimer.start()
@@ -193,6 +196,7 @@ PopupWindow {
         passwordBssid = bssid || ""
         passwordSecurity = security || ""
         passwordDraft = ""
+        passwordError = ""
     }
 
     function connectNet(row) {
@@ -212,6 +216,7 @@ PopupWindow {
         _lastConnectSsid = ssid
         _lastConnectBssid = bssid || ""
         _lastConnectSecurity = security || ""
+        _lastConnectUsedPassword = !!(pass && pass.length)
         _pendingPass = pass || ""
         connectProc.stdinEnabled = !!(pass && pass.length)
         var args = [root.script, "wifi-connect", ssid, saved, security]
@@ -357,7 +362,13 @@ PopupWindow {
             if (root._lastConnectSecurity.length) {
                 // Saved profile may be missing its password; ask for it.
                 root.promptPassword(root._lastConnectSsid || ssid, root._lastConnectBssid, root._lastConnectSecurity)
-                notify.command = ["notify-send", "-u", "normal", "Network", "Enter the password for " + ssid]
+                if (root._lastConnectUsedPassword) {
+                    root.passwordError = "Wrong password. Please type the correct one."
+                    notify.command = ["notify-send", "-u", "normal", "Network", "Wrong password for " + ssid + ". Please try again."]
+                } else {
+                    root.passwordError = "This network needs a password."
+                    notify.command = ["notify-send", "-u", "normal", "Network", "Password required for " + ssid]
+                }
             } else {
                 notify.command = ["notify-send", "-u", "normal", "Network", "Failed to connect to " + ssid]
             }
@@ -751,6 +762,14 @@ PopupWindow {
                 Text {
                     text: "Password for " + root.passwordSsid
                     color: C.Theme.text
+                    font.pixelSize: C.Theme.fontXs
+                    elide: Text.ElideRight
+                    width: parent.width
+                }
+                Text {
+                    visible: root.passwordError.length > 0
+                    text: root.passwordError
+                    color: C.Theme.red
                     font.pixelSize: C.Theme.fontXs
                     elide: Text.ElideRight
                     width: parent.width
