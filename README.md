@@ -73,6 +73,12 @@ If error occured with conflicting configs (sway, fish, etc.), then stow like thi
     git stash
 ```
 
+> **Keep `~/.config/fish/fish_variables` a regular file.** It holds machine-local
+> universal variables and is gitignored here. Fish only re-reads it for other shells
+> via an inotify watch on `~/.config/fish`, so stowing (symlinking) it makes writes
+> land in `~/dotfiles/.config/fish` instead and breaks async prompt refreshes —
+> the tide prompt then shows stale git branch/status until a keypress.
+
 ### Remove all `Stow` configuration symlinks
 
 ```bash
