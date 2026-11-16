@@ -80,9 +80,10 @@
   "agent": {
     "dock": "right",
     "default_model": {
+      "effort": "high",
       "provider": "openrouter",
-      "model": "openrouter/free",
-      "enable_thinking": false
+      "model": "z-ai/glm-5.2:free",
+      "enable_thinking": true
     },
 "tool_permissions": {
           "tools": {
