@@ -77,10 +77,12 @@ include /etc/sway/config-vars.d/*
 
 
 # Mirror eDP-1 to HDMI-A-1 fullscreen
-bindsym $mod+m exec wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1
+# key_code_number 58 = m (EN) | ь (RU)
+bindcode $mod+58 exec wl-mirror --fullscreen-output HDMI-A-1 --fullscreen eDP-1
 
 # To stop the mirror, kill the process (or bind a kill command)
-bindsym $mod+Shift+m exec pkill wl-mirror
+# key_code_number 58 = M (EN) | Ь (RU)
+bindcode $mod+Shift+58 exec pkill wl-mirror
 
 ### Idle configuration
 #
@@ -116,33 +118,53 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
 
 ### Key bindings
 #
+    # App-launching $mod+<letter> binds use `bindcode` (physical key) instead of
+    # `bindsym` (keysym) so they keep working on both the EN (us) and RU (ru)
+    # layouts. xkb keycode = evdev keycode + 8; verify yours with:
+    #   xev -event keyboard | grep -A2 KeyPress
+    #
+    # Keycode reference (RU = ЙЦУКЕН):
+    #   24=й/q  25=ц/w  26=у/e  27=к/r  28=е/t  29=н/y  30=г/u  31=ш/i
+    #   32=щ/o  33=з/p  38=ф/a  39=ы/s  40=в/d  41=а/f  42=п/g  43=р/h
+    #   44=о/j  45=л/k  46=д/l  52=я/z  53=ч/x  54=с/c  55=м/v  56=и/b
+    #   57=т/n  58=ь/m
+    #
     # Basics:
     #
     # Start a terminal
     bindsym $mod+Return exec $term
     # Ghostty + herdr: prepare the yt-tg/dotfiles tabs, then attach
-    bindsym $mod+t exec $scripts/herdr_yt_tg.sh
+    # key_code_number 28 = t (EN) | е (RU)
+    bindcode $mod+28 exec $scripts/herdr_yt_tg.sh
     # kitty + tmux fallback (kitty.conf: shell /usr/bin/tmux)
-    bindsym $mod+x exec kitty
+    # key_code_number 53 = x (EN) | ч (RU)
+    bindcode $mod+53 exec kitty
 
     # Kill focused window (ported from Hyprland $mod+q)
     bindsym $mod+q kill
     # Power menu on Shift+Q (replaces default kill binding)
-    bindsym $mod+Shift+q exec $power
+    # key_code_number 24 = Q (EN) | Й (RU)
+    bindcode $mod+Shift+24 exec $power
 
     # Start your launcher (uses $launcher)
-    bindsym $mod+d exec $menu
+    # key_code_number 40 = d (EN) | в (RU)
+    bindcode $mod+40 exec $menu
     # bindsym $mod+d exec sh -c 'grep -l "^Exec=" /usr/share/applications/*.desktop ~/.local/share/applications/*.desktop 2>/dev/null | while read desktop; do name="$(grep "^Name=" "$desktop" | head -n1 | cut -d"=" -f2-)"; exec_cmd="$(grep "^Exec=" "$desktop" | head -n1 | cut -d"=" -f2- | sed "s/%[fFuUcCDi]*//g")"; printf "%s\t%s\n" "$name" "$exec_cmd"; done | fuzzel --dmenu --prompt "Launch" | cut -f2- | sh'
 
     # Notifications toggle
-    bindsym $mod+c exec "$swaync -t -sw"
+    # key_code_number 54 = c (EN) | с (RU)
+    bindcode $mod+54 exec "$swaync -t -sw"
 
     # File manager, browser, editor
-    bindsym $mod+e exec $explorer
+    # key_code_number 26 = e (EN) | у (RU)
+    bindcode $mod+26 exec $explorer
     # bindsym $mod+b exec $google-chrome
-    bindsym $mod+n exec $scripts/toggle_neovim.sh
-    bindsym $mod+z exec zen-browser
+    # key_code_number 57 = n (EN) | т (RU)
+    bindcode $mod+57 exec $scripts/toggle_neovim.sh
+    # key_code_number 52 = z (EN) | я (RU)
+    bindcode $mod+52 exec zen-browser
     # Steam — bindcode 42 = physical key G (mnemonic: Game). Works on US and RU layouts.
+    # key_code_number 42 = g (EN) | п (RU)
     bindcode $mod+42 exec steam
     # Toggle floating / fullscreen
     bindsym $mod+Shift+f floating toggle
@@ -153,8 +175,10 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # bindsym $mod+Ctrl+w exec waypaper
     # bindsym $mod+Ctrl+w exec bash -lc waypaper
     # bindsym $mod+w exec bash -lc waypaper
-    bindsym $mod+w exec kitty --title wallpaper ~/dotfiles/scripts/wallpaper.sh
-    bindsym $mod+r exec "$scripts/radio.sh"
+    # key_code_number 25 = w (EN) | ц (RU)
+    bindcode $mod+25 exec kitty --title wallpaper ~/dotfiles/scripts/wallpaper.sh
+    # key_code_number 27 = r (EN) | к (RU)
+    bindcode $mod+27 exec "$scripts/radio.sh"
 
     # Screenshots (grim/slurp replacement for hyprshot)
     set $shots $HOME/Pictures/Screenshots
@@ -162,19 +186,22 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym Print exec bash -lc 'mkdir -p "$shots"; grim -g "$(slurp)" "$shots/$(date +"%F_%H-%M-%S")_sel.png"'
 
     # Color picker (wlroots-friendly; hyprpicker is unreliable on Sway)
-    bindsym $mod+Shift+p exec wl-color-picker clipboard
+    # key_code_number 33 = P (EN) | З (RU)
+    bindcode $mod+Shift+33 exec wl-color-picker clipboard
     # bindsym $mod+Shift+p exec hyprpicker -a -n -f hex
 
     # Voxtype push-to-talk (Whisper) — hold to record, release to transcribe
     # Requires: paru -S voxtype-bin wtype && voxtype setup model && voxtype setup systemd
-    bindsym --no-repeat $mod+v exec voxtype record start
-    bindsym --release $mod+v exec voxtype record stop
+    # key_code_number 55 = v (EN) | м (RU)
+    bindcode --no-repeat $mod+55 exec voxtype record start
+    bindcode --release $mod+55 exec voxtype record stop
     # Fallback toggle (tap) if release binding is awkward on some keyboards
     # bindsym $mod+Shift+v exec voxtype record toggle
 
     # Screensaver shortcut (press any key to dismiss)
     # bindsym $mod+l exec "$HOME/dotfiles/scripts/asciiquarium_lock.sh"
-    bindsym $mod+l exec swaymsg "output * bg black opacity 0.5"
+    # key_code_number 46 = l (EN) | д (RU)
+    bindcode $mod+46 exec swaymsg "output * bg black opacity 0.5"
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -188,7 +215,8 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # key_code_number 26 = E (EN) | У (RU)
+    bindcode $mod+Shift+26 exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Moving around:
 #
@@ -276,7 +304,7 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+a focus parent
 
 # Obsidian toggle (launch if not running, focus if running)
-# mod+s | mod+ы
+# key_code_number 39 = s (EN) | ы (RU)
 # check key code command: `xev -event keyboard | grep -A2 KeyPress`
     bindcode $mod+39 exec $scripts/toggle_obsidian.sh
 
