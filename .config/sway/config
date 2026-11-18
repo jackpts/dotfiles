@@ -118,9 +118,10 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
 
 ### Key bindings
 #
-    # App-launching $mod+<letter> binds use `bindcode` (physical key) instead of
-    # `bindsym` (keysym) so they keep working on both the EN (us) and RU (ru)
-    # layouts. xkb keycode = evdev keycode + 8; verify yours with:
+    # All letter-based binds use `bindcode` (physical key) instead of `bindsym`
+    # (keysym) so they keep working on both the EN (us) and RU (ru) layouts.
+    # Digits, arrows, Tab, Space, Return, Print and F-keys are layout-agnostic
+    # and stay on `bindsym`. xkb keycode = evdev keycode + 8; verify yours with:
     #   xev -event keyboard | grep -A2 KeyPress
     #
     # Keycode reference (RU = ЙЦУКЕН):
@@ -141,7 +142,8 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindcode $mod+53 exec kitty
 
     # Kill focused window (ported from Hyprland $mod+q)
-    bindsym $mod+q kill
+    # key_code_number 24 = q (EN) | й (RU)
+    bindcode $mod+24 kill
     # Power menu on Shift+Q (replaces default kill binding)
     # key_code_number 24 = Q (EN) | Й (RU)
     bindcode $mod+Shift+24 exec $power
@@ -167,9 +169,12 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     # key_code_number 42 = g (EN) | п (RU)
     bindcode $mod+42 exec steam
     # Toggle floating / fullscreen
-    bindsym $mod+Shift+f floating toggle
-    bindsym $mod+f fullscreen
-    bindsym $mod+Ctrl+f fullscreen toggle global
+    # key_code_number 41 = F (EN) | А (RU)
+    bindcode $mod+Shift+41 floating toggle
+    # key_code_number 41 = f (EN) | а (RU)
+    bindcode $mod+41 fullscreen
+    # key_code_number 41 = f (EN) | а (RU)
+    bindcode $mod+Ctrl+41 fullscreen toggle global
 
     # Custom scripts
     # bindsym $mod+Ctrl+w exec waypaper
@@ -211,8 +216,10 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
-    bindsym $mod+Shift+r reload
+    # key_code_number 54 = C (EN) | С (RU)
+    bindcode $mod+Shift+54 reload
+    # key_code_number 27 = R (EN) | К (RU)
+    bindcode $mod+Shift+27 reload
 
     # Exit sway (logs you out of your Wayland session)
     # key_code_number 26 = E (EN) | У (RU)
@@ -221,9 +228,12 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
+    # key_code_number 43 = h (EN) | р (RU)
+    bindcode $mod+43 focus left
+    # key_code_number 44 = j (EN) | о (RU)
+    bindcode $mod+44 focus down
+    # key_code_number 45 = k (EN) | л (RU)
+    bindcode $mod+45 focus up
     # bindsym $mod+$right focus right
     # Cycle focus (replacement for hypr cyclenext)
     bindsym $mod+Tab focus next
@@ -236,10 +246,14 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    # key_code_number 43 = H (EN) | Р (RU)
+    bindcode $mod+Shift+43 move left
+    # key_code_number 44 = J (EN) | О (RU)
+    bindcode $mod+Shift+44 move down
+    # key_code_number 45 = K (EN) | Л (RU)
+    bindcode $mod+Shift+45 move up
+    # key_code_number 46 = L (EN) | Д (RU)
+    bindcode $mod+Shift+46 move right
     # Ditto, with arrow keys
     bindsym $mod+Shift+Left move left
     bindsym $mod+Shift+Down move down
@@ -301,7 +315,8 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
     bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
-    bindsym $mod+a focus parent
+    # key_code_number 38 = a (EN) | ф (RU)
+    bindcode $mod+38 focus parent
 
 # Obsidian toggle (launch if not running, focus if running)
 # key_code_number 39 = s (EN) | ы (RU)
@@ -310,20 +325,28 @@ exec swayidle -w timeout 300 'swaymsg "output * bg black opacity 0.5"' \
 
 # Resizing containers:
 # Additional direct resize binds (ported from Hyprland $mod+Ctrl+h/j/k/l)
-    bindsym $mod+Ctrl+h resize shrink width 25px
-    bindsym $mod+Ctrl+l resize grow width 25px
-    bindsym $mod+Ctrl+k resize shrink height 25px
-    bindsym $mod+Ctrl+j resize grow height 25px
+    # key_code_number 43 = h (EN) | р (RU)
+    bindcode $mod+Ctrl+43 resize shrink width 25px
+    # key_code_number 46 = l (EN) | д (RU)
+    bindcode $mod+Ctrl+46 resize grow width 25px
+    # key_code_number 45 = k (EN) | л (RU)
+    bindcode $mod+Ctrl+45 resize shrink height 25px
+    # key_code_number 44 = j (EN) | о (RU)
+    bindcode $mod+Ctrl+44 resize grow height 25px
 
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    # key_code_number 43 = h (EN) | р (RU)
+    bindcode 43 resize shrink width 10px
+    # key_code_number 44 = j (EN) | о (RU)
+    bindcode 44 resize grow height 10px
+    # key_code_number 45 = k (EN) | л (RU)
+    bindcode 45 resize shrink height 10px
+    # key_code_number 46 = l (EN) | д (RU)
+    bindcode 46 resize grow width 10px
 
     # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
