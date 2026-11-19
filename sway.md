@@ -59,53 +59,62 @@ output eDP-1 mode 2560x1600@165Hz position 0,0
 
 ## Keybindings
 
+Letter-based shortcuts use `bindcode` (physical key) instead of
+`bindsym` (keysym), so they fire on both the **EN (`us`)** and **RU (`ru`)** layouts.
+The tables below list the EN key first and the RU key second.
+`xkb keycode = evdev keycode + 8`; verify yours with
+`xev -event keyboard | grep -A2 KeyPress`.
+
 ### Apps / session
 
-| Binding | Action |
+| Binding (EN / RU) | Action |
 |---|---|
 | `$mod+Return` | kitty |
-| `$mod+x` | kitty + tmux fallback (`kitty.conf: shell /usr/bin/tmux`) |
-| `$mod+t` | ghostty + herdr (`scripts/herdr_yt_tg.sh`; tabs `yt-tg` + `dotfiles`) |
-| `$mod+d` | App launcher (`scripts/run_launcher.sh` → rofi drun) |
-| `$mod+e` | nemo |
-| `$mod+z` | zen-browser |
+| `$mod+x` / `$mod+ч` | kitty + tmux fallback (`kitty.conf: shell /usr/bin/tmux`) |
+| `$mod+t` / `$mod+е` | ghostty + herdr (`scripts/herdr_yt_tg.sh`; tabs `yt-tg` + `dotfiles`) |
+| `$mod+d` / `$mod+в` | App launcher (`scripts/run_launcher.sh` → rofi drun) |
+| `$mod+e` / `$mod+у` | nemo |
+| `$mod+z` / `$mod+я` | zen-browser |
 | `$mod+g` / `$mod+п` | Steam (`bindcode 42` → `steam`) |
-| `$mod+n` | Toggle nvim scratchpad (`scripts/toggle_neovim.sh`) |
+| `$mod+n` / `$mod+т` | Toggle nvim scratchpad (`scripts/toggle_neovim.sh`) |
 | `$mod+s` / `$mod+ы` | Toggle Obsidian scratchpad (`bindcode 39` → `toggle_obsidian.sh`) |
-| `$mod+w` | Wallpaper picker in kitty (`scripts/wallpaper.sh`) |
-| `$mod+r` | Radio menu (`scripts/radio.sh` + mpv) |
+| `$mod+w` / `$mod+ц` | Wallpaper picker in kitty (`scripts/wallpaper.sh`) |
+| `$mod+r` / `$mod+к` | Radio menu (`scripts/radio.sh` + mpv) |
 | `$mod+F10` | OBS |
-| `$mod+c` | Toggle SwayNC |
-| `$mod+q` | Kill focused window |
-| `$mod+Shift+q` | Power menu (`scripts/powermenu.sh`) |
-| `$mod+Shift+e` | Confirm and exit Sway (`swaynag`) |
-| `$mod+Shift+c` / `$mod+Shift+r` | Reload Sway config |
-| `$mod+l` | Dim wallpaper (`output * bg black opacity 0.5`) |
-| `$mod+m` | Mirror eDP-1 → HDMI-A-1 (`wl-mirror`) |
-| `$mod+Shift+m` | Stop mirror |
-| `$mod+v` hold/release | Voxtype record start/stop |
-| `$mod+Shift+p` | Color picker (`wl-color-picker clipboard`) |
+| `$mod+c` / `$mod+с` | Toggle SwayNC |
+| `$mod+q` / `$mod+й` | Kill focused window |
+| `$mod+Shift+q` / `$mod+Shift+й` | Power menu (`scripts/powermenu.sh`) |
+| `$mod+Shift+e` / `$mod+Shift+у` | Confirm and exit Sway (`swaynag`) |
+| `$mod+Shift+c` / `$mod+Shift+с` / `$mod+Shift+r` / `$mod+Shift+к` | Reload Sway config |
+| `$mod+l` / `$mod+д` | Dim wallpaper (`output * bg black opacity 0.5`) |
+| `$mod+m` / `$mod+ь` | Mirror eDP-1 → HDMI-A-1 (`wl-mirror`) |
+| `$mod+Shift+m` / `$mod+Shift+ь` | Stop mirror |
+| `$mod+v` / `$mod+м` hold/release | Voxtype record start/stop |
+| `$mod+Shift+p` / `$mod+Shift+з` | Color picker (`wl-color-picker clipboard`) |
 | Print | Region screenshot (`slurp` + `grim` → `~/Pictures/Screenshots`) |
 | `$mod+Print` | Full screenshot |
 
 ### Windows / layout
 
-| Binding | Action |
+| Binding (EN / RU) | Action |
 |---|---|
-| `$mod+h/j/k` or arrows | Focus |
-| `$mod+Shift+h/j/k/l` or arrows | Move window |
+| `$mod+h/j/k` or arrows (`$mod+р/о/л`) | Focus |
+| `$mod+Shift+h/j/k/l` or arrows (`$mod+Shift+р/о/л/д`) | Move window |
 | `$mod+Tab` | Focus next |
 | `Alt+Tab` | Toggle tiling/floating focus |
-| `$mod+f` | Fullscreen |
-| `$mod+Ctrl+f` | Global fullscreen toggle |
-| `$mod+Shift+f` / `$mod+Shift+space` | Floating toggle |
+| `$mod+f` / `$mod+а` | Fullscreen |
+| `$mod+Ctrl+f` / `$mod+Ctrl+а` | Global fullscreen toggle |
+| `$mod+Shift+f` / `$mod+Shift+а` / `$mod+Shift+space` | Floating toggle |
 | `$mod+space` | Focus tiling ↔ floating |
-| `$mod+a` | Focus parent |
-| `$mod+Ctrl+h/l/k/j` | Resize ±25px |
+| `$mod+a` / `$mod+ф` | Focus parent |
+| `$mod+Ctrl+h/l/k/j` / `$mod+Ctrl+р/д/л/о` | Resize ±25px |
 | `$mod` + drag LMB | Move floating |
 | `$mod` + drag RMB | Resize |
 
-Resize **mode** exists in config (`mode "resize"`) but is **not** bound (`# bindsym $mod+r mode "resize"` — `$mod+r` is radio).
+Resize **mode** exists in config (`mode "resize"`) but is **not** bound (`# bindsym $mod+r mode "resize"` — `$mod+r` is radio). Inside the mode `h/j/k/l` (RU `р/о/л/д`) resize via `bindcode`.
+
+Every letter-based bind is `bindcode`, so letters match on both layouts. Digits,
+arrows, Tab, Space, Return, Print and F-keys stay `bindsym` (identical in both).
 
 ### Workspaces
 
