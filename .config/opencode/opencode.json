@@ -59,13 +59,13 @@
       "type": "remote",
       "url": "https://mcp.neon.tech/mcp",
       "oauth": {},
-      "enabled": true
+      "enabled": false
     },
     "stripe": {
       "type": "remote",
       "url": "https://mcp.stripe.com",
       "oauth": {},
-      "enabled": true
+      "enabled": false
     },
     "axiom": {
       "type": "remote",
