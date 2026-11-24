@@ -387,8 +387,10 @@ exec --no-startup-id sh -c 'sleep 3; swaymsg "workspace number 2, exec $scripts/
 # exec --no-startup-id sh -c 'sleep 7; swaymsg "workspace number 1"'
 # Telegram auto-start on workspace 3 at system boot
 # exec --no-startup-id sh -c 'sleep 2; swaymsg "workspace number 3, exec Telegram"'
-# Steam auto-start on workspace 3 at system boot (Xwayland; class "steam")
-exec --no-startup-id sh -c 'sleep 6; swaymsg "workspace number 3, exec steam"'
+# Steam auto-start on workspace 3 once the session has settled (Xwayland; class "steam")
+# Delay is intentional: starting too early races sway's X11 window manager, which can
+# leave the Steam client running with an unmanaged (invisible) window.
+exec --no-startup-id sh -c 'sleep 12; swaymsg "workspace number 3, exec steam"'
 # Clipboard history
 exec --no-startup-id sh -c 'wl-paste --type text --watch cliphist store &'
 exec --no-startup-id sh -c 'wl-paste --type image --watch cliphist store &'
