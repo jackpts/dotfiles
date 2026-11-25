@@ -18,8 +18,30 @@ mkdir -p "$WORK"
 
 helper="${aurhelper:-}"
 if [ -z "$helper" ]; then
-  command -v yay >/dev/null 2>&1 && helper=yay || helper=paru
+  # Prefer paru (the AUR helper used on this setup); fall back to yay.
+  command -v paru >/dev/null 2>&1 && helper=paru || helper=yay
 fi
+
+# An interrupted build can leave a stale, non-empty directory at the helper's
+# clone target (e.g. a lone pkg/ dir with no .git/PKGBUILD). git then refuses to
+# clone and aborts the whole upgrade. Purge such entries from both AUR caches
+# before starting, so re-cloning succeeds and switching helpers is safe.
+clean_stale_clones() {
+  local cache="$1" dir
+  [ -d "$cache" ] || return 0
+  for dir in "$cache"/*; do
+    [ -d "$dir" ] || continue
+    if [ ! -d "$dir/.git" ] && [ ! -f "$dir/PKGBUILD" ]; then
+      echo "==> Removing stale AUR cache entry: $dir" >&2
+      chmod -R u+rwX "$dir" 2>/dev/null || true
+      rm -rf "$dir"
+    fi
+  done
+}
+
+cache_root="${XDG_CACHE_HOME:-$HOME/.cache}"
+clean_stale_clones "$cache_root/yay"
+clean_stale_clones "$cache_root/paru/clone"
 
 reachable() {
   curl -fsS --max-time 8 -o /dev/null "$1" 2>/dev/null
