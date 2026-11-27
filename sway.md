@@ -155,6 +155,7 @@ Sway keeps a floating view's geometry only for the lifetime of that view; it doe
 | Size 50%×100%, top-right | Transmission (`com.transmissionbt.transmission_*`; app_id has a version/build suffix, matched by prefix) |
 | Size 60%×60%, centered | window title `wallpaper` |
 | No border, sticky | slurp |
+| Always on workspace 1 (`assign`) | gcr-prompter (`app_id="gcr-prompter"`; keyring/polkit prompts) |
 
 Borders: 2px; focused `#4c789988`.
 

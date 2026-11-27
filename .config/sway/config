@@ -432,6 +432,11 @@ bindsym XF86AudioPrev exec playerctl --player=playerctld previous
 for_window [app_id=".*"] floating enable
 for_window [class=".*"] floating enable
 
+# gcr-prompter (GNOME Keyring / polkit password dialog): pin it to workspace 1
+# instead of letting it inherit whichever workspace happened to be focused when
+# the secret request fired (often the app that triggered it, e.g. workspace 3).
+assign [app_id="gcr-prompter"] workspace number 1
+
 # Ghostty (herdr, autostart + $mod+t): sway does not remember floating geometry
 # across sessions, so every new window opens at a fixed 70% x 70% size in the
 # top-left corner of the workspace, instead of the small default float size.
